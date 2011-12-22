@@ -1,0 +1,9 @@
+[submodule "external/gnupg"]
+	path = external/gnupg
+	url = git://git.gnupg.org/gnupg.git
+[submodule "external/libassuan"]
+	path = external/libassuan
+	url = git://git.gnupg.org/libassuan.git
+[submodule "external/libgcrypt"]
+	path = external/libgcrypt
+	url = git://git.gnupg.org/libgcrypt.git
