@@ -65,8 +65,13 @@ libgpg-error/configure:
 
 libgpg-error-build: libgpg-error/config.sub libgpg-error/config.guess libgpg-error/configure
 	cd libgpg-error && \
-		./configure CC="$(CC)" CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS)" \
-			--disable-languages --enable-static --host=$(HOST)
+		./configure \
+			CC="$(CC)" \
+			CFLAGS="$(CFLAGS)" \
+			LDFLAGS="$(LDFLAGS)" \
+			--disable-languages \
+			--enable-static \
+			--host=$(HOST)
 	$(MAKE) -C libgpg-error
 
 $(LOCAL)/lib/libgpg-error.a: libgpg-error-build
@@ -90,7 +95,12 @@ libgcrypt/configure:
 libgcrypt-build: libgpg-error-install libgcrypt libgcrypt/config.sub libgcrypt/config.guess libgcrypt/configure
 	cd libgcrypt && \
 		CC="$(CC)" CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS)" \
-			./configure --enable-maintainer-mode --enable-static --host=$(HOST) --with-gpg-error-prefix=$(LOCAL) --prefix=$(prefix)
+			./configure \
+				--enable-maintainer-mode \
+				--enable-static \
+				--host=$(HOST) \
+				--with-gpg-error-prefix=$(LOCAL) \
+				--prefix=$(prefix)
 	$(MAKE) -C libgcrypt
 
 $(LOCAL)/lib/libgcrypt.a: libgcrypt-build
@@ -115,7 +125,12 @@ libassuan/configure:
 libassuan-build: libgpg-error-install libassuan libassuan/config.sub libassuan/config.guess libassuan/configure
 	cd libassuan && \
 		CC="$(CC)" CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS)" \
-			./configure --enable-maintainer-mode --enable-static --host=$(HOST) --with-gpg-error-prefix=$(LOCAL) --prefix=$(prefix)
+			./configure \
+				--enable-maintainer-mode \
+				--enable-static \
+				--host=$(HOST) \
+				--with-gpg-error-prefix=$(LOCAL) \
+				--prefix=$(prefix)
 	$(MAKE) -C libassuan
 
 $(LOCAL)/lib/libassuan.a: libassuan-build
