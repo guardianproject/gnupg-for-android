@@ -63,7 +63,7 @@ libgpg-error/config.guess: libgpg-error config.guess
 libgpg-error/configure:
 	cd libgpg-error && ./autogen.sh
 
-libgpg-error-build: libgpg-error/config.sub libgpg-error/config.guess libgpg-error/configure
+libgpg-error/Makefile: libgpg-error/config.sub libgpg-error/config.guess libgpg-error/configure
 	cd libgpg-error && \
 		./configure \
 			CC="$(CC)" \
@@ -72,13 +72,18 @@ libgpg-error-build: libgpg-error/config.sub libgpg-error/config.guess libgpg-err
 			--disable-languages \
 			--enable-static \
 			--host=$(HOST)
+
+libgpg-error-build-stamp: libgpg-error/Makefile
 	$(MAKE) -C libgpg-error
+	touch libgpg-error-build-stamp
 
 $(LOCAL)/lib/libgpg-error.a: libgpg-error-build
 	$(MAKE) -C libgpg-error DESTDIR=$(DESTDIR) prefix= install
 
 libgpg-error-install: $(LOCAL)/lib/libgpg-error.a
 
+libgpg-error-clean:
+	-rm -f libgpg-error-build-stamp
 
 #------------------------------------------------------------------------------#
 # libgcrypt
@@ -92,7 +97,7 @@ libgcrypt/config.guess: libgcrypt config.guess
 libgcrypt/configure:
 	cd libgcrypt && ./autogen.sh
 
-libgcrypt-build: libgpg-error-install libgcrypt libgcrypt/config.sub libgcrypt/config.guess libgcrypt/configure
+libgcrypt-build: $(LOCAL)/lib/libgpg-error.a libgcrypt libgcrypt/config.sub libgcrypt/config.guess libgcrypt/configure
 	cd libgcrypt && \
 		CC="$(CC)" CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS)" \
 			./configure \
@@ -109,6 +114,8 @@ $(LOCAL)/lib/libgcrypt.a: libgcrypt-build
 
 libgcrypt-install: $(LOCAL)/lib/libgcrypt.a
 
+libgcrypt-clean:
+	-rm -f libgcrypt-build-stamp
 
 #------------------------------------------------------------------------------#
 # libassuan
@@ -122,7 +129,7 @@ libassuan/config.guess: libassuan config.guess
 libassuan/configure:
 	cd libassuan && ./autogen.sh
 
-libassuan-build: libgpg-error-install libassuan libassuan/config.sub libassuan/config.guess libassuan/configure
+libassuan-build: $(LOCAL)/lib/libgpg-error.a libassuan libassuan/config.sub libassuan/config.guess libassuan/configure
 	cd libassuan && \
 		CC="$(CC)" CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS)" \
 			./configure \
@@ -139,6 +146,9 @@ $(LOCAL)/lib/libassuan.a: libassuan-build
 
 libassuan-install: $(LOCAL)/lib/libassuan.a
 
+libassuan-clean:
+	-rm -f libassuan-build-stamp
+
 
 #------------------------------------------------------------------------------#
 # libksba
@@ -152,7 +162,7 @@ libksba/config.guess: libksba config.guess
 libksba/configure:
 	cd libksba && ./autogen.sh
 
-libksba-build: libgpg-error-install libksba libksba/config.sub libksba/config.guess libksba/configure
+libksba-build: $(LOCAL)/lib/libgpg-error.a libksba libksba/config.sub libksba/config.guess libksba/configure
 	cd libksba && \
 		CC="$(CC)" CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS)" \
 			./configure \
@@ -169,8 +179,14 @@ $(LOCAL)/lib/libksba.a: libksba-build
 
 libksba-install: $(LOCAL)/lib/libksba.a
 
+libksba-clean:
+	-rm -f libksba-build-stamp
+
+
 #------------------------------------------------------------------------------#
 # gnupg
+
+GNUPG_SOURCES := $(wildcard gnupg/include/*.h) $(wildcard gnupg/*/*.c)
 
 gnupg/config.sub: gnupg config.sub
 	cp config.sub gnupg/config.sub
@@ -181,7 +197,7 @@ gnupg/config.guess: gnupg config.guess
 gnupg/configure:
 	cd gnupg && ./autogen.sh
 
-gnupg-build: libgpg-error-install libgcrypt-install libksba-install gnupg gnupg/config.sub gnupg/config.guess gnupg/configure
+gnupg/Makefile: gnupg/configure gnupg/config.sub gnupg/config.guess
 	cd gnupg && \
 		CC="$(CC)" CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS)" \
 			./configure \
@@ -193,21 +209,26 @@ gnupg-build: libgpg-error-install libgcrypt-install libksba-install gnupg gnupg/
 				--with-libksba-prefix=$(LOCAL) \
 				--disable-ldap \
 				--prefix=$(prefix)
-	$(MAKE) -C gnupg
 
-$(LOCAL)/lib/gnupg.a: gnupg-build
+gnupg-build: gnupg-build-stamp 
+gnupg-build-stamp: $(LOCAL)/lib/libgpg-error.a libgcrypt-install libksba-install
+	$(MAKE) -C gnupg
+	touch gnupg-build-stamp
+
+$(LOCAL)/bin/gpg2: gnupg-build $(GNUPG_SOURCES) gnupg/configure
 	$(MAKE) -C gnupg DESTDIR=$(DESTDIR) prefix= install
 	ls -l $(LOCAL)/lib/gnupg.a
 
-gnupg-install: $(LOCAL)/lib/gnupg.a
+gnupg-clean:
+	-rm -f gnupg-build-stamp
 
 #------------------------------------------------------------------------------#
 # clean
 
-install_clean:
+install-clean:
 	rm -rf -- bin include lib sbin share
 
-clean: install_clean
+clean: install-clean gnupg-clean libksba-clean libassuan-clean libgcrypt-clean libgpg-error-clean
 	-$(MAKE) -C gnupg clean
 	-$(MAKE) -C libksba clean
 	-$(MAKE) -C libassuan clean
@@ -221,9 +242,9 @@ distclean: clean
 	-$(MAKE) -C libgcrypt distclean
 	-$(MAKE) -C libgpg-error distclean
 
-.PHONY = clean install_clean \
-	libgpg-error-build libgpg-error-install \
-	libgcrypt-build libgcrypt-install \
-	libassuan-build libassuan-install \
-	libksba-build libksba-install \
-	gnupg-build gnupg-install
+.PHONY = clean install-clean \
+	libgpg-error-build libgpg-error-clean \
+	libgcrypt-build libgcrypt-clean \
+	libassuan-build libassuan-clean \
+	libksba-build libksba-clean \
+	gnupg-build gnupg-clean
