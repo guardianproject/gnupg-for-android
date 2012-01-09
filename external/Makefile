@@ -139,6 +139,68 @@ $(LOCAL)/lib/libassuan.a: libassuan-build
 
 libassuan-install: $(LOCAL)/lib/libassuan.a
 
+
+#------------------------------------------------------------------------------#
+# libksba
+
+libksba/config.sub: libksba config.sub
+	cp config.sub libksba/config.sub
+
+libksba/config.guess: libksba config.guess
+	cp config.guess libksba/config.guess
+
+libksba/configure:
+	cd libksba && ./autogen.sh
+
+libksba-build: libgpg-error-install libksba libksba/config.sub libksba/config.guess libksba/configure
+	cd libksba && \
+		CC="$(CC)" CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS)" \
+			./configure \
+				--enable-maintainer-mode \
+				--enable-static \
+				--host=$(HOST) \
+				--with-gpg-error-prefix=$(LOCAL) \
+				--prefix=$(prefix)
+	$(MAKE) -C libksba
+
+$(LOCAL)/lib/libksba.a: libksba-build
+	$(MAKE) -C libksba DESTDIR=$(DESTDIR) prefix= install
+	ls -l $(LOCAL)/lib/libksba.a
+
+libksba-install: $(LOCAL)/lib/libksba.a
+
+#------------------------------------------------------------------------------#
+# gnupg
+
+gnupg/config.sub: gnupg config.sub
+	cp config.sub gnupg/config.sub
+
+gnupg/config.guess: gnupg config.guess
+	cp config.guess gnupg/config.guess
+
+gnupg/configure:
+	cd gnupg && ./autogen.sh
+
+gnupg-build: libgpg-error-install libgcrypt-install libksba-install gnupg gnupg/config.sub gnupg/config.guess gnupg/configure
+	cd gnupg && \
+		CC="$(CC)" CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS)" \
+			./configure \
+				--enable-maintainer-mode \
+				--host=$(HOST) \
+				--with-gpg-error-prefix=$(LOCAL) \
+				--with-libgcrypt-prefix=$(LOCAL) \
+				--with-libassuan-prefix=$(LOCAL) \
+				--with-libksba-prefix=$(LOCAL) \
+				--disable-ldap \
+				--prefix=$(prefix)
+	$(MAKE) -C gnupg
+
+$(LOCAL)/lib/gnupg.a: gnupg-build
+	$(MAKE) -C gnupg DESTDIR=$(DESTDIR) prefix= install
+	ls -l $(LOCAL)/lib/gnupg.a
+
+gnupg-install: $(LOCAL)/lib/gnupg.a
+
 #------------------------------------------------------------------------------#
 # clean
 
@@ -147,17 +209,21 @@ install_clean:
 
 clean: install_clean
 	-$(MAKE) -C gnupg clean
+	-$(MAKE) -C libksba clean
 	-$(MAKE) -C libassuan clean
 	-$(MAKE) -C libgcrypt clean
 	-$(MAKE) -C libgpg-error clean
 
 distclean: clean
 	-$(MAKE) -C gnupg distclean
+	-$(MAKE) -C libksba distclean
 	-$(MAKE) -C libassuan distclean
 	-$(MAKE) -C libgcrypt distclean
 	-$(MAKE) -C libgpg-error distclean
 
-.PHONY = libgpg-error-build libgpg-error-install \
+.PHONY = clean install_clean \
+	libgpg-error-build libgpg-error-install \
 	libgcrypt-build libgcrypt-install \
 	libassuan-build libassuan-install \
-	clean install_clean
+	libksba-build libksba-install \
+	gnupg-build gnupg-install

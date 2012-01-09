@@ -10,3 +10,6 @@
 [submodule "external/libgpg-error"]
 	path = external/libgpg-error
 	url = git://git.gnupg.org/libgpg-error.git
+[submodule "external/libksba"]
+	path = external/libksba
+	url = git://git.gnupg.org/libksba.git
