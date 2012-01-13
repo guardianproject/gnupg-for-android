@@ -184,6 +184,37 @@ libksba-clean:
 
 
 #------------------------------------------------------------------------------#
+# pth
+
+pth-2.0.7.tar.gz.sig: pth-2.0.7.tar.gz
+	wget http://ftp.gnu.org/gnu/pth/pth-2.0.7.tar.gz.sig
+	gpg --verify pth-2.0.7.tar.gz.sig
+
+pth-2.0.7.tar.gz:
+	wget -c http://ftp.gnu.org/gnu/pth/pth-2.0.7.tar.gz
+	sha1sum -c pth-2.0.7.tar.gz.sha1
+
+pth-2.0.7: pth-2.0.7.tar.gz.sig
+	tar xzf pth-2.0.7.tar.gz
+
+pth-2.0.7/aclocal.m4: /usr/share/libtool/libltdl/aclocal.m4
+	cd pth-2.0.7 && libtoolize --install --force
+	cp /usr/share/libtool/libltdl/aclocal.m4 pth-2.0.7/aclocal.m4
+
+pth-build: pth-2.0.7 pth-2.0.7/aclocal.m4
+	cd pth-2.0.7 && \
+		autoreconf && \
+		CC="$(CC)" CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS)" \
+			./configure --prefix=$(prefix) --host=$(HOST) --enable-static
+	$(MAKE) -C pth-2.0.7
+
+$(LOCAL)/lib/libpth.a: pth-build
+	$(MAKE) -C pth-2.0.7 DESTDIR=$(DESTDIR) prefix= install
+
+pth-install: $(LOCAL)/lib/libpth.a
+
+
+#------------------------------------------------------------------------------#
 # gnupg
 
 GNUPG_SOURCES := $(wildcard gnupg/include/*.h) $(wildcard gnupg/*/*.c)
