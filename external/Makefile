@@ -224,7 +224,7 @@ pth-2.0.7/aclocal.m4: /usr/share/libtool/libltdl/aclocal.m4
 #	cp -a /usr/share/aclocal/*.m4 pth-2.0.7/m4
 
 pth-build: pth-2.0.7 pth-2.0.7/aclocal.m4 pth-2.0.7/config.guess pth-2.0.7/config.sub
-	patch -N -p0 < fix-pth-include.patch
+	patch -N -p0 --reject-file=- < pth-fix-include.patch
 	cd pth-2.0.7 && \
 		CC="$(CC)" CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS)" \
 			./configure \
