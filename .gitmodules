@@ -13,3 +13,6 @@
 [submodule "external/libksba"]
 	path = external/libksba
 	url = git://git.gnupg.org/libksba.git
+[submodule "external/openldap"]
+	path = external/openldap
+	url = git://git.openldap.org/openldap.git

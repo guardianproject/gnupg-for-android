@@ -200,6 +200,48 @@ libksba-clean:
 
 
 #------------------------------------------------------------------------------#
+# openldap
+
+openldap/config.sub: config.sub
+	cp config.sub openldap/config.sub
+
+openldap/config.guess: config.guess
+	cp config.guess openldap/config.guess
+
+openldap/configure: openldap/configure.in
+	cd openldap && ./autogen.sh
+
+openldap/Makefile: openldap/config.sub openldap/config.guess openldap/configure
+	cd openldap && \
+		CC="$(CC)" CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS)" \
+			./configure \
+				--enable-maintainer-mode \
+				--enable-static \
+				--host=$(HOST) \
+				--prefix=$(prefix) \
+				--without-tls \
+				--with-yielding-select=no \
+				--disable-bdb \
+				--disable-hdb
+
+
+openldap-build-stamp: openldap/Makefile
+	$(MAKE) -C openldap
+	touch openldap-build-stamp
+
+openldap-build: openldap-build-stamp
+
+$(LOCAL)/lib/openldap.a: openldap-build
+	$(MAKE) -C openldap DESTDIR=$(DESTDIR) prefix= install
+	ls -l $(LOCAL)/lib/openldap.a
+
+openldap-install: $(LOCAL)/lib/openldap.a
+
+openldap-clean:
+	-rm -f openldap-build-stamp
+
+
+#------------------------------------------------------------------------------#
 # pth
 
 pth-2.0.7.tar.gz.sig: pth-2.0.7.tar.gz
@@ -297,8 +339,9 @@ gnupg-clean:
 install-clean:
 	rm -rf -- bin include lib man sbin share
 
-clean: install-clean gnupg-clean libksba-clean libassuan-clean libgcrypt-clean libgpg-error-clean pth-clean
+clean: install-clean gnupg-clean openldap-clean libksba-clean libassuan-clean libgcrypt-clean libgpg-error-clean pth-clean
 	-$(MAKE) -C gnupg clean
+	-$(MAKE) -C openldap clean
 	-$(MAKE) -C libksba clean
 	-$(MAKE) -C libassuan clean
 	-$(MAKE) -C libgcrypt clean
@@ -306,6 +349,7 @@ clean: install-clean gnupg-clean libksba-clean libassuan-clean libgcrypt-clean l
 
 distclean: clean
 	-$(MAKE) -C gnupg distclean
+	-$(MAKE) -C openldap distclean
 	-$(MAKE) -C libksba distclean
 	-$(MAKE) -C libassuan distclean
 	-$(MAKE) -C libgcrypt distclean
