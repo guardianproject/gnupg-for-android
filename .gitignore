@@ -1,0 +1,8 @@
+external/bin
+external/include
+external/lib
+external/man
+external/share
+external/pth-2.0.7
+external/pth-2.0.7.tar.gz
+external/pth-2.0.7.tar.gz.sig*
