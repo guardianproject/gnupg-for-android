@@ -6,3 +6,9 @@ external/share
 external/pth-2.0.7
 external/pth-2.0.7.tar.gz
 external/pth-2.0.7.tar.gz.sig*
+# build stamps
+external/libgpg-error-build-stamp
+external/libgcrypt-build-stamp
+external/libassuan-build-stamp
+external/openldap-build-stamp
+external/gnupg-build-stamp
