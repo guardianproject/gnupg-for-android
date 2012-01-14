@@ -160,6 +160,8 @@ $(LOCAL)/lib/libassuan.a: libassuan-build-stamp
 	$(MAKE) -C libassuan DESTDIR=$(DESTDIR) prefix= install
 	ls -l $(LOCAL)/lib/libassuan.a
 
+libassuan-install: $(LOCAL)/lib/libassuan.a
+
 libassuan-clean:
 	-rm -f libassuan-build-stamp
 
@@ -269,12 +271,16 @@ gnupg/Makefile: gnupg/configure gnupg/config.sub gnupg/config.guess
 				--with-gpg-error-prefix=$(LOCAL) \
 				--with-libgcrypt-prefix=$(LOCAL) \
 				--with-libassuan-prefix=$(LOCAL) \
-				--with-libksba-prefix=$(LOCAL) \
+				--with-ksba-prefix=$(LOCAL) \
+				--with-pth-prefix=$(LOCAL) \
+				--enable-symcryptrun \
 				--disable-ldap \
+				--without-ldap \
 				--prefix=$(prefix)
 
 gnupg-build: gnupg-build-stamp 
-gnupg-build-stamp: $(LOCAL)/lib/libgpg-error.a $(LOCAL)/lib/libgcrypt.a libksba-install
+gnupg-build-stamp: gnupg/Makefile $(LOCAL)/lib/libgpg-error.a $(LOCAL)/lib/libgcrypt.a $(LOCAL)/lib/libksba.a $(LOCAL)/lib/libassuan.a $(LOCAL)/lib/libpth.a
+#gnupg-build-stamp: gnupg/Makefile
 	$(MAKE) -C gnupg
 	touch gnupg-build-stamp
 
@@ -289,7 +295,7 @@ gnupg-clean:
 # clean
 
 install-clean:
-	rm -rf -- bin include lib sbin share
+	rm -rf -- bin include lib man sbin share
 
 clean: install-clean gnupg-clean libksba-clean libassuan-clean libgcrypt-clean libgpg-error-clean pth-clean
 	-$(MAKE) -C gnupg clean
