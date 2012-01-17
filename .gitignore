@@ -12,4 +12,5 @@ external/libgpg-error-build-stamp
 external/libgcrypt-build-stamp
 external/libassuan-build-stamp
 external/openldap-build-stamp
+external/curl-build-stamp
 external/gnupg-build-stamp

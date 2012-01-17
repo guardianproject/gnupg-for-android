@@ -16,3 +16,6 @@
 [submodule "external/openldap"]
 	path = external/openldap
 	url = git://git.openldap.org/openldap.git
+[submodule "external/curl"]
+	path = external/curl
+	url = git://github.com/bagder/curl.git

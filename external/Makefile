@@ -249,6 +249,46 @@ openldap-clean:
 
 
 #------------------------------------------------------------------------------#
+# curl
+
+curl/config.sub: config.sub
+	cp config.sub curl/config.sub
+
+curl/config.guess: config.guess
+	cp config.guess curl/config.guess
+
+curl/configure: curl/configure.ac
+	cd curl && ./buildconf
+
+curl/Makefile: curl/config.sub curl/config.guess curl/configure
+	cd curl && \
+		CC="$(CC)" CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS)" \
+			./configure \
+				--enable-static \
+				--host=$(HOST) \
+				--prefix=$(prefix) \
+				--with-ldap-lib=$(LOCAL) \
+				--with-lber-lib=$(LOCAL) \
+				--with-gnu-ld
+
+curl-build-stamp: curl/Makefile
+	$(MAKE) -C curl
+	touch curl-build-stamp
+
+curl-build: curl-build-stamp
+
+$(LOCAL)/lib/libcurl.a: curl-build
+	$(MAKE) -C curl DESTDIR=$(DESTDIR) prefix= install
+	$(MAKE) -C curl DESTDIR=$(DESTDIR) prefix= install
+	ls -l $(LOCAL)/lib/libcurl.a
+
+curl-install: $(LOCAL)/lib/libcurl.a
+
+curl-clean:
+	-rm -f curl-build-stamp
+
+
+#------------------------------------------------------------------------------#
 # pth
 
 pth-2.0.7.tar.gz.sig: pth-2.0.7.tar.gz
@@ -346,8 +386,9 @@ gnupg-clean:
 install-clean:
 	rm -rf -- bin include lib man sbin share
 
-clean: install-clean gnupg-clean openldap-clean libksba-clean libassuan-clean libgcrypt-clean libgpg-error-clean pth-clean
+clean: install-clean gnupg-clean curl-clean openldap-clean libksba-clean libassuan-clean libgcrypt-clean libgpg-error-clean pth-clean
 	-$(MAKE) -C gnupg clean
+	-$(MAKE) -C curl clean
 	-$(MAKE) -C openldap clean
 	-$(MAKE) -C libksba clean
 	-$(MAKE) -C libassuan clean
@@ -356,6 +397,8 @@ clean: install-clean gnupg-clean openldap-clean libksba-clean libassuan-clean li
 
 distclean: clean
 	-$(MAKE) -C gnupg distclean
+	-$(MAKE) -C curl distclean
+	-rm -f curl/configure # their distclean fails to rm this
 	-$(MAKE) -C openldap distclean
 	-$(MAKE) -C libksba distclean
 	-$(MAKE) -C libassuan distclean
