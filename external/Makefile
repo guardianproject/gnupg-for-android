@@ -211,19 +211,25 @@ openldap/config.guess: config.guess
 openldap/configure: openldap/configure.in
 	cd openldap && ./autogen.sh
 
+# TODO try --with-tls=openssl
 openldap/Makefile: openldap/config.sub openldap/config.guess openldap/configure
 	cd openldap && \
 		CC="$(CC)" CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS)" \
 			./configure \
-				--enable-maintainer-mode \
 				--enable-static \
 				--host=$(HOST) \
 				--prefix=$(prefix) \
 				--without-tls \
-				--with-yielding-select=no \
+				--without-yielding-select \
+				--disable-slapd \
+				--disable-syslog \
 				--disable-bdb \
-				--disable-hdb
-
+				--disable-hdb \
+				--with-gnu-ld
+# cross-compiling makes openldap's ./configure think memcmp() is broken
+# http://zhuqy.wordpress.com/2010/04/22/cross-compile-openldap-error-undefined-reference-to-lutil_memcmp/
+	sed --in-place 's|#define NEED_MEMCMP_REPLACEMENT 1|/* #undef NEED_MEMCMP_REPLACEMENT */|' openldap/include/portable.h
+	patch -N -p1 --reject-file=- < openldap-disable-sys_errlist.patch | true
 
 openldap-build-stamp: openldap/Makefile
 	$(MAKE) -C openldap
@@ -232,7 +238,8 @@ openldap-build-stamp: openldap/Makefile
 openldap-build: openldap-build-stamp
 
 $(LOCAL)/lib/openldap.a: openldap-build
-	$(MAKE) -C openldap DESTDIR=$(DESTDIR) prefix= install
+	$(MAKE) -C openldap/include DESTDIR=$(DESTDIR) prefix= install
+	$(MAKE) -C openldap/libraries DESTDIR=$(DESTDIR) prefix= install
 	ls -l $(LOCAL)/lib/openldap.a
 
 openldap-install: $(LOCAL)/lib/openldap.a
@@ -268,7 +275,7 @@ pth-2.0.7/aclocal.m4: /usr/share/libtool/libltdl/aclocal.m4
 #	cp -a /usr/share/aclocal/*.m4 pth-2.0.7/m4
 
 pth-build: pth-2.0.7 pth-2.0.7/aclocal.m4 pth-2.0.7/config.guess pth-2.0.7/config.sub
-	patch -N -p0 --reject-file=- < pth-fix-include.patch
+	patch -N -p0 --reject-file=- < pth-fix-include.patch | true
 	cd pth-2.0.7 && \
 		CC="$(CC)" CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS)" \
 			./configure \

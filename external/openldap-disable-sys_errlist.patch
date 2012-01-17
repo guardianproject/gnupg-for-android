@@ -1,0 +1,24 @@
+--- a/openldap/libraries/libldap/os-ip.c
++++ b/openldap/libraries/libldap/os-ip.c
+@@ -212,13 +212,14 @@ ldap_int_prepare_socket(LDAP *ld, int s, int proto )
+ #ifndef HAVE_WINSOCK
+ 
+ #undef TRACE
+-#define TRACE do { \
+-	osip_debug(ld, \
+-		"ldap_is_socket_ready: error on socket %d: errno: %d (%s)\n", \
+-		s, \
+-		errno, \
+-		sock_errstr(errno) ); \
+-} while( 0 )
++#define TRACE 
++/* #define TRACE do { \ */
++/* 	osip_debug(ld, \ */
++/* 		"ldap_is_socket_ready: error on socket %d: errno: %d (%s)\n", \ */
++/* 		s, \ */
++/* 		errno, \ */
++/* 		sock_errstr(errno) ); \ */
++/* } while( 0 ) */
+ 
+ /*
+  * check the socket for errors after select returned.
