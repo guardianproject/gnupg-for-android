@@ -362,9 +362,15 @@ gnupg/Makefile: gnupg/configure gnupg/config.sub gnupg/config.guess
 				--with-libassuan-prefix=$(LOCAL) \
 				--with-ksba-prefix=$(LOCAL) \
 				--with-pth-prefix=$(LOCAL) \
+				--with-libcurl=$(LOCAL) \
+				--with-ldap=$(LOCAL) \
 				--enable-symcryptrun \
-				--disable-ldap \
-				--without-ldap \
+				--disable-agent \
+				--disable-scdaemon \
+				--disable-g13 \
+				--disable-tools \
+				--disable-doc \
+				--disable-ccid-driver \
 				--prefix=$(prefix)
 
 gnupg-build: gnupg-build-stamp 
