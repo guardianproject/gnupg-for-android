@@ -371,6 +371,7 @@ pth-install: $(LOCAL)/lib/libpth.a
 
 pth-clean:
 	-rm -rf pth-2.0.7
+	-rm -f pth-2.0.7.tar.gz
 	-rm -f pth-2.0.7.tar.gz.sig*
 
 
@@ -413,6 +414,7 @@ adns-install: $(LOCAL)/lib/libadns.a
 
 adns-clean:
 	-rm -rf adns-1.4
+	-rm -f adns-1.4.tar.gz
 	-rm -f adns-1.4.tar.gz.sig*
 
 
