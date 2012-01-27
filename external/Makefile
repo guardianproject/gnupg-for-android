@@ -48,14 +48,17 @@ LDFLAGS = -L$(LOCAL)/lib -Wl,--rpath,$(LOCAL)/lib
 #LIBS = -lc -ldl
 
 
-.PHONY = clean install-clean \
-	libgpg-error-build libgpg-error-clean \
-	libgcrypt-build libgcrypt-clean \
-	libassuan-build libassuan-clean \
-	libksba-build libksba-clean \
+.PHONY = clean distclean install-clean \
+	libgpg-error-build libgpg-error-clean libgpg-error-install \
+	libgcrypt-build libgcrypt-clean libgcrypt-install \
+	libassuan-build libassuan-clean libassuan-install \
+	libksba-build libksba-clean libksba-install \
 	gnupg-build gnupg-clean \
-	npth-clean pth-clean \
-	libiconv-build libiconv-clean
+	curl-build curl-clean curl-install \
+	openldap-build openldap-clean openldap-install \
+	npth-build npth-clean npth-install \
+	pth-build pth-clean pth-install \
+	libiconv-build libiconv-clean libiconv-install
 
 all: $(LOCAL)/lib/libgcrypt.a
 
@@ -90,6 +93,8 @@ libgpg-error-build: libgpg-error-build-stamp
 
 $(LOCAL)/lib/libgpg-error.a: libgpg-error-build
 	$(MAKE) -C libgpg-error DESTDIR=$(DESTDIR) prefix= install
+
+libgpg-error-install: $(LOCAL)/lib/libgpg-error.a
 
 libgpg-error-clean:
 	-rm -f libgpg-error-build-stamp
@@ -351,7 +356,7 @@ pth-2.0.7/aclocal.m4: /usr/share/libtool/libltdl/aclocal.m4
 #	mkdir pth-2.0.7/m4
 #	cp -a /usr/share/aclocal/*.m4 pth-2.0.7/m4
 
-pth-build: pth-2.0.7 pth-2.0.7/aclocal.m4 pth-2.0.7/config.guess pth-2.0.7/config.sub
+pth-2.0.7/Makefile: pth-2.0.7 pth-2.0.7/aclocal.m4 pth-2.0.7/config.guess pth-2.0.7/config.sub
 	patch -N -p0 --reject-file=- < pth-fix-include.patch | true
 	cd pth-2.0.7 && \
 		CC="$(CC)" CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS)" \
@@ -362,6 +367,8 @@ pth-build: pth-2.0.7 pth-2.0.7/aclocal.m4 pth-2.0.7/config.guess pth-2.0.7/confi
 				--with-mctx-mth=sjlj \
 				--with-mctx-dsp=ssjlj \
 				--with-mctx-stk=sas
+
+pth-build: pth-2.0.7/Makefile
 	$(MAKE) -C pth-2.0.7
 
 $(LOCAL)/lib/libpth.a: pth-build
@@ -504,7 +511,7 @@ gnupg/Makefile: gnupg/configure gnupg/config.sub gnupg/config.guess
 				--prefix=$(prefix)
 
 gnupg-build: gnupg-build-stamp 
-gnupg-build-stamp: gnupg/Makefile $(LOCAL)/lib/libgpg-error.a $(LOCAL)/lib/libgcrypt.a $(LOCAL)/lib/libksba.a $(LOCAL)/lib/libassuan.a $(LOCAL)/lib/libldap.a $(LOCAL)/lib/libpth.a $(LOCAL)/lib/libadns.a $(LOCAL)/lib/libiconv.a
+gnupg-build-stamp: $(LOCAL)/lib/libgpg-error.a $(LOCAL)/lib/libgcrypt.a $(LOCAL)/lib/libksba.a $(LOCAL)/lib/libassuan.a $(LOCAL)/lib/libldap.a $(LOCAL)/lib/libpth.a $(LOCAL)/lib/libadns.a $(LOCAL)/lib/libiconv.a gnupg/Makefile
 #gnupg-build-stamp: gnupg/Makefile
 	$(MAKE) -C gnupg
 	touch gnupg-build-stamp
