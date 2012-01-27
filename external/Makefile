@@ -29,7 +29,7 @@ HOST := arm-linux-androideabi
 # install root for built files
 DESTDIR = $(CWD)
 # TODO try adding the Android-style /data/app.name here
-prefix = 
+prefix = /data/local
 LOCAL := $(DESTDIR)$(prefix)
 
 PATH := ${PATH}:$(NDK_TOOLCHAIN)/bin:$(LOCAL)/bin
@@ -92,7 +92,7 @@ libgpg-error-build-stamp: libgpg-error/Makefile
 libgpg-error-build: libgpg-error-build-stamp
 
 $(LOCAL)/lib/libgpg-error.a: libgpg-error-build
-	$(MAKE) -C libgpg-error DESTDIR=$(DESTDIR) prefix= install
+	$(MAKE) -C libgpg-error DESTDIR=$(DESTDIR) prefix=$(prefix) install
 
 libgpg-error-install: $(LOCAL)/lib/libgpg-error.a
 
@@ -129,7 +129,7 @@ libgcrypt-build-stamp: $(LOCAL)/lib/libgpg-error.a libgcrypt/Makefile
 libgcrypt-build: libgcrypt-build-stamp
 
 $(LOCAL)/lib/libgcrypt.a: libgcrypt-build
-	$(MAKE) -C libgcrypt DESTDIR=$(DESTDIR) prefix= install
+	$(MAKE) -C libgcrypt DESTDIR=$(DESTDIR) prefix=$(prefix) install
 	ls -l $(LOCAL)/lib/libgcrypt.a
 
 libgcrypt-clean:
@@ -163,7 +163,7 @@ libassuan-build-stamp: $(LOCAL)/lib/libgpg-error.a libassuan/Makefile
 	touch libassuan-build-stamp
 
 $(LOCAL)/lib/libassuan.a: libassuan-build-stamp
-	$(MAKE) -C libassuan DESTDIR=$(DESTDIR) prefix= install
+	$(MAKE) -C libassuan DESTDIR=$(DESTDIR) prefix=$(prefix) install
 	ls -l $(LOCAL)/lib/libassuan.a
 
 libassuan-install: $(LOCAL)/lib/libassuan.a
@@ -199,7 +199,7 @@ npth-build-stamp: $(LOCAL)/lib/libgpg-error.a npth/Makefile
 	touch npth-build-stamp
 
 $(LOCAL)/lib/npth.a: npth-build-stamp
-	$(MAKE) -C npth DESTDIR=$(DESTDIR) prefix= install
+	$(MAKE) -C npth DESTDIR=$(DESTDIR) prefix=$(prefix) install
 	ls -l $(LOCAL)/lib/npth.a
 
 npth-install: $(LOCAL)/lib/npth.a
@@ -232,7 +232,7 @@ libksba-build: $(LOCAL)/lib/libgpg-error.a libksba/config.sub libksba/config.gue
 	$(MAKE) -C libksba
 
 $(LOCAL)/lib/libksba.a: libksba-build
-	$(MAKE) -C libksba DESTDIR=$(DESTDIR) prefix= install
+	$(MAKE) -C libksba DESTDIR=$(DESTDIR) prefix=$(prefix) install
 	ls -l $(LOCAL)/lib/libksba.a
 
 libksba-install: $(LOCAL)/lib/libksba.a
@@ -280,8 +280,8 @@ openldap-build-stamp: openldap/Makefile
 openldap-build: openldap-build-stamp
 
 $(LOCAL)/lib/libldap.a: openldap-build
-	$(MAKE) -C openldap/include DESTDIR=$(DESTDIR) prefix= install
-	$(MAKE) -C openldap/libraries DESTDIR=$(DESTDIR) prefix= install
+	$(MAKE) -C openldap/include DESTDIR=$(DESTDIR) prefix=$(prefix) install
+	$(MAKE) -C openldap/libraries DESTDIR=$(DESTDIR) prefix=$(prefix) install
 	ls -l $(LOCAL)/lib/libldap.a
 
 openldap-install: $(LOCAL)/lib/libldap.a
@@ -320,8 +320,8 @@ curl-build-stamp: curl/Makefile
 curl-build: curl-build-stamp
 
 $(LOCAL)/lib/libcurl.a: curl-build
-	$(MAKE) -C curl DESTDIR=$(DESTDIR) prefix= install
-	$(MAKE) -C curl DESTDIR=$(DESTDIR) prefix= install
+	$(MAKE) -C curl DESTDIR=$(DESTDIR) prefix=$(prefix) install
+	$(MAKE) -C curl DESTDIR=$(DESTDIR) prefix=$(prefix) install
 	ls -l $(LOCAL)/lib/libcurl.a
 
 curl-install: $(LOCAL)/lib/libcurl.a
@@ -372,7 +372,7 @@ pth-build: pth-2.0.7/Makefile
 	$(MAKE) -C pth-2.0.7
 
 $(LOCAL)/lib/libpth.a: pth-build
-	$(MAKE) -C pth-2.0.7 DESTDIR=$(DESTDIR) prefix= install
+	$(MAKE) -C pth-2.0.7 DESTDIR=$(DESTDIR) prefix=$(prefix) install
 
 pth-install: $(LOCAL)/lib/libpth.a
 
@@ -415,7 +415,7 @@ adns-build: adns-1.4/Makefile
 	$(MAKE) -C adns-1.4
 
 $(LOCAL)/lib/libadns.a: adns-build
-	$(MAKE) -C adns-1.4 DESTDIR=$(DESTDIR) prefix= install
+	$(MAKE) -C adns-1.4 DESTDIR=$(DESTDIR) prefix=$(prefix) install
 
 adns-install: $(LOCAL)/lib/libadns.a
 
@@ -461,7 +461,7 @@ libiconv-build-stamp: libiconv-1.14/Makefile
 libiconv-build: libiconv-build-stamp
 
 $(LOCAL)/lib/libiconv.a: libiconv-build-stamp
-	$(MAKE) -C libiconv-1.14 DESTDIR=$(DESTDIR) prefix= install
+	$(MAKE) -C libiconv-1.14 DESTDIR=$(DESTDIR) prefix=$(prefix) install
 
 libiconv-install: $(LOCAL)/lib/libiconv.a
 
@@ -517,7 +517,7 @@ gnupg-build-stamp: $(LOCAL)/lib/libgpg-error.a $(LOCAL)/lib/libgcrypt.a $(LOCAL)
 	touch gnupg-build-stamp
 
 $(LOCAL)/bin/gpg2: gnupg-build $(GNUPG_SOURCES) gnupg/configure
-	$(MAKE) -C gnupg DESTDIR=$(DESTDIR) prefix= install
+	$(MAKE) -C gnupg DESTDIR=$(DESTDIR) prefix=$(prefix) install
 	ls -l $(LOCAL)/lib/gnupg.a
 
 gnupg-clean:
