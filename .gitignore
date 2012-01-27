@@ -4,6 +4,9 @@ external/include
 external/lib
 external/man
 external/share
+external/adns-1.4
+external/adns-1.4.tar.gz
+external/adns-1.4.tar.gz.sig*
 external/pth-2.0.7
 external/pth-2.0.7.tar.gz
 external/pth-2.0.7.tar.gz.sig*

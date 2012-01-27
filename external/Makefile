@@ -374,6 +374,48 @@ pth-clean:
 
 
 #------------------------------------------------------------------------------#
+# adns
+
+adns-1.4.tar.gz.sig: adns-1.4.tar.gz
+	wget http://www.chiark.greenend.org.uk/~ian/adns/ftp/adns-1.4.tar.gz.sig
+	gpg --verify adns-1.4.tar.gz.sig
+
+adns-1.4.tar.gz:
+	wget -c http://www.chiark.greenend.org.uk/~ian/adns/ftp/adns-1.4.tar.gz
+	sha1sum -c adns-1.4.tar.gz.sha1
+
+adns-1.4: adns-1.4.tar.gz.sig
+	tar xzf adns-1.4.tar.gz
+
+adns-1.4/config.sub: adns-1.4 config.sub
+	cp config.sub adns-1.4/config.sub
+
+adns-1.4/config.guess: adns-1.4 config.guess
+	cp config.guess adns-1.4/config.guess
+
+adns-1.4/Makefile: adns-1.4 adns-1.4/Makefile.in adns-1.4/config.guess adns-1.4/config.sub
+	patch -N -p1 --reject-file=- < adns-destdir-install-fix.patch
+	cd adns-1.4 && \
+		CC="$(CC)" CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS)" \
+			./configure \
+				--prefix=$(prefix) \
+				--host=$(HOST) \
+				--disable-dynamic
+
+adns-build: adns-1.4/Makefile
+	$(MAKE) -C adns-1.4
+
+$(LOCAL)/lib/libadns.a: adns-build
+	$(MAKE) -C adns-1.4 DESTDIR=$(DESTDIR) prefix= install
+
+adns-install: $(LOCAL)/lib/libadns.a
+
+adns-clean:
+	-rm -rf adns-1.4
+	-rm -f adns-1.4.tar.gz.sig*
+
+
+#------------------------------------------------------------------------------#
 # gnupg
 
 GNUPG_SOURCES := $(wildcard gnupg/include/*.h) $(wildcard gnupg/*/*.c)
@@ -400,6 +442,7 @@ gnupg/Makefile: gnupg/configure gnupg/config.sub gnupg/config.guess
 				--with-pth-prefix=$(LOCAL) \
 				--with-libcurl=$(LOCAL) \
 				--with-ldap=$(LOCAL) \
+				--with-adns=$(LOCAL) \
 				--enable-symcryptrun \
 				--disable-agent \
 				--disable-scdaemon \
@@ -410,7 +453,7 @@ gnupg/Makefile: gnupg/configure gnupg/config.sub gnupg/config.guess
 				--prefix=$(prefix)
 
 gnupg-build: gnupg-build-stamp 
-gnupg-build-stamp: gnupg/Makefile $(LOCAL)/lib/libgpg-error.a $(LOCAL)/lib/libgcrypt.a $(LOCAL)/lib/libksba.a $(LOCAL)/lib/libassuan.a $(LOCAL)/lib/libpth.a
+gnupg-build-stamp: gnupg/Makefile $(LOCAL)/lib/libgpg-error.a $(LOCAL)/lib/libgcrypt.a $(LOCAL)/lib/libksba.a $(LOCAL)/lib/libassuan.a $(LOCAL)/lib/libpth.a $(LOCAL)/lib/libadns.a
 #gnupg-build-stamp: gnupg/Makefile
 	$(MAKE) -C gnupg
 	touch gnupg-build-stamp

@@ -1,0 +1,61 @@
+--- a/adns-1.4/src/Makefile.in	2006-05-10 06:58:03.000000000 -0400
++++ b/adns-1.4/src/Makefile.in	2012-01-27 12:40:45.000000000 -0500
+@@ -28,14 +28,14 @@
+ include		adns.make
+ 
+ install:
+-		mkdir -p $(libdir) $(includedir)
++		mkdir -p $(DESTDIR)$(libdir) $(DESTDIR)$(includedir)
+ 		set -xe; for f in $(TARGETS); \
+-			do $(INSTALL_DATA) $$f $(libdir)/$$f; done
+-		$(INSTALL_DATA) $(srcdir)/../src/adns.h $(includedir)/adns.h
++			do $(INSTALL_DATA) $$f $(DESTDIR)$(libdir)/$$f; done
++		$(INSTALL_DATA) $(srcdir)/../src/adns.h $(DESTDIR)$(includedir)/adns.h
+ 
+ uninstall:
+-		for f in $(TARGETS); do rm -f $(libdir)/$$f; done
+-		rm -f $(includedir)/adns.h
++		for f in $(TARGETS); do rm -f $(DESTDIR)$(libdir)/$$f; done
++		rm -f $(DESTDIR)$(includedir)/adns.h
+ 
+ ALLOBJS=	$(LIBOBJS)
+ 
+--- a/adns-1.4/client/Makefile.in	2006-05-10 06:58:02.000000000 -0400
++++ b/adns-1.4/client/Makefile.in	2012-01-27 12:53:10.000000000 -0500
+@@ -58,12 +58,12 @@
+ all:		$(TARGETS)
+ 
+ install:	$(TARG_INSTALL)
+-		mkdir -p $(bindir)
++		mkdir -p $(DESTDIR)$(bindir)
+ 		set -xe; for f in $(TARG_INSTALL); \
+-			do $(INSTALL_PROGRAM) $$f $(bindir)/$$f; done
++			do $(INSTALL_PROGRAM) $$f $(DESTDIR)$(bindir)/$$f; done
+ 
+ uninstall:
+-		for f in $(TARGETS); do rm -f $(bindir)/$$f; done
++		for f in $(TARGETS); do rm -f $(DESTDIR)$(bindir)/$$f; done
+ 
+ adnshost:	$(ADH_OBJS) $(DYNAMIC_DEP)
+ 		$(CC) $(LDFLAGS) $(ADH_OBJS) $(DYNAMIC_LINK) -o $@ $(LDLIBS)
+--- a/adns-1.4/dynamic/Makefile.in	2006-05-10 06:58:02.000000000 -0400
++++ b/adns-1.4/dynamic/Makefile.in	2012-01-27 12:53:55.000000000 -0500
+@@ -30,13 +30,13 @@
+ ALLOBJS=	$(addsuffix _p.o, $(basename $(LIBOBJS)))
+ 
+ install:
+-		mkdir -p $(libdir)
+-		$(INSTALL_PROGRAM) $(SHLIBFILE) $(libdir)/$(SHLIBFILE)
+-		ln -sf $(SHLIBFILE) $(libdir)/$(SHLIBSONAME)
+-		ln -sf $(SHLIBSONAME) $(libdir)/$(SHLIBFORLINK)
++		mkdir -p $(DESTDIR)$(libdir)
++		$(INSTALL_PROGRAM) $(SHLIBFILE) $(DESTDIR)$(libdir)/$(SHLIBFILE)
++		ln -sf $(SHLIBFILE) $(DESTDIR)$(libdir)/$(SHLIBSONAME)
++		ln -sf $(SHLIBSONAME) $(DESTDIR)$(libdir)/$(SHLIBFORLINK)
+ 
+ uninstall:
+-		rm -f $(libdir)/$(SHLIBFILE) $(libdir)/$(SHLIBSONAME)
++		rm -f $(libdir)/$(SHLIBFILE) $(DESTDIR)$(libdir)/$(SHLIBSONAME)
+ 
+ $(SHLIBFORLINK):
+ 		ln -s $(SHLIBSONAME) $(SHLIBFORLINK)
