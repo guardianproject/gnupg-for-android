@@ -273,12 +273,12 @@ openldap-build-stamp: openldap/Makefile
 
 openldap-build: openldap-build-stamp
 
-$(LOCAL)/lib/openldap.a: openldap-build
+$(LOCAL)/lib/libldap.a: openldap-build
 	$(MAKE) -C openldap/include DESTDIR=$(DESTDIR) prefix= install
 	$(MAKE) -C openldap/libraries DESTDIR=$(DESTDIR) prefix= install
-	ls -l $(LOCAL)/lib/openldap.a
+	ls -l $(LOCAL)/lib/libldap.a
 
-openldap-install: $(LOCAL)/lib/openldap.a
+openldap-install: $(LOCAL)/lib/libldap.a
 
 openldap-clean:
 	-rm -f openldap-build-stamp
@@ -453,7 +453,7 @@ gnupg/Makefile: gnupg/configure gnupg/config.sub gnupg/config.guess
 				--prefix=$(prefix)
 
 gnupg-build: gnupg-build-stamp 
-gnupg-build-stamp: gnupg/Makefile $(LOCAL)/lib/libgpg-error.a $(LOCAL)/lib/libgcrypt.a $(LOCAL)/lib/libksba.a $(LOCAL)/lib/libassuan.a $(LOCAL)/lib/libpth.a $(LOCAL)/lib/libadns.a
+gnupg-build-stamp: gnupg/Makefile $(LOCAL)/lib/libgpg-error.a $(LOCAL)/lib/libgcrypt.a $(LOCAL)/lib/libksba.a $(LOCAL)/lib/libassuan.a $(LOCAL)/lib/libldap.a $(LOCAL)/lib/libpth.a $(LOCAL)/lib/libadns.a
 #gnupg-build-stamp: gnupg/Makefile
 	$(MAKE) -C gnupg
 	touch gnupg-build-stamp
