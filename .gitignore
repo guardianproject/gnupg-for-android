@@ -10,6 +10,9 @@ external/adns-1.4.tar.gz.sig*
 external/pth-2.0.7
 external/pth-2.0.7.tar.gz
 external/pth-2.0.7.tar.gz.sig*
+external/libiconv-1.14
+external/libiconv-1.14.tar.gz
+external/libiconv-1.14.tar.gz.sig*
 # build stamps
 external/libgpg-error-build-stamp
 external/libgcrypt-build-stamp
@@ -18,3 +21,4 @@ external/openldap-build-stamp
 external/curl-build-stamp
 external/gnupg-build-stamp
 external/npth-build-stamp
+external/libiconv-build-stamp

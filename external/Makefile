@@ -54,7 +54,8 @@ LDFLAGS = -L$(LOCAL)/lib -Wl,--rpath,$(LOCAL)/lib
 	libassuan-build libassuan-clean \
 	libksba-build libksba-clean \
 	gnupg-build gnupg-clean \
-	npth-clean pth-clean
+	npth-clean pth-clean \
+	libiconv-build libiconv-clean
 
 all: $(LOCAL)/lib/libgcrypt.a
 
@@ -416,6 +417,53 @@ adns-clean:
 
 
 #------------------------------------------------------------------------------#
+# libiconv
+
+libiconv-1.14.tar.gz.sig: libiconv-1.14.tar.gz
+	wget -c http://ftp.gnu.org/pub/gnu/libiconv/libiconv-1.14.tar.gz.sig
+	gpg --verify libiconv-1.14.tar.gz.sig
+
+libiconv-1.14.tar.gz:
+	wget -c http://ftp.gnu.org/pub/gnu/libiconv/libiconv-1.14.tar.gz
+	sha1sum -c libiconv-1.14.tar.gz.sha1
+
+libiconv-1.14: libiconv-1.14.tar.gz.sig
+	tar xzf libiconv-1.14.tar.gz
+
+libiconv-1.14/config.sub: libiconv-1.14 config.sub
+	cp config.sub libiconv-1.14/config.sub
+
+libiconv-1.14/config.guess: libiconv-1.14 config.guess
+	cp config.guess libiconv-1.14/config.guess
+
+libiconv-1.14/Makefile: libiconv-1.14 libiconv-1.14/Makefile.in libiconv-1.14/config.guess libiconv-1.14/config.sub
+	cd libiconv-1.14 && \
+		CFLAGS="$(CFLAGS) -mandroid" LDFLAGS="$(LDFLAGS)" \
+			./configure \
+				--prefix=$(prefix) \
+				--host=arm-linux-eabi \
+				--with-sysroot=$(NDK_SYSROOT) \
+				--with-gnu-ld
+
+libiconv-build-stamp: libiconv-1.14/Makefile
+	$(MAKE) -C libiconv-1.14
+	touch libiconv-build-stamp
+
+libiconv-build: libiconv-build-stamp
+
+$(LOCAL)/lib/libiconv.a: libiconv-build-stamp
+	$(MAKE) -C libiconv-1.14 DESTDIR=$(DESTDIR) prefix= install
+
+libiconv-install: $(LOCAL)/lib/libiconv.a
+
+libiconv-clean:
+	-rm -rf libiconv-1.14
+	-rm -f libiconv-1.14.tar.gz
+	-rm -f libiconv-1.14.tar.gz.sig*
+	-rm -f libiconv-build-stamp
+
+
+#------------------------------------------------------------------------------#
 # gnupg
 
 GNUPG_SOURCES := $(wildcard gnupg/include/*.h) $(wildcard gnupg/*/*.c)
@@ -443,6 +491,7 @@ gnupg/Makefile: gnupg/configure gnupg/config.sub gnupg/config.guess
 				--with-libcurl=$(LOCAL) \
 				--with-ldap=$(LOCAL) \
 				--with-adns=$(LOCAL) \
+				--with-libiconv-prefix=$(LOCAL) \
 				--enable-symcryptrun \
 				--disable-agent \
 				--disable-scdaemon \
@@ -453,7 +502,7 @@ gnupg/Makefile: gnupg/configure gnupg/config.sub gnupg/config.guess
 				--prefix=$(prefix)
 
 gnupg-build: gnupg-build-stamp 
-gnupg-build-stamp: gnupg/Makefile $(LOCAL)/lib/libgpg-error.a $(LOCAL)/lib/libgcrypt.a $(LOCAL)/lib/libksba.a $(LOCAL)/lib/libassuan.a $(LOCAL)/lib/libldap.a $(LOCAL)/lib/libpth.a $(LOCAL)/lib/libadns.a
+gnupg-build-stamp: gnupg/Makefile $(LOCAL)/lib/libgpg-error.a $(LOCAL)/lib/libgcrypt.a $(LOCAL)/lib/libksba.a $(LOCAL)/lib/libassuan.a $(LOCAL)/lib/libldap.a $(LOCAL)/lib/libpth.a $(LOCAL)/lib/libadns.a $(LOCAL)/lib/libiconv.a
 #gnupg-build-stamp: gnupg/Makefile
 	$(MAKE) -C gnupg
 	touch gnupg-build-stamp
@@ -472,7 +521,7 @@ gnupg-clean:
 install-clean:
 	rm -rf -- bin include lib man sbin share
 
-clean: install-clean gnupg-clean curl-clean openldap-clean libksba-clean libassuan-clean npth-clean libgcrypt-clean libgpg-error-clean pth-clean adns-clean
+clean: install-clean gnupg-clean curl-clean openldap-clean libksba-clean libassuan-clean npth-clean libgcrypt-clean libgpg-error-clean pth-clean adns-clean libiconv-clean
 	-$(MAKE) -C gnupg clean
 	-$(MAKE) -C curl clean
 	-$(MAKE) -C openldap clean
