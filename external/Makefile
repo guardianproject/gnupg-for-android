@@ -54,7 +54,7 @@ LDFLAGS = -L$(LOCAL)/lib -Wl,--rpath,$(LOCAL)/lib
 	libassuan-build libassuan-clean \
 	libksba-build libksba-clean \
 	gnupg-build gnupg-clean \
-	pth-clean
+	npth-clean pth-clean
 
 all: $(LOCAL)/lib/libgcrypt.a
 
@@ -164,6 +164,42 @@ libassuan-install: $(LOCAL)/lib/libassuan.a
 
 libassuan-clean:
 	-rm -f libassuan-build-stamp
+
+
+#------------------------------------------------------------------------------#
+# npth
+
+npth/config.sub: config.sub
+	cp config.sub npth/config.sub
+
+npth/config.guess: config.guess
+	cp config.guess npth/config.guess
+
+npth/configure: npth/configure.ac
+	cd npth && ./autogen.sh
+
+npth/Makefile: npth/config.sub npth/config.guess npth/configure
+	cd npth && \
+		CC="$(CC)" CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS)" \
+			./configure \
+				--enable-maintainer-mode \
+				--enable-static \
+				--host=$(HOST) \
+				--with-gnu-ld \
+				--prefix=$(prefix)
+
+npth-build-stamp: $(LOCAL)/lib/libgpg-error.a npth/Makefile
+	$(MAKE) -C npth
+	touch npth-build-stamp
+
+$(LOCAL)/lib/npth.a: npth-build-stamp
+	$(MAKE) -C npth DESTDIR=$(DESTDIR) prefix= install
+	ls -l $(LOCAL)/lib/npth.a
+
+npth-install: $(LOCAL)/lib/npth.a
+
+npth-clean:
+	-rm -f npth-build-stamp
 
 
 #------------------------------------------------------------------------------#
@@ -386,13 +422,14 @@ $(LOCAL)/bin/gpg2: gnupg-build $(GNUPG_SOURCES) gnupg/configure
 gnupg-clean:
 	-rm -f gnupg-build-stamp
 
+
 #------------------------------------------------------------------------------#
 # clean
 
 install-clean:
 	rm -rf -- bin include lib man sbin share
 
-clean: install-clean gnupg-clean curl-clean openldap-clean libksba-clean libassuan-clean libgcrypt-clean libgpg-error-clean pth-clean
+clean: install-clean gnupg-clean curl-clean openldap-clean libksba-clean libassuan-clean npth-clean libgcrypt-clean libgpg-error-clean pth-clean adns-clean
 	-$(MAKE) -C gnupg clean
 	-$(MAKE) -C curl clean
 	-$(MAKE) -C openldap clean
@@ -407,6 +444,7 @@ distclean: clean
 	-rm -f curl/configure # their distclean fails to rm this
 	-$(MAKE) -C openldap distclean
 	-$(MAKE) -C libksba distclean
+	-$(MAKE) -C npth distclean
 	-$(MAKE) -C libassuan distclean
 	-$(MAKE) -C libgcrypt distclean
 	-$(MAKE) -C libgpg-error distclean

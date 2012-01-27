@@ -14,3 +14,4 @@ external/libassuan-build-stamp
 external/openldap-build-stamp
 external/curl-build-stamp
 external/gnupg-build-stamp
+external/npth-build-stamp
