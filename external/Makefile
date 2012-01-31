@@ -514,7 +514,7 @@ gnupg/Makefile: gnupg/configure gnupg/config.sub gnupg/config.guess
 
 
 gnupg-build: gnupg-build-stamp 
-gnupg-build-stamp: $(LOCAL)/lib/libgpg-error.a $(LOCAL)/lib/libgcrypt.a $(LOCAL)/lib/libksba.a $(LOCAL)/lib/libassuan.a $(LOCAL)/lib/libldap.a $(LOCAL)/lib/libpth.a $(LOCAL)/lib/libiconv.a gnupg/Makefile
+gnupg-build-stamp: $(LOCAL)/lib/libgpg-error.a $(LOCAL)/lib/libgcrypt.a $(LOCAL)/lib/libksba.a $(LOCAL)/lib/libassuan.a $(LOCAL)/lib/libldap.a $(LOCAL)/lib/libpth.a gnupg/Makefile
 #gnupg-build-stamp: gnupg/Makefile
 	patch -N -p1 --reject-file=- < gnupg-android-fixes.patch || true
 	$(MAKE) -C gnupg
