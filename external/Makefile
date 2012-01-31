@@ -499,7 +499,6 @@ gnupg/Makefile: gnupg/configure gnupg/config.sub gnupg/config.guess
 				--with-pth-prefix=$(LOCAL) \
 				--with-libcurl=$(LOCAL) \
 				--with-ldap=$(LOCAL) \
-				--with-adns=$(LOCAL) \
 				--with-libiconv-prefix=$(LOCAL) \
 				--enable-symcryptrun \
 				--disable-agent \
@@ -510,19 +509,33 @@ gnupg/Makefile: gnupg/configure gnupg/config.sub gnupg/config.guess
 				--disable-ccid-driver \
 				--prefix=$(prefix)
 
+# adns builds for Android, but gnupg doesn't build for Android with adns enabled
+#				--with-adns=$(LOCAL) \ $(LOCAL)/lib/libadns.a
+
+
 gnupg-build: gnupg-build-stamp 
-gnupg-build-stamp: $(LOCAL)/lib/libgpg-error.a $(LOCAL)/lib/libgcrypt.a $(LOCAL)/lib/libksba.a $(LOCAL)/lib/libassuan.a $(LOCAL)/lib/libldap.a $(LOCAL)/lib/libpth.a $(LOCAL)/lib/libadns.a $(LOCAL)/lib/libiconv.a gnupg/Makefile
+gnupg-build-stamp: $(LOCAL)/lib/libgpg-error.a $(LOCAL)/lib/libgcrypt.a $(LOCAL)/lib/libksba.a $(LOCAL)/lib/libassuan.a $(LOCAL)/lib/libldap.a $(LOCAL)/lib/libpth.a $(LOCAL)/lib/libiconv.a gnupg/Makefile
 #gnupg-build-stamp: gnupg/Makefile
+	patch -N -p1 --reject-file=- < gnupg-android-fixes.patch || true
 	$(MAKE) -C gnupg
 	touch gnupg-build-stamp
 
 $(LOCAL)/bin/gpg2: gnupg-build $(GNUPG_SOURCES) gnupg/configure
 	$(MAKE) -C gnupg DESTDIR=$(DESTDIR) prefix=$(prefix) install
-	ls -l $(LOCAL)/lib/gnupg.a
+	ls -l $(LOCAL)/bin/gpg2
+
+gnupg-install: $(LOCAL)/bin/gpg2
 
 gnupg-clean:
 	-rm -f gnupg-build-stamp
 
+
+#------------------------------------------------------------------------------#
+# set rpath for Android
+
+set-rpath:
+	chrpath --replace /data/local/lib $(shell ls -1 $(LOCAL)/bin/* | grep -v config)
+	chrpath --replace /data/local/lib $(shell ls -1 $(LOCAL)/lib/*.so*)
 
 #------------------------------------------------------------------------------#
 # clean
