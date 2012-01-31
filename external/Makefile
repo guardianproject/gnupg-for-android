@@ -364,6 +364,7 @@ pth-2.0.7/Makefile: pth-2.0.7 pth-2.0.7/aclocal.m4 pth-2.0.7/config.guess pth-2.
 				--prefix=$(prefix) \
 				--host=$(HOST) \
 				--enable-static \
+				--disable-shared \
 				--with-mctx-mth=sjlj \
 				--with-mctx-dsp=ssjlj \
 				--with-mctx-stk=sas
