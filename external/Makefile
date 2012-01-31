@@ -530,6 +530,11 @@ gnupg-install: $(LOCAL)/bin/gpg2
 gnupg-clean:
 	-rm -f gnupg-build-stamp
 
+# crazy ugly hack
+gnupg-static:
+	-rm -f gnupg/g10/gpg2
+	cd gnupg/g10 && /usr/local/android-ndk/toolchains/arm-linux-androideabi-4.4.3/prebuilt/linux-x86/bin/arm-linux-androideabi-gcc --sysroot=/usr/local/android-ndk/platforms/android-9/arch-arm -I/data/local/include -I/usr/local/include -I/data/local/include -I/usr/local/include -I/usr/local/include -DANDROID -I/media/share/code/guardianproject/gnupg-for-android/external/data/local/include -O3 -Wall -Wcast-align -Wshadow -Wstrict-prototypes -Wformat -Wno-format-y2k -Wformat-security -W -Wno-sign-compare -Wno-missing-field-initializers -Wdeclaration-after-statement -Wno-pointer-sign -Wpointer-arith  -L/media/share/code/guardianproject/gnupg-for-android/external/data/local/lib -Wl,--rpath,/media/share/code/guardianproject/gnupg-for-android/external/data/local/lib -o gpg2 gpg.o server.o build-packet.o compress.o  free-packet.o getkey.o keydb.o keyring.o seskey.o kbnode.o mainproc.o armor.o mdfilter.o textfilter.o progress.o misc.o rmd160.o openfile.o keyid.o parse-packet.o cpr.o plaintext.o sig-check.o keylist.o pkglue.o ecdh.o pkclist.o skclist.o pubkey-enc.o passphrase.o decrypt.o decrypt-data.o cipher.o encrypt.o sign.o verify.o revoke.o keyedit.o dearmor.o import.o export.o trustdb.o tdbdump.o tdbio.o delkey.o keygen.o helptext.o keyserver.o call-dirmngr.o photoid.o call-agent.o card-util.o exec.o ../common/libcommon.a ../gl/libgnu.a ../common/libgpgrl.a  ../../data/local/lib/libassuan.a  ../../data/local/lib/libgpg-error.a  ../../data/local/lib/libgcrypt.a  ../../data/local/lib/libksba.a  ../../data/local/lib/libldap.a  ../../data/local/lib/liblber.a  -lz
+	cp gnupg/g10/gpg2 $(LOCAL)/bin/
 
 #------------------------------------------------------------------------------#
 # set rpath for Android
