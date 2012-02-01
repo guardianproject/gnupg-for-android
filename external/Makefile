@@ -38,6 +38,7 @@ CC := $(NDK_TOOLCHAIN)/bin/arm-linux-androideabi-gcc --sysroot=$(NDK_SYSROOT)
 CXX := $(NDK_TOOLCHAIN)/bin/arm-linux-androideabi-g++
 CPP := $(NDK_TOOLCHAIN)/bin/arm-linux-androideabi-cpp
 LD := $(NDK_TOOLCHAIN)/bin/arm-linux-androideabi-ld
+AR := $(NDK_TOOLCHAIN)/bin/arm-linux-androideabi-ar
 RANLIB := $(NDK_TOOLCHAIN)/bin/arm-linux-androideabi-ranlib
 STRIP := $(NDK_TOOLCHAIN)/bin/arm-linux-androideabi-strip \
 	--strip-unneeded -R .note -R .comment
@@ -79,6 +80,8 @@ libgpg-error/Makefile: libgpg-error/config.sub libgpg-error/config.guess libgpg-
 	cd libgpg-error && \
 		./configure \
 			CC="$(CC)" \
+			AR=$(AR) \
+			RANLIB=$(RANLIB) \
 			CFLAGS="$(CFLAGS)" \
 			LDFLAGS="$(LDFLAGS)" \
 			--disable-languages \
@@ -114,7 +117,7 @@ libgcrypt/configure: libgcrypt/configure.ac
 
 libgcrypt/Makefile: libgcrypt/config.sub libgcrypt/config.guess libgcrypt/configure
 	cd libgcrypt && \
-		CC="$(CC)" CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS)" \
+		CC="$(CC)" AR="$(AR)" RANLIB=$(RANLIB) CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS)" \
 			./configure \
 				--enable-maintainer-mode \
 				--enable-static \
@@ -150,7 +153,7 @@ libassuan/configure: libassuan/configure.ac
 
 libassuan/Makefile: libassuan/config.sub libassuan/config.guess libassuan/configure
 	cd libassuan && \
-		CC="$(CC)" CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS)" \
+		CC="$(CC)" AR="$(AR)" RANLIB=$(RANLIB) CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS)" \
 			./configure \
 				--enable-maintainer-mode \
 				--enable-static \
@@ -186,7 +189,7 @@ npth/configure: npth/configure.ac
 
 npth/Makefile: npth/config.sub npth/config.guess npth/configure
 	cd npth && \
-		CC="$(CC)" CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS)" \
+		CC="$(CC)" AR="$(AR)" RANLIB=$(RANLIB) CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS)" \
 			./configure \
 				--enable-maintainer-mode \
 				--enable-static \
@@ -222,7 +225,7 @@ libksba/configure: libksba/configure.ac
 
 libksba-build: $(LOCAL)/lib/libgpg-error.a libksba/config.sub libksba/config.guess libksba/configure
 	cd libksba && \
-		CC="$(CC)" CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS)" \
+		CC="$(CC)" AR="$(AR)" RANLIB=$(RANLIB) CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS)" \
 			./configure \
 				--enable-maintainer-mode \
 				--enable-static \
@@ -256,7 +259,7 @@ openldap/configure: openldap/configure.in
 # TODO try --with-tls=openssl
 openldap/Makefile: openldap/config.sub openldap/config.guess openldap/configure
 	cd openldap && \
-		CC="$(CC)" CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS)" \
+		CC="$(CC)" AR="$(AR)" RANLIB=$(RANLIB) CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS)" \
 			./configure \
 				--enable-static \
 				--host=$(HOST) \
@@ -304,7 +307,7 @@ curl/configure: curl/configure.ac
 
 curl/Makefile: curl/config.sub curl/config.guess curl/configure
 	cd curl && \
-		CC="$(CC)" CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS)" \
+		CC="$(CC)" AR="$(AR)" RANLIB=$(RANLIB) CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS)" \
 			./configure \
 				--enable-static \
 				--host=$(HOST) \
@@ -359,7 +362,7 @@ pth-2.0.7/aclocal.m4: /usr/share/libtool/libltdl/aclocal.m4
 pth-2.0.7/Makefile: pth-2.0.7 pth-2.0.7/aclocal.m4 pth-2.0.7/config.guess pth-2.0.7/config.sub
 	patch -N -p0 --reject-file=- < pth-fix-include.patch | true
 	cd pth-2.0.7 && \
-		CC="$(CC)" CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS)" \
+		CC="$(CC)" AR="$(AR)" RANLIB=$(RANLIB) CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS)" \
 			./configure \
 				--prefix=$(prefix) \
 				--host=$(HOST) \
@@ -406,7 +409,7 @@ adns-1.4/config.guess: adns-1.4 config.guess
 adns-1.4/Makefile: adns-1.4 adns-1.4/Makefile.in adns-1.4/config.guess adns-1.4/config.sub
 	patch -N -p1 --reject-file=- < adns-destdir-install-fix.patch
 	cd adns-1.4 && \
-		CC="$(CC)" CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS)" \
+		CC="$(CC)" AR="$(AR)" RANLIB=$(RANLIB) CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS)" \
 			./configure \
 				--prefix=$(prefix) \
 				--host=$(HOST) \
@@ -489,7 +492,7 @@ gnupg/configure:
 
 gnupg/Makefile: gnupg/configure gnupg/config.sub gnupg/config.guess
 	cd gnupg && \
-		CC="$(CC)" CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS)" \
+		CC="$(CC)" AR="$(AR)" RANLIB=$(RANLIB) CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS)" \
 			./configure \
 				--enable-maintainer-mode \
 				--host=$(HOST) \
