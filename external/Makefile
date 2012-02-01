@@ -528,6 +528,9 @@ $(LOCAL)/bin/gpg2: gnupg-build $(GNUPG_SOURCES) gnupg/configure
 	ls -l $(LOCAL)/bin/gpg2
 
 gnupg-install: $(LOCAL)/bin/gpg2
+	install -d $(LOCAL)/etc/gnupg
+	install -d $(LOCAL)/var/run/gnupg
+	install -d $(LOCAL)/var/cache/gnupg
 
 gnupg-clean:
 	-rm -f gnupg-build-stamp
