@@ -505,7 +505,6 @@ gnupg/Makefile: gnupg/configure gnupg/config.sub gnupg/config.guess
 				--with-ldap=$(LOCAL) \
 				--with-libiconv-prefix=$(LOCAL) \
 				--enable-symcryptrun \
-				--disable-agent \
 				--disable-scdaemon \
 				--disable-g13 \
 				--disable-tools \
