@@ -537,6 +537,52 @@ gnupg-clean:
 
 
 #------------------------------------------------------------------------------#
+# gpgme
+
+gpgme/config.sub: config.sub
+	cp config.sub gpgme/config.sub
+
+gpgme/config.guess: config.guess
+	cp config.guess gpgme/config.guess
+
+gpgme/configure: gpgme/configure.ac
+	cd gpgme && ./autogen.sh
+
+gpgme/Makefile: gpgme/config.sub gpgme/config.guess gpgme/configure
+	cd gpgme && \
+		CC="$(CC)" AR="$(AR)" RANLIB=$(RANLIB) CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS)" \
+			./configure \
+				--enable-maintainer-mode \
+				--enable-static \
+				--host=$(HOST) \
+				--with-gnu-ld \
+				--with-gpg-error-prefix=$(LOCAL) \
+				--with-libassuan-prefix=$(LOCAL) \
+				--with-gpg=$(prefix)/bin \
+				--with-gpgsm=$(prefix)/bin \
+				--with-gpgconf=$(prefix)/bin \
+				--with-g13=$(prefix)/bin \
+				--disable-gpg-test \
+				--disable-gpgsm-test \
+				--disable-gpgconf-test \
+				--disable-g13-test \
+				--prefix=$(prefix)
+
+gpgme-build-stamp: $(LOCAL)/lib/libgpg-error.a gpgme/Makefile
+	$(MAKE) -C gpgme
+	touch gpgme-build-stamp
+
+gpgme-build: gpgme-build-stamp
+
+$(LOCAL)/lib/gpgme.a: gpgme-build
+	$(MAKE) -C gpgme DESTDIR=$(DESTDIR) prefix=$(prefix) install
+	ls -l $(LOCAL)/lib/gpgme.a
+
+gpgme-clean:
+	-rm -f gpgme-build-stamp gpgme/Makefile gpg/configure
+
+
+#------------------------------------------------------------------------------#
 # ugly static linking hacks
 
 # crazy ugly hack
