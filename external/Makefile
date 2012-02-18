@@ -340,6 +340,7 @@ curl-clean:
 
 pth-2.0.7.tar.gz.sig: pth-2.0.7.tar.gz
 	wget http://ftp.gnu.org/gnu/pth/pth-2.0.7.tar.gz.sig
+	gpg --recv-key  4E23E878D41A0A88EDFCFA5A6E744ACBA9C09E30
 	gpg --verify pth-2.0.7.tar.gz.sig
 
 pth-2.0.7.tar.gz:
