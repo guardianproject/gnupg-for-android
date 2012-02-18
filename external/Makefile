@@ -45,8 +45,10 @@ STRIP := $(NDK_TOOLCHAIN)/bin/arm-linux-androideabi-strip \
 
 CFLAGS = -DANDROID -I$(LOCAL)/include
 LDFLAGS = -L$(LOCAL)/lib -Wl,--rpath,$(LOCAL)/lib
-#ALL_LDFLAGS = -Wl,--entry=main,-rpath=$(ANDROID_NDK_ROOT)/build/platforms/android-$(NDK_PLATFORM_VER)/arch-arm/usr/lib,-dynamic-linker=/system/bin/linker -L$(NDK_SYSROOT)/usr/lib  -nostdlib -lc -ldl
-#LIBS = -lc -ldl
+
+# build as small as possible, mostly useful for static binaries
+CFLAGS += -fdata-sections -ffunction-sections -Os
+LDFLAGS += -Wl,--gc-sections
 
 
 .PHONY = clean distclean install-clean \
