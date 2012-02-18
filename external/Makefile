@@ -276,7 +276,7 @@ openldap/Makefile: openldap/config.sub openldap/config.guess openldap/configure
 # cross-compiling makes openldap's ./configure think memcmp() is broken
 # http://zhuqy.wordpress.com/2010/04/22/cross-compile-openldap-error-undefined-reference-to-lutil_memcmp/
 	sed --in-place 's|#define NEED_MEMCMP_REPLACEMENT 1|/* #undef NEED_MEMCMP_REPLACEMENT */|' openldap/include/portable.h
-	patch -N -p1 --reject-file=- < openldap-disable-sys_errlist.patch | true
+	patch -N -p1 --reject-file=- < openldap-disable-sys_errlist.patch || true
 
 openldap-build-stamp: openldap/Makefile
 	$(MAKE) -C openldap
@@ -362,7 +362,7 @@ pth-2.0.7/aclocal.m4: /usr/share/libtool/libltdl/aclocal.m4
 #	cp -a /usr/share/aclocal/*.m4 pth-2.0.7/m4
 
 pth-2.0.7/Makefile: pth-2.0.7 pth-2.0.7/aclocal.m4 pth-2.0.7/config.guess pth-2.0.7/config.sub
-	patch -N -p0 --reject-file=- < pth-fix-include.patch | true
+	patch -N -p0 --reject-file=- < pth-fix-include.patch || true
 	cd pth-2.0.7 && \
 		CC="$(CC)" AR="$(AR)" RANLIB=$(RANLIB) CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS)" \
 			./configure \
