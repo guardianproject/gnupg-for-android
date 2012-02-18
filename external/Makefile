@@ -29,7 +29,7 @@ HOST := arm-linux-androideabi
 # install root for built files
 DESTDIR = $(CWD)
 # TODO try adding the Android-style /data/app.name here
-prefix = /data/local
+prefix = /data/data/info.guardianproject.gpg/app_opt
 LOCAL := $(DESTDIR)$(prefix)
 
 PATH := ${PATH}:$(NDK_TOOLCHAIN)/bin:$(LOCAL)/bin
