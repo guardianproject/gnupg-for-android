@@ -198,6 +198,7 @@ npth/Makefile: npth/config.sub npth/config.guess npth/configure
 				--host=$(HOST) \
 				--with-gnu-ld \
 				--prefix=$(prefix)
+	-patch -N -p1 --reject-file=- < npth-android-fixes.patch
 
 npth-build-stamp: $(LOCAL)/lib/libgpg-error.a npth/Makefile
 	$(MAKE) -C npth
@@ -211,6 +212,7 @@ npth-install: $(LOCAL)/lib/npth.a
 
 npth-clean:
 	-rm -f npth-build-stamp
+	-patch -N -R -p1 --reject-file=- < npth-android-fixes.patch
 
 
 #------------------------------------------------------------------------------#
@@ -503,7 +505,7 @@ gnupg/Makefile: gnupg/configure gnupg/config.sub gnupg/config.guess
 				--with-libgcrypt-prefix=$(LOCAL) \
 				--with-libassuan-prefix=$(LOCAL) \
 				--with-ksba-prefix=$(LOCAL) \
-				--with-pth-prefix=$(LOCAL) \
+				--with-npth-prefix=$(LOCAL) \
 				--with-libcurl=$(LOCAL) \
 				--with-ldap=$(LOCAL) \
 				--with-libiconv-prefix=$(LOCAL) \
@@ -520,7 +522,7 @@ gnupg/Makefile: gnupg/configure gnupg/config.sub gnupg/config.guess
 
 
 gnupg-build: gnupg-build-stamp 
-gnupg-build-stamp: $(LOCAL)/lib/libgpg-error.a $(LOCAL)/lib/libgcrypt.a $(LOCAL)/lib/libksba.a $(LOCAL)/lib/libassuan.a $(LOCAL)/lib/libldap.a $(LOCAL)/lib/libpth.a gnupg/Makefile
+gnupg-build-stamp: $(LOCAL)/lib/libgpg-error.a $(LOCAL)/lib/libgcrypt.a $(LOCAL)/lib/libksba.a $(LOCAL)/lib/libassuan.a $(LOCAL)/lib/libldap.a $(LOCAL)/lib/libnpth.a gnupg/Makefile
 #gnupg-build-stamp: gnupg/Makefile
 	patch -N -p1 --reject-file=- < gnupg-android-fixes.patch || true
 	$(MAKE) -C gnupg
@@ -593,13 +595,13 @@ gnupg-static: dirmngr-static gpg2-static gpg-agent-static gpgv2-static
 
 gpg-agent-static:
 	-rm -f gnupg/agent/gpg-agent
-	cd gnupg/agent && $(CC) -DANDROID -I$(LOCAL)/include -Os -Wall -Wcast-align -Wshadow -Wstrict-prototypes -Wformat -Wno-format-y2k -Wformat-security -W -Wno-sign-compare -Wno-missing-field-initializers -Wdeclaration-after-statement -Wno-pointer-sign -Wpointer-arith  -L$(LOCAL)/lib -Wl,--rpath,$(prefix)/lib -o gpg-agent gpg_agent-gpg-agent.o gpg_agent-command.o gpg_agent-command-ssh.o gpg_agent-call-pinentry.o gpg_agent-cache.o gpg_agent-trans.o gpg_agent-findkey.o gpg_agent-pksign.o gpg_agent-pkdecrypt.o gpg_agent-genkey.o gpg_agent-protect.o gpg_agent-trustlist.o gpg_agent-divert-scd.o gpg_agent-cvt-openpgp.o gpg_agent-call-scd.o gpg_agent-learncard.o ../common/libcommonpth.a ../gl/libgnu.a  ../..$(prefix)/lib/libgcrypt.a ../..$(prefix)/lib/libgpg-error.a ../..$(prefix)/lib/libassuan.a ../..$(prefix)/lib/libpth.a -ldl
+	cd gnupg/agent && $(CC) -DANDROID -I$(LOCAL)/include -Os -Wall -Wcast-align -Wshadow -Wstrict-prototypes -Wformat -Wno-format-y2k -Wformat-security -W -Wno-sign-compare -Wno-missing-field-initializers -Wdeclaration-after-statement -Wno-pointer-sign -Wpointer-arith  -L$(LOCAL)/lib -Wl,--rpath,$(prefix)/lib -o gpg-agent gpg_agent-gpg-agent.o gpg_agent-command.o gpg_agent-command-ssh.o gpg_agent-call-pinentry.o gpg_agent-cache.o gpg_agent-trans.o gpg_agent-findkey.o gpg_agent-pksign.o gpg_agent-pkdecrypt.o gpg_agent-genkey.o gpg_agent-protect.o gpg_agent-trustlist.o gpg_agent-divert-scd.o gpg_agent-cvt-openpgp.o gpg_agent-call-scd.o gpg_agent-learncard.o ../common/libcommonpth.a ../gl/libgnu.a  ../..$(prefix)/lib/libgcrypt.a ../..$(prefix)/lib/libgpg-error.a ../..$(prefix)/lib/libassuan.a ../..$(prefix)/lib/libnpth.a -ldl
 	install gnupg/agent/gpg-agent $(LOCAL)/bin/gpg-agent-static
 	$(STRIP)  $(LOCAL)/bin/gpg-agent-static
 
 dirmngr-static:
 	-rm -f gnupg/dirmngr/dirmngr gnupg/dirmngr/dirmngr-client
-	cd gnupg/dirmngr && $(CC) -I$(LOCAL)/include -DANDROID -Os -Wall -Wcast-align -Wshadow -Wstrict-prototypes -Wformat -Wno-format-y2k -Wformat-security -W -Wno-sign-compare -Wno-missing-field-initializers -Wdeclaration-after-statement -Wno-pointer-sign -Wpointer-arith  -Wl,--rpath,$(prefix)/lib -o dirmngr dirmngr.o server.o crlcache.o crlfetch.o ldapserver.o certcache.o cdblib.o ldap.o misc.o ocsp.o validate.o  ks-action.o ks-engine-hkp.o ks-engine-http.o ks-engine-finger.o ks-engine-kdns.o ldap-wrapper.o  ../common/libcommonpth.a ../gl/libgnu.a  ../..$(prefix)/lib/libassuan.a ../..$(prefix)/lib/libgpg-error.a ../..$(prefix)/lib/libgcrypt.a ../..$(prefix)/lib/libksba.a ../..$(prefix)/lib/libpth.a -ldl
+	cd gnupg/dirmngr && $(CC) -I$(LOCAL)/include -DANDROID -Os -Wall -Wcast-align -Wshadow -Wstrict-prototypes -Wformat -Wno-format-y2k -Wformat-security -W -Wno-sign-compare -Wno-missing-field-initializers -Wdeclaration-after-statement -Wno-pointer-sign -Wpointer-arith  -Wl,--rpath,$(prefix)/lib -o dirmngr dirmngr.o server.o crlcache.o crlfetch.o ldapserver.o certcache.o cdblib.o ldap.o misc.o ocsp.o validate.o  ks-action.o ks-engine-hkp.o ks-engine-http.o ks-engine-finger.o ks-engine-kdns.o ldap-wrapper.o  ../common/libcommonpth.a ../gl/libgnu.a  ../..$(prefix)/lib/libassuan.a ../..$(prefix)/lib/libgpg-error.a ../..$(prefix)/lib/libgcrypt.a ../..$(prefix)/lib/libksba.a ../..$(prefix)/lib/libnpth.a -ldl
 	cd gnupg/dirmngr && $(CC) -I$(LOCAL)/include -DANDROID -O3 -Wall -Wcast-align -Wshadow -Wstrict-prototypes -Wformat -Wno-format-y2k -Wformat-security -W -Wno-sign-compare -Wno-missing-field-initializers -Wdeclaration-after-statement -Wno-pointer-sign -Wpointer-arith  -Wl,--rpath,$(prefix)/lib -o dirmngr-client dirmngr-client.o ../common/libcommon.a no-libgcrypt.o ../gl/libgnu.a ../..$(prefix)/lib/libassuan.a ../..$(prefix)/lib/libgpg-error.a
 	install gnupg/dirmngr/dirmngr $(LOCAL)/bin/dirmngr-static
 	$(STRIP)  $(LOCAL)/bin/dirmngr-static

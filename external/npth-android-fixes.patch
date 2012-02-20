@@ -1,0 +1,23 @@
+diff --git a/configure.ac b/configure.ac
+index c32480e..8d10564 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -215,7 +215,17 @@ if test "$have_w32_system" = no; then
+   if test "$have_pthread" != no; then
+     AC_DEFINE(HAVE_PTHREAD,1,[Define if we have pthread.])
+     AC_CHECK_FUNCS([pthread_tryjoin_np pthread_setname_np pthread_getname_np])
+-    AC_CHECK_FUNCS([pthread_mutex_timedlock])
++    # Android seems to include pthread_mutex_timedlock() in its headers, but
++    # it is not implemented.  Which means we can't really detect that.
++    # http://code.google.com/p/android/issues/detail?id=2138
++    case "${host}" in
++         *-*-android*)
++         echo "Android does not actually have pthread_mutex_timedlock()"
++         ;;
++         *)
++         AC_CHECK_FUNCS([pthread_mutex_timedlock])
++         ;;
++    esac
+   fi
+ fi
+ 
