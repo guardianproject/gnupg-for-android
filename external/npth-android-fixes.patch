@@ -1,7 +1,7 @@
 diff --git a/configure.ac b/configure.ac
 index c32480e..8d10564 100644
---- a/configure.ac
-+++ b/configure.ac
+--- a/npth/configure.ac
++++ b/npth/configure.ac
 @@ -215,7 +215,17 @@ if test "$have_w32_system" = no; then
    if test "$have_pthread" != no; then
      AC_DEFINE(HAVE_PTHREAD,1,[Define if we have pthread.])

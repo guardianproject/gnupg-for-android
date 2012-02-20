@@ -204,11 +204,11 @@ npth-build-stamp: $(LOCAL)/lib/libgpg-error.a npth/Makefile
 	$(MAKE) -C npth
 	touch npth-build-stamp
 
-$(LOCAL)/lib/npth.a: npth-build-stamp
+$(LOCAL)/lib/libnpth.a: npth-build-stamp
 	$(MAKE) -C npth DESTDIR=$(DESTDIR) prefix=$(prefix) install
-	ls -l $(LOCAL)/lib/npth.a
+	ls -l $(LOCAL)/lib/libnpth.a
 
-npth-install: $(LOCAL)/lib/npth.a
+npth-install: $(LOCAL)/lib/libnpth.a
 
 npth-clean:
 	-rm -f npth-build-stamp
