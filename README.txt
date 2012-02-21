@@ -6,4 +6,4 @@ Build Setup
 
 On Debian/Ubuntu/Mint:
 
-  sudo apt-get install autoconf automake libtool transfig wget patch
+  sudo apt-get install autoconf automake libtool transfig wget patch texinfo
