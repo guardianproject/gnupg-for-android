@@ -1,4 +1,4 @@
-diff --git a/configure.ac b/configure.ac
+diff --git a/npth/configure.ac b/npth/configure.ac
 index c32480e..8d10564 100644
 --- a/npth/configure.ac
 +++ b/npth/configure.ac
@@ -21,3 +21,24 @@ index c32480e..8d10564 100644
    fi
  fi
  
+diff --git a/npth/src/npth.h.in b/npth/src/npth.h.in
+index 9fdaa55..c691156 100644
+--- a/npth/src/npth.h.in
++++ b/npth/src/npth.h.in
+@@ -55,6 +55,7 @@
+ #@INSERT_SYS_SELECT_H@
+ 
+ #include <pthread.h>
++#include <sched.h>
+ 
+ #ifdef __cplusplus
+ extern "C" {
+@@ -110,7 +111,7 @@ int npth_create(npth_t *thread, const npth_attr_t *attr,
+ /* No can do! */
+ /* pth_suspend, pth_resume */
+ 
+-#define npth_yield pthread_yield
++#define npth_yield sched_yield
+ 
+ /* Not needed.  */
+ /* pth_nap */
