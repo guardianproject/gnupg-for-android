@@ -621,12 +621,6 @@ gpgv2-static:
 	$(STRIP)  $(LOCAL)/bin/gpgv2-static
 
 #------------------------------------------------------------------------------#
-# set rpath for Android
-
-set-rpath:
-	chrpath --replace $(prefix)/lib $(shell ls -1 $(LOCAL)/bin/* | grep -v config)
-	chrpath --replace $(prefix)/lib $(shell ls -1 $(LOCAL)/lib/*.so)
-	chrpath --replace $(prefix)/lib $(shell ls -1 $(LOCAL)/libexec/*)
 
 #------------------------------------------------------------------------------#
 # clean
