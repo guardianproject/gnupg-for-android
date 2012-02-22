@@ -625,6 +625,7 @@ gpgv2-static:
 
 ASSETS := $(CWD)/../assets
 android-assets:
+	install -d $(ASSETS)
 	-rm -rf $(ASSETS)/*
 	cp -a $(LOCAL)/* $(ASSETS)
 # remove all the stuff we don't need
