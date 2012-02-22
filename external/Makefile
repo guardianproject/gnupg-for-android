@@ -621,6 +621,19 @@ gpgv2-static:
 	$(STRIP)  $(LOCAL)/bin/gpgv2-static
 
 #------------------------------------------------------------------------------#
+# setup as assets for Android app
+
+ASSETS := $(CWD)/../assets
+android-assets:
+	-rm -rf $(ASSETS)/*
+	cp -a $(LOCAL)/* $(ASSETS)
+# remove all the stuff we don't need
+	rm -f $(ASSETS)/bin/*-static
+	rm -f $(ASSETS)/bin/gpgv2
+	rm -f $(ASSETS)/lib/*.a $(ASSETS)/lib/*.la
+	rm -rf $(ASSETS)/include
+	rm -rf $(ASSETS)/share
+	rmdir $(ASSETS)/sbin
 
 #------------------------------------------------------------------------------#
 # clean
