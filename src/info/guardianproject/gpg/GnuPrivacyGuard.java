@@ -12,10 +12,8 @@ public class GnuPrivacyGuard extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 		NativeHelper.setup(getApplicationContext());
-		
-		// if(! DebiHelper.app_bin.exists())
-		NativeHelper.unzipFiles(this);
-		// TODO figure out how to manage the scripts on upgrades, etc.
+		NativeHelper.unpackAssets(getApplicationContext());
+		// TODO figure out how to manage upgrades, etc.
 
         setContentView(R.layout.main);
     }

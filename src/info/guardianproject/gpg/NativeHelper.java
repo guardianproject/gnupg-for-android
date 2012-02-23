@@ -19,62 +19,104 @@ public class NativeHelper {
 	public static int STARTING_INSTALL = 12345;
 
 	public static File app_opt; // an /opt tree for the UNIX cmd line tools
-	public static File app_log;
+	public static File app_log; // a place to store logs
+	public static File app_home; // dir for $HOME and ~/.gnupg
 	public static String sdcard;
+	private static Context context;
 
-	public static void setup(Context context) {
+	public static void setup(Context c) {
+		context = c;
 		app_opt = context.getDir("opt", Context.MODE_WORLD_READABLE).getAbsoluteFile();
-		app_log = context.getDir("log", Context.MODE_PRIVATE).getAbsoluteFile();
+		app_log = new File(app_opt, "var/log");
+		app_home = context.getDir("home", Context.MODE_PRIVATE).getAbsoluteFile();
 		sdcard = Environment.getExternalStorageDirectory().getAbsolutePath();
 	}
 
-	public static void unzipFiles(Context context) {
+	private static void copyFileOrDir(String path, File dest) {
+	    AssetManager assetManager = context.getAssets();
+	    String assets[] = null;
+	    try {
+	        assets = assetManager.list(path);
+	        if (assets.length == 0) {
+	            copyFile(path, dest);
+	        } else {
+	        	File destdir = new File(dest, new File(path).getName());
+	            if (!destdir.exists())
+	                destdir.mkdirs();
+	            for (int i = 0; i < assets.length; ++i) {
+	                copyFileOrDir(new File(path, assets[i]).getPath(), destdir);
+	            }
+	        }
+	    } catch (IOException ex) {
+	        Log.e(GnuPrivacyGuard.TAG, "I/O Exception", ex);
+	    }
+	}
+
+	private static void copyFile(String filename, File dest) {
+	    AssetManager assetManager = context.getAssets();
+
+	    InputStream in = null;
+	    OutputStream out = null;
+	    try {
+	        in = assetManager.open(filename);
+	        out = new FileOutputStream(new File(app_opt, filename).getAbsolutePath());
+
+	        byte[] buffer = new byte[1024];
+	        int read;
+	        while ((read = in.read(buffer)) != -1) {
+	            out.write(buffer, 0, read);
+	        }
+	        in.close();
+	        in = null;
+	        out.flush();
+	        out.close();
+	        out = null;
+	    } catch (Exception e) {
+	        Log.e(GnuPrivacyGuard.TAG, filename + ": " + e.getMessage());
+	    }
+
+	}
+
+	/*
+	 * since we are using the whole gnupg package of programs and libraries, we
+	 * are setting up the whole UNIX directory tree that it expects 
+	 */
+	private static void setupEmptyDirs() {
+		new File(app_opt, "etc/gnupg").mkdirs();
+		new File(app_opt, "var/run/gnupg").mkdirs();
+		new File(app_opt, "var/cache/gnupg").mkdirs();
+		// /home is outside of this tree, in app_home
+	}
+
+	public static void unpackAssets(Context context) {
+		setupEmptyDirs();
+
+		AssetManager am = context.getAssets();
+		final String[] assetList;
 		try {
-			AssetManager am = context.getAssets();
-			final String[] assetList = am.list("");
-
-			for (String asset : assetList) {
-				if (asset.equals("images") || asset.equals("sounds")
-						|| asset.equals("webkit"))
-					continue;
-
-				int BUFFER = 2048;
-				Log.i(GnuPrivacyGuard.TAG, "opening asset: " + asset);
-				final File file = new File(NativeHelper.app_opt, asset);
-				final InputStream assetIS = am.open(asset);
-
-				if (file.exists()) {
-					file.delete();
-					Log.i(GnuPrivacyGuard.TAG, "NativeHelper.unzipFiles() deleting "
-							+ file.getAbsolutePath());
-				}
-
-				FileOutputStream fos = new FileOutputStream(file);
-				BufferedOutputStream dest = new BufferedOutputStream(fos, BUFFER);
-
-				int count;
-				byte[] data = new byte[BUFFER];
-
-				while ((count = assetIS.read(data, 0, BUFFER)) != -1) {
-					// System.out.write(x);
-					dest.write(data, 0, count);
-				}
-
-				dest.flush();
-				dest.close();
-
-				assetIS.close();
-			}
+			assetList = am.list("");
 		} catch (IOException e) {
-			Log.e(GnuPrivacyGuard.TAG, "Can't unzip", e);
+			Log.e(GnuPrivacyGuard.TAG, "cannot get asset list", e);
+			return;
 		}
-		chmod(0755, new File(app_opt, "dirmngr"));
-		chmod(0755, new File(app_opt, "dirmngr-client"));
-		chmod(0755, new File(app_opt, "gpg2"));
-		chmod(0755, new File(app_opt, "gpg-agent"));
+
+		for (String asset : assetList) {
+			if (asset.equals("images") || asset.equals("sounds")
+					|| asset.equals("webkit"))
+				continue;
+			Log.i(GnuPrivacyGuard.TAG, "copying asset: " + asset);
+			copyFileOrDir(asset, app_opt);
+			if (asset.equals("bin") || asset.equals("libexec") || asset.equals("sbin") ) {
+				File[] files = new File(app_opt, asset).listFiles();
+				for (File f : files) {
+					chmod(0755, f);
+				}
+			}
+		}
 	}
 
 	public static void chmod(int mode, File path) {
+		Log.i(GnuPrivacyGuard.TAG, "chmod " + Integer.toOctalString(mode) + " "  + path.getAbsolutePath());
 		try {
 			Class<?> fileUtils = Class.forName("android.os.FileUtils");
 			Method setPermissions = fileUtils.getMethod("setPermissions", String.class,
