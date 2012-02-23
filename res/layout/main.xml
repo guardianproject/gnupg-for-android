@@ -7,6 +7,12 @@
     <TextView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="@string/hello" />
-
+        android:text="@string/app_name" />
+	<ScrollView android:layout_width="fill_parent"
+		android:layout_height="wrap_content" android:layout_weight="1"
+		android:id="@+id/consoleScroll">
+		<TextView android:layout_width="fill_parent"
+			android:layout_height="wrap_content" android:id="@+id/consoleText" />
+	</ScrollView>
+    
 </LinearLayout>
