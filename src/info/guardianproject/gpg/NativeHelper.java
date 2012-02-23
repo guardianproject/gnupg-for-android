@@ -1,11 +1,11 @@
 package info.guardianproject.gpg;
 
-import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -99,28 +99,25 @@ public class NativeHelper {
 			Log.e(GnuPrivacyGuard.TAG, "cannot get asset list", e);
 			return;
 		}
-
+		// unpack the assets to app_opt
 		for (String asset : assetList) {
 			if (asset.equals("images") || asset.equals("sounds")
 					|| asset.equals("webkit"))
 				continue;
 			Log.i(GnuPrivacyGuard.TAG, "copying asset: " + asset);
 			copyFileOrDir(asset, app_opt);
-			if (asset.equals("bin") || asset.equals("libexec") || asset.equals("sbin") ) {
-				File[] files = new File(app_opt, asset).listFiles();
-				for (File f : files) {
-					chmod(0755, f);
-				}
-			}
 		}
+
+		chmod("0755", app_opt, true);
 	}
 
-	public static void chmod(int mode, File path) {
-		Log.i(GnuPrivacyGuard.TAG, "chmod " + Integer.toOctalString(mode) + " "  + path.getAbsolutePath());
+	public static void chmod(String modestr, File path) {
+		Log.i(GnuPrivacyGuard.TAG, "chmod " + modestr + " "  + path.getAbsolutePath());
 		try {
 			Class<?> fileUtils = Class.forName("android.os.FileUtils");
 			Method setPermissions = fileUtils.getMethod("setPermissions", String.class,
 					int.class, int.class, int.class);
+			int mode = Integer.parseInt(modestr, 8);
 			int a = (Integer) setPermissions.invoke(null, path.getAbsolutePath(), mode,
 					-1, -1);
 			if (a != 0) {
@@ -135,6 +132,21 @@ public class NativeHelper {
 			Log.i(GnuPrivacyGuard.TAG, "android.os.FileUtils.setPermissions() failed - InvocationTargetException.");
 		} catch (NoSuchMethodException e) {
 			Log.i(GnuPrivacyGuard.TAG, "android.os.FileUtils.setPermissions() failed - NoSuchMethodException.");
+		}
+	}
+
+	public static void chmod(String mode, File path, boolean recursive) {
+		chmod(mode, path);
+		if(recursive) {
+			File[] files = path.listFiles();
+			for (File d : files) {
+				if (d.isDirectory()) {
+					Log.i(GnuPrivacyGuard.TAG, "chmod recurse: " + d.getAbsolutePath());
+					chmod(mode, d, true);
+				} else {
+					chmod(mode, d);
+				}
+			}
 		}
 	}
 
