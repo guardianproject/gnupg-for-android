@@ -632,7 +632,15 @@ android-assets:
 	rm -f $(ASSETS)/bin/*-static
 	rm -f $(ASSETS)/bin/gpgv2
 	rm -f $(ASSETS)/lib/*.a $(ASSETS)/lib/*.la
+# remove lib symlinks since Android AssetManager copies them as files
+	rm -rf $(ASSETS)/lib/*.so
+	for f in $(ASSETS)/lib/*.so.*; do \
+		echo $$f; \
+		test ! -L $$f || \
+			(rm $$f && mv $$f.[0-9]* $$f); \
+	done
 	rm -rf $(ASSETS)/include
+	install $(ASSETS)/share/gnupg/gpg-conf.skel $(ASSETS)/etc/gnupg/gpg.conf
 	rm -rf $(ASSETS)/share
 	rmdir $(ASSETS)/sbin
 
