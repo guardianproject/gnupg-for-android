@@ -1,5 +1,7 @@
 bin/
 gen/
+# we are currently generating assets/ each time
+assets/
 #
 external/data
 external/adns-1.4
