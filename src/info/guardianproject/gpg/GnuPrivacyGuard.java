@@ -1,7 +1,11 @@
 package info.guardianproject.gpg;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 
 import android.app.Activity;
 import android.content.BroadcastReceiver;
@@ -64,12 +68,28 @@ public class GnuPrivacyGuard extends Activity implements OnCreateContextMenuList
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.menu_list_keys:
-			command = "./gpg2 --list-keys";
+			command = "./gpg2 --fixed-list-mode --with-colons --list-keys";
 			commandThread = new CommandThread();
 			commandThread.start();
 			return true;
 		case R.id.menu_run_test:
 			command = "./gpg2 --version";
+			commandThread = new CommandThread();
+			commandThread.start();
+			return true;
+		case R.id.menu_gen_key:
+			String batch = "%echo Generating a basic OpenPGP key\nKey-Type: DSA\nKey-Length: 1024\nSubkey-Type: ELG-E\nSubkey-Length: 1024\nName-Real: Test Key\nName-Comment: for testing only\nName-Email: test@gpg.guardianproject.info\nExpire-Date: 0\n%no-ask-passphrase\n%no-protection\n%commit\n%echo done";
+			File batchfile = new File(getCacheDir(), "batch.txt");
+			try {
+				FileWriter outFile = new FileWriter(batchfile);
+				PrintWriter out = new PrintWriter(outFile);
+				out.println(batch);
+				out.close();
+			}  catch (Exception e) {
+				Log.e(GnuPrivacyGuard.TAG, "Error!!!", e);
+				return false;
+			} 
+			command = "./gpg2 --batch --no-tty --gen-key " + batchfile.getAbsolutePath();
 			commandThread = new CommandThread();
 			commandThread.start();
 			return true;
