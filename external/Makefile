@@ -646,7 +646,7 @@ android-assets:
 # clean
 
 install-clean:
-	rm -rf -- bin include lib man sbin share
+	rm -rf -- $(LOCAL)
 
 clean: install-clean gnupg-clean curl-clean openldap-clean libksba-clean libassuan-clean npth-clean libgcrypt-clean libgpg-error-clean pth-clean adns-clean libiconv-clean
 	-$(MAKE) -C gnupg clean
@@ -657,7 +657,7 @@ clean: install-clean gnupg-clean curl-clean openldap-clean libksba-clean libassu
 	-$(MAKE) -C libgcrypt clean
 	-$(MAKE) -C libgpg-error clean
 
-distclean: clean
+distclean: clean install-clean
 	-$(MAKE) -C gnupg distclean
 	-$(MAKE) -C curl distclean
 	-rm -f curl/configure # their distclean fails to rm this
