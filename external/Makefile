@@ -251,17 +251,11 @@ libksba-clean:
 #------------------------------------------------------------------------------#
 # openldap
 
-openldap/config.sub: config.sub
-	cp config.sub openldap/config.sub
-
-openldap/config.guess: config.guess
-	cp config.guess openldap/config.guess
-
-openldap/configure: openldap/configure.in
-	cd openldap && ./autogen.sh
+openldap/configure:
+	cd openldap && git checkout configure
 
 # TODO try --with-tls=openssl
-openldap/Makefile: openldap/config.sub openldap/config.guess openldap/configure
+openldap/Makefile: openldap/configure
 	cd openldap && \
 		CC="$(CC)" AR="$(AR)" RANLIB=$(RANLIB) CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS)" \
 			./configure \
@@ -278,7 +272,11 @@ openldap/Makefile: openldap/config.sub openldap/config.guess openldap/configure
 # cross-compiling makes openldap's ./configure think memcmp() is broken
 # http://zhuqy.wordpress.com/2010/04/22/cross-compile-openldap-error-undefined-reference-to-lutil_memcmp/
 	sed --in-place 's|#define NEED_MEMCMP_REPLACEMENT 1|/* #undef NEED_MEMCMP_REPLACEMENT */|' openldap/include/portable.h
-	patch -N -p1 --reject-file=- < openldap-disable-sys_errlist.patch || true
+# I haven't found a reliable way to install/uninstall a patch from a Makefile,
+# so just always try to apply it, and ignore it if it fails. Works fine unless
+# the files being patched have changed, in which cause a partial application
+# could happen unnoticed.
+	-patch -N -p1 --reject-file=- < openldap-disable-sys_errlist.patch
 
 openldap-build-stamp: openldap/Makefile
 	$(MAKE) -C openldap
