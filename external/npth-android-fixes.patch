@@ -21,8 +21,30 @@ index c32480e..8d10564 100644
    fi
  fi
  
+diff --git a/npth/src/npth.c b/npth/src/npth.c
+index 07d228b..ab1bf50 100644
+--- a/npth/src/npth.c
++++ b/npth/src/npth.c
+@@ -297,7 +297,8 @@ npth_mutex_timedlock (npth_mutex_t *mutex, const struct timespec *abstime)
+   return err;
+ }
+ 
+-
++/* Android does not have pthread_rwlock_* at all */
++#ifndef __ANDROID__
+ int
+ npth_rwlock_rdlock (npth_rwlock_t *rwlock)
+ {
+@@ -368,6 +369,7 @@ npth_rwlock_timedwrlock (npth_rwlock_t *rwlock, const struct timespec *abstime)
+   LEAVE();
+   return err;
+ }
++#endif /* NOT __ANDROID__ */
+ 
+ 
+ int
 diff --git a/npth/src/npth.h.in b/npth/src/npth.h.in
-index 9fdaa55..c691156 100644
+index 9fdaa55..3ef2012 100644
 --- a/npth/src/npth.h.in
 +++ b/npth/src/npth.h.in
 @@ -55,6 +55,7 @@
@@ -42,3 +64,22 @@ index 9fdaa55..c691156 100644
  
  /* Not needed.  */
  /* pth_nap */
+@@ -207,6 +208,9 @@ int npth_mutex_timedlock(npth_mutex_t *mutex, const struct timespec *abstime);
+ 
+ #define npth_mutex_unlock pthread_mutex_unlock
+ 
++/* Android does not have pthread_rwlock_* at all */
++#ifndef __ANDROID__
++
+ #define npth_rwlockattr_t pthread_rwlockattr_t
+ #define npth_rwlockattr_init pthread_rwlockattr_init
+ #define npth_rwlockattr_destroy pthread_rwlockattr_destroy
+@@ -248,6 +252,8 @@ int npth_rwlock_timedwrlock (npth_rwlock_t *rwlock,
+ 			     const struct timespec *abstime);
+ #define npth_rwlock_unlock  pthread_rwlock_unlock
+ 
++#endif /* NOT __ANDROID */
++
+ typedef pthread_cond_t npth_cond_t;
+ #define NPTH_COND_INITIALIZER PTHREAD_COND_INITIALIZER
+ /* For now, we don't support any cond attributes.  */
