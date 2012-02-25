@@ -591,7 +591,7 @@ gpgme-clean:
 # ugly static linking hacks
 
 # crazy ugly hack
-gnupg-static: dirmngr-static gpg2-static gpg-agent-static gpgv2-static
+gnupg-static: gpg2-static gpg-agent-static gpgv2-static
 
 gpg-agent-static:
 	-rm -f gnupg/agent/gpg-agent
