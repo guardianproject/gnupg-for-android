@@ -511,6 +511,8 @@ gnupg/Makefile: gnupg/configure gnupg/config.sub gnupg/config.guess
 				--enable-symcryptrun \
 				--disable-scdaemon \
 				--disable-g13 \
+				--disable-dirmngr \
+				--disable-keyserver-helpers \
 				--disable-tools \
 				--disable-doc \
 				--disable-ccid-driver \
@@ -522,8 +524,7 @@ gnupg/Makefile: gnupg/configure gnupg/config.sub gnupg/config.guess
 
 gnupg-build: gnupg-build-stamp 
 gnupg-build-stamp: $(LOCAL)/lib/libgpg-error.a $(LOCAL)/lib/libgcrypt.a $(LOCAL)/lib/libksba.a $(LOCAL)/lib/libassuan.a $(LOCAL)/lib/libldap.a $(LOCAL)/lib/libnpth.a gnupg/Makefile
-#gnupg-build-stamp: gnupg/Makefile
-	patch -N -p1 --reject-file=- < gnupg-android-fixes.patch || true
+	-patch -N -p1 --reject-file=- < gnupg-android-fixes.patch
 	$(MAKE) -C gnupg
 	touch gnupg-build-stamp
 
