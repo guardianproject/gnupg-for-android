@@ -254,7 +254,7 @@ libksba-clean:
 openldap/configure:
 	cd openldap && git checkout configure
 
-# TODO try --with-tls=openssl
+# TODO try --with-tls=openssl or gnutls
 openldap/Makefile: openldap/configure
 	cd openldap && \
 		CC="$(CC)" AR="$(AR)" RANLIB=$(RANLIB) CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS)" \
@@ -263,6 +263,7 @@ openldap/Makefile: openldap/configure
 				--host=$(HOST) \
 				--prefix=$(prefix) \
 				--without-tls \
+				--without-threads \
 				--without-yielding-select \
 				--disable-slapd \
 				--disable-syslog \

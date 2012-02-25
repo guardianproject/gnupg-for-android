@@ -181,3 +181,26 @@ index 9dd555e..ca71f8f 100644
  if test "$use_ldapwrapper" = yes; then
     AC_DEFINE(USE_LDAPWRAPPER,1, [Build dirmngr with LDAP wrapper process])
  fi
+diff --git a/gnupg/dirmngr/certcache.c b/gnupg/dirmngr/certcache.c
+index 73916b0..a4421c0 100644
+--- a/gnupg/dirmngr/certcache.c
++++ b/gnupg/dirmngr/certcache.c
+@@ -94,7 +94,9 @@ static unsigned int total_loaded_certificates;
+ static unsigned int total_extra_certificates;
+ 
+ 
+-
++/* Android does not have pthread_rwlock_* at all */
++#ifndef __ANDROID__
++
+ /* Helper to do the cache locking.  */
+ static void
+ init_cache_lock (void)
+@@ -139,6 +141,7 @@ release_cache_lock (void)
+     log_fatal (_("can't release lock on the certificate cache: %s\n"),
+                strerror (err));
+ }
++#endif /* NOT __ANDROID__ */
+ 
+ 
+ /* Return false if both serial numbers match.  Can't be used for
