@@ -44,7 +44,7 @@ STRIP := $(NDK_TOOLCHAIN)/bin/arm-linux-androideabi-strip \
 	--strip-unneeded -R .note -R .comment
 
 CFLAGS = -DANDROID -I$(LOCAL)/include
-LDFLAGS = -L$(LOCAL)/lib -Wl,--rpath,$(LOCAL)/lib
+LDFLAGS = -L$(LOCAL)/lib
 
 # build as small as possible, mostly useful for static binaries
 CFLAGS += -fdata-sections -ffunction-sections -Os
