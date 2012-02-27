@@ -511,8 +511,6 @@ gnupg/Makefile: gnupg/configure gnupg/config.sub gnupg/config.guess
 				--enable-symcryptrun \
 				--disable-scdaemon \
 				--disable-g13 \
-				--disable-dirmngr \
-				--disable-keyserver-helpers \
 				--disable-tools \
 				--disable-doc \
 				--disable-ccid-driver \
@@ -591,7 +589,7 @@ gpgme-clean:
 # ugly static linking hacks
 
 # crazy ugly hack
-gnupg-static: gpg2-static gpg-agent-static gpgv2-static
+gnupg-static: gpg2-static gpg-agent-static gpgv2-static dirmngr-static
 
 gpg-agent-static:
 	-rm -f gnupg/agent/gpg-agent

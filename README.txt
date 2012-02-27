@@ -1,6 +1,20 @@
 
 A port of the whole gnupg 2.1 suite to Android.
 
+Target Platform
+---------------
+
+We would like to target as many Android platforms as possible.  Currently
+there are two limiting APIs:
+
+regex
+    provided in Android 2.2, SDK android-8 and above
+pthread_rwlock*
+    provided in Android 2.3, SDK android-9 and above
+
+regex could easily be included in the build, pthread_rwlock* would be more
+difficult.
+
 
 Build Setup
 -----------
