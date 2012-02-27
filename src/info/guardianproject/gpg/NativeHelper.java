@@ -2,11 +2,13 @@ package info.guardianproject.gpg;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
@@ -88,8 +90,27 @@ public class NativeHelper {
 		// /home is outside of this tree, in app_home
 	}
 
+	/* write out a sh .profile file to ease testing in the terminal */
+	private static void writeShProfile(){
+		String home = "export HOME=" + app_home.getAbsolutePath();
+		String path = "export PATH=$PATH:" + new File(app_opt, "bin").getAbsolutePath();
+		String ld_library_path = "export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:" + 
+				new File(app_opt, "lib").getAbsolutePath();
+		String batch = home + "\n" + path + "\n" + ld_library_path + "\n";
+		File batchfile = new File(app_home, "profile");
+		try {
+			FileWriter outFile = new FileWriter(batchfile);
+			PrintWriter out = new PrintWriter(outFile);
+			out.println(batch);
+			out.close();
+		}  catch (Exception e) {
+			Log.e(GnuPrivacyGuard.TAG, "Cannot write " + batchfile.getAbsolutePath(), e);
+		} 
+	}
+
 	public static void unpackAssets(Context context) {
 		setupEmptyDirs();
+		writeShProfile();
 
 		AssetManager am = context.getAssets();
 		final String[] assetList;
