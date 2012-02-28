@@ -24,6 +24,7 @@ public class NativeHelper {
 	public static File app_log; // a place to store logs
 	public static File app_home; // dir for $HOME and ~/.gnupg
 	public static String sdcard;
+	public static String[] envp; //environment variables
 	private static Context context;
 
 	public static void setup(Context c) {
@@ -32,6 +33,9 @@ public class NativeHelper {
 		app_log = new File(app_opt, "var/log");
 		app_home = context.getDir("home", Context.MODE_PRIVATE).getAbsoluteFile();
 		sdcard = Environment.getExternalStorageDirectory().getAbsolutePath();
+		envp = new String[] {"HOME=" + NativeHelper.app_home, 
+				"LD_LIBRARY_PATH=/system/lib:" + NativeHelper.app_opt + "/lib"};
+
 	}
 
 	private static void copyFileOrDir(String path, File dest) {

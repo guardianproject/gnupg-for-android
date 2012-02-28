@@ -128,10 +128,8 @@ public class GnuPrivacyGuard extends Activity implements OnCreateContextMenuList
 		public void run() {
 			logUpdate = new LogUpdate();
 			try {
-				String envp[] = {"HOME=" + NativeHelper.app_home, 
-				"LD_LIBRARY_PATH=/system/lib:" + NativeHelper.app_opt + "/lib"};
 				File dir = new File(NativeHelper.app_opt, "bin");
-				Process sh = Runtime.getRuntime().exec("/system/bin/sh", envp, dir);
+				Process sh = Runtime.getRuntime().exec("/system/bin/sh", NativeHelper.envp, dir);
 				OutputStream os = sh.getOutputStream();
 
 				StreamThread it = new StreamThread(sh.getInputStream(), logUpdate);
