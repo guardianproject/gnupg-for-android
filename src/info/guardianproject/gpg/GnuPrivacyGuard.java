@@ -13,7 +13,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
 import android.os.Messenger;
@@ -25,7 +24,6 @@ import android.view.MenuItem;
 import android.view.View.OnCreateContextMenuListener;
 import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class GnuPrivacyGuard extends Activity implements OnCreateContextMenuListener {
 	public static final String TAG = "gpg";
@@ -85,7 +83,12 @@ public class GnuPrivacyGuard extends Activity implements OnCreateContextMenuList
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.menu_list_keys:
-			command = "./gpg2 --fixed-list-mode --with-colons --list-keys";
+			command = "./gpg2 --list-keys";
+			commandThread = new CommandThread();
+			commandThread.start();
+			return true;
+		case R.id.menu_search_keys:
+			command = "./gpg2 --search-keys hans@eds.org";
 			commandThread = new CommandThread();
 			commandThread.start();
 			return true;
@@ -106,7 +109,7 @@ public class GnuPrivacyGuard extends Activity implements OnCreateContextMenuList
 				Log.e(GnuPrivacyGuard.TAG, "Error!!!", e);
 				return false;
 			} 
-			command = "./gpg2 --batch --no-tty --gen-key " + batchfile.getAbsolutePath();
+			command = "./gpg2 --batch --gen-key " + batchfile.getAbsolutePath();
 			commandThread = new CommandThread();
 			commandThread.start();
 			return true;
