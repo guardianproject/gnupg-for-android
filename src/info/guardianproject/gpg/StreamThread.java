@@ -6,6 +6,8 @@ import java.io.InputStream;
 import android.util.Log;
 
 public class StreamThread extends Thread {
+	public static final String TAG = "StreamThread";
+
 	InputStream i;
 	StreamUpdate update;
 
@@ -28,7 +30,7 @@ public class StreamThread extends Thread {
 				update.update(readString);
 			}
 		} catch (IOException e) {
-			Log.e(GnuPrivacyGuard.TAG, "", e);
+			Log.e(TAG, "", e);
 		}
 	}
 

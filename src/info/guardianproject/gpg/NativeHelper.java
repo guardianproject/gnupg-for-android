@@ -18,7 +18,7 @@ import android.os.Environment;
 import android.util.Log;
 
 public class NativeHelper {
-	public static int STARTING_INSTALL = 12345;
+	public static final String TAG = "NativeHelper";
 
 	public static File app_opt; // an /opt tree for the UNIX cmd line tools
 	public static File app_log; // a place to store logs
@@ -35,7 +35,7 @@ public class NativeHelper {
 		sdcard = Environment.getExternalStorageDirectory().getAbsolutePath();
 		envp = new String[] {"HOME=" + NativeHelper.app_home, 
 				"LD_LIBRARY_PATH=/system/lib:" + NativeHelper.app_opt + "/lib"};
-
+		Log.i(TAG, "Finished NativeHelper.setup()");
 	}
 
 	private static void copyFileOrDir(String path, File dest) {
@@ -54,7 +54,7 @@ public class NativeHelper {
 	            }
 	        }
 	    } catch (IOException ex) {
-	        Log.e(GnuPrivacyGuard.TAG, "I/O Exception", ex);
+	        Log.e(TAG, "I/O Exception", ex);
 	    }
 	}
 
@@ -78,7 +78,7 @@ public class NativeHelper {
 	        out.close();
 	        out = null;
 	    } catch (Exception e) {
-	        Log.e(GnuPrivacyGuard.TAG, filename + ": " + e.getMessage());
+	        Log.e(TAG, filename + ": " + e.getMessage());
 	    }
 
 	}
@@ -109,7 +109,7 @@ public class NativeHelper {
 			out.println(batch);
 			out.close();
 		}  catch (Exception e) {
-			Log.e(GnuPrivacyGuard.TAG, "Cannot write " + batchfile.getAbsolutePath(), e);
+			Log.e(TAG, "Cannot write " + batchfile.getAbsolutePath(), e);
 		} 
 	}
 
@@ -122,7 +122,7 @@ public class NativeHelper {
 		try {
 			assetList = am.list("");
 		} catch (IOException e) {
-			Log.e(GnuPrivacyGuard.TAG, "cannot get asset list", e);
+			Log.e(TAG, "cannot get asset list", e);
 			return;
 		}
 		// unpack the assets to app_opt
@@ -130,7 +130,7 @@ public class NativeHelper {
 			if (asset.equals("images") || asset.equals("sounds")
 					|| asset.equals("webkit"))
 				continue;
-			Log.i(GnuPrivacyGuard.TAG, "copying asset: " + asset);
+			Log.i(TAG, "copying asset: " + asset);
 			copyFileOrDir(asset, app_opt);
 		}
 
@@ -138,7 +138,7 @@ public class NativeHelper {
 	}
 
 	public static void chmod(String modestr, File path) {
-		Log.i(GnuPrivacyGuard.TAG, "chmod " + modestr + " "  + path.getAbsolutePath());
+		Log.i(TAG, "chmod " + modestr + " "  + path.getAbsolutePath());
 		try {
 			Class<?> fileUtils = Class.forName("android.os.FileUtils");
 			Method setPermissions = fileUtils.getMethod("setPermissions", String.class,
@@ -147,17 +147,17 @@ public class NativeHelper {
 			int a = (Integer) setPermissions.invoke(null, path.getAbsolutePath(), mode,
 					-1, -1);
 			if (a != 0) {
-				Log.i(GnuPrivacyGuard.TAG, "ERROR: android.os.FileUtils.setPermissions() returned " + a
+				Log.i(TAG, "ERROR: android.os.FileUtils.setPermissions() returned " + a
 						+ " for '" + path + "'");
 			}
 		} catch (ClassNotFoundException e) {
-			Log.i(GnuPrivacyGuard.TAG, "android.os.FileUtils.setPermissions() failed - ClassNotFoundException.");
+			Log.i(TAG, "android.os.FileUtils.setPermissions() failed - ClassNotFoundException.");
 		} catch (IllegalAccessException e) {
-			Log.i(GnuPrivacyGuard.TAG, "android.os.FileUtils.setPermissions() failed - IllegalAccessException.");
+			Log.i(TAG, "android.os.FileUtils.setPermissions() failed - IllegalAccessException.");
 		} catch (InvocationTargetException e) {
-			Log.i(GnuPrivacyGuard.TAG, "android.os.FileUtils.setPermissions() failed - InvocationTargetException.");
+			Log.i(TAG, "android.os.FileUtils.setPermissions() failed - InvocationTargetException.");
 		} catch (NoSuchMethodException e) {
-			Log.i(GnuPrivacyGuard.TAG, "android.os.FileUtils.setPermissions() failed - NoSuchMethodException.");
+			Log.i(TAG, "android.os.FileUtils.setPermissions() failed - NoSuchMethodException.");
 		}
 	}
 
@@ -167,7 +167,7 @@ public class NativeHelper {
 			File[] files = path.listFiles();
 			for (File d : files) {
 				if (d.isDirectory()) {
-					Log.i(GnuPrivacyGuard.TAG, "chmod recurse: " + d.getAbsolutePath());
+					Log.i(TAG, "chmod recurse: " + d.getAbsolutePath());
 					chmod(mode, d, true);
 				} else {
 					chmod(mode, d);
@@ -182,7 +182,7 @@ public class NativeHelper {
 
 	public static int doShellCommand(String[] cmds, StringBuilder log, boolean runAsRoot, boolean waitFor) throws Exception
 	{
-		Log.i(GnuPrivacyGuard.TAG, "executing shell cmds: " + cmds[0] + "; runAsRoot=" + runAsRoot);
+		Log.i(TAG, "executing shell cmds: " + cmds[0] + "; runAsRoot=" + runAsRoot);
 		
 		 	
 		Process proc = null;
@@ -231,7 +231,7 @@ public class NativeHelper {
 				log.append(exitCode);
 				log.append("\n");
 				
-				Log.i(GnuPrivacyGuard.TAG, "command process exit value: " + exitCode);
+				Log.i(TAG, "command process exit value: " + exitCode);
 			}
         
         

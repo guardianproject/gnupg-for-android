@@ -9,6 +9,8 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 public class StreamDisplay extends Thread {
+	public static final String TAG = "StreamDisplay";
+
 	InputStream i;
 	TextView display;
 	ScrollView scrollView;
@@ -42,7 +44,7 @@ public class StreamDisplay extends Thread {
 				}, 300);
 			}
 		} catch (IOException e) {
-			Log.e(GnuPrivacyGuard.TAG, "", e);
+			Log.e(TAG, "", e);
 		}
 	}
 }

@@ -26,7 +26,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 public class GnuPrivacyGuard extends Activity implements OnCreateContextMenuListener {
-	public static final String TAG = "gpg";
+	public static final String TAG = "GnuPrivacyGuard";
 	
 	private ScrollView consoleScroll;
 	private TextView consoleText;
@@ -106,7 +106,7 @@ public class GnuPrivacyGuard extends Activity implements OnCreateContextMenuList
 				out.println(batch);
 				out.close();
 			}  catch (Exception e) {
-				Log.e(GnuPrivacyGuard.TAG, "Error!!!", e);
+				Log.e(TAG, "Error!!!", e);
 				return false;
 			} 
 			command = "./gpg2 --batch --gen-key " + batchfile.getAbsolutePath();
@@ -141,14 +141,14 @@ public class GnuPrivacyGuard extends Activity implements OnCreateContextMenuList
 				it.start();
 				et.start();
 				
-				Log.i(GnuPrivacyGuard.TAG, command);
+				Log.i(TAG, command);
 				writeCommand(os, command);
 				writeCommand(os, "exit");
 
 				sh.waitFor();
-				Log.i(GnuPrivacyGuard.TAG, "Done!");
+				Log.i(TAG, "Done!");
 			} catch (Exception e) {
-				Log.e(GnuPrivacyGuard.TAG, "Error!!!", e);
+				Log.e(TAG, "Error!!!", e);
 			} finally {
 				synchronized (GnuPrivacyGuard.this) {
 					commandThread = null;

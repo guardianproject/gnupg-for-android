@@ -13,6 +13,8 @@ import android.util.Log;
 import android.widget.Toast;
 
 public class AgentsService extends Service {
+	public static final String TAG = "AgentsService";
+
     /** For showing and hiding our notification. */
     NotificationManager mNM;
 
@@ -20,12 +22,12 @@ public class AgentsService extends Service {
 	static final int MSG_STOP = 2;
 
 	private void startDaemons() {
-		Log.i(GnuPrivacyGuard.TAG, "start daemons");
+		Log.i(TAG, "start daemons");
 		// TODO start gpg-agent and dirmngr from here
 	}
 
 	private void stopDaemons() {
-		Log.i(GnuPrivacyGuard.TAG, "stop daemons");
+		Log.i(TAG, "stop daemons");
 		// TODO start gpg-agent and dirmngr from here
 	}
 
