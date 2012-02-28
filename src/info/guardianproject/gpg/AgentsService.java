@@ -13,8 +13,8 @@ import android.widget.Toast;
 public class AgentsService extends Service {
 	public static final String TAG = "AgentsService";
 
-    /** For showing and hiding our notification. */
-    NotificationManager mNM;
+	/** For showing and hiding our notification. */
+	NotificationManager mNM;
 
 	private LaunchAgentsThread launchAgentsThread;
 

@@ -24,10 +24,10 @@ import android.widget.TextView;
 
 public class GnuPrivacyGuard extends Activity implements OnCreateContextMenuListener {
 	public static final String TAG = "GnuPrivacyGuard";
-	
+
 	private ScrollView consoleScroll;
 	private TextView consoleText;
-	
+
 	public static final String LOG_UPDATE = "LOG_UPDATE";
 	public static final String COMMAND_FINISHED = "COMMAND_FINISHED";
 
@@ -39,25 +39,25 @@ public class GnuPrivacyGuard extends Activity implements OnCreateContextMenuList
 
 	boolean mIsBound;
 
-    /** Called when the activity is first created. */
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    	NativeHelper.setup(getApplicationContext());
+	/** Called when the activity is first created. */
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		NativeHelper.setup(getApplicationContext());
 		// TODO figure out how to manage upgrades to app_opt
-        if(! NativeHelper.app_opt.exists()) {
-        	NativeHelper.unpackAssets(getApplicationContext());
-        }
+		if (!NativeHelper.app_opt.exists()) {
+			NativeHelper.unpackAssets(getApplicationContext());
+		}
 
-        setContentView(R.layout.main);
+		setContentView(R.layout.main);
 		consoleScroll = (ScrollView) findViewById(R.id.consoleScroll);
 		consoleText = (TextView) findViewById(R.id.consoleText);
-		
+
 		log = new StringBuffer();
-		
+
 		Intent intent = new Intent(GnuPrivacyGuard.this, AgentsService.class);
 		startService(intent);
-    }
+	}
 
 	@Override
 	protected void onResume() {
@@ -106,7 +106,7 @@ public class GnuPrivacyGuard extends Activity implements OnCreateContextMenuList
 				PrintWriter out = new PrintWriter(outFile);
 				out.println(batch);
 				out.close();
-			}  catch (Exception e) {
+			} catch (Exception e) {
 				Log.e(TAG, "Error!!!", e);
 				return false;
 			} 
@@ -133,7 +133,8 @@ public class GnuPrivacyGuard extends Activity implements OnCreateContextMenuList
 			logUpdate = new LogUpdate();
 			try {
 				File dir = new File(NativeHelper.app_opt, "bin");
-				Process sh = Runtime.getRuntime().exec("/system/bin/sh", NativeHelper.envp, dir);
+				Process sh = Runtime.getRuntime().exec("/system/bin/sh",
+						NativeHelper.envp, dir);
 				OutputStream os = sh.getOutputStream();
 
 				StreamThread it = new StreamThread(sh.getInputStream(), logUpdate);
@@ -141,7 +142,7 @@ public class GnuPrivacyGuard extends Activity implements OnCreateContextMenuList
 
 				it.start();
 				et.start();
-				
+
 				Log.i(TAG, command);
 				writeCommand(os, command);
 				writeCommand(os, "exit");
@@ -200,35 +201,35 @@ public class GnuPrivacyGuard extends Activity implements OnCreateContextMenuList
 			unregisterReceiver(commandFinishedReceiver);
 	}
 
-	// TODO if GpgAgentService needs to send replies, then implement MSG_REGISTER_CLIENT and IncomingHandler:
+	// TODO if GpgAgentService needs to send replies, then implement
+	// MSG_REGISTER_CLIENT and IncomingHandler:
 	// http://developer.android.com/reference/android/app/Service.html#RemoteMessengerServiceSample
 
 	/**
 	 * Class for interacting with the main interface of the service.
 	 */
 	private ServiceConnection mConnection = new ServiceConnection() {
-	    public void onServiceConnected(ComponentName className,
-	            IBinder service) {
-	    }
+		public void onServiceConnected(ComponentName className, IBinder service) {
+		}
 
-	    public void onServiceDisconnected(ComponentName className) {
-	    }
+		public void onServiceDisconnected(ComponentName className) {
+		}
 	};
 
 	void doBindService() {
-	    // Establish a connection with the service.  We use an explicit
-	    // class name because there is no reason to be able to let other
-	    // applications replace our component.
-	    bindService(new Intent(GnuPrivacyGuard.this, 
-	            AgentsService.class), mConnection, Context.BIND_AUTO_CREATE);
-	    mIsBound = true;
+		// Establish a connection with the service. We use an explicit
+		// class name because there is no reason to be able to let other
+		// applications replace our component.
+		bindService(new Intent(GnuPrivacyGuard.this, AgentsService.class), mConnection,
+				Context.BIND_AUTO_CREATE);
+		mIsBound = true;
 	}
 
 	void doUnbindService() {
-	    if (mIsBound) {
-	        // Detach our existing connection.
-	        unbindService(mConnection);
-	        mIsBound = false;
-	    }
+		if (mIsBound) {
+			// Detach our existing connection.
+			unbindService(mConnection);
+			mIsBound = false;
+		}
 	}
 }
