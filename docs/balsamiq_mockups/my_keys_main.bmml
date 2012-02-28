@@ -1,0 +1,819 @@
+<mockup version="1.0" skin="sketch" measuredW="1562" measuredH="1095" mockupW="1557" mockupH="1075">
+  <controls>
+    <control controlID="1" controlTypeID="com.balsamiq.mockups::CallOut" x="20" y="20" w="149" h="58" measuredW="149" measuredH="45" zOrder="0" locked="false" isInGroup="-1">
+      <controlProperties>
+        <color>6989903</color>
+        <text>GNUPG%20for%20Android%3A%0AMy%20Keys</text>
+      </controlProperties>
+    </control>
+    <control controlID="22" controlTypeID="__group__" x="35" y="140" w="290" h="267" measuredW="290" measuredH="267" zOrder="2" locked="false" isInGroup="-1">
+      <groupChildrenDescriptors>
+        <control controlID="0" controlTypeID="com.balsamiq.mockups::Button" x="0" y="0" w="50" h="50" measuredW="56" measuredH="40" zOrder="0" locked="false" isInGroup="22">
+          <controlProperties>
+            <href>new_key%26bm%3Bnew_key.bmml%26bm%3Bnew_key.bmml%26bm%3Bnew_key.bmml</href>
+            <icon>AddPageIcon%7Cmedium</icon>
+            <map>%3Carea%20shape%3D%22rect%22%20coords%3D%2230%2C120%2C80%2C170%22%20href%3D%22new_key.bmml%22%20alt%3D%22new_key%22%20id%3D%220%22/%3E</map>
+            <size>10</size>
+            <text/>
+          </controlProperties>
+        </control>
+        <control controlID="1" controlTypeID="com.balsamiq.mockups::Title" x="56" y="1" w="-1" h="-1" measuredW="112" measuredH="41" zOrder="1" locked="false" isInGroup="22">
+          <controlProperties>
+            <size>28</size>
+            <text>My%20Keys</text>
+          </controlProperties>
+        </control>
+        <control controlID="2" controlTypeID="__group__" x="0" y="57" w="290" h="70" measuredW="290" measuredH="70" zOrder="2" locked="false" isInGroup="22">
+          <groupChildrenDescriptors>
+            <control controlID="0" controlTypeID="com.balsamiq.mockups::Paragraph" x="0" y="0" w="290" h="38" measuredW="200" measuredH="140" zOrder="0" locked="false" isInGroup="2">
+              <controlProperties>
+                <bold>false</bold>
+                <color>40463</color>
+                <size>11</size>
+                <text>*harlo@guardianproject.info*%20%0A%28comment%20here%29</text>
+              </controlProperties>
+            </control>
+            <control controlID="1" controlTypeID="com.balsamiq.mockups::Paragraph" x="0" y="32" w="97" h="36" measuredW="200" measuredH="140" zOrder="1" locked="false" isInGroup="2">
+              <controlProperties>
+                <bold>false</bold>
+                <size>11</size>
+                <text>_created%3A%202/3/12_%0A_expires%3A%202/3/16_%20</text>
+              </controlProperties>
+            </control>
+            <control controlID="2" controlTypeID="com.balsamiq.mockups::Paragraph" x="235" y="31" w="55" h="37" measuredW="200" measuredH="140" zOrder="2" locked="false" isInGroup="2">
+              <controlProperties>
+                <align>right</align>
+                <bold>false</bold>
+                <size>11</size>
+                <text>*B309CD31*%0A*RSA*</text>
+              </controlProperties>
+            </control>
+            <control controlID="3" controlTypeID="com.balsamiq.mockups::HRule" x="0" y="65" w="290" h="-1" measuredW="100" measuredH="5" zOrder="3" locked="false" isInGroup="2"/>
+          </groupChildrenDescriptors>
+        </control>
+        <control controlID="3" controlTypeID="__group__" x="0" y="127" w="290" h="70" measuredW="290" measuredH="70" zOrder="3" locked="false" isInGroup="22">
+          <groupChildrenDescriptors>
+            <control controlID="0" controlTypeID="com.balsamiq.mockups::Paragraph" x="0" y="0" w="290" h="38" measuredW="200" measuredH="140" zOrder="0" locked="false" isInGroup="3">
+              <controlProperties>
+                <bold>false</bold>
+                <color>6710886</color>
+                <size>11</size>
+                <text>*harlo@guardianproject.info*%20%0A%28comment%20here%29</text>
+              </controlProperties>
+            </control>
+            <control controlID="1" controlTypeID="com.balsamiq.mockups::Paragraph" x="0" y="32" w="97" h="36" measuredW="200" measuredH="140" zOrder="1" locked="false" isInGroup="3">
+              <controlProperties>
+                <bold>false</bold>
+                <size>11</size>
+                <text>_created%3A%202/3/12_%0A_expires%3A%202/3/16_%20</text>
+              </controlProperties>
+            </control>
+            <control controlID="2" controlTypeID="com.balsamiq.mockups::Paragraph" x="235" y="31" w="55" h="37" measuredW="200" measuredH="140" zOrder="2" locked="false" isInGroup="3">
+              <controlProperties>
+                <align>right</align>
+                <bold>false</bold>
+                <size>11</size>
+                <text>*B309CD31*%0A*RSA*</text>
+              </controlProperties>
+            </control>
+            <control controlID="3" controlTypeID="com.balsamiq.mockups::HRule" x="0" y="65" w="290" h="-1" measuredW="100" measuredH="5" zOrder="3" locked="false" isInGroup="3"/>
+          </groupChildrenDescriptors>
+        </control>
+        <control controlID="4" controlTypeID="__group__" x="0" y="197" w="290" h="70" measuredW="290" measuredH="70" zOrder="4" locked="false" isInGroup="22">
+          <groupChildrenDescriptors>
+            <control controlID="0" controlTypeID="com.balsamiq.mockups::Paragraph" x="0" y="0" w="290" h="38" measuredW="200" measuredH="140" zOrder="0" locked="false" isInGroup="4">
+              <controlProperties>
+                <bold>false</bold>
+                <color>13576743</color>
+                <size>11</size>
+                <text>*harlo@guardianproject.info*%20%0A%28comment%20here%29</text>
+              </controlProperties>
+            </control>
+            <control controlID="1" controlTypeID="com.balsamiq.mockups::Paragraph" x="0" y="32" w="97" h="36" measuredW="200" measuredH="140" zOrder="1" locked="false" isInGroup="4">
+              <controlProperties>
+                <bold>false</bold>
+                <size>11</size>
+                <text>_created%3A%202/3/12_%0A_expires%3A%202/3/16_%20</text>
+              </controlProperties>
+            </control>
+            <control controlID="2" controlTypeID="com.balsamiq.mockups::Paragraph" x="235" y="31" w="55" h="37" measuredW="200" measuredH="140" zOrder="2" locked="false" isInGroup="4">
+              <controlProperties>
+                <align>right</align>
+                <bold>false</bold>
+                <size>11</size>
+                <text>*B309CD31*%0A*RSA*</text>
+              </controlProperties>
+            </control>
+            <control controlID="3" controlTypeID="com.balsamiq.mockups::HRule" x="0" y="65" w="290" h="-1" measuredW="100" measuredH="5" zOrder="3" locked="false" isInGroup="4"/>
+          </groupChildrenDescriptors>
+        </control>
+      </groupChildrenDescriptors>
+    </control>
+    <control controlID="25" controlTypeID="__group__" x="20" y="100" w="320" h="480" measuredW="320" measuredH="480" zOrder="1" locked="false" isInGroup="-1">
+      <groupChildrenDescriptors>
+        <control controlID="0" controlTypeID="com.balsamiq.mockups::Canvas" x="0" y="0" w="320" h="480" measuredW="100" measuredH="70" zOrder="0" locked="false" isInGroup="25"/>
+        <control controlID="1" controlTypeID="com.balsamiq.mockups::TabBar" x="0" y="0" w="320" h="480" measuredW="361" measuredH="100" zOrder="1" locked="false" isInGroup="25">
+          <controlProperties>
+            <hrefs>key_manager%26bm%3Bkey_manager.bmml%26bm%3Bkey_manager.bmml%26bm%3Bkey_manager.bmml%2Cmy_keys_main%26bm%3Bmy_keys_main.bmml%26bm%3Bmy_keys_main.bmml%26bm%3Bmy_keys_main.bmml%2Cencrypt-decrypt%26bm%3Bencrypt-decrypt.bmml%26bm%3Bencrypt-decrypt.bmml%26bm%3Bencrypt-decrypt.bmml</hrefs>
+            <map>%3Carea%20shape%3D%22rect%22%20coords%3D%2235%2C80%2C126%2C107%22%20href%3D%22key_manager.bmml%22%20alt%3D%22key_manager%22%20id%3D%221_0%22/%3E%0A%3Carea%20shape%3D%22rect%22%20coords%3D%22126%2C80%2C189%2C107%22%20href%3D%22my_keys_main.bmml%22%20alt%3D%22my_keys_main%22%20id%3D%221_1%22/%3E%0A%3Carea%20shape%3D%22rect%22%20coords%3D%22189%2C80%2C302%2C107%22%20href%3D%22encrypt-decrypt.bmml%22%20alt%3D%22encrypt-decrypt%22%20id%3D%221_2%22/%3E%0A</map>
+            <selectedIndex>1</selectedIndex>
+            <text>Key%20Manager%2C%20My%20Keys%2C%20Encrypt/Decrypt</text>
+          </controlProperties>
+        </control>
+      </groupChildrenDescriptors>
+    </control>
+    <control controlID="26" controlTypeID="__group__" x="455" y="100" w="320" h="480" measuredW="320" measuredH="480" zOrder="3" locked="false" isInGroup="-1">
+      <groupChildrenDescriptors>
+        <control controlID="0" controlTypeID="com.balsamiq.mockups::Canvas" x="0" y="0" w="320" h="480" measuredW="100" measuredH="70" zOrder="0" locked="false" isInGroup="26"/>
+        <control controlID="1" controlTypeID="com.balsamiq.mockups::TabBar" x="0" y="0" w="320" h="480" measuredW="361" measuredH="100" zOrder="1" locked="false" isInGroup="26">
+          <controlProperties>
+            <selectedIndex>1</selectedIndex>
+            <text>Key%20Manager%2C%20My%20Keys%2C%20Encrypt/Decrypt</text>
+          </controlProperties>
+        </control>
+      </groupChildrenDescriptors>
+    </control>
+    <control controlID="27" controlTypeID="__group__" x="470" y="140" w="290" h="267" measuredW="290" measuredH="267" zOrder="4" locked="false" isInGroup="-1">
+      <groupChildrenDescriptors>
+        <control controlID="0" controlTypeID="com.balsamiq.mockups::Button" x="0" y="0" w="50" h="50" measuredW="56" measuredH="40" zOrder="0" locked="false" isInGroup="27">
+          <controlProperties>
+            <icon>AddPageIcon%7Cmedium</icon>
+            <size>10</size>
+            <text/>
+          </controlProperties>
+        </control>
+        <control controlID="1" controlTypeID="com.balsamiq.mockups::Title" x="56" y="1" w="-1" h="-1" measuredW="112" measuredH="41" zOrder="1" locked="false" isInGroup="27">
+          <controlProperties>
+            <size>28</size>
+            <text>My%20Keys</text>
+          </controlProperties>
+        </control>
+        <control controlID="2" controlTypeID="__group__" x="0" y="57" w="290" h="70" measuredW="290" measuredH="70" zOrder="2" locked="false" isInGroup="27">
+          <groupChildrenDescriptors>
+            <control controlID="0" controlTypeID="com.balsamiq.mockups::Paragraph" x="0" y="0" w="290" h="38" measuredW="200" measuredH="140" zOrder="0" locked="false" isInGroup="2">
+              <controlProperties>
+                <bold>false</bold>
+                <color>40463</color>
+                <size>11</size>
+                <text>*harlo@guardianproject.info*%20%0A%28comment%20here%29</text>
+              </controlProperties>
+            </control>
+            <control controlID="1" controlTypeID="com.balsamiq.mockups::Paragraph" x="0" y="32" w="97" h="36" measuredW="200" measuredH="140" zOrder="1" locked="false" isInGroup="2">
+              <controlProperties>
+                <bold>false</bold>
+                <size>11</size>
+                <text>_created%3A%202/3/12_%0A_expires%3A%202/3/16_%20</text>
+              </controlProperties>
+            </control>
+            <control controlID="2" controlTypeID="com.balsamiq.mockups::Paragraph" x="235" y="31" w="55" h="37" measuredW="200" measuredH="140" zOrder="2" locked="false" isInGroup="2">
+              <controlProperties>
+                <align>right</align>
+                <bold>false</bold>
+                <size>11</size>
+                <text>*B309CD31*%0A*RSA*</text>
+              </controlProperties>
+            </control>
+            <control controlID="3" controlTypeID="com.balsamiq.mockups::HRule" x="0" y="65" w="290" h="-1" measuredW="100" measuredH="5" zOrder="3" locked="false" isInGroup="2"/>
+          </groupChildrenDescriptors>
+        </control>
+        <control controlID="3" controlTypeID="__group__" x="0" y="127" w="290" h="70" measuredW="290" measuredH="70" zOrder="3" locked="false" isInGroup="27">
+          <groupChildrenDescriptors>
+            <control controlID="0" controlTypeID="com.balsamiq.mockups::Paragraph" x="0" y="0" w="290" h="38" measuredW="200" measuredH="140" zOrder="0" locked="false" isInGroup="3">
+              <controlProperties>
+                <bold>false</bold>
+                <color>6710886</color>
+                <size>11</size>
+                <text>*harlo@guardianproject.info*%20%0A%28comment%20here%29</text>
+              </controlProperties>
+            </control>
+            <control controlID="1" controlTypeID="com.balsamiq.mockups::Paragraph" x="0" y="32" w="97" h="36" measuredW="200" measuredH="140" zOrder="1" locked="false" isInGroup="3">
+              <controlProperties>
+                <bold>false</bold>
+                <size>11</size>
+                <text>_created%3A%202/3/12_%0A_expires%3A%202/3/16_%20</text>
+              </controlProperties>
+            </control>
+            <control controlID="2" controlTypeID="com.balsamiq.mockups::Paragraph" x="235" y="31" w="55" h="37" measuredW="200" measuredH="140" zOrder="2" locked="false" isInGroup="3">
+              <controlProperties>
+                <align>right</align>
+                <bold>false</bold>
+                <size>11</size>
+                <text>*B309CD31*%0A*RSA*</text>
+              </controlProperties>
+            </control>
+            <control controlID="3" controlTypeID="com.balsamiq.mockups::HRule" x="0" y="65" w="290" h="-1" measuredW="100" measuredH="5" zOrder="3" locked="false" isInGroup="3"/>
+          </groupChildrenDescriptors>
+        </control>
+        <control controlID="4" controlTypeID="__group__" x="0" y="197" w="290" h="70" measuredW="290" measuredH="70" zOrder="4" locked="false" isInGroup="27">
+          <groupChildrenDescriptors>
+            <control controlID="0" controlTypeID="com.balsamiq.mockups::Paragraph" x="0" y="0" w="290" h="38" measuredW="200" measuredH="140" zOrder="0" locked="false" isInGroup="4">
+              <controlProperties>
+                <bold>false</bold>
+                <color>13576743</color>
+                <size>11</size>
+                <text>*harlo@guardianproject.info*%20%0A%28comment%20here%29</text>
+              </controlProperties>
+            </control>
+            <control controlID="1" controlTypeID="com.balsamiq.mockups::Paragraph" x="0" y="32" w="97" h="36" measuredW="200" measuredH="140" zOrder="1" locked="false" isInGroup="4">
+              <controlProperties>
+                <bold>false</bold>
+                <size>11</size>
+                <text>_created%3A%202/3/12_%0A_expires%3A%202/3/16_%20</text>
+              </controlProperties>
+            </control>
+            <control controlID="2" controlTypeID="com.balsamiq.mockups::Paragraph" x="235" y="31" w="55" h="37" measuredW="200" measuredH="140" zOrder="2" locked="false" isInGroup="4">
+              <controlProperties>
+                <align>right</align>
+                <bold>false</bold>
+                <size>11</size>
+                <text>*B309CD31*%0A*RSA*</text>
+              </controlProperties>
+            </control>
+            <control controlID="3" controlTypeID="com.balsamiq.mockups::HRule" x="0" y="65" w="290" h="-1" measuredW="100" measuredH="5" zOrder="3" locked="false" isInGroup="4"/>
+          </groupChildrenDescriptors>
+        </control>
+      </groupChildrenDescriptors>
+    </control>
+    <control controlID="28" controlTypeID="com.balsamiq.mockups::RoundButton" x="304" y="183" w="117" h="52" measuredW="32" measuredH="32" zOrder="5" locked="false" isInGroup="-1">
+      <controlProperties>
+        <color>13421772</color>
+        <shape>roundRect</shape>
+        <size>10</size>
+        <text>green%20key%20has%20been%0Asent%20to%20keyservers</text>
+      </controlProperties>
+    </control>
+    <control controlID="29" controlTypeID="com.balsamiq.mockups::RoundButton" x="304" y="355" w="117" h="52" measuredW="32" measuredH="32" zOrder="6" locked="false" isInGroup="-1">
+      <controlProperties>
+        <color>13421772</color>
+        <shape>roundRect</shape>
+        <size>10</size>
+        <text>red%20key%20has%20%0Abeen%20revoked</text>
+      </controlProperties>
+    </control>
+    <control controlID="30" controlTypeID="com.balsamiq.mockups::RoundButton" x="304" y="274" w="117" h="52" measuredW="32" measuredH="32" zOrder="7" locked="false" isInGroup="-1">
+      <controlProperties>
+        <color>13421772</color>
+        <shape>roundRect</shape>
+        <size>10</size>
+        <text>grey%20key%20has%20not%20yet%20%0Abeen%20sent%20to%20%0Akeyservers</text>
+      </controlProperties>
+    </control>
+    <control controlID="31" controlTypeID="com.balsamiq.mockups::Canvas" x="503" y="192" w="223" h="279" measuredW="100" measuredH="70" zOrder="8" locked="false" isInGroup="-1"/>
+    <control controlID="34" controlTypeID="__group__" x="509" y="225" w="209" h="40" measuredW="209" measuredH="40" zOrder="9" locked="false" isInGroup="-1">
+      <controlProperties>
+        <href>edit_key%26bm%3Bedit_key.bmml%26bm%3Bedit_key.bmml%26bm%3Bedit_key.bmml</href>
+        <map>%3Carea%20shape%3D%22rect%22%20coords%3D%22504%2C205%2C713%2C245%22%20href%3D%22edit_key.bmml%22%20alt%3D%22edit_key%22%20id%3D%2234%22/%3E</map>
+      </controlProperties>
+      <groupChildrenDescriptors>
+        <control controlID="0" controlTypeID="com.balsamiq.mockups::SubTitle" x="0" y="0" w="209" h="-1" measuredW="100" measuredH="32" zOrder="0" locked="false" isInGroup="34">
+          <controlProperties>
+            <size>20</size>
+            <text>Edit%20Key...</text>
+          </controlProperties>
+        </control>
+        <control controlID="1" controlTypeID="com.balsamiq.mockups::HRule" x="1" y="35" w="208" h="-1" measuredW="100" measuredH="5" zOrder="1" locked="false" isInGroup="34"/>
+      </groupChildrenDescriptors>
+    </control>
+    <control controlID="36" controlTypeID="__group__" x="509" y="345" w="209" h="40" measuredW="209" measuredH="40" zOrder="10" locked="false" isInGroup="-1">
+      <groupChildrenDescriptors>
+        <control controlID="0" controlTypeID="com.balsamiq.mockups::SubTitle" x="0" y="0" w="209" h="-1" measuredW="66" measuredH="32" zOrder="0" locked="false" isInGroup="36">
+          <controlProperties>
+            <size>20</size>
+            <text>Export</text>
+          </controlProperties>
+        </control>
+        <control controlID="1" controlTypeID="com.balsamiq.mockups::HRule" x="1" y="35" w="208" h="-1" measuredW="100" measuredH="5" zOrder="1" locked="false" isInGroup="36"/>
+      </groupChildrenDescriptors>
+    </control>
+    <control controlID="37" controlTypeID="__group__" x="509" y="305" w="209" h="40" measuredW="209" measuredH="40" zOrder="11" locked="false" isInGroup="-1">
+      <controlProperties>
+        <href>view_fingerprint%26bm%3Bview_fingerprint.bmml%26bm%3Bview_fingerprint.bmml%26bm%3Bview_fingerprint.bmml</href>
+        <map>%3Carea%20shape%3D%22rect%22%20coords%3D%22504%2C285%2C713%2C325%22%20href%3D%22view_fingerprint.bmml%22%20alt%3D%22view_fingerprint%22%20id%3D%2237%22/%3E</map>
+      </controlProperties>
+      <groupChildrenDescriptors>
+        <control controlID="0" controlTypeID="com.balsamiq.mockups::SubTitle" x="0" y="0" w="209" h="-1" measuredW="156" measuredH="32" zOrder="0" locked="false" isInGroup="37">
+          <controlProperties>
+            <size>20</size>
+            <text>View%20Fingerprint</text>
+          </controlProperties>
+        </control>
+        <control controlID="1" controlTypeID="com.balsamiq.mockups::HRule" x="1" y="35" w="208" h="-1" measuredW="100" measuredH="5" zOrder="1" locked="false" isInGroup="37"/>
+      </groupChildrenDescriptors>
+    </control>
+    <control controlID="38" controlTypeID="__group__" x="509" y="386" w="209" h="40" measuredW="209" measuredH="40" zOrder="12" locked="false" isInGroup="-1">
+      <groupChildrenDescriptors>
+        <control controlID="0" controlTypeID="com.balsamiq.mockups::SubTitle" x="0" y="0" w="209" h="-1" measuredW="112" measuredH="32" zOrder="0" locked="false" isInGroup="38">
+          <controlProperties>
+            <size>20</size>
+            <text>Revoke%20Key</text>
+          </controlProperties>
+        </control>
+        <control controlID="1" controlTypeID="com.balsamiq.mockups::HRule" x="1" y="35" w="208" h="-1" measuredW="100" measuredH="5" zOrder="1" locked="false" isInGroup="38"/>
+      </groupChildrenDescriptors>
+    </control>
+    <control controlID="39" controlTypeID="__group__" x="509" y="265" w="209" h="40" measuredW="209" measuredH="40" zOrder="13" locked="false" isInGroup="-1">
+      <groupChildrenDescriptors>
+        <control controlID="0" controlTypeID="com.balsamiq.mockups::SubTitle" x="0" y="0" w="209" h="-1" measuredW="184" measuredH="32" zOrder="0" locked="false" isInGroup="39">
+          <controlProperties>
+            <size>20</size>
+            <text>Send%20to%20Keyservers</text>
+          </controlProperties>
+        </control>
+        <control controlID="1" controlTypeID="com.balsamiq.mockups::HRule" x="1" y="35" w="208" h="-1" measuredW="100" measuredH="5" zOrder="1" locked="false" isInGroup="39"/>
+      </groupChildrenDescriptors>
+    </control>
+    <control controlID="40" controlTypeID="com.balsamiq.mockups::RoundButton" x="700" y="225" w="145" h="71" measuredW="32" measuredH="32" zOrder="14" locked="false" isInGroup="-1">
+      <controlProperties>
+        <color>13421772</color>
+        <shape>roundRect</shape>
+        <size>10</size>
+        <text>%22send%20to%20keyservers%22%0Aavailable%20if%20key%20is%0Aunsent%20and%20not%20revoked</text>
+      </controlProperties>
+    </control>
+    <control controlID="41" controlTypeID="com.balsamiq.mockups::Canvas" x="505" y="194" w="221" h="31" measuredW="100" measuredH="70" zOrder="15" locked="false" isInGroup="-1">
+      <controlProperties>
+        <borderColor>0</borderColor>
+        <color>3355443</color>
+      </controlProperties>
+    </control>
+    <control controlID="42" controlTypeID="com.balsamiq.mockups::Label" x="509" y="197" w="-1" h="-1" measuredW="62" measuredH="23" zOrder="16" locked="false" isInGroup="-1">
+      <controlProperties>
+        <color>16777215</color>
+        <text>B309CD31</text>
+      </controlProperties>
+    </control>
+    <control controlID="43" controlTypeID="com.balsamiq.mockups::Arrow" x="304" y="209" w="199" h="50" measuredW="150" measuredH="100" zOrder="17" locked="false" isInGroup="-1">
+      <controlProperties>
+        <direction>bottom</direction>
+        <leftArrow>false</leftArrow>
+      </controlProperties>
+    </control>
+    <control controlID="44" controlTypeID="com.balsamiq.mockups::RoundButton" x="187" y="247" w="117" h="52" measuredW="32" measuredH="32" zOrder="18" locked="false" isInGroup="-1">
+      <controlProperties>
+        <color>16750848</color>
+        <shape>roundRect</shape>
+        <size>10</size>
+        <text>long-press%20on%0Aany%20key...</text>
+      </controlProperties>
+    </control>
+    <control controlID="45" controlTypeID="__group__" x="20" y="615" w="320" h="480" measuredW="320" measuredH="480" zOrder="19" locked="false" isInGroup="-1">
+      <groupChildrenDescriptors>
+        <control controlID="0" controlTypeID="com.balsamiq.mockups::Canvas" x="0" y="0" w="320" h="480" measuredW="100" measuredH="70" zOrder="0" locked="false" isInGroup="45"/>
+        <control controlID="1" controlTypeID="com.balsamiq.mockups::TabBar" x="0" y="0" w="320" h="480" measuredW="361" measuredH="100" zOrder="1" locked="false" isInGroup="45">
+          <controlProperties>
+            <hrefs>key_manager%26bm%3Bkey_manager.bmml%26bm%3Bkey_manager.bmml%26bm%3Bkey_manager.bmml%2Cmy_keys_main%26bm%3Bmy_keys_main.bmml%26bm%3Bmy_keys_main.bmml%26bm%3Bmy_keys_main.bmml%2Cencrypt-decrypt%26bm%3Bencrypt-decrypt.bmml%26bm%3Bencrypt-decrypt.bmml%26bm%3Bencrypt-decrypt.bmml</hrefs>
+            <map>%3Carea%20shape%3D%22rect%22%20coords%3D%2235%2C595%2C126%2C622%22%20href%3D%22key_manager.bmml%22%20alt%3D%22key_manager%22%20id%3D%221_0%22/%3E%0A%3Carea%20shape%3D%22rect%22%20coords%3D%22126%2C595%2C189%2C622%22%20href%3D%22my_keys_main.bmml%22%20alt%3D%22my_keys_main%22%20id%3D%221_1%22/%3E%0A%3Carea%20shape%3D%22rect%22%20coords%3D%22189%2C595%2C302%2C622%22%20href%3D%22encrypt-decrypt.bmml%22%20alt%3D%22encrypt-decrypt%22%20id%3D%221_2%22/%3E%0A</map>
+            <selectedIndex>1</selectedIndex>
+            <text>Key%20Manager%2C%20My%20Keys%2C%20Encrypt/Decrypt</text>
+          </controlProperties>
+        </control>
+      </groupChildrenDescriptors>
+    </control>
+    <control controlID="46" controlTypeID="__group__" x="35" y="655" w="290" h="267" measuredW="290" measuredH="267" zOrder="20" locked="false" isInGroup="-1">
+      <groupChildrenDescriptors>
+        <control controlID="0" controlTypeID="com.balsamiq.mockups::Button" x="0" y="0" w="50" h="50" measuredW="56" measuredH="40" zOrder="0" locked="false" isInGroup="46">
+          <controlProperties>
+            <href>new_key%26bm%3Bnew_key.bmml%26bm%3Bnew_key.bmml%26bm%3Bnew_key.bmml</href>
+            <icon>AddPageIcon%7Cmedium</icon>
+            <map>%3Carea%20shape%3D%22rect%22%20coords%3D%2230%2C635%2C80%2C685%22%20href%3D%22new_key.bmml%22%20alt%3D%22new_key%22%20id%3D%220%22/%3E</map>
+            <size>10</size>
+            <text/>
+          </controlProperties>
+        </control>
+        <control controlID="1" controlTypeID="com.balsamiq.mockups::Title" x="56" y="1" w="-1" h="-1" measuredW="112" measuredH="41" zOrder="1" locked="false" isInGroup="46">
+          <controlProperties>
+            <size>28</size>
+            <text>My%20Keys</text>
+          </controlProperties>
+        </control>
+        <control controlID="2" controlTypeID="__group__" x="0" y="57" w="290" h="70" measuredW="290" measuredH="70" zOrder="2" locked="false" isInGroup="46">
+          <groupChildrenDescriptors>
+            <control controlID="0" controlTypeID="com.balsamiq.mockups::Paragraph" x="0" y="0" w="290" h="38" measuredW="200" measuredH="140" zOrder="0" locked="false" isInGroup="2">
+              <controlProperties>
+                <bold>false</bold>
+                <color>40463</color>
+                <size>11</size>
+                <text>*harlo@guardianproject.info*%20%0A%28comment%20here%29</text>
+              </controlProperties>
+            </control>
+            <control controlID="1" controlTypeID="com.balsamiq.mockups::Paragraph" x="0" y="32" w="97" h="36" measuredW="200" measuredH="140" zOrder="1" locked="false" isInGroup="2">
+              <controlProperties>
+                <bold>false</bold>
+                <size>11</size>
+                <text>_created%3A%202/3/12_%0A_expires%3A%202/3/16_%20</text>
+              </controlProperties>
+            </control>
+            <control controlID="2" controlTypeID="com.balsamiq.mockups::Paragraph" x="235" y="31" w="55" h="37" measuredW="200" measuredH="140" zOrder="2" locked="false" isInGroup="2">
+              <controlProperties>
+                <align>right</align>
+                <bold>false</bold>
+                <size>11</size>
+                <text>*B309CD31*%0A*RSA*</text>
+              </controlProperties>
+            </control>
+            <control controlID="3" controlTypeID="com.balsamiq.mockups::HRule" x="0" y="65" w="290" h="-1" measuredW="100" measuredH="5" zOrder="3" locked="false" isInGroup="2"/>
+          </groupChildrenDescriptors>
+        </control>
+        <control controlID="3" controlTypeID="__group__" x="0" y="127" w="290" h="70" measuredW="290" measuredH="70" zOrder="3" locked="false" isInGroup="46">
+          <groupChildrenDescriptors>
+            <control controlID="0" controlTypeID="com.balsamiq.mockups::Paragraph" x="0" y="0" w="290" h="38" measuredW="200" measuredH="140" zOrder="0" locked="false" isInGroup="3">
+              <controlProperties>
+                <bold>false</bold>
+                <color>6710886</color>
+                <size>11</size>
+                <text>*harlo@guardianproject.info*%20%0A%28comment%20here%29</text>
+              </controlProperties>
+            </control>
+            <control controlID="1" controlTypeID="com.balsamiq.mockups::Paragraph" x="0" y="32" w="97" h="36" measuredW="200" measuredH="140" zOrder="1" locked="false" isInGroup="3">
+              <controlProperties>
+                <bold>false</bold>
+                <size>11</size>
+                <text>_created%3A%202/3/12_%0A_expires%3A%202/3/16_%20</text>
+              </controlProperties>
+            </control>
+            <control controlID="2" controlTypeID="com.balsamiq.mockups::Paragraph" x="235" y="31" w="55" h="37" measuredW="200" measuredH="140" zOrder="2" locked="false" isInGroup="3">
+              <controlProperties>
+                <align>right</align>
+                <bold>false</bold>
+                <size>11</size>
+                <text>*B309CD31*%0A*RSA*</text>
+              </controlProperties>
+            </control>
+            <control controlID="3" controlTypeID="com.balsamiq.mockups::HRule" x="0" y="65" w="290" h="-1" measuredW="100" measuredH="5" zOrder="3" locked="false" isInGroup="3"/>
+          </groupChildrenDescriptors>
+        </control>
+        <control controlID="4" controlTypeID="__group__" x="0" y="197" w="290" h="70" measuredW="290" measuredH="70" zOrder="4" locked="false" isInGroup="46">
+          <groupChildrenDescriptors>
+            <control controlID="0" controlTypeID="com.balsamiq.mockups::Paragraph" x="0" y="0" w="290" h="38" measuredW="200" measuredH="140" zOrder="0" locked="false" isInGroup="4">
+              <controlProperties>
+                <bold>false</bold>
+                <color>13576743</color>
+                <size>11</size>
+                <text>*harlo@guardianproject.info*%20%0A%28comment%20here%29</text>
+              </controlProperties>
+            </control>
+            <control controlID="1" controlTypeID="com.balsamiq.mockups::Paragraph" x="0" y="32" w="97" h="36" measuredW="200" measuredH="140" zOrder="1" locked="false" isInGroup="4">
+              <controlProperties>
+                <bold>false</bold>
+                <size>11</size>
+                <text>_created%3A%202/3/12_%0A_expires%3A%202/3/16_%20</text>
+              </controlProperties>
+            </control>
+            <control controlID="2" controlTypeID="com.balsamiq.mockups::Paragraph" x="235" y="31" w="55" h="37" measuredW="200" measuredH="140" zOrder="2" locked="false" isInGroup="4">
+              <controlProperties>
+                <align>right</align>
+                <bold>false</bold>
+                <size>11</size>
+                <text>*B309CD31*%0A*RSA*</text>
+              </controlProperties>
+            </control>
+            <control controlID="3" controlTypeID="com.balsamiq.mockups::HRule" x="0" y="65" w="290" h="-1" measuredW="100" measuredH="5" zOrder="3" locked="false" isInGroup="4"/>
+          </groupChildrenDescriptors>
+        </control>
+      </groupChildrenDescriptors>
+    </control>
+    <control controlID="47" controlTypeID="__group__" x="20" y="1050" w="320" h="45" measuredW="320" measuredH="45" zOrder="21" locked="false" isInGroup="-1">
+      <controlProperties>
+        <href>preferences%26bm%3Bpreferences.bmml%26bm%3Bpreferences.bmml%26bm%3Bpreferences.bmml</href>
+        <map>%3Carea%20shape%3D%22rect%22%20coords%3D%2215%2C1030%2C335%2C1075%22%20href%3D%22preferences.bmml%22%20alt%3D%22preferences%22%20id%3D%2247%22/%3E</map>
+      </controlProperties>
+      <groupChildrenDescriptors>
+        <control controlID="0" controlTypeID="com.balsamiq.mockups::Canvas" x="0" y="0" w="320" h="45" measuredW="100" measuredH="70" zOrder="0" locked="false" isInGroup="47"/>
+        <control controlID="1" controlTypeID="com.balsamiq.mockups::Label" x="126" y="12" w="-1" h="-1" measuredW="67" measuredH="20" zOrder="1" locked="false" isInGroup="47">
+          <controlProperties>
+            <size>11</size>
+            <text>Preferences</text>
+          </controlProperties>
+        </control>
+      </groupChildrenDescriptors>
+    </control>
+    <control controlID="48" controlTypeID="com.balsamiq.mockups::RoundButton" x="5" y="587" w="134" h="40" measuredW="32" measuredH="32" zOrder="22" locked="false" isInGroup="-1">
+      <controlProperties>
+        <color>16750848</color>
+        <shape>roundRect</shape>
+        <size>10</size>
+        <text>on%20menu%20pressed...</text>
+      </controlProperties>
+    </control>
+    <control controlID="49" controlTypeID="__group__" x="851" y="100" w="320" h="480" measuredW="320" measuredH="480" zOrder="23" locked="false" isInGroup="-1">
+      <groupChildrenDescriptors>
+        <control controlID="0" controlTypeID="com.balsamiq.mockups::Canvas" x="0" y="0" w="320" h="480" measuredW="100" measuredH="70" zOrder="0" locked="false" isInGroup="49"/>
+        <control controlID="1" controlTypeID="com.balsamiq.mockups::TabBar" x="0" y="0" w="320" h="480" measuredW="361" measuredH="100" zOrder="1" locked="false" isInGroup="49">
+          <controlProperties>
+            <selectedIndex>1</selectedIndex>
+            <text>Key%20Manager%2C%20My%20Keys%2C%20Encrypt/Decrypt</text>
+          </controlProperties>
+        </control>
+      </groupChildrenDescriptors>
+    </control>
+    <control controlID="50" controlTypeID="__group__" x="866" y="140" w="290" h="267" measuredW="290" measuredH="267" zOrder="24" locked="false" isInGroup="-1">
+      <groupChildrenDescriptors>
+        <control controlID="0" controlTypeID="com.balsamiq.mockups::Button" x="0" y="0" w="50" h="50" measuredW="56" measuredH="40" zOrder="0" locked="false" isInGroup="50">
+          <controlProperties>
+            <icon>AddPageIcon%7Cmedium</icon>
+            <size>10</size>
+            <text/>
+          </controlProperties>
+        </control>
+        <control controlID="1" controlTypeID="com.balsamiq.mockups::Title" x="56" y="1" w="-1" h="-1" measuredW="112" measuredH="41" zOrder="1" locked="false" isInGroup="50">
+          <controlProperties>
+            <size>28</size>
+            <text>My%20Keys</text>
+          </controlProperties>
+        </control>
+        <control controlID="2" controlTypeID="__group__" x="0" y="57" w="290" h="70" measuredW="290" measuredH="70" zOrder="2" locked="false" isInGroup="50">
+          <groupChildrenDescriptors>
+            <control controlID="0" controlTypeID="com.balsamiq.mockups::Paragraph" x="0" y="0" w="290" h="38" measuredW="200" measuredH="140" zOrder="0" locked="false" isInGroup="2">
+              <controlProperties>
+                <bold>false</bold>
+                <color>40463</color>
+                <size>11</size>
+                <text>*harlo@guardianproject.info*%20%0A%28comment%20here%29</text>
+              </controlProperties>
+            </control>
+            <control controlID="1" controlTypeID="com.balsamiq.mockups::Paragraph" x="0" y="32" w="97" h="36" measuredW="200" measuredH="140" zOrder="1" locked="false" isInGroup="2">
+              <controlProperties>
+                <bold>false</bold>
+                <size>11</size>
+                <text>_created%3A%202/3/12_%0A_expires%3A%202/3/16_%20</text>
+              </controlProperties>
+            </control>
+            <control controlID="2" controlTypeID="com.balsamiq.mockups::Paragraph" x="235" y="31" w="55" h="37" measuredW="200" measuredH="140" zOrder="2" locked="false" isInGroup="2">
+              <controlProperties>
+                <align>right</align>
+                <bold>false</bold>
+                <size>11</size>
+                <text>*B309CD31*%0A*RSA*</text>
+              </controlProperties>
+            </control>
+            <control controlID="3" controlTypeID="com.balsamiq.mockups::HRule" x="0" y="65" w="290" h="-1" measuredW="100" measuredH="5" zOrder="3" locked="false" isInGroup="2"/>
+          </groupChildrenDescriptors>
+        </control>
+        <control controlID="3" controlTypeID="__group__" x="0" y="127" w="290" h="70" measuredW="290" measuredH="70" zOrder="3" locked="false" isInGroup="50">
+          <groupChildrenDescriptors>
+            <control controlID="0" controlTypeID="com.balsamiq.mockups::Paragraph" x="0" y="0" w="290" h="38" measuredW="200" measuredH="140" zOrder="0" locked="false" isInGroup="3">
+              <controlProperties>
+                <bold>false</bold>
+                <color>6710886</color>
+                <size>11</size>
+                <text>*harlo@guardianproject.info*%20%0A%28comment%20here%29</text>
+              </controlProperties>
+            </control>
+            <control controlID="1" controlTypeID="com.balsamiq.mockups::Paragraph" x="0" y="32" w="97" h="36" measuredW="200" measuredH="140" zOrder="1" locked="false" isInGroup="3">
+              <controlProperties>
+                <bold>false</bold>
+                <size>11</size>
+                <text>_created%3A%202/3/12_%0A_expires%3A%202/3/16_%20</text>
+              </controlProperties>
+            </control>
+            <control controlID="2" controlTypeID="com.balsamiq.mockups::Paragraph" x="235" y="31" w="55" h="37" measuredW="200" measuredH="140" zOrder="2" locked="false" isInGroup="3">
+              <controlProperties>
+                <align>right</align>
+                <bold>false</bold>
+                <size>11</size>
+                <text>*B309CD31*%0A*RSA*</text>
+              </controlProperties>
+            </control>
+            <control controlID="3" controlTypeID="com.balsamiq.mockups::HRule" x="0" y="65" w="290" h="-1" measuredW="100" measuredH="5" zOrder="3" locked="false" isInGroup="3"/>
+          </groupChildrenDescriptors>
+        </control>
+        <control controlID="4" controlTypeID="__group__" x="0" y="197" w="290" h="70" measuredW="290" measuredH="70" zOrder="4" locked="false" isInGroup="50">
+          <groupChildrenDescriptors>
+            <control controlID="0" controlTypeID="com.balsamiq.mockups::Paragraph" x="0" y="0" w="290" h="38" measuredW="200" measuredH="140" zOrder="0" locked="false" isInGroup="4">
+              <controlProperties>
+                <bold>false</bold>
+                <color>13576743</color>
+                <size>11</size>
+                <text>*harlo@guardianproject.info*%20%0A%28comment%20here%29</text>
+              </controlProperties>
+            </control>
+            <control controlID="1" controlTypeID="com.balsamiq.mockups::Paragraph" x="0" y="32" w="97" h="36" measuredW="200" measuredH="140" zOrder="1" locked="false" isInGroup="4">
+              <controlProperties>
+                <bold>false</bold>
+                <size>11</size>
+                <text>_created%3A%202/3/12_%0A_expires%3A%202/3/16_%20</text>
+              </controlProperties>
+            </control>
+            <control controlID="2" controlTypeID="com.balsamiq.mockups::Paragraph" x="235" y="31" w="55" h="37" measuredW="200" measuredH="140" zOrder="2" locked="false" isInGroup="4">
+              <controlProperties>
+                <align>right</align>
+                <bold>false</bold>
+                <size>11</size>
+                <text>*B309CD31*%0A*RSA*</text>
+              </controlProperties>
+            </control>
+            <control controlID="3" controlTypeID="com.balsamiq.mockups::HRule" x="0" y="65" w="290" h="-1" measuredW="100" measuredH="5" zOrder="3" locked="false" isInGroup="4"/>
+          </groupChildrenDescriptors>
+        </control>
+      </groupChildrenDescriptors>
+    </control>
+    <control controlID="51" controlTypeID="__group__" x="1242" y="100" w="320" h="480" measuredW="320" measuredH="480" zOrder="25" locked="false" isInGroup="-1">
+      <groupChildrenDescriptors>
+        <control controlID="0" controlTypeID="com.balsamiq.mockups::Canvas" x="0" y="0" w="320" h="480" measuredW="100" measuredH="70" zOrder="0" locked="false" isInGroup="51"/>
+        <control controlID="1" controlTypeID="com.balsamiq.mockups::TabBar" x="0" y="0" w="320" h="480" measuredW="361" measuredH="100" zOrder="1" locked="false" isInGroup="51">
+          <controlProperties>
+            <selectedIndex>1</selectedIndex>
+            <text>Key%20Manager%2C%20My%20Keys%2C%20Encrypt/Decrypt</text>
+          </controlProperties>
+        </control>
+      </groupChildrenDescriptors>
+    </control>
+    <control controlID="52" controlTypeID="__group__" x="1257" y="140" w="290" h="267" measuredW="290" measuredH="267" zOrder="26" locked="false" isInGroup="-1">
+      <groupChildrenDescriptors>
+        <control controlID="0" controlTypeID="com.balsamiq.mockups::Button" x="0" y="0" w="50" h="50" measuredW="56" measuredH="40" zOrder="0" locked="false" isInGroup="52">
+          <controlProperties>
+            <icon>AddPageIcon%7Cmedium</icon>
+            <size>10</size>
+            <text/>
+          </controlProperties>
+        </control>
+        <control controlID="1" controlTypeID="com.balsamiq.mockups::Title" x="56" y="1" w="-1" h="-1" measuredW="112" measuredH="41" zOrder="1" locked="false" isInGroup="52">
+          <controlProperties>
+            <size>28</size>
+            <text>My%20Keys</text>
+          </controlProperties>
+        </control>
+        <control controlID="2" controlTypeID="__group__" x="0" y="57" w="290" h="70" measuredW="290" measuredH="70" zOrder="2" locked="false" isInGroup="52">
+          <groupChildrenDescriptors>
+            <control controlID="0" controlTypeID="com.balsamiq.mockups::Paragraph" x="0" y="0" w="290" h="38" measuredW="200" measuredH="140" zOrder="0" locked="false" isInGroup="2">
+              <controlProperties>
+                <bold>false</bold>
+                <color>40463</color>
+                <size>11</size>
+                <text>*harlo@guardianproject.info*%20%0A%28comment%20here%29</text>
+              </controlProperties>
+            </control>
+            <control controlID="1" controlTypeID="com.balsamiq.mockups::Paragraph" x="0" y="32" w="97" h="36" measuredW="200" measuredH="140" zOrder="1" locked="false" isInGroup="2">
+              <controlProperties>
+                <bold>false</bold>
+                <size>11</size>
+                <text>_created%3A%202/3/12_%0A_expires%3A%202/3/16_%20</text>
+              </controlProperties>
+            </control>
+            <control controlID="2" controlTypeID="com.balsamiq.mockups::Paragraph" x="235" y="31" w="55" h="37" measuredW="200" measuredH="140" zOrder="2" locked="false" isInGroup="2">
+              <controlProperties>
+                <align>right</align>
+                <bold>false</bold>
+                <size>11</size>
+                <text>*B309CD31*%0A*RSA*</text>
+              </controlProperties>
+            </control>
+            <control controlID="3" controlTypeID="com.balsamiq.mockups::HRule" x="0" y="65" w="290" h="-1" measuredW="100" measuredH="5" zOrder="3" locked="false" isInGroup="2"/>
+          </groupChildrenDescriptors>
+        </control>
+        <control controlID="3" controlTypeID="__group__" x="0" y="127" w="290" h="70" measuredW="290" measuredH="70" zOrder="3" locked="false" isInGroup="52">
+          <groupChildrenDescriptors>
+            <control controlID="0" controlTypeID="com.balsamiq.mockups::Paragraph" x="0" y="0" w="290" h="38" measuredW="200" measuredH="140" zOrder="0" locked="false" isInGroup="3">
+              <controlProperties>
+                <bold>false</bold>
+                <color>6710886</color>
+                <size>11</size>
+                <text>*harlo@guardianproject.info*%20%0A%28comment%20here%29</text>
+              </controlProperties>
+            </control>
+            <control controlID="1" controlTypeID="com.balsamiq.mockups::Paragraph" x="0" y="32" w="97" h="36" measuredW="200" measuredH="140" zOrder="1" locked="false" isInGroup="3">
+              <controlProperties>
+                <bold>false</bold>
+                <size>11</size>
+                <text>_created%3A%202/3/12_%0A_expires%3A%202/3/16_%20</text>
+              </controlProperties>
+            </control>
+            <control controlID="2" controlTypeID="com.balsamiq.mockups::Paragraph" x="235" y="31" w="55" h="37" measuredW="200" measuredH="140" zOrder="2" locked="false" isInGroup="3">
+              <controlProperties>
+                <align>right</align>
+                <bold>false</bold>
+                <size>11</size>
+                <text>*B309CD31*%0A*RSA*</text>
+              </controlProperties>
+            </control>
+            <control controlID="3" controlTypeID="com.balsamiq.mockups::HRule" x="0" y="65" w="290" h="-1" measuredW="100" measuredH="5" zOrder="3" locked="false" isInGroup="3"/>
+          </groupChildrenDescriptors>
+        </control>
+        <control controlID="4" controlTypeID="__group__" x="0" y="197" w="290" h="70" measuredW="290" measuredH="70" zOrder="4" locked="false" isInGroup="52">
+          <groupChildrenDescriptors>
+            <control controlID="0" controlTypeID="com.balsamiq.mockups::Paragraph" x="0" y="0" w="290" h="38" measuredW="200" measuredH="140" zOrder="0" locked="false" isInGroup="4">
+              <controlProperties>
+                <bold>false</bold>
+                <color>13576743</color>
+                <size>11</size>
+                <text>*harlo@guardianproject.info*%20%0A%28comment%20here%29</text>
+              </controlProperties>
+            </control>
+            <control controlID="1" controlTypeID="com.balsamiq.mockups::Paragraph" x="0" y="32" w="97" h="36" measuredW="200" measuredH="140" zOrder="1" locked="false" isInGroup="4">
+              <controlProperties>
+                <bold>false</bold>
+                <size>11</size>
+                <text>_created%3A%202/3/12_%0A_expires%3A%202/3/16_%20</text>
+              </controlProperties>
+            </control>
+            <control controlID="2" controlTypeID="com.balsamiq.mockups::Paragraph" x="235" y="31" w="55" h="37" measuredW="200" measuredH="140" zOrder="2" locked="false" isInGroup="4">
+              <controlProperties>
+                <align>right</align>
+                <bold>false</bold>
+                <size>11</size>
+                <text>*B309CD31*%0A*RSA*</text>
+              </controlProperties>
+            </control>
+            <control controlID="3" controlTypeID="com.balsamiq.mockups::HRule" x="0" y="65" w="290" h="-1" measuredW="100" measuredH="5" zOrder="3" locked="false" isInGroup="4"/>
+          </groupChildrenDescriptors>
+        </control>
+      </groupChildrenDescriptors>
+    </control>
+    <control controlID="53" controlTypeID="__group__" x="851" y="100" w="320" h="480" measuredW="320" measuredH="480" zOrder="27" locked="false" isInGroup="-1">
+      <groupChildrenDescriptors>
+        <control controlID="0" controlTypeID="com.balsamiq.mockups::Canvas" x="43" y="158" w="234" h="163" measuredW="100" measuredH="70" zOrder="1" locked="false" isInGroup="53"/>
+        <control controlID="1" controlTypeID="com.balsamiq.mockups::Title" x="51" y="159" w="217" h="-1" measuredW="139" measuredH="41" zOrder="2" locked="false" isInGroup="53">
+          <controlProperties>
+            <align>left</align>
+            <size>28</size>
+            <text>Revoking...</text>
+          </controlProperties>
+        </control>
+        <control controlID="5" controlTypeID="com.balsamiq.mockups::Button" x="51" y="281" w="217" h="28" measuredW="41" measuredH="28" zOrder="3" locked="false" isInGroup="53">
+          <controlProperties>
+            <state>disabled</state>
+            <text>OK</text>
+          </controlProperties>
+        </control>
+        <control controlID="7" controlTypeID="com.balsamiq.mockups::Canvas" x="0" y="0" w="320" h="480" measuredW="100" measuredH="70" zOrder="0" locked="false" isInGroup="53">
+          <controlProperties>
+            <backgroundAlpha>0.5</backgroundAlpha>
+            <color>0</color>
+          </controlProperties>
+        </control>
+        <control controlID="13" controlTypeID="com.balsamiq.mockups::Image" x="121" y="206" w="-1" h="-1" measuredW="60" measuredH="60" zOrder="4" locked="false" isInGroup="53">
+          <controlProperties>
+            <src>./assets/spinnergif.jpeg</src>
+            <text/>
+          </controlProperties>
+        </control>
+      </groupChildrenDescriptors>
+    </control>
+    <control controlID="54" controlTypeID="__group__" x="1242" y="100" w="320" h="480" measuredW="320" measuredH="480" zOrder="28" locked="false" isInGroup="-1">
+      <groupChildrenDescriptors>
+        <control controlID="0" controlTypeID="com.balsamiq.mockups::Canvas" x="43" y="158" w="234" h="163" measuredW="100" measuredH="70" zOrder="1" locked="false" isInGroup="54"/>
+        <control controlID="1" controlTypeID="com.balsamiq.mockups::Title" x="51" y="159" w="217" h="-1" measuredW="139" measuredH="41" zOrder="2" locked="false" isInGroup="54">
+          <controlProperties>
+            <align>left</align>
+            <size>28</size>
+            <text>Revoking...</text>
+          </controlProperties>
+        </control>
+        <control controlID="5" controlTypeID="com.balsamiq.mockups::Button" x="51" y="281" w="217" h="28" measuredW="41" measuredH="28" zOrder="3" locked="false" isInGroup="54">
+          <controlProperties>
+            <href>my_keys_main%26bm%3Bmy_keys_main.bmml%26bm%3Bmy_keys_main.bmml%26bm%3Bmy_keys_main.bmml</href>
+            <map>%3Carea%20shape%3D%22rect%22%20coords%3D%221288%2C361%2C1505%2C389%22%20href%3D%22my_keys_main.bmml%22%20alt%3D%22my_keys_main%22%20id%3D%225%22/%3E</map>
+            <state>up</state>
+            <text>OK</text>
+          </controlProperties>
+        </control>
+        <control controlID="7" controlTypeID="com.balsamiq.mockups::Canvas" x="0" y="0" w="320" h="480" measuredW="100" measuredH="70" zOrder="0" locked="false" isInGroup="54">
+          <controlProperties>
+            <backgroundAlpha>0.5</backgroundAlpha>
+            <color>0</color>
+          </controlProperties>
+        </control>
+        <control controlID="14" controlTypeID="com.balsamiq.mockups::Label" x="75" y="229" w="-1" h="-1" measuredW="170" measuredH="20" zOrder="4" locked="false" isInGroup="54">
+          <controlProperties>
+            <align>center</align>
+            <size>11</size>
+            <text>Key%20B309CD31%20has%20been%20revoked%21</text>
+          </controlProperties>
+        </control>
+      </groupChildrenDescriptors>
+    </control>
+    <control controlID="55" controlTypeID="com.balsamiq.mockups::Arrow" x="712" y="274" w="194" h="141" measuredW="150" measuredH="100" zOrder="29" locked="false" isInGroup="-1">
+      <controlProperties>
+        <direction>bottom</direction>
+        <leftArrow>false</leftArrow>
+        <text/>
+      </controlProperties>
+    </control>
+    <control controlID="56" controlTypeID="com.balsamiq.mockups::Arrow" x="1069" y="265" w="231" h="110" measuredW="150" measuredH="100" zOrder="30" locked="false" isInGroup="-1">
+      <controlProperties>
+        <direction>bottom</direction>
+        <leftArrow>false</leftArrow>
+        <text/>
+      </controlProperties>
+    </control>
+    <control controlID="57" controlTypeID="__group__" x="509" y="425" w="209" h="40" measuredW="209" measuredH="40" zOrder="31" locked="false" isInGroup="-1">
+      <groupChildrenDescriptors>
+        <control controlID="0" controlTypeID="com.balsamiq.mockups::SubTitle" x="0" y="0" w="209" h="-1" measuredW="66" measuredH="32" zOrder="0" locked="false" isInGroup="57">
+          <controlProperties>
+            <size>20</size>
+            <text>Delete</text>
+          </controlProperties>
+        </control>
+        <control controlID="1" controlTypeID="com.balsamiq.mockups::HRule" x="1" y="35" w="208" h="-1" measuredW="100" measuredH="5" zOrder="1" locked="false" isInGroup="57"/>
+      </groupChildrenDescriptors>
+    </control>
+    <control controlID="58" controlTypeID="com.balsamiq.mockups::RoundButton" x="584" y="439" w="176" h="51" measuredW="32" measuredH="32" zOrder="32" locked="false" isInGroup="-1">
+      <controlProperties>
+        <color>13421772</color>
+        <shape>roundRect</shape>
+        <size>10</size>
+        <text>%22delete%22%20will%20also%20revoke%20key%0Aif%20necessary%21</text>
+      </controlProperties>
+    </control>
+  </controls>
+</mockup>

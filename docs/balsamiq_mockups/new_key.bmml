@@ -1,0 +1,626 @@
+<mockup version="1.0" skin="sketch" measuredW="1267" measuredH="1142" mockupW="1232" mockupH="1122">
+  <controls>
+    <control controlID="58" controlTypeID="com.balsamiq.mockups::CallOut" x="35" y="20" w="149" h="58" measuredW="149" measuredH="40" zOrder="0" locked="false" isInGroup="-1">
+      <controlProperties>
+        <color>6989903</color>
+        <text>GNUPG%20for%20Android%3A%0ANew%20Key</text>
+      </controlProperties>
+    </control>
+    <control controlID="63" controlTypeID="__group__" x="35" y="131" w="320" h="480" measuredW="320" measuredH="480" zOrder="1" locked="false" isInGroup="-1">
+      <groupChildrenDescriptors>
+        <control controlID="0" controlTypeID="com.balsamiq.mockups::Canvas" x="0" y="0" w="320" h="480" measuredW="100" measuredH="70" zOrder="0" locked="false" isInGroup="63"/>
+        <control controlID="1" controlTypeID="com.balsamiq.mockups::TabBar" x="0" y="0" w="320" h="480" measuredW="361" measuredH="100" zOrder="1" locked="false" isInGroup="63">
+          <controlProperties>
+            <hrefs>key_manager%26bm%3Bkey_manager.bmml%26bm%3Bkey_manager.bmml%26bm%3Bkey_manager.bmml%2Cmy_keys_main%26bm%3Bmy_keys_main.bmml%26bm%3Bmy_keys_main.bmml%26bm%3Bmy_keys_main.bmml%2Cencrypt-decrypt%26bm%3Bencrypt-decrypt.bmml%26bm%3Bencrypt-decrypt.bmml%26bm%3Bencrypt-decrypt.bmml</hrefs>
+            <map>%3Carea%20shape%3D%22rect%22%20coords%3D%2220%2C111%2C111%2C138%22%20href%3D%22key_manager.bmml%22%20alt%3D%22key_manager%22%20id%3D%221_0%22/%3E%0A%3Carea%20shape%3D%22rect%22%20coords%3D%22111%2C111%2C174%2C138%22%20href%3D%22my_keys_main.bmml%22%20alt%3D%22my_keys_main%22%20id%3D%221_1%22/%3E%0A%3Carea%20shape%3D%22rect%22%20coords%3D%22174%2C111%2C287%2C138%22%20href%3D%22encrypt-decrypt.bmml%22%20alt%3D%22encrypt-decrypt%22%20id%3D%221_2%22/%3E%0A</map>
+            <selectedIndex>1</selectedIndex>
+            <text>Key%20Manager%2C%20My%20Keys%2C%20Encrypt/Decrypt</text>
+          </controlProperties>
+        </control>
+      </groupChildrenDescriptors>
+    </control>
+    <control controlID="64" controlTypeID="__group__" x="46" y="170" w="299" h="427" measuredW="299" measuredH="427" zOrder="2" locked="false" isInGroup="-1">
+      <groupChildrenDescriptors>
+        <control controlID="0" controlTypeID="com.balsamiq.mockups::Title" x="0" y="0" w="-1" h="-1" measuredW="115" measuredH="41" zOrder="0" locked="false" isInGroup="64">
+          <controlProperties>
+            <size>28</size>
+            <text>New%20Key</text>
+          </controlProperties>
+        </control>
+        <control controlID="6" controlTypeID="com.balsamiq.mockups::HRule" x="0" y="157" w="290" h="-1" measuredW="100" measuredH="5" zOrder="1" locked="false" isInGroup="64"/>
+        <control controlID="16" controlTypeID="com.balsamiq.mockups::Button" x="0" y="390" w="293" h="37" measuredW="128" measuredH="28" zOrder="2" locked="false" isInGroup="64">
+          <controlProperties>
+            <text>Generate%20my%20key</text>
+          </controlProperties>
+        </control>
+        <control controlID="17" controlTypeID="com.balsamiq.mockups::Image" x="237" y="0" w="62" h="32" measuredW="74" measuredH="36" zOrder="3" locked="false" isInGroup="64">
+          <controlProperties>
+            <src>./assets/unplugged.png</src>
+            <text/>
+          </controlProperties>
+        </control>
+        <control controlID="18" controlTypeID="com.balsamiq.mockups::TextInput" x="0" y="56" w="293" h="-1" measuredW="83" measuredH="27" zOrder="4" locked="false" isInGroup="64">
+          <controlProperties>
+            <text>Full%20name...</text>
+          </controlProperties>
+        </control>
+        <control controlID="19" controlTypeID="com.balsamiq.mockups::TextInput" x="0" y="90" w="293" h="-1" measuredW="107" measuredH="27" zOrder="5" locked="false" isInGroup="64">
+          <controlProperties>
+            <text>Email%20address...</text>
+          </controlProperties>
+        </control>
+        <control controlID="20" controlTypeID="com.balsamiq.mockups::TextInput" x="0" y="124" w="293" h="-1" measuredW="79" measuredH="27" zOrder="6" locked="false" isInGroup="64">
+          <controlProperties>
+            <text>Comment...</text>
+          </controlProperties>
+        </control>
+        <control controlID="21" controlTypeID="com.balsamiq.mockups::Component" x="6" y="291" w="170" h="90" measuredW="170" measuredH="90" zOrder="7" locked="false" isInGroup="64">
+          <controlProperties>
+            <src>./assets/balsamiq_for_android.bmml#Time%20Picker</src>
+          </controlProperties>
+        </control>
+        <control controlID="22" controlTypeID="com.balsamiq.mockups::Label" x="0" y="169" w="-1" h="-1" measuredW="64" measuredH="23" zOrder="8" locked="false" isInGroup="64">
+          <controlProperties>
+            <text>Key%20Type%3A</text>
+          </controlProperties>
+        </control>
+        <control controlID="23" controlTypeID="com.balsamiq.mockups::Label" x="0" y="216" w="-1" h="-1" measuredW="50" measuredH="23" zOrder="9" locked="false" isInGroup="64">
+          <controlProperties>
+            <text>Length%3A</text>
+          </controlProperties>
+        </control>
+        <control controlID="24" controlTypeID="com.balsamiq.mockups::ComboBox" x="0" y="190" w="293" h="-1" measuredW="144" measuredH="23" zOrder="10" locked="false" isInGroup="64">
+          <controlProperties>
+            <state>up</state>
+            <text>RSA%20%28encrypt%20only%29</text>
+          </controlProperties>
+        </control>
+        <control controlID="25" controlTypeID="com.balsamiq.mockups::ComboBox" x="0" y="239" w="293" h="-1" measuredW="61" measuredH="23" zOrder="11" locked="false" isInGroup="64">
+          <controlProperties>
+            <state>up</state>
+            <text>4096</text>
+          </controlProperties>
+        </control>
+        <control controlID="26" controlTypeID="com.balsamiq.mockups::Label" x="0" y="266" w="-1" h="-1" measuredW="102" measuredH="23" zOrder="12" locked="false" isInGroup="64">
+          <controlProperties>
+            <text>Expiration%20Date%3A</text>
+          </controlProperties>
+        </control>
+        <control controlID="27" controlTypeID="com.balsamiq.mockups::IconLabel" x="207" y="300" w="-1" h="-1" measuredW="65" measuredH="71" zOrder="14" locked="false" isInGroup="64">
+          <controlProperties>
+            <borderStyle>none</borderStyle>
+            <icon>CameraIcon%7Clarge</icon>
+            <text>Add%20Photo</text>
+          </controlProperties>
+        </control>
+        <control controlID="28" controlTypeID="com.balsamiq.mockups::Canvas" x="190" y="291" w="100" h="90" measuredW="100" measuredH="70" zOrder="13" locked="false" isInGroup="64"/>
+      </groupChildrenDescriptors>
+    </control>
+    <control controlID="70" controlTypeID="__group__" x="438" y="662" w="320" h="480" measuredW="320" measuredH="480" zOrder="3" locked="false" isInGroup="-1">
+      <groupChildrenDescriptors>
+        <control controlID="0" controlTypeID="com.balsamiq.mockups::Canvas" x="0" y="0" w="320" h="480" measuredW="100" measuredH="70" zOrder="0" locked="false" isInGroup="70"/>
+        <control controlID="1" controlTypeID="com.balsamiq.mockups::TabBar" x="0" y="0" w="320" h="480" measuredW="361" measuredH="100" zOrder="1" locked="false" isInGroup="70">
+          <controlProperties>
+            <selectedIndex>1</selectedIndex>
+            <text>Key%20Manager%2C%20My%20Keys%2C%20Encrypt/Decrypt</text>
+          </controlProperties>
+        </control>
+      </groupChildrenDescriptors>
+    </control>
+    <control controlID="72" controlTypeID="__group__" x="819" y="662" w="320" h="480" measuredW="320" measuredH="480" zOrder="4" locked="false" isInGroup="-1">
+      <groupChildrenDescriptors>
+        <control controlID="0" controlTypeID="com.balsamiq.mockups::Canvas" x="0" y="0" w="320" h="480" measuredW="100" measuredH="70" zOrder="0" locked="false" isInGroup="72"/>
+        <control controlID="1" controlTypeID="com.balsamiq.mockups::TabBar" x="0" y="0" w="320" h="480" measuredW="361" measuredH="100" zOrder="1" locked="false" isInGroup="72">
+          <controlProperties>
+            <selectedIndex>1</selectedIndex>
+            <text>Key%20Manager%2C%20My%20Keys%2C%20Encrypt/Decrypt</text>
+          </controlProperties>
+        </control>
+      </groupChildrenDescriptors>
+    </control>
+    <control controlID="76" controlTypeID="__group__" x="448" y="700" w="299" h="427" measuredW="299" measuredH="427" zOrder="5" locked="false" isInGroup="-1">
+      <groupChildrenDescriptors>
+        <control controlID="0" controlTypeID="com.balsamiq.mockups::Title" x="0" y="0" w="-1" h="-1" measuredW="115" measuredH="41" zOrder="0" locked="false" isInGroup="76">
+          <controlProperties>
+            <size>28</size>
+            <text>New%20Key</text>
+          </controlProperties>
+        </control>
+        <control controlID="6" controlTypeID="com.balsamiq.mockups::HRule" x="0" y="157" w="290" h="-1" measuredW="100" measuredH="5" zOrder="1" locked="false" isInGroup="76"/>
+        <control controlID="16" controlTypeID="com.balsamiq.mockups::Button" x="0" y="390" w="293" h="37" measuredW="128" measuredH="28" zOrder="2" locked="false" isInGroup="76">
+          <controlProperties>
+            <text>Generate%20my%20key</text>
+          </controlProperties>
+        </control>
+        <control controlID="17" controlTypeID="com.balsamiq.mockups::Image" x="237" y="0" w="62" h="32" measuredW="74" measuredH="36" zOrder="3" locked="false" isInGroup="76">
+          <controlProperties>
+            <src>./assets/unplugged.png</src>
+            <text/>
+          </controlProperties>
+        </control>
+        <control controlID="18" controlTypeID="com.balsamiq.mockups::TextInput" x="0" y="56" w="293" h="-1" measuredW="83" measuredH="27" zOrder="4" locked="false" isInGroup="76">
+          <controlProperties>
+            <text>Full%20name...</text>
+          </controlProperties>
+        </control>
+        <control controlID="19" controlTypeID="com.balsamiq.mockups::TextInput" x="0" y="90" w="293" h="-1" measuredW="107" measuredH="27" zOrder="5" locked="false" isInGroup="76">
+          <controlProperties>
+            <text>Email%20address...</text>
+          </controlProperties>
+        </control>
+        <control controlID="20" controlTypeID="com.balsamiq.mockups::TextInput" x="0" y="124" w="293" h="-1" measuredW="79" measuredH="27" zOrder="6" locked="false" isInGroup="76">
+          <controlProperties>
+            <text>Comment...</text>
+          </controlProperties>
+        </control>
+        <control controlID="21" controlTypeID="com.balsamiq.mockups::Component" x="6" y="291" w="170" h="90" measuredW="170" measuredH="90" zOrder="7" locked="false" isInGroup="76">
+          <controlProperties>
+            <src>./assets/balsamiq_for_android.bmml#Time%20Picker</src>
+          </controlProperties>
+        </control>
+        <control controlID="22" controlTypeID="com.balsamiq.mockups::Label" x="0" y="169" w="-1" h="-1" measuredW="64" measuredH="23" zOrder="8" locked="false" isInGroup="76">
+          <controlProperties>
+            <text>Key%20Type%3A</text>
+          </controlProperties>
+        </control>
+        <control controlID="23" controlTypeID="com.balsamiq.mockups::Label" x="0" y="216" w="-1" h="-1" measuredW="50" measuredH="23" zOrder="9" locked="false" isInGroup="76">
+          <controlProperties>
+            <text>Length%3A</text>
+          </controlProperties>
+        </control>
+        <control controlID="24" controlTypeID="com.balsamiq.mockups::ComboBox" x="0" y="190" w="293" h="-1" measuredW="144" measuredH="23" zOrder="10" locked="false" isInGroup="76">
+          <controlProperties>
+            <state>up</state>
+            <text>RSA%20%28encrypt%20only%29</text>
+          </controlProperties>
+        </control>
+        <control controlID="25" controlTypeID="com.balsamiq.mockups::ComboBox" x="0" y="239" w="293" h="-1" measuredW="61" measuredH="23" zOrder="11" locked="false" isInGroup="76">
+          <controlProperties>
+            <state>up</state>
+            <text>4096</text>
+          </controlProperties>
+        </control>
+        <control controlID="26" controlTypeID="com.balsamiq.mockups::Label" x="0" y="266" w="-1" h="-1" measuredW="102" measuredH="23" zOrder="12" locked="false" isInGroup="76">
+          <controlProperties>
+            <text>Expiration%20Date%3A</text>
+          </controlProperties>
+        </control>
+        <control controlID="27" controlTypeID="com.balsamiq.mockups::IconLabel" x="207" y="300" w="-1" h="-1" measuredW="65" measuredH="71" zOrder="14" locked="false" isInGroup="76">
+          <controlProperties>
+            <borderStyle>none</borderStyle>
+            <icon>CameraIcon%7Clarge</icon>
+            <text>Add%20Photo</text>
+          </controlProperties>
+        </control>
+        <control controlID="28" controlTypeID="com.balsamiq.mockups::Canvas" x="190" y="291" w="100" h="90" measuredW="100" measuredH="70" zOrder="13" locked="false" isInGroup="76"/>
+      </groupChildrenDescriptors>
+    </control>
+    <control controlID="77" controlTypeID="__group__" x="829" y="700" w="299" h="427" measuredW="299" measuredH="427" zOrder="6" locked="false" isInGroup="-1">
+      <groupChildrenDescriptors>
+        <control controlID="0" controlTypeID="com.balsamiq.mockups::Title" x="0" y="0" w="-1" h="-1" measuredW="115" measuredH="41" zOrder="0" locked="false" isInGroup="77">
+          <controlProperties>
+            <size>28</size>
+            <text>New%20Key</text>
+          </controlProperties>
+        </control>
+        <control controlID="6" controlTypeID="com.balsamiq.mockups::HRule" x="0" y="157" w="290" h="-1" measuredW="100" measuredH="5" zOrder="1" locked="false" isInGroup="77"/>
+        <control controlID="16" controlTypeID="com.balsamiq.mockups::Button" x="0" y="390" w="293" h="37" measuredW="128" measuredH="28" zOrder="2" locked="false" isInGroup="77">
+          <controlProperties>
+            <text>Generate%20my%20key</text>
+          </controlProperties>
+        </control>
+        <control controlID="17" controlTypeID="com.balsamiq.mockups::Image" x="237" y="0" w="62" h="32" measuredW="74" measuredH="36" zOrder="3" locked="false" isInGroup="77">
+          <controlProperties>
+            <src>./assets/unplugged.png</src>
+            <text/>
+          </controlProperties>
+        </control>
+        <control controlID="18" controlTypeID="com.balsamiq.mockups::TextInput" x="0" y="56" w="293" h="-1" measuredW="83" measuredH="27" zOrder="4" locked="false" isInGroup="77">
+          <controlProperties>
+            <text>Full%20name...</text>
+          </controlProperties>
+        </control>
+        <control controlID="19" controlTypeID="com.balsamiq.mockups::TextInput" x="0" y="90" w="293" h="-1" measuredW="107" measuredH="27" zOrder="5" locked="false" isInGroup="77">
+          <controlProperties>
+            <text>Email%20address...</text>
+          </controlProperties>
+        </control>
+        <control controlID="20" controlTypeID="com.balsamiq.mockups::TextInput" x="0" y="124" w="293" h="-1" measuredW="79" measuredH="27" zOrder="6" locked="false" isInGroup="77">
+          <controlProperties>
+            <text>Comment...</text>
+          </controlProperties>
+        </control>
+        <control controlID="21" controlTypeID="com.balsamiq.mockups::Component" x="6" y="291" w="170" h="90" measuredW="170" measuredH="90" zOrder="7" locked="false" isInGroup="77">
+          <controlProperties>
+            <src>./assets/balsamiq_for_android.bmml#Time%20Picker</src>
+          </controlProperties>
+        </control>
+        <control controlID="22" controlTypeID="com.balsamiq.mockups::Label" x="0" y="169" w="-1" h="-1" measuredW="64" measuredH="23" zOrder="8" locked="false" isInGroup="77">
+          <controlProperties>
+            <text>Key%20Type%3A</text>
+          </controlProperties>
+        </control>
+        <control controlID="23" controlTypeID="com.balsamiq.mockups::Label" x="0" y="216" w="-1" h="-1" measuredW="50" measuredH="23" zOrder="9" locked="false" isInGroup="77">
+          <controlProperties>
+            <text>Length%3A</text>
+          </controlProperties>
+        </control>
+        <control controlID="24" controlTypeID="com.balsamiq.mockups::ComboBox" x="0" y="190" w="293" h="-1" measuredW="144" measuredH="23" zOrder="10" locked="false" isInGroup="77">
+          <controlProperties>
+            <state>up</state>
+            <text>RSA%20%28encrypt%20only%29</text>
+          </controlProperties>
+        </control>
+        <control controlID="25" controlTypeID="com.balsamiq.mockups::ComboBox" x="0" y="239" w="293" h="-1" measuredW="61" measuredH="23" zOrder="11" locked="false" isInGroup="77">
+          <controlProperties>
+            <state>up</state>
+            <text>4096</text>
+          </controlProperties>
+        </control>
+        <control controlID="26" controlTypeID="com.balsamiq.mockups::Label" x="0" y="266" w="-1" h="-1" measuredW="102" measuredH="23" zOrder="12" locked="false" isInGroup="77">
+          <controlProperties>
+            <text>Expiration%20Date%3A</text>
+          </controlProperties>
+        </control>
+        <control controlID="27" controlTypeID="com.balsamiq.mockups::IconLabel" x="207" y="300" w="-1" h="-1" measuredW="65" measuredH="71" zOrder="14" locked="false" isInGroup="77">
+          <controlProperties>
+            <borderStyle>none</borderStyle>
+            <icon>CameraIcon%7Clarge</icon>
+            <text>Add%20Photo</text>
+          </controlProperties>
+        </control>
+        <control controlID="28" controlTypeID="com.balsamiq.mockups::Canvas" x="190" y="291" w="100" h="90" measuredW="100" measuredH="70" zOrder="13" locked="false" isInGroup="77"/>
+      </groupChildrenDescriptors>
+    </control>
+    <control controlID="78" controlTypeID="__group__" x="438" y="662" w="320" h="480" measuredW="320" measuredH="480" zOrder="7" locked="false" isInGroup="-1">
+      <groupChildrenDescriptors>
+        <control controlID="0" controlTypeID="com.balsamiq.mockups::Canvas" x="43" y="158" w="234" h="163" measuredW="100" measuredH="70" zOrder="1" locked="false" isInGroup="78"/>
+        <control controlID="1" controlTypeID="com.balsamiq.mockups::Title" x="51" y="159" w="217" h="-1" measuredW="169" measuredH="41" zOrder="2" locked="false" isInGroup="78">
+          <controlProperties>
+            <align>left</align>
+            <size>28</size>
+            <text>Generating...</text>
+          </controlProperties>
+        </control>
+        <control controlID="5" controlTypeID="com.balsamiq.mockups::Button" x="51" y="281" w="217" h="28" measuredW="41" measuredH="28" zOrder="3" locked="false" isInGroup="78">
+          <controlProperties>
+            <state>disabled</state>
+            <text>OK</text>
+          </controlProperties>
+        </control>
+        <control controlID="7" controlTypeID="com.balsamiq.mockups::Canvas" x="0" y="0" w="320" h="480" measuredW="100" measuredH="70" zOrder="0" locked="false" isInGroup="78">
+          <controlProperties>
+            <backgroundAlpha>0.5</backgroundAlpha>
+            <color>0</color>
+          </controlProperties>
+        </control>
+        <control controlID="13" controlTypeID="com.balsamiq.mockups::Image" x="121" y="206" w="-1" h="-1" measuredW="60" measuredH="60" zOrder="4" locked="false" isInGroup="78">
+          <controlProperties>
+            <src>./assets/spinnergif.jpeg</src>
+            <text/>
+          </controlProperties>
+        </control>
+      </groupChildrenDescriptors>
+    </control>
+    <control controlID="79" controlTypeID="__group__" x="819" y="662" w="320" h="480" measuredW="320" measuredH="480" zOrder="8" locked="false" isInGroup="-1">
+      <groupChildrenDescriptors>
+        <control controlID="0" controlTypeID="com.balsamiq.mockups::Canvas" x="43" y="158" w="234" h="163" measuredW="100" measuredH="70" zOrder="1" locked="false" isInGroup="79"/>
+        <control controlID="1" controlTypeID="com.balsamiq.mockups::Title" x="51" y="159" w="217" h="-1" measuredW="169" measuredH="41" zOrder="2" locked="false" isInGroup="79">
+          <controlProperties>
+            <align>left</align>
+            <size>28</size>
+            <text>Generating...</text>
+          </controlProperties>
+        </control>
+        <control controlID="5" controlTypeID="com.balsamiq.mockups::Button" x="51" y="281" w="110" h="28" measuredW="110" measuredH="28" zOrder="3" locked="false" isInGroup="79">
+          <controlProperties>
+            <href>edit_key%26bm%3Bedit_key.bmml%26bm%3Bedit_key.bmml%26bm%3Bedit_key.bmml</href>
+            <map>%3Carea%20shape%3D%22rect%22%20coords%3D%22835%2C923%2C945%2C951%22%20href%3D%22edit_key.bmml%22%20alt%3D%22edit_key%22%20id%3D%225%22/%3E</map>
+            <state>up</state>
+            <text>Edit%20Further...</text>
+          </controlProperties>
+        </control>
+        <control controlID="7" controlTypeID="com.balsamiq.mockups::Canvas" x="0" y="0" w="320" h="480" measuredW="100" measuredH="70" zOrder="0" locked="false" isInGroup="79">
+          <controlProperties>
+            <backgroundAlpha>0.5</backgroundAlpha>
+            <color>0</color>
+          </controlProperties>
+        </control>
+        <control controlID="14" controlTypeID="com.balsamiq.mockups::Button" x="161" y="281" w="110" h="28" measuredW="41" measuredH="28" zOrder="4" locked="false" isInGroup="79">
+          <controlProperties>
+            <href>my_keys_main%26bm%3Bmy_keys_main.bmml%26bm%3Bmy_keys_main.bmml%26bm%3Bmy_keys_main.bmml</href>
+            <map>%3Carea%20shape%3D%22rect%22%20coords%3D%22945%2C923%2C1055%2C951%22%20href%3D%22my_keys_main.bmml%22%20alt%3D%22my_keys_main%22%20id%3D%2214%22/%3E</map>
+            <state>up</state>
+            <text>OK</text>
+          </controlProperties>
+        </control>
+      </groupChildrenDescriptors>
+    </control>
+    <control controlID="80" controlTypeID="com.balsamiq.mockups::Label" x="899" y="892" w="-1" h="-1" measuredW="159" measuredH="20" zOrder="9" locked="false" isInGroup="-1">
+      <controlProperties>
+        <align>center</align>
+        <size>11</size>
+        <text>New%20key%20successfully%20created%21</text>
+      </controlProperties>
+    </control>
+    <control controlID="81" controlTypeID="com.balsamiq.mockups::Arrow" x="309" y="363" w="186" h="170" measuredW="150" measuredH="100" zOrder="15" locked="false" isInGroup="-1">
+      <controlProperties>
+        <direction>bottom</direction>
+        <leftArrow>false</leftArrow>
+      </controlProperties>
+    </control>
+    <control controlID="82" controlTypeID="com.balsamiq.mockups::Arrow" x="679" y="877" w="211" h="57" measuredW="150" measuredH="100" zOrder="10" locked="false" isInGroup="-1">
+      <controlProperties>
+        <direction>bottom</direction>
+        <leftArrow>false</leftArrow>
+      </controlProperties>
+    </control>
+    <control controlID="83" controlTypeID="__group__" x="438" y="131" w="320" h="480" measuredW="320" measuredH="480" zOrder="11" locked="false" isInGroup="-1">
+      <groupChildrenDescriptors>
+        <control controlID="0" controlTypeID="com.balsamiq.mockups::Canvas" x="0" y="0" w="320" h="480" measuredW="100" measuredH="70" zOrder="0" locked="false" isInGroup="83"/>
+        <control controlID="1" controlTypeID="com.balsamiq.mockups::TabBar" x="0" y="0" w="320" h="480" measuredW="361" measuredH="100" zOrder="1" locked="false" isInGroup="83">
+          <controlProperties>
+            <selectedIndex>1</selectedIndex>
+            <text>Key%20Manager%2C%20My%20Keys%2C%20Encrypt/Decrypt</text>
+          </controlProperties>
+        </control>
+      </groupChildrenDescriptors>
+    </control>
+    <control controlID="84" controlTypeID="__group__" x="449" y="170" w="299" h="427" measuredW="299" measuredH="427" zOrder="12" locked="false" isInGroup="-1">
+      <groupChildrenDescriptors>
+        <control controlID="0" controlTypeID="com.balsamiq.mockups::Title" x="0" y="0" w="-1" h="-1" measuredW="115" measuredH="41" zOrder="0" locked="false" isInGroup="84">
+          <controlProperties>
+            <size>28</size>
+            <text>New%20Key</text>
+          </controlProperties>
+        </control>
+        <control controlID="6" controlTypeID="com.balsamiq.mockups::HRule" x="0" y="157" w="290" h="-1" measuredW="100" measuredH="5" zOrder="1" locked="false" isInGroup="84"/>
+        <control controlID="16" controlTypeID="com.balsamiq.mockups::Button" x="0" y="390" w="293" h="37" measuredW="128" measuredH="28" zOrder="2" locked="false" isInGroup="84">
+          <controlProperties>
+            <text>Generate%20my%20key</text>
+          </controlProperties>
+        </control>
+        <control controlID="17" controlTypeID="com.balsamiq.mockups::Image" x="237" y="0" w="62" h="32" measuredW="74" measuredH="36" zOrder="3" locked="false" isInGroup="84">
+          <controlProperties>
+            <src>./assets/unplugged.png</src>
+            <text/>
+          </controlProperties>
+        </control>
+        <control controlID="18" controlTypeID="com.balsamiq.mockups::TextInput" x="0" y="56" w="293" h="-1" measuredW="83" measuredH="27" zOrder="4" locked="false" isInGroup="84">
+          <controlProperties>
+            <text>Full%20name...</text>
+          </controlProperties>
+        </control>
+        <control controlID="19" controlTypeID="com.balsamiq.mockups::TextInput" x="0" y="90" w="293" h="-1" measuredW="107" measuredH="27" zOrder="5" locked="false" isInGroup="84">
+          <controlProperties>
+            <text>Email%20address...</text>
+          </controlProperties>
+        </control>
+        <control controlID="20" controlTypeID="com.balsamiq.mockups::TextInput" x="0" y="124" w="293" h="-1" measuredW="79" measuredH="27" zOrder="6" locked="false" isInGroup="84">
+          <controlProperties>
+            <text>Comment...</text>
+          </controlProperties>
+        </control>
+        <control controlID="21" controlTypeID="com.balsamiq.mockups::Component" x="6" y="291" w="170" h="90" measuredW="170" measuredH="90" zOrder="7" locked="false" isInGroup="84">
+          <controlProperties>
+            <src>./assets/balsamiq_for_android.bmml#Time%20Picker</src>
+          </controlProperties>
+        </control>
+        <control controlID="22" controlTypeID="com.balsamiq.mockups::Label" x="0" y="169" w="-1" h="-1" measuredW="64" measuredH="23" zOrder="8" locked="false" isInGroup="84">
+          <controlProperties>
+            <text>Key%20Type%3A</text>
+          </controlProperties>
+        </control>
+        <control controlID="23" controlTypeID="com.balsamiq.mockups::Label" x="0" y="216" w="-1" h="-1" measuredW="50" measuredH="23" zOrder="9" locked="false" isInGroup="84">
+          <controlProperties>
+            <text>Length%3A</text>
+          </controlProperties>
+        </control>
+        <control controlID="24" controlTypeID="com.balsamiq.mockups::ComboBox" x="0" y="190" w="293" h="-1" measuredW="144" measuredH="23" zOrder="10" locked="false" isInGroup="84">
+          <controlProperties>
+            <state>up</state>
+            <text>RSA%20%28encrypt%20only%29</text>
+          </controlProperties>
+        </control>
+        <control controlID="25" controlTypeID="com.balsamiq.mockups::ComboBox" x="0" y="239" w="293" h="-1" measuredW="61" measuredH="23" zOrder="11" locked="false" isInGroup="84">
+          <controlProperties>
+            <state>up</state>
+            <text>4096</text>
+          </controlProperties>
+        </control>
+        <control controlID="26" controlTypeID="com.balsamiq.mockups::Label" x="0" y="266" w="-1" h="-1" measuredW="102" measuredH="23" zOrder="12" locked="false" isInGroup="84">
+          <controlProperties>
+            <text>Expiration%20Date%3A</text>
+          </controlProperties>
+        </control>
+        <control controlID="27" controlTypeID="com.balsamiq.mockups::IconLabel" x="207" y="300" w="-1" h="-1" measuredW="65" measuredH="71" zOrder="14" locked="false" isInGroup="84">
+          <controlProperties>
+            <borderStyle>none</borderStyle>
+            <icon>CameraIcon%7Clarge</icon>
+            <text>Add%20Photo</text>
+          </controlProperties>
+        </control>
+        <control controlID="28" controlTypeID="com.balsamiq.mockups::Canvas" x="190" y="291" w="100" h="90" measuredW="100" measuredH="70" zOrder="13" locked="false" isInGroup="84"/>
+      </groupChildrenDescriptors>
+    </control>
+    <control controlID="85" controlTypeID="com.balsamiq.mockups::Arrow" x="252" y="582" w="250" h="295" measuredW="150" measuredH="100" zOrder="13" locked="false" isInGroup="-1">
+      <controlProperties>
+        <leftArrow>false</leftArrow>
+        <text/>
+      </controlProperties>
+    </control>
+    <control controlID="86" controlTypeID="__group__" x="486" y="319" w="223" h="128" measuredW="223" measuredH="128" zOrder="14" locked="false" isInGroup="-1">
+      <groupChildrenDescriptors>
+        <control controlID="0" controlTypeID="__group__" x="0" y="0" w="223" h="128" measuredW="223" measuredH="128" zOrder="0" locked="false" isInGroup="86">
+          <groupChildrenDescriptors>
+            <control controlID="0" controlTypeID="com.balsamiq.mockups::Canvas" x="0" y="0" w="223" h="128" measuredW="100" measuredH="70" zOrder="0" locked="false" isInGroup="0"/>
+            <control controlID="1" controlTypeID="com.balsamiq.mockups::Canvas" x="2" y="2" w="221" h="30" measuredW="100" measuredH="70" zOrder="1" locked="false" isInGroup="0">
+              <controlProperties>
+                <borderColor>0</borderColor>
+                <color>3355443</color>
+              </controlProperties>
+            </control>
+          </groupChildrenDescriptors>
+        </control>
+        <control controlID="1" controlTypeID="com.balsamiq.mockups::Label" x="8" y="6" w="-1" h="-1" measuredW="95" measuredH="23" zOrder="1" locked="false" isInGroup="86">
+          <controlProperties>
+            <color>16777215</color>
+            <text>Import%20photo...</text>
+          </controlProperties>
+        </control>
+        <control controlID="6" controlTypeID="__group__" x="6" y="35" w="209" h="40" measuredW="209" measuredH="40" zOrder="2" locked="false" isInGroup="86">
+          <controlProperties>
+            <map>%3Carea%20shape%3D%22rect%22%20coords%3D%22504%2C205%2C713%2C245%22%20href%3D%22edit_key.bmml%22%20alt%3D%22edit_key%22%20id%3D%2234%22/%3E</map>
+          </controlProperties>
+          <groupChildrenDescriptors>
+            <control controlID="0" controlTypeID="com.balsamiq.mockups::SubTitle" x="0" y="0" w="209" h="-1" measuredW="142" measuredH="32" zOrder="0" locked="false" isInGroup="6">
+              <controlProperties>
+                <size>20</size>
+                <text>From%20Gallery...</text>
+              </controlProperties>
+            </control>
+            <control controlID="1" controlTypeID="com.balsamiq.mockups::HRule" x="1" y="35" w="208" h="-1" measuredW="100" measuredH="5" zOrder="1" locked="false" isInGroup="6"/>
+          </groupChildrenDescriptors>
+        </control>
+        <control controlID="7" controlTypeID="__group__" x="6" y="75" w="209" h="40" measuredW="209" measuredH="40" zOrder="3" locked="false" isInGroup="86">
+          <controlProperties>
+            <map>%3Carea%20shape%3D%22rect%22%20coords%3D%22504%2C205%2C713%2C245%22%20href%3D%22edit_key.bmml%22%20alt%3D%22edit_key%22%20id%3D%2234%22/%3E</map>
+          </controlProperties>
+          <groupChildrenDescriptors>
+            <control controlID="0" controlTypeID="com.balsamiq.mockups::SubTitle" x="0" y="0" w="209" h="-1" measuredW="144" measuredH="32" zOrder="0" locked="false" isInGroup="7">
+              <controlProperties>
+                <size>20</size>
+                <text>From%20Camera...</text>
+              </controlProperties>
+            </control>
+            <control controlID="1" controlTypeID="com.balsamiq.mockups::HRule" x="1" y="35" w="208" h="-1" measuredW="100" measuredH="5" zOrder="1" locked="false" isInGroup="7"/>
+          </groupChildrenDescriptors>
+        </control>
+      </groupChildrenDescriptors>
+    </control>
+    <control controlID="87" controlTypeID="__group__" x="947" y="131" w="320" h="480" measuredW="320" measuredH="480" zOrder="16" locked="false" isInGroup="-1">
+      <groupChildrenDescriptors>
+        <control controlID="0" controlTypeID="com.balsamiq.mockups::Canvas" x="0" y="0" w="320" h="480" measuredW="100" measuredH="70" zOrder="0" locked="false" isInGroup="87"/>
+        <control controlID="1" controlTypeID="com.balsamiq.mockups::TabBar" x="0" y="0" w="320" h="480" measuredW="361" measuredH="100" zOrder="1" locked="false" isInGroup="87">
+          <controlProperties>
+            <selectedIndex>1</selectedIndex>
+            <text>Key%20Manager%2C%20My%20Keys%2C%20Encrypt/Decrypt</text>
+          </controlProperties>
+        </control>
+      </groupChildrenDescriptors>
+    </control>
+    <control controlID="88" controlTypeID="__group__" x="958" y="170" w="299" h="427" measuredW="299" measuredH="427" zOrder="17" locked="false" isInGroup="-1">
+      <groupChildrenDescriptors>
+        <control controlID="0" controlTypeID="com.balsamiq.mockups::Title" x="0" y="0" w="-1" h="-1" measuredW="115" measuredH="41" zOrder="0" locked="false" isInGroup="88">
+          <controlProperties>
+            <size>28</size>
+            <text>New%20Key</text>
+          </controlProperties>
+        </control>
+        <control controlID="6" controlTypeID="com.balsamiq.mockups::HRule" x="0" y="157" w="290" h="-1" measuredW="100" measuredH="5" zOrder="1" locked="false" isInGroup="88"/>
+        <control controlID="16" controlTypeID="com.balsamiq.mockups::Button" x="0" y="390" w="293" h="37" measuredW="128" measuredH="28" zOrder="2" locked="false" isInGroup="88">
+          <controlProperties>
+            <text>Generate%20my%20key</text>
+          </controlProperties>
+        </control>
+        <control controlID="17" controlTypeID="com.balsamiq.mockups::Image" x="237" y="0" w="62" h="32" measuredW="74" measuredH="36" zOrder="3" locked="false" isInGroup="88">
+          <controlProperties>
+            <src>./assets/unplugged.png</src>
+            <text/>
+          </controlProperties>
+        </control>
+        <control controlID="18" controlTypeID="com.balsamiq.mockups::TextInput" x="0" y="56" w="293" h="-1" measuredW="83" measuredH="27" zOrder="4" locked="false" isInGroup="88">
+          <controlProperties>
+            <text>Full%20name...</text>
+          </controlProperties>
+        </control>
+        <control controlID="19" controlTypeID="com.balsamiq.mockups::TextInput" x="0" y="90" w="293" h="-1" measuredW="107" measuredH="27" zOrder="5" locked="false" isInGroup="88">
+          <controlProperties>
+            <text>Email%20address...</text>
+          </controlProperties>
+        </control>
+        <control controlID="20" controlTypeID="com.balsamiq.mockups::TextInput" x="0" y="124" w="293" h="-1" measuredW="79" measuredH="27" zOrder="6" locked="false" isInGroup="88">
+          <controlProperties>
+            <text>Comment...</text>
+          </controlProperties>
+        </control>
+        <control controlID="21" controlTypeID="com.balsamiq.mockups::Component" x="6" y="291" w="170" h="90" measuredW="170" measuredH="90" zOrder="7" locked="false" isInGroup="88">
+          <controlProperties>
+            <src>./assets/balsamiq_for_android.bmml#Time%20Picker</src>
+          </controlProperties>
+        </control>
+        <control controlID="22" controlTypeID="com.balsamiq.mockups::Label" x="0" y="169" w="-1" h="-1" measuredW="64" measuredH="23" zOrder="8" locked="false" isInGroup="88">
+          <controlProperties>
+            <text>Key%20Type%3A</text>
+          </controlProperties>
+        </control>
+        <control controlID="23" controlTypeID="com.balsamiq.mockups::Label" x="0" y="216" w="-1" h="-1" measuredW="50" measuredH="23" zOrder="9" locked="false" isInGroup="88">
+          <controlProperties>
+            <text>Length%3A</text>
+          </controlProperties>
+        </control>
+        <control controlID="24" controlTypeID="com.balsamiq.mockups::ComboBox" x="0" y="190" w="293" h="-1" measuredW="144" measuredH="23" zOrder="10" locked="false" isInGroup="88">
+          <controlProperties>
+            <state>up</state>
+            <text>RSA%20%28encrypt%20only%29</text>
+          </controlProperties>
+        </control>
+        <control controlID="25" controlTypeID="com.balsamiq.mockups::ComboBox" x="0" y="239" w="293" h="-1" measuredW="61" measuredH="23" zOrder="11" locked="false" isInGroup="88">
+          <controlProperties>
+            <state>up</state>
+            <text>4096</text>
+          </controlProperties>
+        </control>
+        <control controlID="26" controlTypeID="com.balsamiq.mockups::Label" x="0" y="266" w="-1" h="-1" measuredW="102" measuredH="23" zOrder="12" locked="false" isInGroup="88">
+          <controlProperties>
+            <text>Expiration%20Date%3A</text>
+          </controlProperties>
+        </control>
+        <control controlID="28" controlTypeID="com.balsamiq.mockups::Canvas" x="190" y="291" w="100" h="90" measuredW="100" measuredH="70" zOrder="13" locked="false" isInGroup="88"/>
+        <control controlID="29" controlTypeID="com.balsamiq.mockups::Image" x="215" y="303" w="50" h="50" measuredW="640" measuredH="480" zOrder="14" locked="false" isInGroup="88">
+          <controlProperties>
+            <borderStyle>square</borderStyle>
+            <src>./assets/0725081518.jpg</src>
+            <text/>
+          </controlProperties>
+        </control>
+        <control controlID="30" controlTypeID="com.balsamiq.mockups::Label" x="213" y="353" w="-1" h="-1" measuredW="57" measuredH="20" zOrder="15" locked="false" isInGroup="88">
+          <controlProperties>
+            <bold>false</bold>
+            <size>11</size>
+            <text>Edit%20Photo</text>
+          </controlProperties>
+        </control>
+      </groupChildrenDescriptors>
+    </control>
+    <control controlID="90" controlTypeID="com.balsamiq.mockups::Arrow" x="691" y="348" w="283" h="48" measuredW="150" measuredH="100" zOrder="18" locked="false" isInGroup="-1">
+      <controlProperties>
+        <direction>bottom</direction>
+        <leftArrow>false</leftArrow>
+      </controlProperties>
+    </control>
+    <control controlID="91" controlTypeID="com.balsamiq.mockups::RoundButton" x="773" y="344" w="160" h="52" measuredW="32" measuredH="32" zOrder="19" locked="false" isInGroup="-1">
+      <controlProperties>
+        <color>10066329</color>
+        <shape>roundRect</shape>
+        <size>11</size>
+        <text>upon%20choosing%20image...</text>
+      </controlProperties>
+    </control>
+    <control controlID="92" controlTypeID="com.balsamiq.mockups::Arrow" x="659" y="587" w="456" h="272" measuredW="150" measuredH="100" zOrder="20" locked="false" isInGroup="-1">
+      <controlProperties>
+        <direction>bottom</direction>
+        <rightArrow>false</rightArrow>
+        <text/>
+      </controlProperties>
+    </control>
+    <control controlID="93" controlTypeID="com.balsamiq.mockups::RoundButton" x="345" y="110" w="160" h="122" measuredW="32" measuredH="32" zOrder="21" locked="false" isInGroup="-1">
+      <controlProperties>
+        <color>10066329</color>
+        <shape>roundRect</shape>
+        <size>11</size>
+        <text>key%20is%20not%20%22plugged-in%22%0Ameaning%20the%20app%20will%0Anot%20update%20keyservers%0Aon%20save...</text>
+      </controlProperties>
+    </control>
+  </controls>
+</mockup>

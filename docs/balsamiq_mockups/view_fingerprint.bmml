@@ -1,0 +1,40 @@
+<mockup version="1.0" skin="sketch" measuredW="340" measuredH="580" mockupW="320" mockupH="560">
+  <controls>
+    <control controlID="0" controlTypeID="com.balsamiq.mockups::CallOut" x="20" y="20" w="149" h="58" measuredW="149" measuredH="40" zOrder="0" locked="false" isInGroup="-1">
+      <controlProperties>
+        <color>6989903</color>
+        <text>GNUPG%20for%20Android%3A%0AView%20Fingerprint</text>
+      </controlProperties>
+    </control>
+    <control controlID="1" controlTypeID="com.balsamiq.mockups::Canvas" x="20" y="100" w="320" h="480" measuredW="100" measuredH="70" zOrder="1" locked="false" isInGroup="-1"/>
+    <control controlID="3" controlTypeID="com.balsamiq.mockups::Title" x="37" y="115" w="-1" h="-1" measuredW="286" measuredH="41" zOrder="2" locked="false" isInGroup="-1">
+      <controlProperties>
+        <size>28</size>
+        <text>Fingerprint%3A%20B309CD31</text>
+      </controlProperties>
+    </control>
+    <control controlID="4" controlTypeID="com.balsamiq.mockups::Paragraph" x="36" y="171" w="212" h="69" measuredW="200" measuredH="140" zOrder="3" locked="false" isInGroup="-1">
+      <controlProperties>
+        <bold>false</bold>
+        <size>11</size>
+        <text>*ID%3A*%20B309CD31%0A*Name%3A*%20Harlo%20Holmes%0A*Email%3A*%20harlo@guardianproject.info%0A*Comment%3A*%20comment%20here</text>
+      </controlProperties>
+    </control>
+    <control controlID="5" controlTypeID="com.balsamiq.mockups::Paragraph" x="51" y="248" w="286" h="80" measuredW="200" measuredH="140" zOrder="4" locked="false" isInGroup="-1">
+      <controlProperties>
+        <size>24</size>
+        <text>AC24%202345%20622A%207608%20A80E%206786%206B76%207608%20A111</text>
+      </controlProperties>
+    </control>
+    <control controlID="6" controlTypeID="com.balsamiq.mockups::Button" x="37" y="540" w="286" h="28" measuredW="41" measuredH="28" zOrder="5" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>OK</text>
+      </controlProperties>
+    </control>
+    <control controlID="7" controlTypeID="com.balsamiq.mockups::Image" x="74" y="316" w="212" h="212" measuredW="372" measuredH="372" zOrder="6" locked="false" isInGroup="-1">
+      <controlProperties>
+        <src>./assets/qrcode.png</src>
+      </controlProperties>
+    </control>
+  </controls>
+</mockup>

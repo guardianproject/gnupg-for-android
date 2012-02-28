@@ -1,0 +1,10 @@
+<mockup version="1.0" skin="sketch" measuredW="169" measuredH="78" mockupW="149" mockupH="58">
+  <controls>
+    <control controlID="0" controlTypeID="com.balsamiq.mockups::CallOut" x="20" y="20" w="149" h="58" measuredW="149" measuredH="40" zOrder="0" locked="false" isInGroup="-1">
+      <controlProperties>
+        <color>6989903</color>
+        <text>GNUPG%20for%20Android%3A%0APreferences</text>
+      </controlProperties>
+    </control>
+  </controls>
+</mockup>
