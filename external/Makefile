@@ -638,9 +638,9 @@ android-assets:
 			(rm $$f && mv $$f.[0-9]* $$f); \
 	done
 	rm -rf $(ASSETS)/include
-	install $(ASSETS)/share/gnupg/gpg-conf.skel $(ASSETS)/etc/gnupg/gpg.conf
-	rm -rf $(ASSETS)/share
+	rm -rf $(ASSETS)/share/man $(ASSETS)/share/info $(ASSETS)/share/doc
 	rmdir $(ASSETS)/sbin
+
 
 #------------------------------------------------------------------------------#
 # clean

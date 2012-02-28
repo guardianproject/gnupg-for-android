@@ -88,7 +88,8 @@ public class NativeHelper {
 	 * are setting up the whole UNIX directory tree that it expects 
 	 */
 	private static void setupEmptyDirs() {
-		new File(app_opt, "etc/gnupg").mkdirs();
+		new File(app_opt, "etc/gnupg/trusted-certs").mkdirs();
+		new File(app_opt, "share/gnupg/extra-certs").mkdirs();
 		new File(app_opt, "var/run/gnupg").mkdirs();
 		new File(app_opt, "var/cache/gnupg").mkdirs();
 		// /home is outside of this tree, in app_home
