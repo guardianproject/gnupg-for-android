@@ -5,10 +5,8 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
-import android.os.Handler;
+import android.os.Binder;
 import android.os.IBinder;
-import android.os.Message;
-import android.os.Messenger;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -18,45 +16,23 @@ public class AgentsService extends Service {
     /** For showing and hiding our notification. */
     NotificationManager mNM;
 
-	static final int MSG_START = 1;
-	static final int MSG_STOP = 2;
+	private LaunchAgentsThread launchAgentsThread;
 
 	private void startDaemons() {
-		Log.i(TAG, "start daemons");
-		// TODO start gpg-agent and dirmngr from here
-	}
-
-	private void stopDaemons() {
-		Log.i(TAG, "stop daemons");
-		// TODO start gpg-agent and dirmngr from here
-	}
-
-	class IncomingHandler extends Handler {
-		@Override
-		public void handleMessage(Message msg) {
-			switch (msg.what) {
-			case MSG_START:
-				startDaemons();
-				break;
-			case MSG_STOP:
-				stopDaemons();
-				break;
-			default:
-				super.handleMessage(msg);
-			}
+		Log.i(TAG, "start daemons in " + NativeHelper.app_opt.getAbsolutePath());
+		synchronized (this) {
+			launchAgentsThread = new LaunchAgentsThread();
+			launchAgentsThread.start();
 		}
 	}
 
-	/**
-	 * Target we publish for clients to send messages to IncomingHandler.
-	 */
-	final Messenger mMessenger = new Messenger(new IncomingHandler());
-
 	@Override
 	public void onCreate() {
-		mNM = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+		// since this service is a separate process, it has its own instance of
+		// NativeHelper
+		NativeHelper.setup(this);
 
-		// Display a notification about us starting.
+		mNM = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 		showNotification();
 	}
 
@@ -64,17 +40,25 @@ public class AgentsService extends Service {
 	public void onDestroy() {
 		// Cancel the persistent notification.
 		mNM.cancel(R.string.remote_service_started);
-		// Tell the user we stopped.
 		Toast.makeText(this, R.string.remote_service_stopped, Toast.LENGTH_SHORT).show();
 	}
 
-	/**
-	 * When binding to the service, we return an interface to our messenger for
-	 * sending messages to the service.
-	 */
+	public class LocalBinder extends Binder {
+		public AgentsService getService() {
+			return AgentsService.this;
+		}
+	}
+
+	private final IBinder mBinder = new LocalBinder();
+
 	@Override
 	public IBinder onBind(Intent intent) {
-		return mMessenger.getBinder();
+		return mBinder;
+	}
+
+	public int onStartCommand(Intent intent, int flags, int startId) {
+		startDaemons();
+		return START_STICKY;
 	}
 
 	/**
@@ -103,4 +87,40 @@ public class AgentsService extends Service {
 		// cancel.
 		mNM.notify(R.string.remote_service_started, notification);
 	}
+
+	class LaunchAgentsThread extends Thread {
+
+		@Override
+		public void run() {
+			Log.i(TAG, "did we get this far? ");
+			if (NativeHelper.app_opt == null) {
+				Log.i(TAG, "bailing app_opt == null");
+				return;
+			}
+			String gpgAgentCmd = NativeHelper.app_opt.getAbsolutePath()
+					+ "/bin/gpg-agent --daemon --write-env-file";
+			Log.i(TAG, gpgAgentCmd);
+			String dirmngrCmd = NativeHelper.app_opt.getAbsolutePath()
+					+ "/bin/dirmngr --no-detach";
+			Log.i(TAG, dirmngrCmd);
+			try {
+				// gpg-agent --daemon detaches and lives on, dirmngr stays
+				// attached
+				Runtime.getRuntime()
+						.exec(gpgAgentCmd, NativeHelper.envp, NativeHelper.app_home)
+						.waitFor();
+				Runtime.getRuntime()
+						.exec(dirmngrCmd, NativeHelper.envp, NativeHelper.app_home)
+						.waitFor();
+			} catch (Exception e) {
+				Log.e(TAG, "Could not start gpg-agent or dirmngr", e);
+			} finally {
+				stopSelf();
+				synchronized (AgentsService.this) {
+					launchAgentsThread = null;
+				}
+			}
+		}
+	}
+
 }
