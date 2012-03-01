@@ -16,13 +16,16 @@ public class AgentsService extends Service {
 	/** For showing and hiding our notification. */
 	NotificationManager mNM;
 
-	private LaunchAgentsThread launchAgentsThread;
+	private GpgAgentThread gpgAgentThread;
+	private DirmngrThread dirmngrThread;
 
 	private void startDaemons() {
 		Log.i(TAG, "start daemons in " + NativeHelper.app_opt.getAbsolutePath());
 		synchronized (this) {
-			launchAgentsThread = new LaunchAgentsThread();
-			launchAgentsThread.start();
+			gpgAgentThread = new GpgAgentThread();
+			gpgAgentThread.start();
+			dirmngrThread = new DirmngrThread();
+			dirmngrThread.start();
 		}
 	}
 
@@ -88,38 +91,50 @@ public class AgentsService extends Service {
 		mNM.notify(R.string.remote_service_started, notification);
 	}
 
-	class LaunchAgentsThread extends Thread {
+	class GpgAgentThread extends Thread {
 
 		@Override
 		public void run() {
-			if (NativeHelper.app_opt == null) {
-				Log.i(TAG, "bailing app_opt == null");
-				return;
-			}
 			String gpgAgentCmd = NativeHelper.app_opt.getAbsolutePath()
-					+ "/bin/gpg-agent --daemon --write-env-file";
+					+ "/bin/gpg-agent --daemon --write-env-file "
+					+ "--debug-level guru --log-file " + NativeHelper.app_log
+					+ "/gpg-agent.log";
 			Log.i(TAG, gpgAgentCmd);
-			String dirmngrCmd = NativeHelper.app_opt.getAbsolutePath()
-					+ "/bin/dirmngr --no-detach";
-			Log.i(TAG, dirmngrCmd);
 			try {
-				// gpg-agent --daemon detaches and lives on, dirmngr stays
-				// attached
 				Runtime.getRuntime()
 						.exec(gpgAgentCmd, NativeHelper.envp, NativeHelper.app_home)
 						.waitFor();
-				Runtime.getRuntime()
-						.exec(dirmngrCmd, NativeHelper.envp, NativeHelper.app_home)
-						.waitFor();
 			} catch (Exception e) {
-				Log.e(TAG, "Could not start gpg-agent or dirmngr", e);
+				Log.e(TAG, "Could not start gpg-agent", e);
 			} finally {
 				stopSelf();
 				synchronized (AgentsService.this) {
-					launchAgentsThread = null;
+					gpgAgentThread = null;
 				}
 			}
 		}
 	}
 
+	class DirmngrThread extends Thread {
+
+		@Override
+		public void run() {
+			String dirmngrCmd = NativeHelper.app_opt.getAbsolutePath()
+					+ "/bin/dirmngr --no-detach --debug-level guru --log-file "
+					+ NativeHelper.app_log + "/dirmngr.log";
+			Log.i(TAG, dirmngrCmd);
+			try {
+				Runtime.getRuntime()
+						.exec(dirmngrCmd, NativeHelper.envp, NativeHelper.app_home)
+						.waitFor();
+			} catch (Exception e) {
+				Log.e(TAG, "Could not start dirmngr", e);
+			} finally {
+				stopSelf();
+				synchronized (AgentsService.this) {
+					dirmngrThread = null;
+				}
+			}
+		}
+	}
 }
