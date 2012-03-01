@@ -34,7 +34,9 @@ public class NativeHelper {
 		app_home = context.getDir("home", Context.MODE_PRIVATE).getAbsoluteFile();
 		sdcard = Environment.getExternalStorageDirectory().getAbsolutePath();
 		envp = new String[] {"HOME=" + NativeHelper.app_home, 
-				"LD_LIBRARY_PATH=/system/lib:" + NativeHelper.app_opt + "/lib"};
+				"LD_LIBRARY_PATH=$LD_LIBRARY_PATH:" + NativeHelper.app_opt + "/lib",
+				"PATH=$PATH:" + new File(app_opt, "bin").getAbsolutePath(),
+				"app_opt=" + app_opt.getAbsolutePath()};
 		Log.i(TAG, "Finished NativeHelper.setup()");
 	}
 
@@ -97,11 +99,10 @@ public class NativeHelper {
 
 	/* write out a sh .profile file to ease testing in the terminal */
 	private static void writeShProfile(){
-		String home = "export HOME=" + app_home.getAbsolutePath();
-		String path = "export PATH=$PATH:" + new File(app_opt, "bin").getAbsolutePath();
-		String ld_library_path = "export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:" + 
-				new File(app_opt, "lib").getAbsolutePath();
-		String batch = home + "\n" + path + "\n" + ld_library_path + "\n";
+		String batch = "";
+		for (String s : envp) {
+			batch += "export " + s + "\n";
+		}
 		File batchfile = new File(app_home, "profile");
 		try {
 			FileWriter outFile = new FileWriter(batchfile);
