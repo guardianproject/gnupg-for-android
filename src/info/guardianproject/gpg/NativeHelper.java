@@ -98,20 +98,28 @@ public class NativeHelper {
 	}
 
 	/* write out a sh .profile file to ease testing in the terminal */
-	private static void writeShProfile(){
-		String batch = "";
+	private static void writeShProfile() {
+		File etc_profile = new File(app_opt, "etc/profile");
+		String global = "";
 		for (String s : envp) {
-			batch += "export " + s + "\n";
+			global += "export " + s + "\n";
 		}
-		File batchfile = new File(app_home, "profile");
+		File home_profile = new File(app_home, ".profile");
+		String local = ". " + etc_profile.getAbsolutePath() + "\n. "
+				+ new File(app_home, ".gpg-agent-info").getAbsolutePath() + "\n"
+				+ "export GPG_AGENT_INFO\n" + "export SSH_AUTH_SOCK\n";
 		try {
-			FileWriter outFile = new FileWriter(batchfile);
+			FileWriter outFile = new FileWriter(etc_profile);
 			PrintWriter out = new PrintWriter(outFile);
-			out.println(batch);
+			out.println(global);
 			out.close();
-		}  catch (Exception e) {
-			Log.w(TAG, "Cannot write " + batchfile.getAbsolutePath(), e);
-		} 
+			outFile = new FileWriter(home_profile);
+			out = new PrintWriter(home_profile);
+			out.println(local);
+			out.close();
+		} catch (Exception e) {
+			Log.e(TAG, "Cannot write file: ", e);
+		}
 	}
 
 	public static void unpackAssets(Context context) {
