@@ -11,7 +11,7 @@ export PKG_CONFIG_PATH=$(LOCAL)/lib/pkgconfig
 export ac_cv_func_malloc_0_nonnull=yes
 
 CWD = $(shell pwd)
-PROJECT_ROOT = $(CWD)
+PROJECT_ROOT = $(CWD)/..
 EXTERNAL_ROOT = $(PROJECT_ROOT)/external
 
 # Android NDK setup
@@ -27,7 +27,7 @@ NDK_TOOLCHAIN=$(NDK_BASE)/toolchains/arm-linux-androideabi-4.4.3/prebuilt/$(NDK_
 HOST := arm-linux-androideabi
 
 # install root for built files
-DESTDIR = $(CWD)
+DESTDIR = $(EXTERNAL_ROOT)
 # TODO try adding the Android-style /data/app.name here
 prefix = /data/data/info.guardianproject.gpg/app_opt
 LOCAL := $(DESTDIR)$(prefix)
