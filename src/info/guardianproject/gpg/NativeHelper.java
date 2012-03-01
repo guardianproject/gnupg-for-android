@@ -24,70 +24,70 @@ public class NativeHelper {
 	public static File app_log; // a place to store logs
 	public static File app_home; // dir for $HOME and ~/.gnupg
 	public static String sdcard;
-	public static String[] envp; //environment variables
+	public static String[] envp; // environment variables
 	private static Context context;
 
 	public static void setup(Context c) {
 		context = c;
 		app_opt = context.getDir("opt", Context.MODE_WORLD_READABLE).getAbsoluteFile();
-		app_log = new File(app_opt, "var/log");
+		app_log = context.getDir("log", Context.MODE_PRIVATE).getAbsoluteFile();
 		app_home = context.getDir("home", Context.MODE_PRIVATE).getAbsoluteFile();
 		sdcard = Environment.getExternalStorageDirectory().getAbsolutePath();
-		envp = new String[] {"HOME=" + NativeHelper.app_home, 
+		envp = new String[] { "HOME=" + NativeHelper.app_home,
 				"LD_LIBRARY_PATH=$LD_LIBRARY_PATH:" + NativeHelper.app_opt + "/lib",
 				"PATH=$PATH:" + new File(app_opt, "bin").getAbsolutePath(),
-				"app_opt=" + app_opt.getAbsolutePath()};
+				"app_opt=" + app_opt.getAbsolutePath() };
 		Log.i(TAG, "Finished NativeHelper.setup()");
 	}
 
 	private static void copyFileOrDir(String path, File dest) {
-	    AssetManager assetManager = context.getAssets();
-	    String assets[] = null;
-	    try {
-	        assets = assetManager.list(path);
-	        if (assets.length == 0) {
-	            copyFile(path, dest);
-	        } else {
-	        	File destdir = new File(dest, new File(path).getName());
-	            if (!destdir.exists())
-	                destdir.mkdirs();
-	            for (int i = 0; i < assets.length; ++i) {
-	                copyFileOrDir(new File(path, assets[i]).getPath(), destdir);
-	            }
-	        }
-	    } catch (IOException ex) {
-	        Log.e(TAG, "I/O Exception", ex);
-	    }
+		AssetManager assetManager = context.getAssets();
+		String assets[] = null;
+		try {
+			assets = assetManager.list(path);
+			if (assets.length == 0) {
+				copyFile(path, dest);
+			} else {
+				File destdir = new File(dest, new File(path).getName());
+				if (!destdir.exists())
+					destdir.mkdirs();
+				for (int i = 0; i < assets.length; ++i) {
+					copyFileOrDir(new File(path, assets[i]).getPath(), destdir);
+				}
+			}
+		} catch (IOException ex) {
+			Log.e(TAG, "I/O Exception", ex);
+		}
 	}
 
 	private static void copyFile(String filename, File dest) {
-	    AssetManager assetManager = context.getAssets();
+		AssetManager assetManager = context.getAssets();
 
-	    InputStream in = null;
-	    OutputStream out = null;
-	    try {
-	        in = assetManager.open(filename);
-	        out = new FileOutputStream(new File(app_opt, filename).getAbsolutePath());
+		InputStream in = null;
+		OutputStream out = null;
+		try {
+			in = assetManager.open(filename);
+			out = new FileOutputStream(new File(app_opt, filename).getAbsolutePath());
 
-	        byte[] buffer = new byte[1024];
-	        int read;
-	        while ((read = in.read(buffer)) != -1) {
-	            out.write(buffer, 0, read);
-	        }
-	        in.close();
-	        in = null;
-	        out.flush();
-	        out.close();
-	        out = null;
-	    } catch (Exception e) {
-	        Log.e(TAG, filename + ": " + e.getMessage());
-	    }
+			byte[] buffer = new byte[1024];
+			int read;
+			while ((read = in.read(buffer)) != -1) {
+				out.write(buffer, 0, read);
+			}
+			in.close();
+			in = null;
+			out.flush();
+			out.close();
+			out = null;
+		} catch (Exception e) {
+			Log.e(TAG, filename + ": " + e.getMessage());
+		}
 
 	}
 
 	/*
 	 * since we are using the whole gnupg package of programs and libraries, we
-	 * are setting up the whole UNIX directory tree that it expects 
+	 * are setting up the whole UNIX directory tree that it expects
 	 */
 	private static void setupEmptyDirs() {
 		new File(app_opt, "etc/gnupg/trusted-certs").mkdirs();
@@ -148,7 +148,7 @@ public class NativeHelper {
 	}
 
 	public static void chmod(String modestr, File path) {
-		Log.i(TAG, "chmod " + modestr + " "  + path.getAbsolutePath());
+		Log.i(TAG, "chmod " + modestr + " " + path.getAbsolutePath());
 		try {
 			Class<?> fileUtils = Class.forName("android.os.FileUtils");
 			Method setPermissions = fileUtils.getMethod("setPermissions", String.class,
@@ -161,19 +161,19 @@ public class NativeHelper {
 						+ " for '" + path + "'");
 			}
 		} catch (ClassNotFoundException e) {
-			Log.i(TAG, "android.os.FileUtils.setPermissions() failed - ClassNotFoundException.");
+			Log.i(TAG, "android.os.FileUtils.setPermissions() failed:", e);
 		} catch (IllegalAccessException e) {
-			Log.i(TAG, "android.os.FileUtils.setPermissions() failed - IllegalAccessException.");
+			Log.i(TAG, "android.os.FileUtils.setPermissions() failed:", e);
 		} catch (InvocationTargetException e) {
-			Log.i(TAG, "android.os.FileUtils.setPermissions() failed - InvocationTargetException.");
+			Log.i(TAG, "android.os.FileUtils.setPermissions() failed:", e);
 		} catch (NoSuchMethodException e) {
-			Log.i(TAG, "android.os.FileUtils.setPermissions() failed - NoSuchMethodException.");
+			Log.i(TAG, "android.os.FileUtils.setPermissions() failed:", e);
 		}
 	}
 
 	public static void chmod(String mode, File path, boolean recursive) {
 		chmod(mode, path);
-		if(recursive) {
+		if (recursive) {
 			File[] files = path.listFiles();
 			for (File d : files) {
 				if (d.isDirectory()) {
@@ -190,58 +190,60 @@ public class NativeHelper {
 		return Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED);
 	}
 
-	public static int doShellCommand(String[] cmds, StringBuilder log, boolean runAsRoot, boolean waitFor) throws Exception
-	{
+	public static int doShellCommand(String[] cmds, StringBuilder log, boolean runAsRoot,
+			boolean waitFor) throws Exception {
 		Log.i(TAG, "executing shell cmds: " + cmds[0] + "; runAsRoot=" + runAsRoot);
-		
-		 	
+
 		Process proc = null;
 		int exitCode = -1;
-		
-            
-        	if (runAsRoot)
-        		proc = Runtime.getRuntime().exec("su");
-        	else
-        		proc = Runtime.getRuntime().exec("sh");
-        	
-        	
-        	OutputStreamWriter out = new OutputStreamWriter(proc.getOutputStream());
-            
-            for (int i = 0; i < cmds.length; i++)
-            {
-            	out.write(cmds[i]);
-            	out.write("\n");
-            }
-            
-            out.flush();
-			out.write("exit\n");
-			out.flush();
-		
-			if (waitFor)
-			{
-				
-				final char buf[] = new char[10];
-				
-				// Consume the "stdout"
-				InputStreamReader reader = new InputStreamReader(proc.getInputStream());
-				int read=0;
-				while ((read=reader.read(buf)) != -1) {
-					if (log != null) log.append(buf, 0, read);
-				}
-				
-				// Consume the "stderr"
-				reader = new InputStreamReader(proc.getErrorStream());
-				read=0;
-				while ((read=reader.read(buf)) != -1) {
-					if (log != null) log.append(buf, 0, read);
-				}
-				
-				exitCode = proc.waitFor();
-				log.append("process exit code: ");
-				log.append(exitCode);
-				log.append("\n");
-				
-				Log.i(TAG, "command process exit value: " + exitCode);
+
+		if (runAsRoot)
+			proc = Runtime.getRuntime().exec("su");
+		else
+			proc = Runtime.getRuntime().exec("sh");
+
+		OutputStreamWriter out = new OutputStreamWriter(proc.getOutputStream());
+
+		for (int i = 0; i < cmds.length; i++) {
+			out.write(cmds[i]);
+			out.write("\n");
+		}
+
+		out.flush();
+		out.write("exit\n");
+		out.flush();
+
+		if (waitFor) {
+
+			final char buf[] = new char[10];
+
+			// Consume the "stdout"
+			InputStreamReader reader = new InputStreamReader(proc.getInputStream());
+			int read = 0;
+			while ((read = reader.read(buf)) != -1) {
+				if (log != null)
+					log.append(buf, 0, read);
+			}
+
+			// Consume the "stderr"
+			reader = new InputStreamReader(proc.getErrorStream());
+			read = 0;
+			while ((read = reader.read(buf)) != -1) {
+				if (log != null)
+					log.append(buf, 0, read);
+			}
+
+			exitCode = proc.waitFor();
+			log.append("process exit code: ");
+			log.append(exitCode);
+			log.append("\n");
+
+			Log.i(TAG, "command process exit value: " + exitCode);
+		}
+
+		return exitCode;
+
+	}
 			}
         
         
