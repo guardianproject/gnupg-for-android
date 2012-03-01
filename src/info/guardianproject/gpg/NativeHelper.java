@@ -109,11 +109,12 @@ public class NativeHelper {
 			out.println(batch);
 			out.close();
 		}  catch (Exception e) {
-			Log.e(TAG, "Cannot write " + batchfile.getAbsolutePath(), e);
+			Log.w(TAG, "Cannot write " + batchfile.getAbsolutePath(), e);
 		} 
 	}
 
 	public static void unpackAssets(Context context) {
+		Log.i(TAG, "Setting up assets in " + app_opt);
 		setupEmptyDirs();
 		writeShProfile();
 

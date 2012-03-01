@@ -92,7 +92,6 @@ public class AgentsService extends Service {
 
 		@Override
 		public void run() {
-			Log.i(TAG, "did we get this far? ");
 			if (NativeHelper.app_opt == null) {
 				Log.i(TAG, "bailing app_opt == null");
 				return;

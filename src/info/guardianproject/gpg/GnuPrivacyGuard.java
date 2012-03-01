@@ -45,7 +45,7 @@ public class GnuPrivacyGuard extends Activity implements OnCreateContextMenuList
 		super.onCreate(savedInstanceState);
 		NativeHelper.setup(getApplicationContext());
 		// TODO figure out how to manage upgrades to app_opt
-		if (!NativeHelper.app_opt.exists()) {
+		if (! new File(NativeHelper.app_opt, "bin").exists()) {
 			NativeHelper.unpackAssets(getApplicationContext());
 		}
 
