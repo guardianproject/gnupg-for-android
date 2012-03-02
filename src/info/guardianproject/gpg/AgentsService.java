@@ -95,6 +95,7 @@ public class AgentsService extends Service {
 
 		@Override
 		public void run() {
+			NativeHelper.kill9(NativeHelper.gpg_agent);
 			String gpgAgentCmd = NativeHelper.gpg_agent
 					+ " --daemon --write-env-file " + "--debug-level guru --log-file "
 					+ NativeHelper.app_log + "/gpg-agent.log";
@@ -118,6 +119,7 @@ public class AgentsService extends Service {
 
 		@Override
 		public void run() {
+			NativeHelper.kill9(NativeHelper.dirmngr);
 			String dirmngrCmd = NativeHelper.dirmngr
 					+ " --daemon --debug-level guru --log-file " + NativeHelper.app_log
 					+ "/dirmngr.log";
