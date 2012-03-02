@@ -26,8 +26,10 @@ public class NativeHelper {
 	public static File app_log; // a place to store logs
 	public static File app_home; // dir for $HOME and ~/.gnupg
 
-	public static String gpg_agent; // full path to gpg-agent executable
-	public static String dirmngr; // full path to dirmngr executable
+	// full paths to key executables, with globally used flags
+	public static String gpg2;
+	public static String gpg_agent;
+	public static String dirmngr;
 
 	public static String sdcard;
 	public static String[] envp; // environment variables
@@ -39,9 +41,14 @@ public class NativeHelper {
 		app_opt = context.getDir("opt", Context.MODE_WORLD_READABLE).getAbsoluteFile();
 		app_log = context.getDir("log", Context.MODE_PRIVATE).getAbsoluteFile();
 		app_home = context.getDir("home", Context.MODE_PRIVATE).getAbsoluteFile();
+
 		File bin = new File(app_opt, "bin");
+		String logging = "--debug-level advanced --log-file " + NativeHelper.app_log
+				+ "/gpg2.log ";
+		gpg2 = new File(bin, "gpg2").getAbsolutePath() + " --no-tty " + logging;
 		gpg_agent = new File(bin, "gpg-agent").getAbsolutePath();
 		dirmngr = new File(bin, "dirmngr").getAbsolutePath();
+
 		sdcard = Environment.getExternalStorageDirectory().getAbsolutePath();
 		envp = new String[] { "HOME=" + NativeHelper.app_home,
 				"LD_LIBRARY_PATH=$LD_LIBRARY_PATH:" + NativeHelper.app_opt + "/lib",
@@ -282,10 +289,8 @@ public class NativeHelper {
 
 			Log.i(TAG, "command process exit value: " + exitCode);
 		}
-        
-        
-        
-        return exitCode;
+
+		return exitCode;
 	}
 
 	// use 'pidof' command

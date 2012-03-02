@@ -45,7 +45,7 @@ public class GnuPrivacyGuard extends Activity implements OnCreateContextMenuList
 		super.onCreate(savedInstanceState);
 		NativeHelper.setup(getApplicationContext());
 		// TODO figure out how to manage upgrades to app_opt
-		if (! new File(NativeHelper.app_opt, "bin").exists()) {
+		if (!new File(NativeHelper.app_opt, "bin").exists()) {
 			NativeHelper.unpackAssets(getApplicationContext());
 		}
 
@@ -82,22 +82,20 @@ public class GnuPrivacyGuard extends Activity implements OnCreateContextMenuList
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		String logging = "--debug-level guru --log-file " + NativeHelper.app_log
-				+ "/gpg2.log ";
 		switch (item.getItemId()) {
 		case R.id.menu_list_keys:
-			command = "./gpg2 " + logging + "--list-keys";
+			command = NativeHelper.gpg2 + "--list-keys";
 			commandThread = new CommandThread();
 			commandThread.start();
 			return true;
 		case R.id.menu_search_keys:
-			command = "./gpg2 " + logging
-					+ "--keyserver pool.sks-keyservers.net --search-keys hans@eds.org";
+			command = NativeHelper.gpg2
+					+ " --keyserver 200.144.121.45 --search-keys hans@eds.org";
 			commandThread = new CommandThread();
 			commandThread.start();
 			return true;
 		case R.id.menu_run_test:
-			command = "./gpg2 " + logging + "--version";
+			command = NativeHelper.gpg2 + "--version";
 			commandThread = new CommandThread();
 			commandThread.start();
 			return true;
@@ -113,7 +111,7 @@ public class GnuPrivacyGuard extends Activity implements OnCreateContextMenuList
 				Log.e(TAG, "Error!!!", e);
 				return false;
 			}
-			command = "./gpg2 " + logging + "--no-tty --batch --gen-key "
+			command = NativeHelper.gpg2 + " --batch --gen-key "
 					+ batchfile.getAbsolutePath();
 			commandThread = new CommandThread();
 			commandThread.start();
