@@ -95,10 +95,9 @@ public class AgentsService extends Service {
 
 		@Override
 		public void run() {
-			String gpgAgentCmd = NativeHelper.app_opt.getAbsolutePath()
-					+ "/bin/gpg-agent --daemon --write-env-file "
-					+ "--debug-level guru --log-file " + NativeHelper.app_log
-					+ "/gpg-agent.log";
+			String gpgAgentCmd = NativeHelper.gpg_agent
+					+ " --daemon --write-env-file " + "--debug-level guru --log-file "
+					+ NativeHelper.app_log + "/gpg-agent.log";
 			Log.i(TAG, gpgAgentCmd);
 			try {
 				Runtime.getRuntime()
@@ -119,9 +118,9 @@ public class AgentsService extends Service {
 
 		@Override
 		public void run() {
-			String dirmngrCmd = NativeHelper.app_opt.getAbsolutePath()
-					+ "/bin/dirmngr --no-detach --debug-level guru --log-file "
-					+ NativeHelper.app_log + "/dirmngr.log";
+			String dirmngrCmd = NativeHelper.dirmngr
+					+ " --daemon --debug-level guru --log-file " + NativeHelper.app_log
+					+ "/dirmngr.log";
 			Log.i(TAG, dirmngrCmd);
 			try {
 				Runtime.getRuntime()

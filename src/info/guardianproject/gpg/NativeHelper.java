@@ -23,8 +23,13 @@ public class NativeHelper {
 	public static File app_opt; // an /opt tree for the UNIX cmd line tools
 	public static File app_log; // a place to store logs
 	public static File app_home; // dir for $HOME and ~/.gnupg
+
+	public static String gpg_agent; // full path to gpg-agent executable
+	public static String dirmngr; // full path to dirmngr executable
+
 	public static String sdcard;
 	public static String[] envp; // environment variables
+
 	private static Context context;
 
 	public static void setup(Context c) {
@@ -32,10 +37,13 @@ public class NativeHelper {
 		app_opt = context.getDir("opt", Context.MODE_WORLD_READABLE).getAbsoluteFile();
 		app_log = context.getDir("log", Context.MODE_PRIVATE).getAbsoluteFile();
 		app_home = context.getDir("home", Context.MODE_PRIVATE).getAbsoluteFile();
+		File bin = new File(app_opt, "bin");
+		gpg_agent = new File(bin, "gpg-agent").getAbsolutePath();
+		dirmngr = new File(bin, "dirmngr").getAbsolutePath();
 		sdcard = Environment.getExternalStorageDirectory().getAbsolutePath();
 		envp = new String[] { "HOME=" + NativeHelper.app_home,
 				"LD_LIBRARY_PATH=$LD_LIBRARY_PATH:" + NativeHelper.app_opt + "/lib",
-				"PATH=$PATH:" + new File(app_opt, "bin").getAbsolutePath(),
+				"PATH=$PATH:" + bin.getAbsolutePath(),
 				"app_opt=" + app_opt.getAbsolutePath() };
 		Log.i(TAG, "Finished NativeHelper.setup()");
 	}
