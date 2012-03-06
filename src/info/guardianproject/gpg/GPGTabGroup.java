@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.OutputStream;
 
 import info.guardianproject.gpg.R;
+import info.guardianproject.gpg.adapters.GPGCustomTab;
 import info.guardianproject.gpg.adapters.GPGScreen;
 import android.app.TabActivity;
 import android.content.BroadcastReceiver;
@@ -79,23 +80,26 @@ public class GPGTabGroup extends TabActivity implements Constants {
 		unregisterReceivers();
 	}
 	
-	public void setAssets() {		
+	public void setAssets() {	
 		GPGScreen myKeys = new GPGScreen(MyKeys.TAG, new Intent(this, MyKeys.ROOT));
 		GPGScreen keyManager = new GPGScreen(KeyManager.TAG, new Intent(this, KeyManager.ROOT));
 		GPGScreen webOfTrust = new GPGScreen(WebOfTrust.TAG, new Intent(this, WebOfTrust.ROOT));
 		
+		GPGCustomTab keyManagerTab = new GPGCustomTab(this, res.getString(R.string.indicator_keyManager), getTabWidget());
 		spec = tabs.newTabSpec(KeyManager.TAG)
-				.setIndicator(res.getString(R.string.indicator_keyManager))
+				.setIndicator(keyManagerTab.tab)
 				.setContent(keyManager.intent);
 		tabs.addTab(spec);
 		
+		GPGCustomTab myKeysTab = new GPGCustomTab(this, res.getString(R.string.indicator_myKeys), getTabWidget());
 		spec = tabs.newTabSpec(MyKeys.TAG) 
-					.setIndicator(res.getString(R.string.indicator_myKeys))
+					.setIndicator(myKeysTab.tab)
 					.setContent(myKeys.intent);
 		tabs.addTab(spec);
 		
+		GPGCustomTab webOfTrustTab = new GPGCustomTab(this, res.getString(R.string.indicator_webOfTrust), getTabWidget());
 		spec = tabs.newTabSpec(WebOfTrust.TAG) 
-				.setIndicator(res.getString(R.string.indicator_webOfTrust))
+				.setIndicator(webOfTrustTab.tab)
 				.setContent(webOfTrust.intent);
 		tabs.addTab(spec);
 		

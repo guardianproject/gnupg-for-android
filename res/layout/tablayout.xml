@@ -6,20 +6,34 @@
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent" >
+        android:layout_height="fill_parent"
+        android:background="#e5e8e3" >
         <ImageView
     		android:id="@+id/gnupglogo"
     		android:layout_width="fill_parent"
     		android:layout_height="wrap_content"
-    		android:src="@drawable/gnupglogo" />
+    		android:src="@drawable/gnupglogo"
+    		android:gravity="center"
+    		android:paddingTop="10dip"
+    		android:paddingBottom="10dip"
+    		android:paddingLeft="3dip"
+    		android:paddingRight="3dip" />
         <TabWidget
             android:id="@android:id/tabs"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content" />
+        <View
+        	android:background="@drawable/tab_gradient"
+        	android:layout_width="fill_parent"
+        	android:layout_height="4dip" />
         <FrameLayout
             android:id="@android:id/tabcontent"
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent" />
+            android:layout_height="fill_parent"
+            android:paddingLeft="5dip"
+            android:paddingRight="5dip"
+            android:paddingTop="5dip"
+            android:background="#4a4949" />
     </LinearLayout>
 </TabHost>
     

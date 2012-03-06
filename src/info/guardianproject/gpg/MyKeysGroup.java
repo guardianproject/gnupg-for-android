@@ -45,17 +45,26 @@ public class MyKeysGroup  extends ActivityGroup implements Constants {
 	}
 	
 	public void changeView(GPGScreen screen) {
-		history.add(screen);
+		if(history.size() == 0)
+			history.add(screen);
+		else {
+			if(screen.label.compareTo(history.get(history.size() - 1).label) != 0)
+				history.add(screen);
+		}
+		
+		for(GPGScreen screens : history)
+			Log.d(LOG, screens.label + " : " + screens.intent);
+			
 		View newView = lam.startActivity(screen.label, screen.intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)).getDecorView();
 		setContentView(newView);
 	}
 	
 	@Override
 	public void onBackPressed() {
-		if(history.size() > 1)
-			changeView(history.get(history.size() - 1));
-		else
-			finish();
+		if(history.size() > 1) {
+			history.remove(history.get(history.size() - 1));
+			changeView(history.get(history.size() - 1)); 
+		}
 	}
 	
 	@SuppressWarnings("unchecked")
