@@ -3,16 +3,14 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical" >
-
     <TextView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="@string/app_name" />
-	<ScrollView android:layout_width="fill_parent"
-		android:layout_height="0dip" android:layout_weight="1"
-		android:id="@+id/consoleScroll">
-		<TextView android:layout_width="fill_parent"
-			android:layout_height="wrap_content" android:id="@+id/consoleText" />
-	</ScrollView>
-    
+        android:id="@+id/inherited_title"
+        android:textSize="24dip" />
+	<ProgressBar
+	    style="?android:attr/progressBarStyleLarge"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_gravity="center" />
 </LinearLayout>

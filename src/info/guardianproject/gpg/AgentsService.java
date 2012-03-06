@@ -1,5 +1,6 @@
 package info.guardianproject.gpg;
 
+import info.guardianproject.gpg.R;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -10,7 +11,7 @@ import android.os.IBinder;
 import android.util.Log;
 import android.widget.Toast;
 
-public class AgentsService extends Service {
+public class AgentsService extends Service implements Constants {
 	public static final String TAG = "AgentsService";
 
 	/** For showing and hiding our notification. */
@@ -20,7 +21,7 @@ public class AgentsService extends Service {
 	private DirmngrThread dirmngrThread;
 
 	private void startDaemons() {
-		Log.i(TAG, "start daemons in " + NativeHelper.app_opt.getAbsolutePath());
+		Log.i(LOG_AS, "start daemons in " + NativeHelper.app_opt.getAbsolutePath());
 		synchronized (this) {
 			gpgAgentThread = new GpgAgentThread();
 			gpgAgentThread.start();
@@ -43,7 +44,7 @@ public class AgentsService extends Service {
 	public void onDestroy() {
 		// Cancel the persistent notification.
 		mNM.cancel(R.string.remote_service_started);
-		Toast.makeText(this, R.string.remote_service_stopped, Toast.LENGTH_SHORT).show();
+		Toast.makeText(this, getResources().getString(R.string.remote_service_stopped), Toast.LENGTH_SHORT).show();
 	}
 
 	public class LocalBinder extends Binder {
@@ -79,7 +80,7 @@ public class AgentsService extends Service {
 		// The PendingIntent to launch our activity if the user selects this
 		// notification
 		PendingIntent contentIntent = PendingIntent.getActivity(this, 0, new Intent(this,
-				GnuPrivacyGuard.class), 0);
+				GPGTabGroup.class), 0);
 
 		// Set the info for the views that show in the notification panel.
 		notification.setLatestEventInfo(this, getText(R.string.remote_service_label),
@@ -99,13 +100,13 @@ public class AgentsService extends Service {
 			String gpgAgentCmd = NativeHelper.gpg_agent
 					+ " --daemon --write-env-file " + "--debug-level guru --log-file "
 					+ NativeHelper.app_log + "/gpg-agent.log";
-			Log.i(TAG, gpgAgentCmd);
+			Log.i(LOG_AS, gpgAgentCmd);
 			try {
 				Runtime.getRuntime()
 						.exec(gpgAgentCmd, NativeHelper.envp, NativeHelper.app_home)
 						.waitFor();
 			} catch (Exception e) {
-				Log.e(TAG, "Could not start gpg-agent", e);
+				Log.e(LOG_AS, "Could not start gpg-agent", e);
 			} finally {
 				stopSelf();
 				synchronized (AgentsService.this) {
@@ -123,13 +124,13 @@ public class AgentsService extends Service {
 			String dirmngrCmd = NativeHelper.dirmngr
 					+ " --daemon --debug-level guru --log-file " + NativeHelper.app_log
 					+ "/dirmngr.log";
-			Log.i(TAG, dirmngrCmd);
+			Log.i(LOG_AS, dirmngrCmd);
 			try {
 				Runtime.getRuntime()
 						.exec(dirmngrCmd, NativeHelper.envp, NativeHelper.app_home)
 						.waitFor();
 			} catch (Exception e) {
-				Log.e(TAG, "Could not start dirmngr", e);
+				Log.e(LOG_AS, "Could not start dirmngr", e);
 			} finally {
 				stopSelf();
 				synchronized (AgentsService.this) {

@@ -1,8 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <string name="app_name">GnuPrivacyGuard</string>
+    <string name="ok">OK</string>
+    <string name="search">Search</string>
+    <string name="go">GO</string>
+    <string name="save">Save</string>
+    
+    <!--  SERVICE  -->
     <string name="remote_service_started">gpg-agent started</string>
     <string name="remote_service_stopped">gpg-agent stopped</string>
     <string name="remote_service_label">gpg-agent</string>
+    
+    <!--  TABS -->
+    <string name="indicator_myKeys">My Keys</string>
+    <string name="indicator_keyManager">Key Manager</string>
+    <string name="indicator_webOfTrust">Web of Trust</string>
+    
+    <!--  KEY MANAGER -->
+    <string name="keyManager_add_title">Add...</string>
+    
+    <!--  MY KEYS -->
+    <string name="myKeys_title">My Keys</string>
+    <string name="myKeys_edit">Edit Key</string>
+    
+    <!--  FILE MANAGER -->
+    <string name="fileManager_default_title">Choose a file...</string>
+    <string name="fileManager_importKey_title">Choose a key (.asc) to import...</string>
+    
+    <!--  GENERATE NEW KEY -->
+    <string name="generateNewKey_title">New Key</string>
+    <string name="generateNewKey_fullName">Full name...</string>
+    <string name="generateNewKey_email">Email address...</string>
+    <string name="generateNewKey_comment">Comment...</string>
+    <string name="generateNewKey_keyType">Select a key type:</string>
+    <string name="generateNewKey_keyLength">Select key length:</string>
+    <string name="generateNewKey_expirationDate">Expiration Date:</string>
+    <string name="generateNewKey_addPhoto">Add Photo</string>
+    <string name="generateNewKey_generateButton">Generate my key</string>
+    <string name="generateNewKey_error">Please check to make sure you filled in all the inputs!</string>
+    <string name="generateNewKey_success">New key successfully created!</string>
+    <string name="generateNewKey_edit">Edit Further...</string>
+    <string name="generating">Generating...</string>
+    
+    <!--  KEY EDITOR -->
+    <string name="keyEditor_title">Editing: </string>
+    
+    <!-- SEARCH FOR KEY -->
+    <string name="searchForKey_title">Search for a key...</string>
+    <string name="searchForKey_hint">Name, email, or fingerprint...</string>
+    <string name="searchForKey_noInput">Please input something!</string>
+    <string name="searching">Searching...</string>
+    
 
 </resources>

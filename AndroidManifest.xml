@@ -5,7 +5,6 @@
     android:versionName="0.0" >
 
     <uses-sdk android:minSdkVersion="9" />
-
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
@@ -13,18 +12,85 @@
         android:icon="@drawable/icon"
         android:label="@string/app_name" >
         <activity
-            android:name=".GnuPrivacyGuard"
-            android:label="@string/app_name" >
-            <intent-filter>
+            android:label="@string/app_name"
+            android:name=".GPGTabGroup"
+            android:configChanges="orientation|keyboardHidden" >
+            <intent-filter >
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <service
-            android:name=".AgentsService"
-            android:process=":agents" />
+        <activity
+            android:label="@string/app_name"
+            android:name=".OverlayActivity"
+            android:theme="@style/Theme.CustomDialog"
+            android:configChanges="orientation|keyboardHidden" >
+        </activity>
+        <activity
+            android:label="@string/app_name"
+            android:name=".KeyManagerGroup"
+            android:configChanges="orientation|keyboardHidden" >
+        </activity>
+        <activity
+            android:label="@string/app_name"
+            android:name=".MyKeysGroup"
+            android:configChanges="orientation|keyboardHidden" >
+        </activity>
+        <activity
+            android:label="@string/app_name"
+            android:name=".screens.ViewAllKeysActivity"
+            android:configChanges="orientation|keyboardHidden" >
+        </activity>
+        <activity
+            android:label="@string/app_name"
+            android:name=".screens.ViewMyKeysActivity"
+            android:configChanges="orientation|keyboardHidden" >
+        </activity>
+		<activity
+            android:label="@string/app_name"
+            android:name=".screens.WebOfTrustActivity"
+            android:configChanges="orientation|keyboardHidden" >
+        </activity>
+        <activity
+            android:label="@string/app_name"
+            android:name=".FileManagerActivity"
+            android:configChanges="orientation|keyboardHidden" >
+        </activity>
+        <activity
+            android:label="@string/app_name"
+            android:name=".screens.MyKeysMainActivity"
+            android:configChanges="orientation|keyboardHidden" >
+        </activity>
+        <activity
+            android:label="@string/app_name"
+            android:name=".screens.GenerateNewKeyActivity"
+            android:configChanges="orientation|keyboardHidden" >
+        </activity>
+        <activity
+            android:label="@string/app_name"
+            android:name=".screens.KeyEditorActivity"
+            android:configChanges="orientation|keyboardHidden" >
+        </activity>
+        <activity
+            android:label="@string/app_name"
+            android:name=".widgets.SearchForKeyActivity"
+            android:configChanges="orientation|keyboardHidden" >
+        </activity>
+       <activity
+            android:label="@string/app_name"
+            android:name=".widgets.ConfirmNewKeyActivity"
+            android:configChanges="orientation|keyboardHidden" >
+        </activity>
+        <activity
+            android:label="@string/app_name"
+            android:name=".widgets.SpinnerActivity"
+            android:configChanges="orientation|keyboardHidden" >
+        </activity>
+        <service 
+        	android:name=".AgentsService"
+        	android:process=":agents" />
     </application>
+    
+    
 
 </manifest>

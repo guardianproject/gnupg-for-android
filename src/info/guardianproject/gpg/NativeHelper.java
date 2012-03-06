@@ -19,7 +19,7 @@ import android.content.res.AssetManager;
 import android.os.Environment;
 import android.util.Log;
 
-public class NativeHelper {
+public class NativeHelper implements Constants {
 	public static final String TAG = "NativeHelper";
 
 	public static File app_opt; // an /opt tree for the UNIX cmd line tools
@@ -41,7 +41,7 @@ public class NativeHelper {
 		app_opt = context.getDir("opt", Context.MODE_WORLD_READABLE).getAbsoluteFile();
 		app_log = context.getDir("log", Context.MODE_PRIVATE).getAbsoluteFile();
 		app_home = context.getDir("home", Context.MODE_PRIVATE).getAbsoluteFile();
-
+		
 		File bin = new File(app_opt, "bin");
 		String logging = "--debug-level advanced --log-file " + NativeHelper.app_log
 				+ "/gpg2.log ";
@@ -73,7 +73,7 @@ public class NativeHelper {
 				}
 			}
 		} catch (IOException ex) {
-			Log.e(TAG, "I/O Exception", ex);
+			Log.e(LOG_NH, "I/O Exception", ex);
 		}
 	}
 
@@ -97,7 +97,7 @@ public class NativeHelper {
 			out.close();
 			out = null;
 		} catch (Exception e) {
-			Log.e(TAG, filename + ": " + e.getMessage());
+			Log.e(LOG_NH, filename + ": " + e.getMessage());
 		}
 
 	}
@@ -135,7 +135,7 @@ public class NativeHelper {
 			out.println(local);
 			out.close();
 		} catch (Exception e) {
-			Log.e(TAG, "Cannot write file: ", e);
+			Log.e(LOG_NH, "Cannot write file: ", e);
 		}
 	}
 
@@ -149,7 +149,7 @@ public class NativeHelper {
 		try {
 			assetList = am.list("");
 		} catch (IOException e) {
-			Log.e(TAG, "cannot get asset list", e);
+			Log.e(LOG_NH, "cannot get asset list", e);
 			return;
 		}
 		// unpack the assets to app_opt
@@ -157,7 +157,7 @@ public class NativeHelper {
 			if (asset.equals("images") || asset.equals("sounds")
 					|| asset.equals("webkit"))
 				continue;
-			Log.i(TAG, "copying asset: " + asset);
+			Log.i(LOG_NH, "copying asset: " + asset);
 			copyFileOrDir(asset, app_opt);
 		}
 
@@ -165,7 +165,7 @@ public class NativeHelper {
 	}
 
 	public static void chmod(String modestr, File path) {
-		Log.i(TAG, "chmod " + modestr + " " + path.getAbsolutePath());
+		Log.i(LOG_NH, "chmod " + modestr + " " + path.getAbsolutePath());
 		try {
 			Class<?> fileUtils = Class.forName("android.os.FileUtils");
 			Method setPermissions = fileUtils.getMethod("setPermissions", String.class,
@@ -174,17 +174,17 @@ public class NativeHelper {
 			int a = (Integer) setPermissions.invoke(null, path.getAbsolutePath(), mode,
 					-1, -1);
 			if (a != 0) {
-				Log.i(TAG, "ERROR: android.os.FileUtils.setPermissions() returned " + a
+				Log.i(LOG_NH, "ERROR: android.os.FileUtils.setPermissions() returned " + a
 						+ " for '" + path + "'");
 			}
 		} catch (ClassNotFoundException e) {
-			Log.i(TAG, "android.os.FileUtils.setPermissions() failed:", e);
+			Log.i(LOG_NH, "android.os.FileUtils.setPermissions() failed:", e);
 		} catch (IllegalAccessException e) {
-			Log.i(TAG, "android.os.FileUtils.setPermissions() failed:", e);
+			Log.i(LOG_NH, "android.os.FileUtils.setPermissions() failed:", e);
 		} catch (InvocationTargetException e) {
-			Log.i(TAG, "android.os.FileUtils.setPermissions() failed:", e);
+			Log.i(LOG_NH, "android.os.FileUtils.setPermissions() failed:", e);
 		} catch (NoSuchMethodException e) {
-			Log.i(TAG, "android.os.FileUtils.setPermissions() failed:", e);
+			Log.i(LOG_NH, "android.os.FileUtils.setPermissions() failed:", e);
 		}
 	}
 
@@ -194,7 +194,7 @@ public class NativeHelper {
 			File[] files = path.listFiles();
 			for (File d : files) {
 				if (d.isDirectory()) {
-					Log.i(TAG, "chmod recurse: " + d.getAbsolutePath());
+					Log.i(LOG_NH, "chmod recurse: " + d.getAbsolutePath());
 					chmod(mode, d, true);
 				} else {
 					chmod(mode, d);
@@ -206,16 +206,16 @@ public class NativeHelper {
 	public static void kill9(String command) {
 		Integer pid = pidof(command);
 		if (pid == -1) {
-			Log.w(TAG, "No running process found for " + command);
+			Log.w(LOG_NH, "No running process found for " + command);
 			return;
 		}
-		Log.d(TAG, "killing " + command + " at " + pid.toString());
+		Log.d(LOG_NH, "killing " + command + " at " + pid.toString());
 		try {
 			Runtime.getRuntime().exec("kill " + pid.toString()).waitFor();
 			Thread.sleep(1000);
 			Runtime.getRuntime().exec("kill -9 " + pid.toString()).waitFor();
 		} catch (Exception e) {
-			Log.e(TAG, "Unable to kill " + command + " at pid " + pid.toString(), e);
+			Log.e(LOG_NH, "Unable to kill " + command + " at pid " + pid.toString(), e);
 		}
 	}
 
@@ -229,7 +229,7 @@ public class NativeHelper {
 			try {
 				pid = findProcessIdWithPS(command);
 			} catch (Exception e2) {
-				Log.w(TAG, "Unable to get proc id for: " + command, e2);
+				Log.w(LOG_NH, "Unable to get proc id for: " + command, e2);
 			}
 		}
 		return pid;
@@ -241,7 +241,7 @@ public class NativeHelper {
 
 	public static int doShellCommand(String[] cmds, StringBuilder log, boolean runAsRoot,
 			boolean waitFor) throws Exception {
-		Log.i(TAG, "executing shell cmds: " + cmds[0] + "; runAsRoot=" + runAsRoot);
+		Log.i(LOG_NH, "executing shell cmds: " + cmds[0] + "; runAsRoot=" + runAsRoot);
 
 		Process proc = null;
 		int exitCode = -1;
@@ -307,7 +307,7 @@ public class NativeHelper {
 				pid = Integer.parseInt(line.trim());
 				break;
 			} catch (NumberFormatException e) {
-				Log.i(TAG, "unable to parse process pid: " + line, e);
+				Log.i(LOG_NH, "unable to parse process pid: " + line, e);
 			}
 		}
 		return pid;

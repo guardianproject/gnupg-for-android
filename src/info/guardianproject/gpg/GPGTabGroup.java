@@ -1,36 +1,32 @@
 package info.guardianproject.gpg;
 
 import java.io.File;
-import java.io.FileWriter;
 import java.io.OutputStream;
-import java.io.PrintWriter;
 
-import android.app.Activity;
+import info.guardianproject.gpg.R;
+import info.guardianproject.gpg.adapters.GPGScreen;
+import android.app.TabActivity;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View.OnCreateContextMenuListener;
-import android.widget.ScrollView;
-import android.widget.TextView;
+import android.view.Window;
+import android.widget.FrameLayout;
+import android.widget.TabHost;
+import android.widget.Toast;
 
-public class GnuPrivacyGuard extends Activity implements OnCreateContextMenuListener {
-	public static final String TAG = "GnuPrivacyGuard";
-
-	private ScrollView consoleScroll;
-	private TextView consoleText;
-
-	public static final String LOG_UPDATE = "LOG_UPDATE";
-	public static final String COMMAND_FINISHED = "COMMAND_FINISHED";
-
+public class GPGTabGroup extends TabActivity implements Constants {
+	TabHost tabs;
+	TabHost.TabSpec spec;
+	FrameLayout tabContent;
+	Resources res;
+	
 	private CommandThread commandThread;
 	private StringBuffer log;
 	private BroadcastReceiver logUpdateReceiver;
@@ -38,95 +34,78 @@ public class GnuPrivacyGuard extends Activity implements OnCreateContextMenuList
 	public String command;
 
 	boolean mIsBound;
-
-	/** Called when the activity is first created. */
+		
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
+		setContentView(R.layout.tablayout);
+		
 		NativeHelper.setup(getApplicationContext());
 		// TODO figure out how to manage upgrades to app_opt
 		if (!new File(NativeHelper.app_opt, "bin").exists()) {
+			Log.d(LOG, "fucking native shit doesnt exist");
 			NativeHelper.unpackAssets(getApplicationContext());
 		}
-
-		setContentView(R.layout.main);
-		consoleScroll = (ScrollView) findViewById(R.id.consoleScroll);
-		consoleText = (TextView) findViewById(R.id.consoleText);
-
+		
 		log = new StringBuffer();
 
-		Intent intent = new Intent(GnuPrivacyGuard.this, AgentsService.class);
+		Intent intent = new Intent(GPGTabGroup.this, AgentsService.class);
 		startService(intent);
+		
+		res = getResources();
+		tabs = getTabHost();
+		
+		setAssets();
+		
+		registerReceivers();
+		doBindService();
 	}
-
+	
 	@Override
 	protected void onResume() {
 		super.onResume();
-		registerReceivers();
-		doBindService();
+
 	}
 
 	@Override
 	protected void onPause() {
 		super.onPause();
+	}
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
 		doUnbindService();
 		unregisterReceivers();
 	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.menu.options_menu, menu);
-		return true;
+	
+	public void setAssets() {		
+		GPGScreen myKeys = new GPGScreen(MyKeys.TAG, new Intent(this, MyKeys.ROOT));
+		GPGScreen keyManager = new GPGScreen(KeyManager.TAG, new Intent(this, KeyManager.ROOT));
+		GPGScreen webOfTrust = new GPGScreen(WebOfTrust.TAG, new Intent(this, WebOfTrust.ROOT));
+		
+		spec = tabs.newTabSpec(KeyManager.TAG)
+				.setIndicator(res.getString(R.string.indicator_keyManager))
+				.setContent(keyManager.intent);
+		tabs.addTab(spec);
+		
+		spec = tabs.newTabSpec(MyKeys.TAG) 
+					.setIndicator(res.getString(R.string.indicator_myKeys))
+					.setContent(myKeys.intent);
+		tabs.addTab(spec);
+		
+		spec = tabs.newTabSpec(WebOfTrust.TAG) 
+				.setIndicator(res.getString(R.string.indicator_webOfTrust))
+				.setContent(webOfTrust.intent);
+		tabs.addTab(spec);
+		
+		tabs.setCurrentTab(0);
 	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-		case R.id.menu_list_keys:
-			command = NativeHelper.gpg2 + "--list-keys";
-			commandThread = new CommandThread();
-			commandThread.start();
-			return true;
-		case R.id.menu_search_keys:
-			command = NativeHelper.gpg2
-					+ " --keyserver 200.144.121.45 --search-keys hans@eds.org";
-			commandThread = new CommandThread();
-			commandThread.start();
-			return true;
-		case R.id.menu_run_test:
-			command = NativeHelper.gpg2 + "--version";
-			commandThread = new CommandThread();
-			commandThread.start();
-			return true;
-		case R.id.menu_gen_key:
-			String batch = "Key-Type: DSA\nKey-Length: 1024\nSubkey-Type: ELG-E\nSubkey-Length: 1024\nName-Real: Test Key\nName-Comment: for testing only\nName-Email: test@gpg.guardianproject.info\nExpire-Date: 0\n%transient-key\n%no-protection\n%commit\n";
-			File batchfile = new File(getCacheDir(), "batch.txt");
-			try {
-				FileWriter outFile = new FileWriter(batchfile);
-				PrintWriter out = new PrintWriter(outFile);
-				out.println(batch);
-				out.close();
-			} catch (Exception e) {
-				Log.e(TAG, "Error!!!", e);
-				return false;
-			}
-			command = NativeHelper.gpg2 + " --batch --gen-key "
-					+ batchfile.getAbsolutePath();
-			commandThread = new CommandThread();
-			commandThread.start();
-			return true;
-		}
-		return false;
+	
+	public void alert(String msg) {
+		Toast.makeText(this, msg, Toast.LENGTH_LONG);
 	}
-
-	private void updateLog() {
-		final String logContents = log.toString();
-		if (logContents != null && logContents.trim().length() > 0)
-			consoleText.setText(logContents);
-		consoleScroll.scrollTo(0, consoleText.getHeight());
-	}
-
+	
 	class CommandThread extends Thread {
 		private LogUpdate logUpdate;
 
@@ -145,16 +124,16 @@ public class GnuPrivacyGuard extends Activity implements OnCreateContextMenuList
 				it.start();
 				et.start();
 
-				Log.i(TAG, command);
+				Log.i(LOG, command);
 				writeCommand(os, command);
 				writeCommand(os, "exit");
 
 				sh.waitFor();
-				Log.i(TAG, "Done!");
+				Log.i(LOG, "Done!");
 			} catch (Exception e) {
-				Log.e(TAG, "Error!!!", e);
+				Log.e(LOG, "Error!!!", e);
 			} finally {
-				synchronized (GnuPrivacyGuard.this) {
+				synchronized (GPGTabGroup.this) {
 					commandThread = null;
 				}
 				sendBroadcast(new Intent(COMMAND_FINISHED));
@@ -172,27 +151,33 @@ public class GnuPrivacyGuard extends Activity implements OnCreateContextMenuList
 			sendBroadcast(new Intent(LOG_UPDATE));
 		}
 	}
-
+	
 	public static void writeCommand(OutputStream os, String command) throws Exception {
 		os.write((command + "\n").getBytes("ASCII"));
 	}
-
+	
+	private void updateLog() {
+		final String logContents = log.toString();
+		if (logContents != null && logContents.trim().length() > 0)
+			Log.d(LOG, logContents);
+	}
+	
 	private void registerReceivers() {
 		logUpdateReceiver = new BroadcastReceiver() {
 			@Override
 			public void onReceive(Context context, Intent intent) {
+				Log.d(LOG, "received broadcast");
 				updateLog();
 			}
 		};
-		registerReceiver(logUpdateReceiver, new IntentFilter(GnuPrivacyGuard.LOG_UPDATE));
+		registerReceiver(logUpdateReceiver, new IntentFilter(GPGTabGroup.LOG_UPDATE));
 
 		commandFinishedReceiver = new BroadcastReceiver() {
 			@Override
 			public void onReceive(Context context, Intent intent) {
 			}
 		};
-		registerReceiver(commandFinishedReceiver, new IntentFilter(
-				GnuPrivacyGuard.COMMAND_FINISHED));
+		registerReceiver(commandFinishedReceiver, new IntentFilter(COMMAND_FINISHED));
 	}
 
 	private void unregisterReceivers() {
@@ -222,9 +207,10 @@ public class GnuPrivacyGuard extends Activity implements OnCreateContextMenuList
 		// Establish a connection with the service. We use an explicit
 		// class name because there is no reason to be able to let other
 		// applications replace our component.
-		bindService(new Intent(GnuPrivacyGuard.this, AgentsService.class), mConnection,
+		bindService(new Intent(GPGTabGroup.this, AgentsService.class), mConnection,
 				Context.BIND_AUTO_CREATE);
 		mIsBound = true;
+		Log.d(LOG, "service bound");
 	}
 
 	void doUnbindService() {
@@ -232,6 +218,7 @@ public class GnuPrivacyGuard extends Activity implements OnCreateContextMenuList
 			// Detach our existing connection.
 			unbindService(mConnection);
 			mIsBound = false;
+			Log.d(LOG, "service UNbound");
 		}
 	}
 }
