@@ -1,7 +1,7 @@
-diff --git a/src/ath.c b/src/ath.c
+diff --git a/gpgme/src/ath.c b/gpgme/src/ath.c
 index e5b9964..9ec61a0 100644
---- a/src/ath.c
-+++ b/src/ath.c
+--- a/gpgme/src/ath.c
++++ b/gpgme/src/ath.c
 @@ -61,7 +61,7 @@ ath_self (void)
    return (uintptr_t) GetCurrentThreadId ();
  }
