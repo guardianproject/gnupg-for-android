@@ -586,9 +586,13 @@ gpgme-build-stamp: gpgme/Makefile
 
 gpgme-build: gpgme-build-stamp
 
-$(LOCAL)/lib/gpgme.a: gpgme-build
-	$(MAKE) -C gpgme DESTDIR=$(DESTDIR) prefix=$(prefix) install
-	ls -l $(LOCAL)/lib/gpgme.a
+$(LOCAL)/lib/libgpgme.so: gpgme-build
+# kludge because the install dies trying to install libgpgme.la
+	$(MAKE) -C gpgme DESTDIR=$(DESTDIR) prefix=$(prefix) install \
+		|| echo "IGNORING THE REST OF THE GPGME INSTALL"
+	ls -l $(LOCAL)/lib/libgpgme.so
+
+gpgme-install: gnupg-install $(LOCAL)/lib/libgpgme.so
 
 gpgme-clean:
 	-rm -f gpgme-build-stamp gpgme/Makefile gpg/configure
