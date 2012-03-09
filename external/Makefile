@@ -563,6 +563,7 @@ gpgme/Makefile: gpgme/config.sub gpgme/config.guess gpgme/configure
 		CC="$(CC)" AR="$(AR)" RANLIB=$(RANLIB) CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS)" \
 			./configure \
 				--host=$(HOST) \
+				--enable-maintainer-mode \
 				--with-gnu-ld \
 				--with-gpg-error-prefix=$(LOCAL) \
 				--with-libassuan-prefix=$(LOCAL) \
@@ -579,7 +580,8 @@ gpgme/Makefile: gpgme/config.sub gpgme/config.guess gpgme/configure
 	-patch -N -p1 --reject-file=- < gpgme-android-fixes.patch
 
 gpgme-build-stamp: gpgme/Makefile
-	$(MAKE) -C gpgme
+# it seems to die, but then recover
+	$(MAKE) -C gpgme V=1 || $(MAKE) -C gpgme V=1
 	touch gpgme-build-stamp
 
 gpgme-build: gpgme-build-stamp
