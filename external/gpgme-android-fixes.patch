@@ -1,0 +1,13 @@
+diff --git a/src/ath.c b/src/ath.c
+index e5b9964..9ec61a0 100644
+--- a/src/ath.c
++++ b/src/ath.c
+@@ -61,7 +61,7 @@ ath_self (void)
+   return (uintptr_t) GetCurrentThreadId ();
+ }
+ #else
+-# ifdef __linux
++# ifdef __gnu_linux__
+ #include <sys/syscall.h>
+ uintptr_t
+ ath_self (void)

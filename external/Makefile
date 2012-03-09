@@ -575,6 +575,7 @@ gpgme/Makefile: gpgme/config.sub gpgme/config.guess gpgme/configure
 				--disable-gpgconf-test \
 				--disable-g13-test \
 				--prefix=$(prefix)
+	-patch -N -p1 --reject-file=- < gpgme-android-fixes.patch
 
 gpgme-build-stamp: $(LOCAL)/lib/libgpg-error.a gpgme/Makefile
 	$(MAKE) -C gpgme
@@ -588,6 +589,7 @@ $(LOCAL)/lib/gpgme.a: gpgme-build
 
 gpgme-clean:
 	-rm -f gpgme-build-stamp gpgme/Makefile gpg/configure
+	-patch -N -R -p1 --reject-file=- < gpgme-android-fixes.patch
 
 
 #------------------------------------------------------------------------------#
