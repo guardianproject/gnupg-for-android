@@ -552,6 +552,9 @@ gpgme/config.guess: config.guess
 
 gpgme/configure: gpgme/configure.ac
 	cd gpgme && ./autogen.sh
+# force these to copy until they are updated in the gpgme git upstream
+	cp config.guess gpgme/config.guess
+	cp config.sub gpgme/config.sub
 
 gpgme/Makefile: gpgme/config.sub gpgme/config.guess gpgme/configure
 	cd gpgme && \
