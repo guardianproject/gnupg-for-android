@@ -557,11 +557,11 @@ gpgme/configure: gpgme/configure.ac
 	cp config.sub gpgme/config.sub
 
 gpgme/Makefile: gpgme/config.sub gpgme/config.guess gpgme/configure
+# kludge to fix file location in the config scripts
+	sed -i 's|^prefix=$(prefix)|prefix=$(LOCAL)|' $(LOCAL)/bin/*-config
 	cd gpgme && \
 		CC="$(CC)" AR="$(AR)" RANLIB=$(RANLIB) CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS)" \
 			./configure \
-				--enable-maintainer-mode \
-				--enable-static \
 				--host=$(HOST) \
 				--with-gnu-ld \
 				--with-gpg-error-prefix=$(LOCAL) \
@@ -570,14 +570,15 @@ gpgme/Makefile: gpgme/config.sub gpgme/config.guess gpgme/configure
 				--with-gpgsm=$(prefix)/bin \
 				--with-gpgconf=$(prefix)/bin \
 				--with-g13=$(prefix)/bin \
+				--disable-glibtest \
 				--disable-gpg-test \
 				--disable-gpgsm-test \
 				--disable-gpgconf-test \
 				--disable-g13-test \
-				--prefix=$(prefix)
+				--prefix=$(LOCAL)
 	-patch -N -p1 --reject-file=- < gpgme-android-fixes.patch
 
-gpgme-build-stamp: $(LOCAL)/lib/libgpg-error.a gpgme/Makefile
+gpgme-build-stamp: gpgme/Makefile
 	$(MAKE) -C gpgme
 	touch gpgme-build-stamp
 
