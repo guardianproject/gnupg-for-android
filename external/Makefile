@@ -88,7 +88,9 @@ libgpg-error/Makefile: libgpg-error/config.sub libgpg-error/config.guess libgpg-
 			LDFLAGS="$(LDFLAGS)" \
 			--disable-languages \
 			--enable-static \
-			--host=$(HOST)
+			--host=$(HOST) \
+			--prefix=$(prefix)
+
 
 libgpg-error-build-stamp: libgpg-error/Makefile
 	$(MAKE) -C libgpg-error
