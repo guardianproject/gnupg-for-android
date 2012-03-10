@@ -136,6 +136,20 @@ diff --git a/gnupg/configure.ac b/gnupg/configure.ac
 index 9dd555e..ca71f8f 100644
 --- a/gnupg/configure.ac
 +++ b/gnupg/configure.ac
+@@ -490,13 +490,6 @@ AH_BOTTOM([
+ # endif
+ #endif
+ 
+-/* Hacks required for Android.  */
+-#ifdef __ANDROID__
+-  /* ttyname is a stub in BIONIC, printing a FIXME warning.  */
+-# define ttyname broken_native_ttyname
+-# undef HAVE_TTYNAME
+-#endif /*__ANDROID__*/
+-
+ 
+ /* Tell libgcrypt not to use its own libgpg-error implementation. */
+ #define USE_LIBGPG_ERROR 1
 @@ -576,6 +576,8 @@ try_gettext=yes
  have_dosish_system=no
  have_w32_system=no

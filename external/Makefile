@@ -200,7 +200,6 @@ npth/Makefile: npth/config.sub npth/config.guess npth/configure
 				--host=$(HOST) \
 				--with-gnu-ld \
 				--prefix=$(prefix)
-	-patch -N -p1 --reject-file=- < npth-android-fixes.patch
 
 npth-build-stamp: $(LOCAL)/lib/libgpg-error.a npth/Makefile
 	$(MAKE) -C npth
@@ -214,7 +213,6 @@ npth-install: $(LOCAL)/lib/libnpth.a
 
 npth-clean:
 	-rm -f npth-build-stamp
-	-patch -N -R -p1 --reject-file=- < npth-android-fixes.patch
 
 
 #------------------------------------------------------------------------------#
