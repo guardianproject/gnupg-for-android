@@ -1,5 +1,7 @@
 bin/
 gen/
+# jni build products
+libs/armeabi
 # we are currently generating assets/ each time
 assets/
 #
