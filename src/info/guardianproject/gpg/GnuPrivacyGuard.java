@@ -6,9 +6,11 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
@@ -19,8 +21,12 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View.OnCreateContextMenuListener;
+import android.widget.EditText;
 import android.widget.ScrollView;
 import android.widget.TextView;
+
+import com.freiheit.gnupg.GnuPGContext;
+import com.freiheit.gnupg.GnuPGKey;
 
 public class GnuPrivacyGuard extends Activity implements OnCreateContextMenuListener {
 	public static final String TAG = "GnuPrivacyGuard";
@@ -82,6 +88,11 @@ public class GnuPrivacyGuard extends Activity implements OnCreateContextMenuList
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
+		// Set a popup EditText view to get user input
+		AlertDialog.Builder alert = new AlertDialog.Builder(this);
+		final EditText input = new EditText(this);
+		alert.setView(input);
+
 		switch (item.getItemId()) {
 		case R.id.menu_list_keys:
 			command = NativeHelper.gpg2 + "--list-keys";
@@ -89,10 +100,35 @@ public class GnuPrivacyGuard extends Activity implements OnCreateContextMenuList
 			commandThread.start();
 			return true;
 		case R.id.menu_search_keys:
-			command = NativeHelper.gpg2
-					+ " --keyserver 200.144.121.45 --search-keys hans@eds.org";
-			commandThread = new CommandThread();
-			commandThread.start();
+			alert.setTitle("Search Keys");
+			alert.setPositiveButton("Search", new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int whichButton) {
+//					command = NativeHelper.gpg2
+//							+ " --keyserver 200.144.121.45 --search-keys ";
+//					command += input.getText().toString();
+//					commandThread = new CommandThread();
+//					commandThread.start();
+			        GnuPGContext ctx = new GnuPGContext();
+			        GnuPGKey[] keylist;
+			        keylist = ctx.searchKeys(input.getText().toString());
+			        for(GnuPGKey key : keylist){
+			        	Log.i(TAG, "key: " + key.toString());
+			        }
+				}
+			});
+			alert.show();
+			return true;
+		case R.id.menu_receive_key:
+			alert.setTitle("Receive Key");
+			alert.setPositiveButton("Receive", new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int whichButton) {
+					command = NativeHelper.gpg2
+							+ " --keyserver 200.144.121.45 --recv-keys " + input.getText().toString();
+					commandThread = new CommandThread();
+					commandThread.start();
+				}
+			});
+			alert.show();
 			return true;
 		case R.id.menu_run_test:
 			command = NativeHelper.gpg2 + "--version";

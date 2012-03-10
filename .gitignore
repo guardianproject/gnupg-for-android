@@ -2,6 +2,8 @@ bin/
 gen/
 # jni build products
 libs/armeabi
+obj/
+.externalToolBuilders/
 # we are currently generating assets/ each time
 assets/
 #
