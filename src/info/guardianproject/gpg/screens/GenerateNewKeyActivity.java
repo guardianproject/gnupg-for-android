@@ -86,7 +86,6 @@ public class GenerateNewKeyActivity extends Activity implements Constants, OnCli
 		return template; 
 	}
 	
-	@SuppressWarnings("rawtypes")
 	public void setAssets() {
 		fullName = (EditText) findViewById(R.id.fullName);
 		email = (EditText) findViewById(R.id.email);
@@ -95,14 +94,14 @@ public class GenerateNewKeyActivity extends Activity implements Constants, OnCli
 		keyType_holder = (LinearLayout) findViewById(R.id.keyType_holder);
 		keyType = new Spinner(GenerateNewKeyActivity.this.getParent());
 		keyType.setPrompt(getResources().getString(R.string.generateNewKey_keyType));
-		keyType.setAdapter(new ArrayAdapter(getParent(), android.R.layout.simple_spinner_item, getResources().getStringArray(R.array.keyType_names)));
+		keyType.setAdapter(new ArrayAdapter<String>(getParent(), R.layout.spinner_no_icon, R.id.spinnerItemText, getResources().getStringArray(R.array.keyType_names)));
 		keyType.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
 		keyType_holder.addView(keyType);
 			
 		keyLength_holder = (LinearLayout) findViewById(R.id.keyLength_holder);
 		keyLength = new Spinner(GenerateNewKeyActivity.this.getParent());
 		keyLength.setPrompt(getResources().getString(R.string.generateNewKey_keyLength));
-		keyLength.setAdapter(new ArrayAdapter(getParent(), android.R.layout.simple_spinner_item, getResources().getStringArray(R.array.keyLength_names)));
+		keyLength.setAdapter(new ArrayAdapter<String>(getParent(), R.layout.spinner_no_icon, R.id.spinnerItemText, getResources().getStringArray(R.array.keyLength_names)));
 
 		keyLength.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
 		keyLength_holder.addView(keyLength);

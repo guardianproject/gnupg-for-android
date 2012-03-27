@@ -8,10 +8,6 @@
     android:gravity="center"
     android:id="@+id/tabHolder"
     android:background="@drawable/tab_bkg_selector" >
-    <TextView
-    	android:id="@+id/tabIndicator"
-    	android:layout_width="wrap_content"
-    	android:layout_height="wrap_content"
-    	android:textSize="16dip"
-    	android:textColor="@drawable/tab_text_selector" />
+    <TextView style="@style/GPTabTextView"
+    	android:id="@+id/tabIndicator" />
 </RelativeLayout>

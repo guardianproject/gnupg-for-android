@@ -1,11 +1,141 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<style name="CustomTheme">        
-    	<item name="android:windowNoTitle">true</item>
-    	<item name="android:paddingTop">5px</item>
-  	</style>
+    <!--  Main TabView Styles -->
+    <style name="GNUPGMainRoot">
+        <item name="android:orientation">vertical</item>
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">fill_parent</item>
+        <item name="android:background">#ff5b5252</item>
+    </style>
+    
+    <style name="GPTabDivider">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">3dip</item>
+        <item name="android:background">#ff74d4fc</item>
+    </style>
+    
+    <style name="GPTabTextView">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    	<item name="android:textSize">12dip</item>
+    	<item name="android:textColor">#fff1f0ed</item>
+    </style>
+    
+    <!--  Overlay Styles -->
     <style name="Theme.CustomDialog" parent="android:style/Theme.Dialog">
   		<item name="android:windowNoTitle">true</item>
-  		<item name="android:padding">5px</item>
     </style>
+    
+    <style name="GNUPGOverlay">
+        <item name="android:layout_width">fill_parent</item>
+    	<item name="android:layout_height">fill_parent</item>
+    	<item name="android:orientation">vertical</item>
+    	<item name="android:background">#ff9a9292</item>
+
+    </style>
+    
+    <style name="GPH1OverlayTextView">
+        <item name="android:textColor">#fff1f0ed</item>
+        <item name="android:textSize">16dip</item>
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingLeft">4dip</item>
+        <item name="android:paddingRight">4dip</item>
+        <item name="android:paddingTop">10dip</item>
+        <item name="android:paddingBottom">10dip</item>
+    </style>
+    
+        
+    <!--  H1 Text -->
+    <style name="GPStandardH1TextView">
+        <item name="android:background">#fff1f0ed</item>
+        <item name="android:textSize">16dip</item>
+        <item name="android:textColor">#ff74d4fc</item>
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingLeft">4dip</item>
+        <item name="android:paddingRight">4dip</item>
+        <item name="android:paddingTop">10dip</item>
+        <item name="android:paddingBottom">10dip</item>
+    </style>
+
+    <!--  H2 Text -->
+    <style name="GPStandardH2TextView">
+        <item name="android:textColor">#fff1f0ed</item>
+        <item name="android:textSize">16dip</item>
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingLeft">4dip</item>
+        <item name="android:paddingRight">4dip</item>
+        <item name="android:paddingTop">10dip</item>
+        <item name="android:paddingBottom">10dip</item>
+    </style>
+    
+    <!--  Standard Spinner Text -->
+    <style name="GPSpinnerText">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">16dip</item>
+        <item name="android:textColor">#ff161111</item>
+        <item name="android:paddingBottom">10dip</item>
+        <item name="android:paddingTop">10dip</item>
+		<item name="android:paddingLeft">5dip</item>
+		<item name="android:paddingRight">5dip</item>
+    </style>
+    
+    <!--  Standard Buttons -->
+    <style name="GPStandardButton">
+        <item name="android:background">@drawable/button_bkg</item>
+        <item name="android:layout_width">fill_parent</item>
+	    <item name="android:layout_height">wrap_content</item>
+	    <item name="android:paddingTop">8dip</item>
+	    <item name="android:paddingBottom">8dip</item>
+	    <item name="android:textColor">#ff161111</item>
+	    <item name="android:textSize">16dip</item>
+	    <item name="android:gravity">center</item>
+    </style>
+    
+    <!--  Standard EditText -->
+    <style name="GPStandardEditText">
+        <item name="android:background">@drawable/edittext_bkg</item>
+        <item name="android:padding">5dip</item>
+        <item name="android:layout_margin">5dip</item>
+        <item name="android:textColorHint">#ffe4dece</item>
+        <item name="android:textColor">#fff7e0a1</item>
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+    
+
+    
+    <!--  H1 type items -->
+    <style name="GPH1Holder">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:layout_gravity">right</item>
+        <item name="android:paddingRight">10dip</item>
+        <item name="android:background">@drawable/h1_bkg</item>
+    </style>
+     
+    <style name="GPH1TextView">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">18dip</item>
+	    <item name="android:paddingLeft">10dip</item>
+	    <item name="android:layout_gravity">center</item>
+	    <item name="android:textColor">#ff5e5ebe</item>
+    </style>
+    
+	<style name="GPH1Button">
+	    <item name="android:layout_width">35dip</item>
+	    <item name="android:layout_height">35dip</item>
+	    <item name="android:scaleType">fitXY</item>
+	    <item name="android:paddingLeft">2dip</item>
+	    <item name="android:paddingRight">2dip</item>
+	    <item name="android:paddingTop">5dip</item>
+	    <item name="android:paddingBottom">5dip</item>
+	    <item name="android:background">#00000000</item>
+	    <item name="android:layout_gravity">right</item>
+	</style>
 </resources>

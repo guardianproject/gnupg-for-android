@@ -3,19 +3,12 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical" >
-    <TextView 
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/searchForKey_title"
-        android:textSize="24dip" />
-    <EditText
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+    <info.guardianproject.gpg.adapters.GPGHeaderTextView style="@style/GPH1OverlayTextView" 
+        android:text="@string/searchForKey_title" />
+    <EditText style="@style/GPStandardEditText"
         android:hint="@string/searchForKey_hint"
         android:id="@+id/searchForKey_editText" />
-    <Button
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+    <Button style="@style/GPStandardButton"
         android:text="@string/search"
         android:id="@+id/searchForKey_button" />
 </LinearLayout>

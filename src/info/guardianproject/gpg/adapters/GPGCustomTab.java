@@ -13,7 +13,7 @@ public class GPGCustomTab {
 	public GPGCustomTab(Context context, String title, TabWidget tabWidget) {
 		tab = LayoutInflater.from(context).inflate(R.layout.gpgtablayout, tabWidget, false);
 		TextView indicator = (TextView) tab.findViewById(R.id.tabIndicator);
-		indicator.setText(title);
+		indicator.setText(title.toUpperCase());
 	}
 	
 }

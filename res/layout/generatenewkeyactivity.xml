@@ -3,29 +3,15 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical" >
-	<LinearLayout
-	    android:layout_width="fill_parent"
-	    android:layout_height="wrap_content"
-	    android:orientation="horizontal">
-	    <TextView
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:textSize="30dip"
+	<info.guardianproject.gpg.adapters.GPGHeaderTextView style="@style/GPStandardH1TextView"
 	        android:text="@string/generateNewKey_title" />
-	</LinearLayout>
-    <EditText
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+    <EditText style="@style/GPStandardEditText"
         android:hint="@string/generateNewKey_fullName"
         android:id="@+id/fullName" />
-    <EditText
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+    <EditText style="@style/GPStandardEditText"
         android:hint="@string/generateNewKey_email"
         android:id="@+id/email" />
-    <EditText
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+    <EditText style="@style/GPStandardEditText"
         android:hint="@string/generateNewKey_comment"
         android:id="@+id/comment" />
     <LinearLayout
@@ -48,9 +34,7 @@
     </LinearLayout>
     
     
-    <TextView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+    <info.guardianproject.gpg.adapters.GPGHeaderTextView style="@style/GPStandardH2TextView"
         android:text="@string/generateNewKey_expirationDate" />
 	<LinearLayout
 	    android:layout_width="fill_parent"
@@ -73,9 +57,9 @@
 	        android:layout_weight="0.25"
 	        android:src="@drawable/ic_add_photo" />
 	</LinearLayout>
-	<Button
-	    android:layout_width="fill_parent"
-	    android:layout_height="wrap_content"
-	    android:text="@string/generateNewKey_generateButton"
-	    android:id="@+id/generateKey" />
+
+	<Button style="@style/GPStandardButton"
+	    android:id="@+id/generateKey"
+	    android:text="@string/generateNewKey_generateButton" />
+
 </LinearLayout>

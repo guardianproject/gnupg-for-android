@@ -1,3 +1,3 @@
 <?xml version="1.0" encoding="utf-8"?>
 <nine-patch xmlns:android="http://schemas.android.com/apk/res/android"
-	android:src="@drawable/tab_back_underline" />
+	android:src="@drawable/editview_back_underline" />

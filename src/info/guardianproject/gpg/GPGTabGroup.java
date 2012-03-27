@@ -45,7 +45,6 @@ public class GPGTabGroup extends TabActivity implements Constants {
 		NativeHelper.setup(getApplicationContext());
 		// TODO figure out how to manage upgrades to app_opt
 		if (!new File(NativeHelper.app_opt, "bin").exists()) {
-			Log.d(LOG, "fucking native shit doesnt exist");
 			NativeHelper.unpackAssets(getApplicationContext());
 		}
 		

@@ -14,7 +14,8 @@
         <activity
             android:label="@string/app_name"
             android:name=".GPGTabGroup"
-            android:configChanges="orientation|keyboardHidden" >
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait" >
             <intent-filter >
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -24,7 +25,8 @@
             android:label="@string/app_name"
             android:name=".OverlayActivity"
             android:theme="@style/Theme.CustomDialog"
-            android:configChanges="orientation|keyboardHidden" >
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:label="@string/app_name"
@@ -54,7 +56,8 @@
         <activity
             android:label="@string/app_name"
             android:name=".FileManagerActivity"
-            android:configChanges="orientation|keyboardHidden" >
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:label="@string/app_name"

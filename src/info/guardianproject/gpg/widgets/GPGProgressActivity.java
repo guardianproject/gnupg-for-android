@@ -9,6 +9,7 @@ import info.guardianproject.gpg.R;
 import info.guardianproject.gpg.Constants;
 import info.guardianproject.gpg.OverlayActivity;
 import info.guardianproject.gpg.action.InterfaceActions;
+import info.guardianproject.gpg.adapters.GPGHeaderTextView;
 import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
@@ -18,7 +19,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class GPGProgressActivity extends Activity implements Constants {
-	TextView inheritedTitle;
+	GPGHeaderTextView inheritedTitle;
 	HashMap<String,Object> results;
 	Handler finish;
 	
@@ -28,7 +29,7 @@ public class GPGProgressActivity extends Activity implements Constants {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.spinneractivity);
 		
-		inheritedTitle = (TextView) findViewById(R.id.inherited_title);
+		inheritedTitle = (GPGHeaderTextView) findViewById(R.id.inherited_title);
 		if(getIntent().hasExtra(GPGProgressDialog.INHERITED_TITLE))
 			inheritedTitle.setText(getIntent().getStringExtra(GPGProgressDialog.INHERITED_TITLE));
 		else
