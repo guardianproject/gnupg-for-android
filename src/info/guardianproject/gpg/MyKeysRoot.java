@@ -1,30 +1,31 @@
-package info.guardianproject.gpg.screens;
+package info.guardianproject.gpg;
 
 import java.util.HashMap;
+import java.util.Map;
 
-import info.guardianproject.gpg.R;
+import info.guardianproject.gpg.screens.ViewMyKeysActivity;
 import info.guardianproject.gpg.utils.Constants;
-import info.guardianproject.gpg.screens.GenerateNewKeyActivity;
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ListView;
 
-public class ViewMyKeysActivity extends Fragment implements Constants, OnClickListener {
-	Button createNewKey;
-	ListView myKeyList;
+public class MyKeysRoot extends Fragment implements Constants {
+	public Map<String, Object> properties;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		properties = new HashMap<String, Object>();
 	}
 	
 	@Override
@@ -36,12 +37,11 @@ public class ViewMyKeysActivity extends Fragment implements Constants, OnClickLi
 	
 	@Override
 	public View onCreateView(LayoutInflater li, ViewGroup container, Bundle savedInstanceState) {
-		View view = li.inflate(R.layout.view_my_keys_activity, container, false);
+		View view = li.inflate(R.layout.my_keys_group, container, false);
+		Log.d(LOG, "root container: " + container.getId());
 		
-		myKeyList = (ListView) view.findViewById(R.id.myKeys_list);
-
-		createNewKey = (Button) view.findViewById(R.id.myKeys_create);
-		createNewKey.setOnClickListener(this);
+		// switch by bundle!
+		swapFragment(new ViewMyKeysActivity());
 		
 		return view;
 	}
@@ -56,7 +56,7 @@ public class ViewMyKeysActivity extends Fragment implements Constants, OnClickLi
 	public void onDetach() {
 		super.onDetach();
 	}
-	
+
 	private void swapFragment(Fragment newFragment) {
 		FragmentTransaction ft = getFragmentManager().beginTransaction();
 		ft.replace(R.id.groupRoot, newFragment);
@@ -64,10 +64,4 @@ public class ViewMyKeysActivity extends Fragment implements Constants, OnClickLi
 		ft.commit();
 	}
 
-	@Override
-	public void onClick(View view) {
-		if(view == createNewKey)
-			swapFragment(new GenerateNewKeyActivity());
-		
-	}
 }

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="210dip"
+    android:layout_height="120dip"
+    android:orientation="horizontal"
+    android:weightSum="1.0"
+    android:baselineAligned="false"
+    android:id="@+id/datePicker_root" >
+    <!--  month holder -->
+    <LinearLayout
+        android:layout_width="0dip"
+        android:layout_weight="0.3"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:weightSum="1.0"
+        android:layout_marginRight="8dip"
+        android:gravity="center">
+        <ImageButton style="@style/GPDatePickerUpArrow"
+            android:id="@+id/month_upArrow" />
+        <TextView style="@style/GPDatePickerSelectionHolder"
+            android:id="@+id/month_selectionHolder"
+            android:maxLength="3" />
+        <ImageButton style="@style/GPDatePickerDownArrow"
+            android:id="@+id/month_downArrow" />
+    </LinearLayout>
+    
+    <!--  day holder -->
+    <LinearLayout
+        android:layout_width="0dip"
+        android:layout_weight="0.3"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:weightSum="1.0"
+        android:layout_marginRight="8dip"
+        android:gravity="center">
+        <ImageButton style="@style/GPDatePickerUpArrow"
+            android:id="@+id/day_upArrow" />
+        <EditText style="@style/GPDatePickerSelectionHolder"
+            android:id="@+id/day_selectionHolder"
+            android:maxLength="2"
+            android:inputType="number" />
+        <ImageButton style="@style/GPDatePickerDownArrow"
+            android:id="@+id/day_downArrow" />
+    </LinearLayout>
+    
+    <!--  year holder -->
+    <LinearLayout
+        android:layout_width="0dip"
+        android:layout_weight="0.4"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:weightSum="1.0"
+        android:gravity="center">
+        <ImageButton style="@style/GPDatePickerUpArrow"
+            android:id="@+id/year_upArrow" />
+        <EditText style="@style/GPDatePickerSelectionHolder"
+            android:id="@+id/year_selectionHolder"
+            android:maxLength="4"
+            android:inputType="number" />
+        <ImageButton style="@style/GPDatePickerDownArrow"
+            android:id="@+id/year_downArrow" />
+    </LinearLayout>
+    
+
+</LinearLayout>

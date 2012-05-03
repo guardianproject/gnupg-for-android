@@ -1,11 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">GnuPrivacyGuard</string>
+    <string name="app_name">GNUPG 4 Android</string>
     <string name="ok">OK</string>
     <string name="search">Search</string>
     <string name="go">GO</string>
     <string name="save">Save</string>
+    <string-array name="months_short">
+        <item name="january">Jan</item>
+        <item name="february">Feb</item>
+        <item name="march">Mar</item>
+        <item name="april">Apr</item>
+        <item name="may">May</item>
+        <item name="june">Jun</item>
+        <item name="july">Jul</item>
+        <item name="august">Aug</item>
+        <item name="september">Sep</item>
+        <item name="october">Oct</item>
+        <item name="november">Nov</item>
+        <item name="december">Dec</item>
+    </string-array>
+    
+    <!--  PREFERENCES -->
+    <string name="preferences">Preferences</string>
     
     <!--  SERVICE  -->
     <string name="remote_service_started">gpg-agent started</string>
@@ -23,34 +40,54 @@
     <!--  MY KEYS -->
     <string name="myKeys_title">My Keys</string>
     <string name="myKeys_edit">Edit Key</string>
+    <string name="myKeys_create_new_key">Create new key\u2026</string>
     
     <!--  FILE MANAGER -->
-    <string name="fileManager_default_title">Choose a file...</string>
-    <string name="fileManager_importKey_title">Choose a key (.asc) to import...</string>
+    <string name="fileManager_default_title">Choose a file\u2026</string>
+    <string name="fileManager_importKey_title">Choose a key (.asc) to import\u2026</string>
+    <string name="fileManager_gone_too_far">You cannot go back any further!</string>
     
     <!--  GENERATE NEW KEY -->
     <string name="generateNewKey_title">New Key</string>
-    <string name="generateNewKey_fullName">Full name...</string>
-    <string name="generateNewKey_email">Email address...</string>
-    <string name="generateNewKey_comment">Comment...</string>
+    <string name="generateNewKey_fullName">Full name\u2026</string>
+    <string name="generateNewKey_fail_fullName">Please input your full name</string>
+    
+    <string name="generateNewKey_email">Email address\u2026</string>
+    <string name="generateNewKey_fail_email">This doesn\'t seem to be a valid email address!</string>
+    
+    <string name="generateNewKey_comment">Comment\u2026</string>
     <string name="generateNewKey_keyType">Select a key type:</string>
+    <string name="generateNewKey_keyType_short">Key type:</string>
+    <string-array name="generateNewKey_keyTypes">
+        <item>RSA</item>
+        <item>El Gamal</item>
+    </string-array>
     <string name="generateNewKey_keyLength">Select key length:</string>
+    <string name="generateNewKey_keyLength_short">Key length:</string>
+    <string-array name="generateNewKey_keyLengths">
+        <item>4096</item>
+        <item>2048</item>
+    </string-array>
+    
     <string name="generateNewKey_expirationDate">Expiration Date:</string>
+    <string name="generateNewKey_fail_expirationDate">This is not a valid expiration date!</string>
+    
     <string name="generateNewKey_addPhoto">Add Photo</string>
     <string name="generateNewKey_generateButton">Generate my key</string>
+    
     <string name="generateNewKey_error">Please check to make sure you filled in all the inputs!</string>
     <string name="generateNewKey_success">New key successfully created!</string>
-    <string name="generateNewKey_edit">Edit Further...</string>
-    <string name="generating">Generating...</string>
+    <string name="generateNewKey_edit">Edit Further\u2026</string>
+    <string name="generating">Generating\u2026</string>
     
     <!--  KEY EDITOR -->
     <string name="keyEditor_title">Editing: </string>
     
     <!-- SEARCH FOR KEY -->
-    <string name="searchForKey_title">Search for a key...</string>
-    <string name="searchForKey_hint">Name, email, or fingerprint...</string>
+    <string name="searchForKey_title">Search for a key\u2026</string>
+    <string name="searchForKey_hint">Name, email, or fingerprint\u2026</string>
     <string name="searchForKey_noInput">Please input something!</string>
-    <string name="searching">Searching...</string>
-    
+    <string name="searching">Searching\u2026</string>
+        
 
 </resources>

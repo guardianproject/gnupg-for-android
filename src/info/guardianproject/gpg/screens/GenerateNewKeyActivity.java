@@ -1,119 +1,136 @@
 package info.guardianproject.gpg.screens;
 
-import java.text.ParseException;
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 import info.guardianproject.gpg.R;
-import info.guardianproject.gpg.Constants;
-import info.guardianproject.gpg.OverlayActivity;
-import info.guardianproject.gpg.render.DateParser;
+import info.guardianproject.gpg.mods.G4DatePicker;
+import info.guardianproject.gpg.utils.Constants;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.view.Window;
 import android.view.View.OnClickListener;
-import android.widget.ArrayAdapter;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-public class GenerateNewKeyActivity extends Activity implements Constants, OnClickListener {
+public class GenerateNewKeyActivity extends Fragment implements Constants, OnClickListener {
+	EditText fullName, emailAddress, comment;
 	Spinner keyType, keyLength;
-	LinearLayout keyType_holder, keyLength_holder;
-	EditText fullName, email, comment;
+	G4DatePicker expirationDate;
 	ImageButton addPhoto;
-	DatePicker expirationDate;
-	Button generateKey;
+	Button generateMyKey;
+	
+	HashMap<String, Object> preferences;
+	Activity a;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		requestWindowFeature(Window.FEATURE_NO_TITLE);
-		setContentView(R.layout.generatenewkeyactivity);
-		
-		setAssets();
+		preferences = new HashMap<String, Object>();
 	}
 	
 	@Override
-	public void onClick(View v) {
-		if(v == addPhoto) {
-			
-		} else if(v == generateKey) {
-			if(
-				fullName.getText().length() > 0 &&
-				email.getText().length() > 0 &&
-				keyType.getSelectedItemPosition() != Spinner.INVALID_POSITION &&
-				keyLength.getSelectedItemPosition() != Spinner.INVALID_POSITION
-			) {
-				try {
-					HashMap<String, Object> bootstrap = new HashMap<String, Object>();
-					bootstrap.put(GPGProgressDialog.INHERITED_TITLE, getResources().getString(R.string.generating));
-					
-					ArrayList<HashMap<String, Object>> actions = new ArrayList<HashMap<String, Object>>();
-					HashMap<String, Object> action = new HashMap<String, Object>();
-					action.put(GPGProgressDialog.Actions.THREAD, GenerateNewKey.Actions.GENERATE_NEW_KEY);
-					action.put(GPGProgressDialog.Actions.PARAMETERS, gatherInputs());
-					actions.add(action);
-					
-					bootstrap.put(GPGProgressDialog.ACTION, actions);
-					
-					Intent i = new Intent(this, OverlayActivity.class)
-						.putExtra(Overlay.BOOTSTRAPPED_DATA, bootstrap)
-						.putExtra(Overlay.TARGET, Overlay.Targets.GENERATE_NEW_KEY);
-					getParent().startActivityForResult(i, Overlay.REQUEST_CODE);
-				} catch (ParseException e) {}
-			} else
-				Toast.makeText(this, getResources().getString(R.string.generateNewKey_error), Toast.LENGTH_LONG).show();
-		}
-		
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
 	}
 	
-	private String gatherInputs() throws ParseException {
-		String template = GPG.Commands.BATCH_GEN;
-		template = template.replace(GPG.Replace.NAME_REAL, fullName.getText().toString());
-		template = template.replace(GPG.Replace.NAME_EMAIL, email.getText().toString());
-		template = template.replace(GPG.Replace.NAME_COMMENT, comment.getText().toString());
-		template = template.replace(GPG.Replace.KEY_TYPE, keyType.getSelectedItem().toString());
-		template = template.replace(GPG.Replace.KEY_LENGTH, keyLength.getSelectedItem().toString());
-		template = template.replace(GPG.Replace.EXPIRE_DATE, Long.toString(
-				DateParser.getDateAsMillis(expirationDate.getDayOfMonth(), expirationDate.getMonth(), expirationDate.getYear())));
-		return template; 
-	}
-	
-	public void setAssets() {
-		fullName = (EditText) findViewById(R.id.fullName);
-		email = (EditText) findViewById(R.id.email);
-		comment = (EditText) findViewById(R.id.comment);
+	@Override
+	public View onCreateView(LayoutInflater li, ViewGroup container, Bundle savedInstanceState) {
+		Log.d(LOG, "gen new key container is: " + container.getId());
+		View view = li.inflate(R.layout.generate_new_key_activity, container, false);
 		
-		keyType_holder = (LinearLayout) findViewById(R.id.keyType_holder);
-		keyType = new Spinner(GenerateNewKeyActivity.this.getParent());
-		keyType.setPrompt(getResources().getString(R.string.generateNewKey_keyType));
-		keyType.setAdapter(new ArrayAdapter<String>(getParent(), R.layout.spinner_no_icon, R.id.spinnerItemText, getResources().getStringArray(R.array.keyType_names)));
-		keyType.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-		keyType_holder.addView(keyType);
-			
-		keyLength_holder = (LinearLayout) findViewById(R.id.keyLength_holder);
-		keyLength = new Spinner(GenerateNewKeyActivity.this.getParent());
-		keyLength.setPrompt(getResources().getString(R.string.generateNewKey_keyLength));
-		keyLength.setAdapter(new ArrayAdapter<String>(getParent(), R.layout.spinner_no_icon, R.id.spinnerItemText, getResources().getStringArray(R.array.keyLength_names)));
-
-		keyLength.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-		keyLength_holder.addView(keyLength);
+		fullName = (EditText) view.findViewById(R.id.fullName);
+		emailAddress = (EditText) view.findViewById(R.id.email);
+		comment = (EditText) view.findViewById(R.id.comment);
 		
-		expirationDate = (DatePicker) findViewById(R.id.expirationDate);
+		keyType = (Spinner) view.findViewById(R.id.keyType);
+		keyLength = (Spinner) view.findViewById(R.id.keyLength);
 		
-		addPhoto = (ImageButton) findViewById(R.id.addPhoto);
+		expirationDate = (G4DatePicker) view.findViewById(R.id.expirationDate);
+		addPhoto = (ImageButton) view.findViewById(R.id.addPhoto);
 		addPhoto.setOnClickListener(this);
 		
-		generateKey = (Button) findViewById(R.id.generateKey);
-		generateKey.setOnClickListener(this);
+		generateMyKey = (Button) view.findViewById(R.id.generateKey);
+		generateMyKey.setOnClickListener(this);
 		
+		return view;
+	}
+	
+	@Override
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+		a = activity;
+	}
+	
+	@Override
+	public void onDetach() {
+		super.onDetach();
+	}
+	
+	private boolean infoIsValid() {
+		if(!(fullName.getText().length() >= 5)) {
+			Toast.makeText(a, getString(R.string.generateNewKey_fail_fullName), Toast.LENGTH_SHORT).show();
+			return false;
+		}
+		
+		if(!(emailAddress.getText().length() > 4 && emailAddress.getText().toString().contains("@"))) {
+			Toast.makeText(a, getString(R.string.generateNewKey_fail_email), Toast.LENGTH_SHORT).show();
+			return false;
+		}
+		
+		if(!expirationDate.isValidDate(G4DatePicker.IS_AFTER_TODAY)) {
+			Toast.makeText(a, getString(R.string.generateNewKey_fail_expirationDate), Toast.LENGTH_SHORT).show();
+			return false;
+		}
+		
+		return true;
+	}
+	
+	private void gatherPreferences() {
+		preferences.put(Keys.Primary.FULL_NAME, fullName.getText().toString());
+		preferences.put(Keys.Primary.EMAIL_ADDRESS, emailAddress.getText().toString());
+		if(comment.getText().toString().compareTo("") != 0)
+			preferences.put(Keys.Primary.COMMENT, comment.getText().toString());
+		preferences.put(Keys.Primary.KEY_TYPE, keyType.getSelectedItemPosition());
+		preferences.put(Keys.Primary.KEY_LENGTH, keyLength.getSelectedItemPosition());
+		preferences.put(Keys.Primary.EXPIRY, new int[] {expirationDate.Month(), expirationDate.Day(), expirationDate.Year()});
 	}
 
+	@Override
+	public void onClick(View v) {
+		if(v == generateMyKey) {
+			if(infoIsValid())
+				gatherPreferences();
+				a.sendBroadcast(new Intent()
+					.setAction(GenerateNewKey.Actions.GENERATE_NEW_KEY)
+					.putExtra(GenerateNewKey.Actions.GENERATE_NEW_KEY, preferences)
+				);
+		} else if(v == addPhoto) {
+			Intent intent = new Intent(Intent.ACTION_PICK);
+			intent.setType("image/*");
+			startActivityForResult(intent, GenerateNewKey.Intents.ADD_PHOTO);
+		}
+	}
+	
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if(resultCode == Activity.RESULT_OK) {
+			switch(requestCode) {
+			case GenerateNewKey.Intents.ADD_PHOTO:
+				preferences.put(Keys.Primary.ASSOC_PHOTO, data.getData().toString());
+			}
+		}
+	}
+	
+	
+	
 }

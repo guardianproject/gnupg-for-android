@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" style="@style/GNUPGMainRoot"
+    android:id="@+id/groupRoot" >
+    <LinearLayout
+        android:layout_width="match_parent"
+   		android:layout_height="match_parent"
+    	android:orientation="vertical"
+        android:id="@+id/innerRoot">
+
+        <ListView
+            android:id="@+id/myKeys_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="50dip" >
+        </ListView>
+
+	</LinearLayout>    
+    <Button style="@style/GPStandardButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/myKeys_create_new_key"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/myKeys_create" />
+    
+</RelativeLayout>

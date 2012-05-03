@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"  style="@style/GNUPGMainRoot"
+    android:id="@+id/groupRoot" >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:id="@+id/innerRoot">
+	    <info.guardianproject.gpg.mods.H1 style="@style/GPStandardH1TextView"
+	        android:text="@string/generateNewKey_title" />
+		<EditText style="@style/GPStandardEditText"
+	        android:hint="@string/generateNewKey_fullName"
+	        android:id="@+id/fullName" />
+	    <EditText style="@style/GPStandardEditText"
+	        android:hint="@string/generateNewKey_email"
+	        android:id="@+id/email" />
+	    <EditText style="@style/GPStandardEditText"
+	        android:hint="@string/generateNewKey_comment"
+	        android:id="@+id/comment" />
+	    <LinearLayout
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        android:orientation="horizontal"
+	        android:weightSum="1.0">
+	        <TextView style="@style/GPStandardH2TextView"
+	            android:text="@string/generateNewKey_keyType_short"
+	            android:layout_width="0dip"
+	            android:layout_weight="0.7" />
+	        <TextView style="@style/GPStandardH2TextView"
+	            android:text="@string/generateNewKey_keyLength_short"
+	            android:layout_width="0dip"
+	            android:layout_weight="0.3" />
+	    </LinearLayout>
+	    <LinearLayout
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        android:orientation="horizontal"
+	        android:weightSum="1.0">
+		    <Spinner
+		        android:layout_width="0dip"
+		        android:layout_height="wrap_content"
+		        android:layout_weight="0.7"
+		        android:prompt="@string/generateNewKey_keyType"
+		        android:entries="@array/generateNewKey_keyTypes"
+		        android:id="@+id/keyType"/>
+		    <Spinner
+		        android:layout_width="0dip"
+		        android:layout_height="wrap_content"
+		        android:layout_weight="0.3"
+		        android:prompt="@string/generateNewKey_keyLength"
+		        android:entries="@array/generateNewKey_keyLengths"
+		        android:id="@+id/keyLength" />
+	    </LinearLayout>
+	    
+	    <LinearLayout
+		    android:layout_width="fill_parent"
+		    android:layout_height="wrap_content"
+		    android:orientation="horizontal"
+		    android:weightSum="1.0">
+	    <TextView style="@style/GPStandardH2TextView"
+	        android:text="@string/generateNewKey_expirationDate"
+	        android:layout_width="0dip"
+	        android:layout_weight="0.7" />
+	    <TextView style="@style/GPStandardH2TextView"
+	        android:text="@string/generateNewKey_addPhoto"
+	        android:layout_width="0dip"
+	        android:layout_weight="0.3" />
+	    </LinearLayout>
+	    
+		<LinearLayout
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content"
+		    android:orientation="horizontal"
+		    android:paddingLeft="6dip"
+		    android:paddingRight="6dip"
+		    android:weightSum="1.0" >
+			<LinearLayout
+			    android:layout_width="0dip"
+		        android:layout_weight="0.7"
+		        android:layout_height="wrap_content">
+		   		<info.guardianproject.gpg.mods.G4DatePicker
+		        	android:id="@+id/expirationDate"
+		        	android:layout_width="wrap_content"
+		        	android:layout_height="wrap_content" />
+		    </LinearLayout>
+
+		    <ImageButton
+		        android:id="@+id/addPhoto"
+		        android:layout_width="0dip"
+		        android:layout_height="wrap_content"
+		        android:layout_weight="0.3"
+		        android:src="@drawable/ic_add_photo"
+		        android:paddingTop="14dip"
+		        android:paddingBottom="14dip"
+		        android:scaleType="fitCenter"
+		        android:background="@drawable/photo_button_selector" />
+		</LinearLayout>
+	</LinearLayout>
+
+	<Button style="@style/GPStandardButton"
+	    android:id="@+id/generateKey"
+	    android:text="@string/generateNewKey_generateButton"
+	    android:layout_alignParentBottom="true" />
+
+</RelativeLayout>

@@ -3,13 +3,15 @@
     <!--  Main TabView Styles -->
     <style name="GNUPGMainRoot">
         <item name="android:orientation">vertical</item>
-        <item name="android:layout_width">fill_parent</item>
-        <item name="android:layout_height">fill_parent</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:paddingTop">5dip</item>
+        <item name="android:paddingBottom">5dip</item>
         <item name="android:background">#ff5b5252</item>
     </style>
     
     <style name="GPTabDivider">
-        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">3dip</item>
         <item name="android:background">#ff74d4fc</item>
     </style>
@@ -55,8 +57,8 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:paddingLeft">4dip</item>
         <item name="android:paddingRight">4dip</item>
-        <item name="android:paddingTop">10dip</item>
-        <item name="android:paddingBottom">10dip</item>
+        <item name="android:paddingTop">8dip</item>
+        <item name="android:paddingBottom">8dip</item>
     </style>
 
     <!--  H2 Text -->
@@ -82,6 +84,20 @@
 		<item name="android:paddingLeft">5dip</item>
 		<item name="android:paddingRight">5dip</item>
     </style>
+
+    <!--  Standard LongList Text -->
+    <style name="GPListViewText">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">16dip</item>
+        <item name="android:textColor">#fff1f0ed</item>
+        <item name="android:paddingBottom">10dip</item>
+        <item name="android:paddingTop">10dip</item>
+		<item name="android:paddingLeft">5dip</item>
+		<item name="android:paddingRight">5dip</item>
+		<item name="android:gravity">bottom</item>
+    </style>
+     
     
     <!--  Standard Buttons -->
     <style name="GPStandardButton">
@@ -106,7 +122,34 @@
         <item name="android:layout_height">wrap_content</item>
     </style>
     
-
+	<!--  DatePicker -->
+	<style name="GPDatePickerUpArrow">
+	    <item name="android:layout_width">30dip</item>
+	    <item name="android:layout_height">20dip</item>
+	    <item name="android:src">@drawable/g4_up_arrow_selector</item>
+	    <item name="android:scaleType">fitXY</item>
+	    <item name="android:background">#00000000</item>
+	</style>
+	
+	<style name="GPDatePickerDownArrow">
+	   	<item name="android:layout_width">30dip</item>
+	    <item name="android:layout_height">20dip</item>
+	    <item name="android:src">@drawable/g4_down_arrow_selector</item>
+	    <item name="android:scaleType">fitXY</item>
+	    <item name="android:background">#00000000</item>
+	</style>
+	
+	<style name="GPDatePickerSelectionHolder">
+	    <item name="android:layout_width">60dip</item>
+	    <item name="android:layout_height">wrap_content</item>
+	    <item name="android:textColor">#ff74d4fc</item>
+	    <item name="android:background">#00000000</item>
+	    <item name="android:textSize">24dip</item>
+	    <item name="android:lines">1</item>
+	    <item name="android:paddingTop">8dip</item>
+	    <item name="android:paddingBottom">8dip</item>
+	    <item name="android:gravity">center_horizontal</item>
+	</style>
     
     <!--  H1 type items -->
     <style name="GPH1Holder">
