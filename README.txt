@@ -34,6 +34,9 @@ NDK: http://developer.android.com/sdk/ndk/
 How to Build the Command Line Utilities
 ---------------------------------------
 
+
+git submodule init
+git submodule update
 make -C external/ gnupg-install
 make -C external/ gnupg-static
 
