@@ -22,7 +22,7 @@ Build Setup
 On Debian/Ubuntu/Mint/etc.:
 
   sudo apt-get install autoconf automake libtool transfig wget patch \
-       texinfo ant gettext build-essential
+       texinfo ant gettext build-essential ia32-libs
 
 Install the Android NDK for the command line version, and the Android SDK for
 the Android app version:
