@@ -651,7 +651,6 @@ android-assets:
 	done
 	rm -rf $(ASSETS)/include
 	rm -rf $(ASSETS)/share/man $(ASSETS)/share/info $(ASSETS)/share/doc
-	rmdir $(ASSETS)/sbin
 
 
 #------------------------------------------------------------------------------#
