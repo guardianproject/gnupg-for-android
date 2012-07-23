@@ -111,8 +111,10 @@ public class GnuPrivacyGuard extends Activity implements OnCreateContextMenuList
 			        GnuPGContext ctx = new GnuPGContext();
 			        GnuPGKey[] keylist;
 			        keylist = ctx.searchKeys(input.getText().toString());
-			        for(GnuPGKey key : keylist){
-			        	Log.i(TAG, "key: " + key.toString());
+			        if( keylist != null ) {
+				        for(GnuPGKey key : keylist){
+				        	Log.i(TAG, "key: " + key.toString());
+				        }
 			        }
 				}
 			});
