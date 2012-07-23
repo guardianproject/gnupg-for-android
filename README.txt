@@ -48,6 +48,7 @@ How to Build the Android Test App
 ---------------------------------
 
 make -C external/ android-assets
+ndk-build
 android update project --path . --target android-8 \
   --name GnuPrivacyGuard
 ant clean debug
