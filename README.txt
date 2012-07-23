@@ -39,6 +39,7 @@ git submodule init
 git submodule update
 make -C external/ gnupg-install
 make -C external/ gnupg-static
+make -C external/ gpgme-install
 
 The results will be in external/data/data/info.guardianproject.gpg
 
