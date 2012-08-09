@@ -11,7 +11,7 @@
 
     <application
         android:icon="@drawable/icon"
-        android:label="@string/app_name" >
+        android:label="@string/app_name" android:debuggable="true">
         <activity
             android:name=".GnuPrivacyGuard"
             android:label="@string/app_name" >
