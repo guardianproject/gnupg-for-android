@@ -154,8 +154,11 @@ public class NativeHelper {
 		}
 		// unpack the assets to app_opt
 		for (String asset : assetList) {
-			if (asset.equals("images") || asset.equals("sounds")
-					|| asset.equals("webkit"))
+			if (asset.equals("images")
+					|| asset.equals("sounds")
+					|| asset.equals("webkit")
+					|| asset.equals("databases")  // Motorola
+					|| asset.equals("kioskmode")) // Samsung
 				continue;
 			Log.i(TAG, "copying asset: " + asset);
 			copyFileOrDir(asset, app_opt);
