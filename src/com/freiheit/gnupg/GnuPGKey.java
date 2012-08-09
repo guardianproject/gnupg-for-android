@@ -99,7 +99,7 @@ public class GnuPGKey extends GnuPGPeer{
 
        @see com.freiheit.gnupg.GnuPGSignature
      */
-    public Iterator/*<GnuPGSignatures>*/ getSignatures(){
+    public Iterator<GnuPGSignature> getSignatures(){
         List<GnuPGSignature> siglist = null;
         GnuPGSignature sig = getSignature();
         while (sig != null){
@@ -116,7 +116,7 @@ public class GnuPGKey extends GnuPGPeer{
        Helper to list signatures in the toString()-method.
      */
     private String listSignatures(){
-        Iterator iter = getSignatures();
+        Iterator<GnuPGSignature> iter = getSignatures();
         GnuPGSignature sig;
         StringBuffer buf = new StringBuffer();
 

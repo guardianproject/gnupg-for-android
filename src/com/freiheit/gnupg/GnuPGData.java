@@ -139,7 +139,6 @@ public class GnuPGData extends GnuPGPeer{
     private native long gpgmeDataNew();
     private native void gpgmeDataWrite(long l, OutputStream out) throws IOException;
     private native void gpgmeDataRelease(long l);
-    @SuppressWarnings("unused")
     private native void gpgmeDataRead(long data, InputStream in) throws IOException;
 }
 /*

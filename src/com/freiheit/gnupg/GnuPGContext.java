@@ -14,12 +14,6 @@
 
 package com.freiheit.gnupg;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-
 import android.util.Log;
 
 /**
@@ -506,9 +500,7 @@ public class GnuPGContext extends GnuPGPeer{
     private native void gpgmeOpDecrypt(long l, long m, long n);
     private native void gpgmeOpChangePassphrase(long l, long m );
     private native void gpgmeRelease(long l);
-    @SuppressWarnings("unused")
     private native void gpgmeOpEncryptSign(long context, int[] recipients, long plain, long cipher);
-    @SuppressWarnings("unused")
     private native void gpgmeOpDecryptVerify(long context, long cipher, long plain);
     private native void gpgmeOpSign(long context, long l, long m);
     private native void gpgmeOpVerify(long context, long l, long m, long n);
