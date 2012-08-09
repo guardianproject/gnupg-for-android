@@ -44,6 +44,8 @@ public class GnuPrivacyGuard extends Activity implements OnCreateContextMenuList
 	public String command;
 
 	boolean mIsBound;
+	
+	private GnuPGContext gpgCtx;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -63,6 +65,7 @@ public class GnuPrivacyGuard extends Activity implements OnCreateContextMenuList
 
 		Intent intent = new Intent(GnuPrivacyGuard.this, AgentsService.class);
 		startService(intent);
+		gpgCtx = new GnuPGContext();
 	}
 
 	@Override
@@ -108,9 +111,10 @@ public class GnuPrivacyGuard extends Activity implements OnCreateContextMenuList
 //					command += input.getText().toString();
 //					commandThread = new CommandThread();
 //					commandThread.start();
-			        GnuPGContext ctx = new GnuPGContext();
+			        //GnuPGContext ctx = new GnuPGContext();
 			        GnuPGKey[] keylist;
-			        keylist = ctx.searchKeys(input.getText().toString());
+			        String query = input.getText().toString();
+			        keylist = gpgCtx.searchKeys(query);
 			        if( keylist != null ) {
 				        for(GnuPGKey key : keylist){
 				        	Log.i(TAG, "key: " + key.toString());
