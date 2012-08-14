@@ -46,9 +46,13 @@ STRIP := $(NDK_TOOLCHAIN)/bin/arm-linux-androideabi-strip \
 CFLAGS = -DANDROID -I$(LOCAL)/include
 LDFLAGS = -L$(LOCAL)/lib
 
+# turn off gcc optmization on the native builds for now, to aid debugging
+
 # build as small as possible, mostly useful for static binaries
-CFLAGS += -fdata-sections -ffunction-sections -Os
-LDFLAGS += -Wl,--gc-sections
+#CFLAGS += -fdata-sections -ffunction-sections -Os
+#LDFLAGS += -Wl,--gc-sections
+# unoptimized debug builds!
+CFLAGS += -g
 
 
 .PHONY = clean distclean install-clean \
