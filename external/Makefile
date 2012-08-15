@@ -15,16 +15,18 @@ PROJECT_ROOT = $(CWD)/..
 EXTERNAL_ROOT = $(PROJECT_ROOT)/external
 
 # Android NDK setup
-NDK_BASE ?=  /usr/local/android-ndk
+NDK_BASE ?= /opt/android-ndk
 NDK_PLATFORM_LEVEL ?= 8
-NDK_SYSROOT=$(NDK_BASE)/platforms/android-$(NDK_PLATFORM_LEVEL)/arch-arm
+NDK_ABI=arm
+NDK_SYSROOT=$(NDK_BASE)/platforms/android-$(NDK_PLATFORM_LEVEL)/arch-$(NDK_ABI)
 NDK_UNAME=`uname -s | tr '[A-Z]' '[a-z]'`
-NDK_TOOLCHAIN=$(NDK_BASE)/toolchains/arm-linux-androideabi-4.4.3/prebuilt/$(NDK_UNAME)-x86
+#NDK_COMPILER_VERSION=4.4.3
+NDK_COMPILER_VERSION=4.6
+NDK_TOOLCHAIN=$(NDK_BASE)/toolchains/$(NDK_ABI)-linux-androideabi-$(NDK_COMPILER_VERSION)/prebuilt/$(NDK_UNAME)-x86
 
 # to use the real HOST tag, you need the latest libtool files:
 # http://stackoverflow.com/questions/4594736/configure-does-not-recognize-androideabi
-#HOST := arm-none-linux-gnueabi
-HOST := arm-linux-androideabi
+HOST := $(NDK_ABI)-linux-androideabi
 
 # install root for built files
 DESTDIR = $(EXTERNAL_ROOT)
