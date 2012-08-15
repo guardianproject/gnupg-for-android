@@ -23,5 +23,6 @@ external/libassuan-build-stamp
 external/openldap-build-stamp
 external/curl-build-stamp
 external/gnupg-build-stamp
+external/gpgme-build-stamp
 external/npth-build-stamp
 external/libiconv-build-stamp

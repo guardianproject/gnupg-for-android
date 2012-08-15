@@ -546,19 +546,10 @@ gnupg-clean:
 #------------------------------------------------------------------------------#
 # gpgme
 
-gpgme/config.sub: config.sub
-	cp config.sub gpgme/config.sub
-
-gpgme/config.guess: config.guess
-	cp config.guess gpgme/config.guess
-
 gpgme/configure: gpgme/configure.ac
 	cd gpgme && ./autogen.sh
-# force these to copy until they are updated in the gpgme git upstream
-	cp config.guess gpgme/config.guess
-	cp config.sub gpgme/config.sub
 
-gpgme/Makefile: gpgme/config.sub gpgme/config.guess gpgme/configure
+gpgme/Makefile: gpgme/configure
 # kludge to fix file location in the config scripts
 	sed -i 's|^prefix=$(prefix)|prefix=$(LOCAL)|' $(LOCAL)/bin/*-config
 	cd gpgme && \
@@ -566,7 +557,6 @@ gpgme/Makefile: gpgme/config.sub gpgme/config.guess gpgme/configure
 			./configure \
 				--host=$(HOST) \
 				--enable-maintainer-mode \
-				--with-gnu-ld \
 				--with-gpg-error-prefix=$(LOCAL) \
 				--with-libassuan-prefix=$(LOCAL) \
 				--with-gpg=$(prefix)/bin \
@@ -579,26 +569,20 @@ gpgme/Makefile: gpgme/config.sub gpgme/config.guess gpgme/configure
 				--disable-gpgconf-test \
 				--disable-g13-test \
 				--prefix=$(LOCAL)
-	-patch -N -p1 --reject-file=- < gpgme-android-fixes.patch
 
 gpgme-build-stamp: gpgme/Makefile
-# it seems to die, but then recover
-	$(MAKE) -C gpgme V=1 || $(MAKE) -C gpgme V=1
+	$(MAKE) -C gpgme
 	touch gpgme-build-stamp
 
 gpgme-build: gpgme-build-stamp
 
 $(LOCAL)/lib/libgpgme.so: gpgme-build
-# kludge because the install dies trying to install libgpgme.la
-	$(MAKE) -C gpgme DESTDIR=$(DESTDIR) prefix=$(prefix) install \
-		|| echo "IGNORING THE REST OF THE GPGME INSTALL"
-	ls -l $(LOCAL)/lib/libgpgme.so
+	$(MAKE) -C gpgme DESTDIR=$(DESTDIR) prefix=$(prefix) install
 
 gpgme-install: gnupg-install $(LOCAL)/lib/libgpgme.so
 
 gpgme-clean:
 	-rm -f gpgme-build-stamp gpgme/Makefile gpg/configure
-	-patch -N -R -p1 --reject-file=- < gpgme-android-fixes.patch
 
 
 #------------------------------------------------------------------------------#
