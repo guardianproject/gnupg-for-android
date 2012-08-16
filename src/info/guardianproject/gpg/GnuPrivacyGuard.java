@@ -56,6 +56,11 @@ public class GnuPrivacyGuard extends Activity implements OnCreateContextMenuList
 		if (!new File(NativeHelper.app_opt, "bin").exists()) {
 			NativeHelper.unpackAssets(getApplicationContext());
 		}
+		// these need to be loaded before System.load("gnupg-for-java"); and in
+		// the right order, since they have interdependencies.
+		System.load(NativeHelper.app_opt + "/lib/libgpg-error.so.0");
+		System.load(NativeHelper.app_opt + "/lib/libassuan.so.0");
+		System.load(NativeHelper.app_opt + "/lib/libgpgme.so.11");
 
 		setContentView(R.layout.main);
 		consoleScroll = (ScrollView) findViewById(R.id.consoleScroll);
