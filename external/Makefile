@@ -95,7 +95,7 @@ libgpg-error/Makefile: libgpg-error/config.sub libgpg-error/config.guess libgpg-
 			--disable-languages \
 			--enable-static \
 			--host=$(HOST) \
-			--prefix=$(prefix)
+			--prefix=$(LOCAL)
 
 
 libgpg-error-build-stamp: libgpg-error/Makefile
@@ -105,7 +105,7 @@ libgpg-error-build-stamp: libgpg-error/Makefile
 libgpg-error-build: libgpg-error-build-stamp
 
 $(LOCAL)/lib/libgpg-error.a: libgpg-error-build
-	$(MAKE) -C libgpg-error DESTDIR=$(DESTDIR) prefix=$(prefix) install
+	$(MAKE) -C libgpg-error prefix=$(LOCAL) install
 
 libgpg-error-install: $(LOCAL)/lib/libgpg-error.a
 
@@ -133,7 +133,7 @@ libgcrypt/Makefile: libgcrypt/config.sub libgcrypt/config.guess libgcrypt/config
 				--enable-static \
 				--host=$(HOST) \
 				--with-gpg-error-prefix=$(LOCAL) \
-				--prefix=$(prefix)
+				--prefix=$(LOCAL)
 
 libgcrypt-build-stamp: $(LOCAL)/lib/libgpg-error.a libgcrypt/Makefile
 	$(MAKE) -C libgcrypt
@@ -142,7 +142,7 @@ libgcrypt-build-stamp: $(LOCAL)/lib/libgpg-error.a libgcrypt/Makefile
 libgcrypt-build: libgcrypt-build-stamp
 
 $(LOCAL)/lib/libgcrypt.a: libgcrypt-build
-	$(MAKE) -C libgcrypt DESTDIR=$(DESTDIR) prefix=$(prefix) install
+	$(MAKE) -C libgcrypt prefix=$(LOCAL) install
 	ls -l $(LOCAL)/lib/libgcrypt.a
 
 libgcrypt-clean:
@@ -169,14 +169,14 @@ libassuan/Makefile: libassuan/config.sub libassuan/config.guess libassuan/config
 				--enable-static \
 				--host=$(HOST) \
 				--with-gpg-error-prefix=$(LOCAL) \
-				--prefix=$(prefix)
+				--prefix=$(LOCAL)
 
 libassuan-build-stamp: $(LOCAL)/lib/libgpg-error.a libassuan/Makefile
 	$(MAKE) -C libassuan
 	touch libassuan-build-stamp
 
 $(LOCAL)/lib/libassuan.a: libassuan-build-stamp
-	$(MAKE) -C libassuan DESTDIR=$(DESTDIR) prefix=$(prefix) install
+	$(MAKE) -C libassuan prefix=$(LOCAL) install
 	ls -l $(LOCAL)/lib/libassuan.a
 
 libassuan-install: $(LOCAL)/lib/libassuan.a
@@ -205,14 +205,14 @@ npth/Makefile: npth/config.sub npth/config.guess npth/configure
 				--enable-static \
 				--host=$(HOST) \
 				--with-gnu-ld \
-				--prefix=$(prefix)
+				--prefix=$(LOCAL)
 
 npth-build-stamp: $(LOCAL)/lib/libgpg-error.a npth/Makefile
 	$(MAKE) -C npth
 	touch npth-build-stamp
 
 $(LOCAL)/lib/libnpth.a: npth-build-stamp
-	$(MAKE) -C npth DESTDIR=$(DESTDIR) prefix=$(prefix) install
+	$(MAKE) -C npth prefix=$(LOCAL) install
 	ls -l $(LOCAL)/lib/libnpth.a
 
 npth-install: $(LOCAL)/lib/libnpth.a
@@ -241,11 +241,11 @@ libksba-build: $(LOCAL)/lib/libgpg-error.a libksba/config.sub libksba/config.gue
 				--enable-static \
 				--host=$(HOST) \
 				--with-gpg-error-prefix=$(LOCAL) \
-				--prefix=$(prefix)
+				--prefix=$(LOCAL)
 	$(MAKE) -C libksba
 
 $(LOCAL)/lib/libksba.a: libksba-build
-	$(MAKE) -C libksba DESTDIR=$(DESTDIR) prefix=$(prefix) install
+	$(MAKE) -C libksba prefix=$(LOCAL) install
 	ls -l $(LOCAL)/lib/libksba.a
 
 libksba-install: $(LOCAL)/lib/libksba.a
@@ -533,7 +533,7 @@ gnupg-build-stamp: $(LOCAL)/lib/libgpg-error.a $(LOCAL)/lib/libgcrypt.a $(LOCAL)
 	touch gnupg-build-stamp
 
 $(LOCAL)/bin/gpg2: gnupg-build $(GNUPG_SOURCES) gnupg/configure
-	$(MAKE) -C gnupg DESTDIR=$(DESTDIR) prefix=$(prefix) install
+	$(MAKE) -C gnupg prefix=$(LOCAL) install
 	ls -l $(LOCAL)/bin/gpg2
 
 gnupg-install: $(LOCAL)/bin/gpg2
@@ -552,8 +552,6 @@ gpgme/configure: gpgme/configure.ac
 	cd gpgme && ./autogen.sh
 
 gpgme/Makefile: gpgme/configure
-# kludge to fix file location in the config scripts
-	sed -i 's|^prefix=$(prefix)|prefix=$(LOCAL)|' $(LOCAL)/bin/*-config
 	cd gpgme && \
 		CC="$(CC)" AR="$(AR)" RANLIB=$(RANLIB) CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS)" \
 			./configure \
@@ -570,7 +568,7 @@ gpgme/Makefile: gpgme/configure
 				--disable-gpgsm-test \
 				--disable-gpgconf-test \
 				--disable-g13-test \
-				--prefix=$(LOCAL)
+				--prefix=$(prefix)
 
 gpgme-build-stamp: gpgme/Makefile
 	$(MAKE) -C gpgme
