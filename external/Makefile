@@ -671,3 +671,16 @@ distclean: clean install-clean
 	-$(MAKE) -C libassuan distclean
 	-$(MAKE) -C libgcrypt distclean
 	-$(MAKE) -C libgpg-error distclean
+
+# watch out, this is dangerous!
+gitclean: distclean
+	rm -rf $(ASSETS)
+	rm -rf $(EXTERNAL_ROOT)/data
+	for file in $(EXTERNAL_ROOT)/*; do \
+		test -d $$file || continue; \
+		echo $$file; \
+		cd $$file; \
+		git reset --hard; \
+		git clean -fdx; \
+		cd ..; \
+	done
