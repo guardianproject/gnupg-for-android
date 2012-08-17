@@ -195,3 +195,14 @@ index 9dd555e..ca71f8f 100644
  if test "$use_ldapwrapper" = yes; then
     AC_DEFINE(USE_LDAPWRAPPER,1, [Build dirmngr with LDAP wrapper process])
  fi
+diff --git a/tools/watchgnupg.c b/tools/watchgnupg.c
+index 592819b..c7a404e 100644
+--- a/gnupg/tools/watchgnupg.c
++++ b/gnupg/tools/watchgnupg.c
+@@ -47,7 +47,7 @@
+ #endif
+ #if !defined(SUN_LEN) || !defined(PF_LOCAL) || !defined(AF_LOCAL)
+ #define JNLIB_NEED_AFLOCAL
+-#include "../jnlib/mischelp.h"
++#include "../common/mischelp.h"
+ #endif
