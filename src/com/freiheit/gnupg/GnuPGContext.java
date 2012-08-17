@@ -56,6 +56,9 @@ import android.util.Log;
 
 public class GnuPGContext extends GnuPGPeer{
 	public static final String TAG = "GnuPGContext";
+    static {
+        System.loadLibrary("gnupg-for-java");
+    }
 
     private String _version;
     private String _filename;
@@ -493,7 +496,6 @@ public class GnuPGContext extends GnuPGPeer{
        GPGME methods. So, if you want to know what these methods
        are actually doing: Please refer to the GPGME docs.
      */
-    private native static void gpgmeCheckVersion();
     private native void gpgmeGetEngineInfo();
     private native long gpgmeNew();
     private native void gpgmeOpEncrypt(long l, long[] recipientsInternals, long m, long n);
@@ -520,20 +522,6 @@ public class GnuPGContext extends GnuPGPeer{
     private native long gpgmeGetTextmode(long l);
     private native void gpgmeSetTextmode(long l, long state);
 
-    static {
-        try{
-    		System.load("/data/data/info.guardianproject.gpg/app_opt/lib/libgpg-error.so.0");
-    		System.load("/data/data/info.guardianproject.gpg/app_opt/lib/libassuan.so.0");
-    		System.load("/data/data/info.guardianproject.gpg/app_opt/lib/libgpgme.so.11");
-    		System.loadLibrary("gpgme-for-java");
-            //This call is really important, as it initializes the GPGME thread system!!!!
-            gpgmeCheckVersion();//FIXME: But: This is NOT working correctly!!!
-            //----------------------------------------------------------------------------
-        } catch(Throwable e){
-            Log.e(TAG, "crash on load: " + e.getMessage());
-            e.printStackTrace();
-        }
-    }
 }
 
 /*
