@@ -520,9 +520,14 @@ gnupg/Makefile: gnupg/configure gnupg/config.sub gnupg/config.guess
 				--disable-tools \
 				--disable-doc \
 				--disable-ccid-driver \
+				--with-agent-pgm=$(prefix)/bin/gpg-agent \
+				--with-dirmngr-pgm=$(prefix)/bin/dirmngr \
+				--with-dirmngr-ldap-pgm=$(prefix)/libexec/dirmngr_ldap \
+				--with-pinentry-pgm=$(prefix)/bin/pinentry \
+				--with-protect-tool-pgm=$(prefix)/libexec/gpg-protect-tool \
 				--prefix=$(prefix)
 
-# adns builds for Android, but gnupg doesn't build for Android with adns enabled
+# TODO adns builds for Android, but gnupg doesn't build for Android with adns enabled
 #				--with-adns=$(LOCAL) \ $(LOCAL)/lib/libadns.a
 
 
@@ -559,10 +564,10 @@ gpgme/Makefile: gpgme/configure
 				--enable-maintainer-mode \
 				--with-gpg-error-prefix=$(LOCAL) \
 				--with-libassuan-prefix=$(LOCAL) \
-				--with-gpg=$(prefix)/bin \
-				--with-gpgsm=$(prefix)/bin \
-				--with-gpgconf=$(prefix)/bin \
-				--with-g13=$(prefix)/bin \
+				--with-gpg=$(prefix)/bin/gpg2 \
+				--with-gpgsm=$(prefix)/bin/gpgsm \
+				--with-gpgconf=$(prefix)/bin/gpgconf \
+				--with-g13=$(prefix)/bin/g13 \
 				--disable-glibtest \
 				--disable-gpg-test \
 				--disable-gpgsm-test \
