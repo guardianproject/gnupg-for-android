@@ -501,6 +501,7 @@ gnupg/configure:
 	cd gnupg && ./autogen.sh
 
 gnupg/Makefile: gnupg/configure gnupg/config.sub gnupg/config.guess
+	-patch -N -p1 --reject-file=- < gnupg-android-fixes.patch
 	cd gnupg && \
 		CC="$(CC)" AR="$(AR)" RANLIB=$(RANLIB) CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS)" \
 			./configure \
@@ -531,7 +532,6 @@ gnupg/Makefile: gnupg/configure gnupg/config.sub gnupg/config.guess
 
 gnupg-build: gnupg-build-stamp 
 gnupg-build-stamp: $(LOCAL)/lib/libgpg-error.a $(LOCAL)/lib/libgcrypt.a $(LOCAL)/lib/libksba.a $(LOCAL)/lib/libassuan.a $(LOCAL)/lib/libldap.a $(LOCAL)/lib/libnpth.a gnupg/Makefile
-	-patch -N -p1 --reject-file=- < gnupg-android-fixes.patch
 	$(MAKE) -C gnupg
 	touch gnupg-build-stamp
 
