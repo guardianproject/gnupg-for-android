@@ -6,6 +6,7 @@ obj/
 # we are currently generating assets/ each time
 assets/
 #
+external/TAGS
 external/data
 external/adns-1.4
 external/adns-1.4.tar.gz

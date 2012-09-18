@@ -684,3 +684,9 @@ gitclean: distclean
 		git clean -fdx; \
 		cd ..; \
 	done
+
+
+ALL_SOURCES := $(shell find $(EXTERNAL_ROOT) -name '*.[ch]')
+TAGS:	$(ALL_SOURCES)
+	@echo Generating TAGS...
+	@etags $(ALL_SOURCES)
