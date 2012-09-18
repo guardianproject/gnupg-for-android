@@ -624,8 +624,10 @@ gpgv2-static:
 #------------------------------------------------------------------------------#
 # setup as assets for Android app
 
+android-assets: assets
+
 ASSETS := $(CWD)/../assets
-android-assets:
+assets:
 	install -d $(ASSETS)
 	-rm -rf $(ASSETS)/*
 	cp -a $(LOCAL)/* $(ASSETS)
