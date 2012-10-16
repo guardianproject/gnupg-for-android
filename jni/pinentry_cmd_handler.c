@@ -5,7 +5,6 @@
 #include "pinentry.h"
 
 static pinentry_t pinentry;
-static int grab_failed;
 static int passphrase_ok;
 typedef enum { CONFIRM_CANCEL, CONFIRM_OK, CONFIRM_NOTOK } confirm_value_t;
 static confirm_value_t confirm_value;
@@ -25,7 +24,7 @@ android_cmd_handler (pinentry_t pe)
 //  while (gtk_events_pending ())
 //    gtk_main_iteration ();
 
-  if (confirm_value == CONFIRM_CANCEL || grab_failed)
+  if (confirm_value == CONFIRM_CANCEL)
     pe->canceled = 1;
 
   pinentry = NULL;
@@ -42,21 +41,25 @@ android_cmd_handler (pinentry_t pe)
 
 pinentry_cmd_handler_t pinentry_cmd_handler = android_cmd_handler;
 
+JNIEXPORT void JNICALL
+startPinentryLoop(JNIEnv * env, jobject self)
+{
+    pinentry_init("pinentry-android");
+
+    char* debug[1];
+    debug[0] = "--debug";
+    /* Consumes all arguments.  */
+    if (pinentry_parse_opts(1, debug))
+        exit(EXIT_SUCCESS);
+    
+    pinentry_loop(); // this only exits when done
+}
 
 JNIEXPORT jint JNICALL
 JNI_OnLoad(JavaVM *vm, void *reserved)
 {
     // TODO set locale from the JavaVM's config
     //setlocale(LC_ALL, "");
-    
-    pinentry_init("pinentry-android");
 
-    /* Consumes all arguments.  */
-    if (pinentry_parse_opts(0, NULL))
-        exit(EXIT_SUCCESS);
-    
-    if (pinentry_loop())
-        return 1;
-    
     return JNI_VERSION_1_6;
 }
