@@ -516,7 +516,6 @@ gnupg/Makefile: gnupg/configure gnupg/config.sub gnupg/config.guess
 				--with-ldap=$(LOCAL) \
 				--with-libiconv-prefix=$(LOCAL) \
 				--disable-scdaemon \
-				--disable-g13 \
 				--disable-doc \
 				--disable-ccid-driver \
 				--with-agent-pgm=$(prefix)/bin/gpg-agent \
