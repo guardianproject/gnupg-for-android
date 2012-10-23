@@ -81,6 +81,8 @@ JNI_OnLoad(JavaVM *vm, void *reserved)
 {
     _jvm = vm;
 
+#ifdef __ANDROID__
+    // TODO get the actual gpgAppOpt path from Java
     // we need to set LD_LIBRARY_PATH because gpgme calls the cmd line utils
     const char *ldLibraryPath = getenv("LD_LIBRARY_PATH");
     const char *gpgAppOpt = "/data/data/info.guardianproject.gpg/app_opt/lib";
@@ -88,6 +90,7 @@ JNI_OnLoad(JavaVM *vm, void *reserved)
     char newPath[newPathLen];
     snprintf(newPath, newPathLen, "%s:%s", ldLibraryPath, gpgAppOpt);
     setenv("LD_LIBRARY_PATH", newPath, 1);
+#endif /* __ANDROID */
     // TODO set locale from the JavaVM's config
     setlocale(LC_ALL, "");
     gpgme_set_global_flag("debug",
