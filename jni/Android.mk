@@ -7,8 +7,7 @@ prefix           := data/data/info.guardianproject.gpg/app_opt
 APP_OPTIM        := debug
 LOCAL_MODULE     := libgnupg-for-java
 LOCAL_C_INCLUDES := $(external)/$(prefix)/include $(external)/gpgme/src
-LOCAL_LDFLAGS    := -L$(external)/$(prefix)/lib -lgpgme
-LOCAL_LDLIBS     += -L$(external)/$(prefix)/lib -lgpgme
+LOCAL_LDLIBS     += -L$(external)/$(prefix)/lib -lgpgme -llog
 LOCAL_SRC_FILES  := \
 	GnuPGContext.c \
 	GnuPGData.c \
