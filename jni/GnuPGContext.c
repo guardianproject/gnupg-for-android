@@ -81,12 +81,18 @@ JNI_OnLoad(JavaVM *vm, void *reserved)
 {
     _jvm = vm;
 
+    // we need to set LD_LIBRARY_PATH because gpgme calls the cmd line utils
+    const char *ldLibraryPath = getenv("LD_LIBRARY_PATH");
+    const char *gpgAppOpt = "/data/data/info.guardianproject.gpg/app_opt/lib";
+    size_t newPathLen = strlen(ldLibraryPath) + strlen(gpgAppOpt) + 2;
+    char newPath[newPathLen];
+    snprintf(newPath, newPathLen, "%s:%s", ldLibraryPath, gpgAppOpt);
+    setenv("LD_LIBRARY_PATH", newPath, 1);
     // TODO set locale from the JavaVM's config
     setlocale(LC_ALL, "");
     gpgme_set_global_flag("debug",
                           "9:/data/data/info.guardianproject.gpg/app_log/gpgme.log");
     const char* version = gpgme_check_version(NULL);
-    fprintf(stderr, "VERSION: %s\n", version);
     gpgme_set_locale(NULL, LC_CTYPE, setlocale(LC_CTYPE, NULL));
 #ifdef LC_MESSAGES
     gpgme_set_locale(NULL, LC_MESSAGES, setlocale(LC_MESSAGES, NULL));
