@@ -88,7 +88,9 @@ JNI_OnLoad(JavaVM *vm, void *reserved)
     const char* version = gpgme_check_version(NULL);
     fprintf(stderr, "VERSION: %s\n", version);
     gpgme_set_locale(NULL, LC_CTYPE, setlocale(LC_CTYPE, NULL));
+#ifdef LC_MESSAGES
     gpgme_set_locale(NULL, LC_MESSAGES, setlocale(LC_MESSAGES, NULL));
+#endif
 
     return JNI_VERSION_1_6;
 }
