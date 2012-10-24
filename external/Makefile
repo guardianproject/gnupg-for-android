@@ -515,15 +515,14 @@ gnupg/Makefile: gnupg/configure gnupg/config.sub gnupg/config.guess
 				--with-libcurl=$(LOCAL) \
 				--with-ldap=$(LOCAL) \
 				--with-libiconv-prefix=$(LOCAL) \
-				--disable-scdaemon \
 				--disable-doc \
 				--enable-dirmngr-auto-start \
-				--disable-ccid-driver \
 				--with-agent-pgm=$(prefix)/bin/gpg-agent \
 				--with-dirmngr-pgm=$(prefix)/bin/dirmngr \
 				--with-dirmngr-ldap-pgm=$(prefix)/libexec/dirmngr_ldap \
 				--with-pinentry-pgm=$(prefix)/bin/pinentry \
 				--with-protect-tool-pgm=$(prefix)/libexec/gpg-protect-tool \
+				--with-scdaemon-pgm=$(prefix)/bin/scdaemon \
 				--prefix=$(prefix)
 
 # TODO adns builds for Android, but gnupg doesn't build for Android with adns enabled
