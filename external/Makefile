@@ -592,6 +592,25 @@ gpgme-clean:
 	-rm -f gpgme-build-stamp gpgme/Makefile gpg/configure
 
 
+
+#------------------------------------------------------------------------------#
+# separate target for building and installing the tests into assets/
+
+tests: gpgme-tests
+	install -p run-tests.sh $(ASSETS)/tests
+
+gpgme-tests:
+	$(MAKE) -C gpgme/tests
+	install -d $(ASSETS)/tests/gpgme
+	install -p \
+		gpgme/tests/.libs/* \
+		gpgme/tests/*.txt \
+		gpgme/tests/gpg/*.asc \
+		$(ASSETS)/tests/gpgme
+
+
+
+
 #------------------------------------------------------------------------------#
 # ugly static linking hacks
 
