@@ -517,6 +517,7 @@ gnupg/Makefile: gnupg/configure gnupg/config.sub gnupg/config.guess
 				--with-libiconv-prefix=$(LOCAL) \
 				--disable-scdaemon \
 				--disable-doc \
+				--enable-dirmngr-auto-start \
 				--disable-ccid-driver \
 				--with-agent-pgm=$(prefix)/bin/gpg-agent \
 				--with-dirmngr-pgm=$(prefix)/bin/dirmngr \

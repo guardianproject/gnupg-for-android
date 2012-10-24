@@ -17,15 +17,12 @@ public class AgentsService extends Service {
 	NotificationManager mNM;
 
 	private GpgAgentThread gpgAgentThread;
-	private DirmngrThread dirmngrThread;
 
 	private void startDaemons() {
 		Log.i(TAG, "start daemons in " + NativeHelper.app_opt.getAbsolutePath());
 		synchronized (this) {
 			gpgAgentThread = new GpgAgentThread();
 			gpgAgentThread.start();
-			dirmngrThread = new DirmngrThread();
-			dirmngrThread.start();
 		}
 	}
 
@@ -110,30 +107,6 @@ public class AgentsService extends Service {
 				stopSelf();
 				synchronized (AgentsService.this) {
 					gpgAgentThread = null;
-				}
-			}
-		}
-	}
-
-	class DirmngrThread extends Thread {
-
-		@Override
-		public void run() {
-			NativeHelper.kill9(NativeHelper.dirmngr);
-			String dirmngrCmd = NativeHelper.dirmngr
-					+ " --daemon --debug-level guru --log-file " + NativeHelper.app_log
-					+ "/dirmngr.log";
-			Log.i(TAG, dirmngrCmd);
-			try {
-				Runtime.getRuntime()
-						.exec(dirmngrCmd, NativeHelper.envp, NativeHelper.app_home)
-						.waitFor();
-			} catch (Exception e) {
-				Log.e(TAG, "Could not start dirmngr", e);
-			} finally {
-				stopSelf();
-				synchronized (AgentsService.this) {
-					dirmngrThread = null;
 				}
 			}
 		}
