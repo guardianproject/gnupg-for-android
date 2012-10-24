@@ -44,8 +44,6 @@ public class GnuPrivacyGuard extends Activity implements OnCreateContextMenuList
 	public String command;
 
 	boolean mIsBound;
-	
-	private GnuPGContext gpgCtx;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -70,7 +68,7 @@ public class GnuPrivacyGuard extends Activity implements OnCreateContextMenuList
 
 		Intent intent = new Intent(GnuPrivacyGuard.this, AgentsService.class);
 		startService(intent);
-		gpgCtx = new GnuPGContext();
+		NativeHelper.gpgCtx = new GnuPGContext();
 	}
 
 	@Override
@@ -103,26 +101,20 @@ public class GnuPrivacyGuard extends Activity implements OnCreateContextMenuList
 
 		switch (item.getItemId()) {
 		case R.id.menu_list_keys:
-			command = NativeHelper.gpg2 + "--list-keys";
-			commandThread = new CommandThread();
-			commandThread.start();
+			startActivity(new Intent(this, ListKeysActivity.class));
 			return true;
 		case R.id.menu_search_keys:
 			alert.setTitle("Search Keys");
 			alert.setPositiveButton("Search", new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int whichButton) {
-//					command = NativeHelper.gpg2
-//							+ " --keyserver 200.144.121.45 --search-keys ";
-//					command += input.getText().toString();
-//					commandThread = new CommandThread();
-//					commandThread.start();
-			        //GnuPGContext ctx = new GnuPGContext();
 			        GnuPGKey[] keylist;
 			        String query = input.getText().toString();
-			        keylist = gpgCtx.searchKeys(query);
-			        if( keylist != null ) {
+			        keylist = NativeHelper.gpgCtx.searchKeys(query);
+			        if( keylist == null ) {
+			        	Log.i(TAG, "menu_search_keys: null");
+			        } else {
 				        for(GnuPGKey key : keylist){
-				        	Log.i(TAG, "key: " + key.toString());
+				        	Log.i(TAG, "menu_search_keys: " + key.toString());
 				        }
 			        }
 				}

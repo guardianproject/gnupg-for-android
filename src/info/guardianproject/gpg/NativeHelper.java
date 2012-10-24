@@ -19,6 +19,8 @@ import android.content.res.AssetManager;
 import android.os.Environment;
 import android.util.Log;
 
+import com.freiheit.gnupg.GnuPGContext;
+
 public class NativeHelper {
 	public static final String TAG = "NativeHelper";
 
@@ -33,6 +35,8 @@ public class NativeHelper {
 
 	public static String sdcard;
 	public static String[] envp; // environment variables
+
+	protected static GnuPGContext gpgCtx;
 
 	private static Context context;
 

@@ -21,8 +21,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".PassphraseEntryActivity" />
-
+        <activity android:name=".ListKeysActivity" />
+        
         <service
             android:name=".AgentsService"
             android:process=":agents" />
