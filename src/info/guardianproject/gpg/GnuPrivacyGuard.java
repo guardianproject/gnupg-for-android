@@ -134,9 +134,10 @@ public class GnuPrivacyGuard extends Activity implements OnCreateContextMenuList
 			alert.show();
 			return true;
 		case R.id.menu_run_test:
-			command = NativeHelper.gpg2 + "--version";
+			command = NativeHelper.app_opt + "/tests/run-tests.sh";
 			commandThread = new CommandThread();
 			commandThread.start();
+			Log.i(TAG, "finished " + command);
 			return true;
 		case R.id.menu_gen_key:
 			String batch = "Key-Type: DSA\nKey-Length: 1024\nSubkey-Type: ELG-E\nSubkey-Length: 1024\nName-Real: Test Key\nName-Comment: for testing only\nName-Email: test@gpg.guardianproject.info\nExpire-Date: 0\n%transient-key\n%no-protection\n%commit\n";

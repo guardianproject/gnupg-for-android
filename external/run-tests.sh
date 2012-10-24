@@ -5,9 +5,6 @@
 # stop on any error
 set -e
 
-export HOME=/data/data/info.guardianproject.gpg/app_home
-export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/data/data/info.guardianproject.gpg/app_opt/lib
-
 findusername_helper() {
     echo $2
 }
@@ -19,12 +16,19 @@ findusername() {
 runtest() {
     echo "Running $1/$2 $3 $4 $5 $6 $7 $8 $9"
     cd /data/data/info.guardianproject.gpg/app_opt/tests/$1
-    su $USER ./$2 $3 $4 $5 $6 $7 $8 $9 && echo DONE.
+    ./$2 $3 $4 $5 $6 $7 $8 $9 && echo DONE.
 }
 
+export HOME=/data/data/info.guardianproject.gpg/app_home
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/data/data/info.guardianproject.gpg/app_opt/lib
+export USER=`findusername`
 
-USER=`findusername`
+echo "------------------------------"
+echo "environment:"
+export
 
+echo "------------------------------"
+echo "tests:"
 cd /data/data/info.guardianproject.gpg/app_opt/tests/
 runtest gpgme t-version
 runtest gpgme t-engine-info
