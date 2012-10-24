@@ -554,11 +554,6 @@ gpgme/configure: gpgme/configure.ac
 	cd gpgme && ./autogen.sh
 
 gpgme/Makefile: gpgme/configure
-# I haven't found a reliable way to install/uninstall a patch from a Makefile,
-# so just always try to apply it, and ignore it if it fails. Works fine unless
-# the files being patched have changed, in which cause a partial application
-# could happen unnoticed.
-	-patch -N -p1 --reject-file=- --directory=gpgme < gpgme-android-has-no-ttyname.patch
 	cd gpgme && \
 		CC="$(CC)" AR="$(AR)" RANLIB=$(RANLIB) CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS)" \
 			./configure \
