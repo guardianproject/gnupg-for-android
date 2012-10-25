@@ -52,9 +52,11 @@ public class NativeHelper {
 		gpg_agent = new File(bin, "gpg-agent").getAbsolutePath();
 
 		sdcard = Environment.getExternalStorageDirectory().getAbsolutePath();
+		String ldLibraryPath = System.getenv("LD_LIBRARY_PATH");
+		String path = System.getenv("PATH");
 		envp = new String[] { "HOME=" + NativeHelper.app_home,
-				"LD_LIBRARY_PATH=$LD_LIBRARY_PATH:" + NativeHelper.app_opt + "/lib",
-				"PATH=$PATH:" + bin.getAbsolutePath(),
+				"LD_LIBRARY_PATH=" + ldLibraryPath + ":" + NativeHelper.app_opt + "/lib",
+				"PATH=" + path + ":" + bin.getAbsolutePath(),
 				"app_opt=" + app_opt.getAbsolutePath() };
 		Log.i(TAG, "Finished NativeHelper.setup()");
 	}
