@@ -28,3 +28,6 @@
 [submodule "external/gnupg-for-java"]
 	path = external/gnupg-for-java
 	url = https://github.com/smartrevolution/gnupg-for-java.git
+[submodule "external/pinentry"]
+	path = external/pinentry
+	url = git://git.gnupg.org/pinentry.git

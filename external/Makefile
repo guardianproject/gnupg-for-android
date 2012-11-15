@@ -63,13 +63,14 @@ CFLAGS += -g
 	libassuan-build libassuan-clean libassuan-install \
 	libksba-build libksba-clean libksba-install \
 	gnupg-build gnupg-clean \
+	pinentry-build pinentry-clean \
 	curl-build curl-clean curl-install \
 	openldap-build openldap-clean openldap-install \
 	npth-build npth-clean npth-install \
 	pth-build pth-clean pth-install \
 	libiconv-build libiconv-clean libiconv-install
 
-all: $(LOCAL)/lib/libgcrypt.a
+all: $(LOCAL)/lib/libgcrypt.a $(LOCAL)/bin/pinentry
 
 
 #------------------------------------------------------------------------------#
@@ -545,6 +546,48 @@ gnupg-install: $(LOCAL)/bin/gpg2
 gnupg-clean:
 	-rm -f gnupg-build-stamp
 
+#------------------------------------------------------------------------------#
+# pinentry
+
+PINENTRY_SOURCES := $(wildcard pinentry/pinentry/*.c) $(wildcard pinentry/pinentry/*.h)
+
+pinentry/config.sub: config.sub
+	cp config.sub pinentry/config.sub
+
+pinentry/config.guess: config.guess
+	cp config.guess pinentry/config.guess
+
+pinentry/configure:
+	cd pinentry && ./autogen.sh
+
+pinentry/Makefile: pinentry/configure pinentry/config.sub pinentry/config.guess
+	cd pinentry && \
+		CC="$(CC)" AR="$(AR)" RANLIB=$(RANLIB) CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS)" \
+			./configure \
+				--enable-maintainer-mode \
+				--host=$(HOST) \
+				--with-libiconv-prefix=$(LOCAL) \
+				--without-x \
+				--disable-pinentry-gtk \
+				--disable-pinentry-gtk2 \
+				--disable-pinentry-qt \
+				--disable-pinentry-curses \
+				--enable-pinentry-android \
+				--prefix=$(prefix)
+
+pinentry-build: pinentry-build-stamp 
+pinentry-build-stamp:  pinentry/Makefile
+	$(MAKE) -C pinentry
+	touch pinentry-build-stamp
+
+$(LOCAL)/bin/pinentry: $(LOCAL)/lib/libgcrypt.a pinentry-build $(PINENTRY_SOURCES) pinentry/configure
+	$(MAKE) -C pinentry prefix=$(LOCAL) install
+	ls -l $(LOCAL)/bin/pinentry
+
+pinentry-install: $(LOCAL)/bin/pinentry
+
+pinentry-clean:
+	-rm -f pinentry-build-stamp
 
 #------------------------------------------------------------------------------#
 # gpgme
@@ -669,8 +712,9 @@ assets:
 install-clean:
 	rm -rf -- $(LOCAL)
 
-clean: install-clean gnupg-clean curl-clean openldap-clean libksba-clean libassuan-clean npth-clean libgcrypt-clean libgpg-error-clean pth-clean adns-clean libiconv-clean
+clean: install-clean pinentry-clean gnupg-clean curl-clean openldap-clean libksba-clean libassuan-clean npth-clean libgcrypt-clean libgpg-error-clean pth-clean adns-clean libiconv-clean
 	-$(MAKE) -C gnupg clean
+	-$(MAKE) -C pinentry clean
 	-$(MAKE) -C curl clean
 	-$(MAKE) -C openldap clean
 	-$(MAKE) -C libksba clean
@@ -680,6 +724,7 @@ clean: install-clean gnupg-clean curl-clean openldap-clean libksba-clean libassu
 
 distclean: clean install-clean
 	-$(MAKE) -C gnupg distclean
+	-$(MAKE) -C pinentry-distclean
 	-$(MAKE) -C curl distclean
 	-rm -f curl/configure # their distclean fails to rm this
 	-$(MAKE) -C openldap distclean
