@@ -24,6 +24,9 @@ On Debian/Ubuntu/Mint/etc.:
   sudo apt-get install autoconf automake libtool transfig wget patch \
        texinfo ant gettext build-essential ia32-libs bison
 
+On Fedora 17 x64:
+    sudo yum install ncurses-libs.i686 libstdc++.i686 libgcc.i686 zlib.i686 gcc.i686
+
 Install the Android NDK for the command line version, and the Android SDK for
 the Android app version:
 
