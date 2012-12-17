@@ -501,7 +501,6 @@ gnupg/configure:
 	cd gnupg && ./autogen.sh
 
 gnupg/Makefile: gnupg/configure gnupg/config.sub gnupg/config.guess
-	-patch -N -p1 --reject-file=- < gnupg-android-fixes.patch
 	cd gnupg && \
 		CC="$(CC)" AR="$(AR)" RANLIB=$(RANLIB) CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS)" \
 			./configure \
@@ -514,7 +513,7 @@ gnupg/Makefile: gnupg/configure gnupg/config.sub gnupg/config.guess
 				--with-npth-prefix=$(LOCAL) \
 				--with-libcurl=$(LOCAL) \
 				--with-ldap=$(LOCAL) \
-				--with-libiconv-prefix=$(LOCAL) \
+				--without-libiconv-prefix \
 				--disable-doc \
 				--enable-dirmngr-auto-start \
 				--with-agent-pgm=$(prefix)/bin/gpg-agent \
