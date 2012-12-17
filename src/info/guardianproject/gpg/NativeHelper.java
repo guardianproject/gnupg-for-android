@@ -31,6 +31,7 @@ public class NativeHelper {
 	// full paths to key executables, with globally used flags
 	public static String gpg2;
 	public static String gpg_agent;
+	public static String pinentry_android;
 
 	public static String sdcard;
 	public static String[] envp; // environment variables
@@ -50,6 +51,7 @@ public class NativeHelper {
 				+ "/gpg2.log ";
 		gpg2 = new File(bin, "gpg2").getAbsolutePath() + " --no-tty " + logging;
 		gpg_agent = new File(bin, "gpg-agent").getAbsolutePath();
+		pinentry_android = new File(bin, "pinentry-android").getAbsolutePath();
 
 		sdcard = Environment.getExternalStorageDirectory().getAbsolutePath();
 		String ldLibraryPath = System.getenv("LD_LIBRARY_PATH");

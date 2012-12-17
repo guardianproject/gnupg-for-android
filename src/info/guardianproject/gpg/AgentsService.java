@@ -94,6 +94,7 @@ public class AgentsService extends Service {
 		public void run() {
 			NativeHelper.kill9(NativeHelper.gpg_agent);
 			String gpgAgentCmd = NativeHelper.gpg_agent
+                    + " --pinentry-program " + NativeHelper.pinentry_android
 					+ " --daemon --write-env-file " + "--debug-level guru --log-file "
 					+ NativeHelper.app_log + "/gpg-agent.log";
 			Log.i(TAG, gpgAgentCmd);
