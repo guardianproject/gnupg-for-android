@@ -520,7 +520,7 @@ gnupg/Makefile: gnupg/configure gnupg/config.sub gnupg/config.guess
 				--with-agent-pgm=$(prefix)/bin/gpg-agent \
 				--with-dirmngr-pgm=$(prefix)/bin/dirmngr \
 				--with-dirmngr-ldap-pgm=$(prefix)/libexec/dirmngr_ldap \
-				--with-pinentry-pgm=$(prefix)/bin/pinentry \
+				--with-pinentry-pgm=$(prefix)/bin/pinentry-android \
 				--with-protect-tool-pgm=$(prefix)/libexec/gpg-protect-tool \
 				--with-scdaemon-pgm=$(prefix)/bin/scdaemon \
 				--prefix=$(prefix)
@@ -580,11 +580,11 @@ pinentry-build-stamp:  pinentry/Makefile
 	$(MAKE) -C pinentry
 	touch pinentry-build-stamp
 
-$(LOCAL)/bin/pinentry: $(LOCAL)/lib/libgcrypt.a pinentry-build $(PINENTRY_SOURCES) pinentry/configure
+$(LOCAL)/bin/pinentry: pinentry-build $(PINENTRY_SOURCES) pinentry/configure
 	$(MAKE) -C pinentry prefix=$(LOCAL) install
 	ls -l $(LOCAL)/bin/pinentry
 
-pinentry-install: $(LOCAL)/bin/pinentry
+pinentry-install: gnupg-install $(LOCAL)/bin/pinentry
 
 pinentry-clean:
 	-rm -f pinentry-build-stamp
