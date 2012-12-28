@@ -538,7 +538,7 @@ $(LOCAL)/bin/gpg2: gnupg-build $(GNUPG_SOURCES) gnupg/configure
 	$(MAKE) -C gnupg prefix=$(LOCAL) install
 	ls -l $(LOCAL)/bin/gpg2
 
-gnupg-install: $(LOCAL)/bin/gpg2
+gnupg-install: $(LOCAL)/bin/gpg2 pinentry-install
 	install -d $(LOCAL)/etc/gnupg
 	install -d $(LOCAL)/var/run/gnupg
 	install -d $(LOCAL)/var/cache/gnupg
@@ -580,11 +580,11 @@ pinentry-build-stamp:  pinentry/Makefile
 	$(MAKE) -C pinentry
 	touch pinentry-build-stamp
 
-$(LOCAL)/bin/pinentry: pinentry-build $(PINENTRY_SOURCES) pinentry/configure
+$(LOCAL)/bin/pinentry-android: pinentry-build $(PINENTRY_SOURCES) pinentry/configure
 	$(MAKE) -C pinentry prefix=$(LOCAL) install
 	ls -l $(LOCAL)/bin/pinentry
 
-pinentry-install: gnupg-install $(LOCAL)/bin/pinentry
+pinentry-install: $(LOCAL)/bin/pinentry-android
 
 pinentry-clean:
 	-rm -f pinentry-build-stamp

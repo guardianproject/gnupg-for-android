@@ -43,7 +43,6 @@ git submodule update
 make -C external/ gnupg-install
 make -C external/ gnupg-static
 make -C external/ gpgme-install
-make -C external/ pinentry-install
 
 The results will be in external/data/data/info.guardianproject.gpg
 
