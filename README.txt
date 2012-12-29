@@ -37,9 +37,9 @@ NDK: http://developer.android.com/sdk/ndk/
 How to Build the Command Line Utilities
 ---------------------------------------
 
+git submodule --init update
 
-git submodule init
-git submodule update
+To compile the components individually you can use commands like:
 make -C external/ gnupg-install
 make -C external/ gnupg-static
 make -C external/ gpgme-install
@@ -52,6 +52,15 @@ How to Build the Android Test App
 
 make -C external/ android-assets
 make -C external/ tests
+ndk-build
+android update project --path . --target android-8 \
+  --name GnuPrivacyGuard
+ant clean debug
+
+How to Build ALL THE THINGS (You want this one)
+-----------------------------------------------
+
+make -C external/
 ndk-build
 android update project --path . --target android-8 \
   --name GnuPrivacyGuard

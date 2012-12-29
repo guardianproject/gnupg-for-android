@@ -70,7 +70,7 @@ CFLAGS += -g
 	pth-build pth-clean pth-install \
 	libiconv-build libiconv-clean libiconv-install
 
-all: $(LOCAL)/lib/libgcrypt.a $(LOCAL)/bin/pinentry
+all: gnupg-install gnupg-static gpgme-install android-assets tests
 
 
 #------------------------------------------------------------------------------#
