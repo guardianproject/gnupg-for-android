@@ -28,7 +28,7 @@ echo "environment:"
 export
 
 echo "------------------------------"
-echo "tests:"
+echo "gpgme tests:"
 cd /data/data/info.guardianproject.gpg/app_opt/tests/
 runtest gpgme t-version
 runtest gpgme t-engine-info
@@ -39,3 +39,8 @@ runtest gpgme run-import --verbose pubkey-1.asc
 runtest gpgme run-import --verbose seckey-1.asc
 runtest gpgme run-import --verbose secdemo.asc
 runtest gpgme run-keylist --verbose
+
+echo "------------------------------"
+echo "pinentry tests:"
+
+runtest pinentry test-decrypt

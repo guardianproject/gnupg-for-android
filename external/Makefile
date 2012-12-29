@@ -634,7 +634,7 @@ gpgme-clean:
 #------------------------------------------------------------------------------#
 # separate target for building and installing the tests into assets/
 
-tests: gpgme-tests
+tests: gpgme-tests pinentry-test
 	install -p run-tests.sh $(ASSETS)/tests
 
 gpgme-tests:
@@ -646,7 +646,12 @@ gpgme-tests:
 		gpgme/tests/gpg/*.asc \
 		$(ASSETS)/tests/gpgme
 
-
+pinentry-test:
+	install -d $(ASSETS)/tests/pinentry
+	install -p \
+		pinentry-tests/*gpg \
+		pinentry-tests/test-* \
+		$(ASSETS)/tests/pinentry
 
 
 #------------------------------------------------------------------------------#
