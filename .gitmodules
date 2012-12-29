@@ -30,4 +30,5 @@
 	url = https://github.com/smartrevolution/gnupg-for-java.git
 [submodule "external/pinentry"]
 	path = external/pinentry
-	url = git://git.gnupg.org/pinentry.git
+	url = git://github.com/abeluck/pinentry.git
+	ignore = dirty
