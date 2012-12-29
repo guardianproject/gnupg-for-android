@@ -30,6 +30,7 @@ external/gnupg-build-stamp
 external/gpgme-build-stamp
 external/npth-build-stamp
 external/libiconv-build-stamp
+external/pinentry-build-stamp
 # android build files
 build.xml
 proguard-project.txt
