@@ -571,6 +571,7 @@ pinentry/Makefile: pinentry/configure pinentry/config.sub pinentry/config.guess
 				--disable-pinentry-gtk \
 				--disable-pinentry-gtk2 \
 				--disable-pinentry-qt \
+				--disable-pinentry-qt4 \
 				--disable-pinentry-curses \
 				--enable-pinentry-android \
 				--prefix=$(prefix)
