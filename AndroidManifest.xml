@@ -21,6 +21,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".pinentry.PINEntry"
+            android:label="@string/title_activity_pinentry" >
+            <intent-filter>
+            </intent-filter>
+        </activity>
         <activity android:name=".ListKeysActivity" />
         
         <service
