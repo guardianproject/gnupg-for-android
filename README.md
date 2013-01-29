@@ -67,3 +67,19 @@ The results will be in `external/data/data/info.guardianproject.gpg`
 	  --name GnuPrivacyGuard
 	ant clean debug
 
+
+# Testing
+
+## pinentry
+
+Testing pinentry is easiest on a rooted device
+
+    adb shell
+    $ su
+    export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/data/data/info.guardianproject.gpg/app_opt/lib
+    export PATH=$PATH:/data/data/info.guardianproject.gpg/app_opt/bin
+    export HOME=/data/data/info.guardianproject.gpg/app_home
+    export GNUPGHOME=/data/data/info.guardianproject.gpg/app_home
+    # to test pinentry we want to import a secret key
+    # start adb logcat in another terminal so you dont miss the action
+    gpg2 --import /data/data/info.guardianproject.gpg/app_opt/tests/pinentry/secret-keys.gpg
