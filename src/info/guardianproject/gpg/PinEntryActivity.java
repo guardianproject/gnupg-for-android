@@ -1,19 +1,38 @@
 package info.guardianproject.gpg;
 
+import info.guardianproject.gpg.pinentry.PinentryStruct;
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 
 public class PinEntryActivity extends Activity {
 
+	static final String TAG = "PinEntryActivity";
+
+	static private PinentryStruct pinentry;
+
 	static {
-		System.load("pinentry");
+		System.load("/data/data/info.guardianproject.gpg/lib/libpinentry.so");
 	}
 
-    private native void startPinentryLoop();
+//    private native void startPinentryLoop();
+    private native void connectToGpgAgent();
 
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
+
 		super.onCreate(savedInstanceState);
+		NativeHelper.setup(this);
+		Log.d("PinEntryActivity", "PinEntryActivity::onCreate");
+		connectToGpgAgent();
+	}
+
+	static void setPinentryStruct(PinentryStruct s) {
+		if( s == null)
+			Log.d(TAG, "pinentry struct is null :(");
+		else
+			Log.d(TAG, "pinentry struct has: " + s.title);
+		pinentry = s;
 	}
 }
