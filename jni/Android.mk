@@ -27,6 +27,7 @@ prefix           := data/data/info.guardianproject.gpg/app_opt
 APP_OPTIM        := debug
 LOCAL_MODULE     := libpinentry
 LOCAL_CFLAGS := -DHAVE_CONFIG_H
+LOCAL_LDLIBS     += -llog
 LOCAL_C_INCLUDES := \
 	$(external)/pinentry/assuan \
 	$(external)/pinentry/pinentry \

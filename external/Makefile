@@ -46,7 +46,7 @@ STRIP := $(NDK_TOOLCHAIN)/bin/arm-linux-androideabi-strip \
 	--strip-unneeded -R .note -R .comment
 
 CFLAGS = -DANDROID -I$(LOCAL)/include
-LDFLAGS = -L$(LOCAL)/lib
+LDFLAGS = -L$(SYSROOT)/usr/lib -llog -L$(LOCAL)/lib
 
 # turn off gcc optmization on the native builds for now, to aid debugging
 
@@ -574,11 +574,12 @@ pinentry/Makefile: pinentry/configure pinentry/config.sub pinentry/config.guess
 				--disable-pinentry-qt4 \
 				--disable-pinentry-curses \
 				--enable-pinentry-android \
-				--prefix=$(prefix)
+				--prefix=$(prefix) \
+				LDFLAGS="$(LDFLAGS)"
 
 pinentry-build: pinentry-build-stamp 
 pinentry-build-stamp:  pinentry/Makefile
-	$(MAKE) -C pinentry
+	$(MAKE) -C pinentry LDFLAGS="$(LDFLAGS)"
 	touch pinentry-build-stamp
 
 $(LOCAL)/bin/pinentry-android: pinentry-build $(PINENTRY_SOURCES) pinentry/configure
