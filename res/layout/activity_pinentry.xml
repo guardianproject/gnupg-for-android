@@ -14,15 +14,6 @@
         android:inputType="textPassword" />
 
     <Button
-        android:id="@+id/cancelButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignRight="@+id/pinEdit"
-        android:layout_below="@+id/pinEdit"
-        android:layout_marginRight="16dp"
-        android:text="Cancel" />
-
-    <Button
         android:id="@+id/okButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -41,5 +32,24 @@
         android:text="@string/enter_pin"
         android:textSize="20dp"
         tools:context=".PINEntry" />
+
+    <Button
+        android:id="@+id/cancelButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/pinEdit"
+        android:layout_below="@+id/pinEdit"
+        android:layout_marginTop="14dp"
+        android:text="Cancel" />
+
+    <TextView
+        android:id="@+id/statusLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/okButton"
+        android:layout_marginTop="23dp"
+        android:layout_toRightOf="@+id/okButton"
+        android:text=""
+        android:textAppearance="?android:attr/textAppearanceMedium" />
 
 </RelativeLayout>
