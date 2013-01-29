@@ -12,17 +12,11 @@ static confirm_value_t confirm_value;
 static int
 android_cmd_handler (pinentry_t pe)
 {
-//  GtkWidget *w;
   int want_pass = !!pe->pin;
 
   pinentry = pe;
   confirm_value = CONFIRM_CANCEL;
   passphrase_ok = 0;
-//  w = create_window (want_pass ? 0 : 1);
-//  gtk_main ();
-//  gtk_widget_destroy (w);
-//  while (gtk_events_pending ())
-//    gtk_main_iteration ();
 
   if (confirm_value == CONFIRM_CANCEL)
     pe->canceled = 1;
@@ -30,10 +24,13 @@ android_cmd_handler (pinentry_t pe)
   pinentry = NULL;
   if (want_pass)
     {
-      if (passphrase_ok && pe->pin)
-	return strlen (pe->pin);
-      else
-	return -1;
+        LOGD("android_cmd_handler: i think they want a pin..\n");
+
+        const char *pin = "1234";
+        int len = strlen (pin);
+        pinentry_setbufferlen (pe, len + 1);
+        strcpy (pe->pin, pin);
+        return len;
     }
   else
     return (confirm_value == CONFIRM_OK) ? 1 : 0;

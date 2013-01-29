@@ -27,6 +27,12 @@
             <intent-filter>
             </intent-filter>
         </activity>
+         <activity
+            android:name=".PinEntryActivity"
+            android:label="@string/title_activity_pinentry" >
+            <intent-filter>
+            </intent-filter>
+        </activity>
         <activity android:name=".ListKeysActivity" />
         
         <service
