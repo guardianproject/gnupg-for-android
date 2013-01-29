@@ -140,6 +140,12 @@ public class GnuPrivacyGuard extends Activity implements OnCreateContextMenuList
 			Log.i(TAG, "finished " + command);
 			return true;
 		case R.id.menu_gen_key:
+			command = NativeHelper.gpg2 + "-d /data/data/info.guardianproject.gpg/app_opt/tests/pinentry/secret.gpg";
+			commandThread = new CommandThread();
+			commandThread.start();
+			Log.i(TAG, "finished " + command);
+			return true;
+			/*
 			String batch = "Key-Type: DSA\nKey-Length: 1024\nSubkey-Type: ELG-E\nSubkey-Length: 1024\nName-Real: Test Key\nName-Comment: for testing only\nName-Email: test@gpg.guardianproject.info\nExpire-Date: 0\n%transient-key\n%no-protection\n%commit\n";
 			File batchfile = new File(getCacheDir(), "batch.txt");
 			try {
@@ -155,7 +161,7 @@ public class GnuPrivacyGuard extends Activity implements OnCreateContextMenuList
 					+ batchfile.getAbsolutePath();
 			commandThread = new CommandThread();
 			commandThread.start();
-			return true;
+			return true;*/
 		}
 		return false;
 	}
