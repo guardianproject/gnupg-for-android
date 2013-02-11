@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 
 public class PINEntry extends Activity {
-	public static String SOCKET_ADDRESS = "info.guardianproject.gpg.pinentry";
+	public static String SOCKET_ADDRESS = "info.guardianproject.gpg.pinentryhelper";
 
 
 	public Handler mHandler;
