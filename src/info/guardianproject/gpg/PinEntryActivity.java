@@ -25,14 +25,25 @@ public class PinEntryActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		NativeHelper.setup(this);
 		Log.d("PinEntryActivity", "PinEntryActivity::onCreate");
-		connectToGpgAgent();
+
+		new Thread( new Runnable() {
+
+			@Override
+			public void run() {
+				connectToGpgAgent();
+			}
+
+		}).start();
+
 	}
 
 	static void setPinentryStruct(PinentryStruct s) {
 		if( s == null)
 			Log.d(TAG, "pinentry struct is null :(");
-		else
-			Log.d(TAG, "pinentry struct has: " + s.title);
+		else {
+			Log.d(TAG, "PinentryStruct.title: " + s.title);
+			Log.d(TAG, "PinentryStruct.description: " + s.description);
+		}
 		pinentry = s;
 	}
 }
