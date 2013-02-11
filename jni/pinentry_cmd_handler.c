@@ -130,9 +130,13 @@ void fill_struct(pinentry_t pe) {
 
     // assign all values
      LOGD("title %s\n", pe->title);
-     SET_STR(title);
+     if(pe->title) {
+        SET_STR(title);
+     }
      LOGD("description %s\n", pe->description);
-     SET_STR(description);
+     if( pe->description ) {
+        SET_STR(description);
+     }
      //SET_STR(error);
 
      jclass cls2 = (*env)->FindClass(env, "info/guardianproject/gpg/PinEntryActivity");
