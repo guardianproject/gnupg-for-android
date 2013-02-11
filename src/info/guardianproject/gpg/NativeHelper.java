@@ -40,6 +40,48 @@ public class NativeHelper {
 
 	private static Context context;
 
+	/**
+	 * As per https://code.google.com/p/android/issues/detail?id=39801
+	 * on Android 4.2 (+ ?) we need to pass the serial number to "am start"
+	 * in order for the uid not to get lost.
+	 */
+	private static String getSerialNumber() {
+		/* We really want to use this code, but it requires bumping up the SDK to 17 so for now
+		we will use reflection. See https://bugzilla.mozilla.org/show_bug.cgi?id=811763#c11
+
+		if (Build.VERSION.SDK_INT >= 17) {
+			android.os.UserManager um = (android.os.UserManager)context.getSystemService(Context.USER_SERVICE);
+			if (um != null) {
+				return um.getSerialNumberForUser(android.os.Process.myUserHandle());
+			} else {
+				Log.d(TAG, "Unable to obtain user manager service on a device with SDK version " + Build.VERSION.SDK_INT);
+			}
+		}
+		*/
+		try {
+			Object userManager = context.getSystemService("user");
+			if (userManager != null) {
+				Log.d(TAG, "got us a nonnull user manager!");
+				// if userManager is non-null that means we're running on 4.2+
+				// and so the rest of this
+				// should just work
+				Object userHandle = android.os.Process.class.getMethod(
+						"myUserHandle", (Class[]) null).invoke(null);
+				Object userSerial = userManager
+						.getClass()
+						.getMethod("getSerialNumberForUser",
+								userHandle.getClass())
+						.invoke(userManager, userHandle);
+				return  userSerial.toString();
+			} else
+				Log.d(TAG, "NOPE NOPE NOPE!");
+		} catch (Exception e) {
+			// Guard against any unexpected failures
+			Log.d(TAG, "Unable to set the user serial number", e);
+		}
+		return new String();
+	}
+
 	public static void setup(Context c) {
 		context = c;
 		app_opt = context.getDir("opt", Context.MODE_WORLD_READABLE).getAbsoluteFile();
@@ -56,7 +98,11 @@ public class NativeHelper {
 		sdcard = Environment.getExternalStorageDirectory().getAbsolutePath();
 		String ldLibraryPath = System.getenv("LD_LIBRARY_PATH");
 		String path = System.getenv("PATH");
+		String serial = getSerialNumber();
+		Log.d(TAG, "setting PINENTRY_USER_DATA="+serial);
 		envp = new String[] { "HOME=" + NativeHelper.app_home,
+				"GNUPGHOME=" + NativeHelper.app_home,
+				"PINENTRY_USER_DATA=" + serial,
 				"LD_LIBRARY_PATH=" + ldLibraryPath + ":" + NativeHelper.app_opt + "/lib",
 				"PATH=" + path + ":" + bin.getAbsolutePath(),
 				"app_opt=" + app_opt.getAbsolutePath() };
