@@ -129,7 +129,7 @@ void fill_struct(pinentry_t pe) {
     LOGD("got obj\n");
 
     // assign all values
-     LOGD("description %s\n", pe->title);
+     LOGD("title %s\n", pe->title);
      SET_STR(title);
      LOGD("description %s\n", pe->description);
      SET_STR(description);
