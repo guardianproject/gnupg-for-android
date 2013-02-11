@@ -1,5 +1,7 @@
 package info.guardianproject.gpg;
 
+import info.guardianproject.gpg.pinentry.PINEntry;
+import info.guardianproject.gpg.pinentry.ServerSocketThread;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -17,12 +19,16 @@ public class AgentsService extends Service {
 	NotificationManager mNM;
 
 	private GpgAgentThread gpgAgentThread;
+	private ServerSocketThread pinentryHelperThread;
 
 	private void startDaemons() {
 		Log.i(TAG, "start daemons in " + NativeHelper.app_opt.getAbsolutePath());
 		synchronized (this) {
 			gpgAgentThread = new GpgAgentThread();
 			gpgAgentThread.start();
+
+			pinentryHelperThread = new ServerSocketThread(this);
+			pinentryHelperThread.start();
 		}
 	}
 
@@ -59,6 +65,12 @@ public class AgentsService extends Service {
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		startDaemons();
 		return START_STICKY;
+	}
+
+	public void startPinentry() {
+		Intent intent = new Intent(this, PinEntryActivity.class);
+	    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+	    startActivity(intent);
 	}
 
 	/**
