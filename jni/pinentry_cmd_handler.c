@@ -22,7 +22,12 @@
 
 #define TO_JAVA_STRING(NAME, EXP) \
         jstring NAME = (*env)->NewStringUTF(env,EXP); \
-        if (NAME == NULL) return;
+        if (NAME == 0) { LOGD("failed to create str NAME with EXP\n"); return; }
+
+#define SET_STR(NAME) \
+     TO_JAVA_STRING(NAME, pe->NAME); \
+     fid = (*env)->GetFieldID(env,cls,#NAME,"Ljava/lang/String;"); \
+     (*env)->SetObjectField(env,obj,fid,NAME);
 
 JavaVM* _jvm = 0;
 jobject _pinentryActivity = 0;
@@ -86,41 +91,50 @@ static pinentry_t pinentry;
 static int passphrase_ok;
 typedef enum { CONFIRM_CANCEL, CONFIRM_OK, CONFIRM_NOTOK } confirm_value_t;
 static confirm_value_t confirm_value;
-//TO_JAVA_STRING(NAME, pe->NAME);
-#define SET_STR(NAME, OBJ) \
-     TO_JAVA_STRING(NAME, "NAME"); \
-     fid = (*env)->GetFieldID(env,OBJ,"NAME","Ljava/lang/String;"); \
-     (*env)->SetObjectField(env,OBJ,fid,NAME); \
 
 void fill_struct(pinentry_t pe) {
+    JNIEnv* env;
+    jfieldID fid;
+    jclass cls = 0;
+    jobject obj = 0;
+    
+    LOGD("fill_struct %s\n", pe->title);
+
     if(_jvm == 0) {
-        LOGD("WTF! JVM is null\n");
+        LOGD("fill_struct: JVM is null\n");
         return;
     }
     if(_pinentryActivity == 0) {
-        LOGD("WTF! _pinentryActivity is null\n");
+        LOGD("fill_struct: _pinentryActivity is null\n");
         return;
     }
-    JNIEnv* env;
-    jfieldID fid;
-    (*_jvm)->AttachCurrentThread(_jvm, &env, 0);
-     jclass cls = (*env)->FindClass(env, "info/guardianproject/gpg/pinentry/PinentryStruct");
-     if( !cls ) { LOGD("failed to retrieve PinentryStruct\n"); return; }
-     LOGD("got class.. loading ctor\n");
-     jmethodID constructor = (*env)->GetMethodID(env, cls, "<init>", "()V");
-     LOGD("got ctor making obj\n");
-     jobject obj = (*env)->NewObject(env, cls, constructor);
-     if (!obj)  { LOGD("NewObject failed\n"); return; }
-     LOGD("got obj setting title.\n");
 
-     jstring title = (*env)->NewStringUTF(env,"ZOMG");
-    if (title == 0) return;
-        LOGD("got str.\n");
-     fid = (*env)->GetFieldID(env,cls,"title","Ljava/lang/String;");
-    LOGD("got fid.\n");
-     (*env)->SetObjectField(env,obj,fid,title);
-     LOGD("set fid.\n");
-     //SET_STR(title, obj);
+    // attach to JVM and instantiate a PinentryStruct object
+    (*_jvm)->AttachCurrentThread(_jvm, &env, 0);
+    LOGD("attached thread\n");
+     cls = (*env)->FindClass(env, "info/guardianproject/gpg/pinentry/PinentryStruct");
+     if( !cls ) { 
+         LOGD("failed to retrieve PinentryStruct\n");
+         return;
+     }
+     LOGD("got cls\n");
+
+     jmethodID constructor = (*env)->GetMethodID(env, cls, "<init>", "()V");
+     LOGD("got ctor\n");
+     obj = (*env)->NewObject(env, cls, constructor);
+     if (!obj)  {
+         LOGD("NewObject failed\n");
+         return;
+    }
+    LOGD("got obj\n");
+
+    // assign all values
+     LOGD("description %s\n", pe->title);
+     SET_STR(title);
+     LOGD("description %s\n", pe->description);
+     SET_STR(description);
+     //SET_STR(error);
+
      jclass cls2 = (*env)->FindClass(env, "info/guardianproject/gpg/PinEntryActivity");
      if( !cls2 ) { LOGD("failed to retrieve PinentryActivity\n"); return; }
       jmethodID myUsefulJavaFunction = (*env)->GetStaticMethodID(env, cls2, "setPinentryStruct", "(Linfo/guardianproject/gpg/pinentry/PinentryStruct;)V");
@@ -145,8 +159,8 @@ android_cmd_handler (pinentry_t pe)
   if (want_pass)
     {
         LOGD("android_cmd_handler: i think they want a pin..\n");
-        
-        
+
+        fill_struct(pe);
         const char *pin = "1234";
         int len = strlen (pin);
         pinentry_setbufferlen (pe, len + 1);
@@ -190,9 +204,6 @@ JNIEXPORT void JNICALL
 Java_info_guardianproject_gpg_PinEntryActivity_connectToGpgAgent(JNIEnv * env, jobject self)
 {
     _pinentryActivity = self;
-    fill_struct(0);
-    LOGD("sent struct quitting!\n");
-    return;
 	LOGD("connectToGpgAgent called!\n");
     int in, out, sock;
     sock = open_socket();
@@ -206,8 +217,6 @@ Java_info_guardianproject_gpg_PinEntryActivity_connectToGpgAgent(JNIEnv * env, j
     if( out == -1 ) {
         LOGD("STDOUT receiving failed!\n");
     }
-    
-    LOGD("good to go, starting pinentry loop\n");
 
     pinentry_init("pinentry-android");
 
@@ -215,9 +224,16 @@ Java_info_guardianproject_gpg_PinEntryActivity_connectToGpgAgent(JNIEnv * env, j
     debug[0] = "--debug";
     /* Consumes all arguments.  */
     if (pinentry_parse_opts(1, debug))
-        exit(EXIT_SUCCESS);
-
+        write(sock, EXIT_SUCCESS, 1);
+    LOGD("good to go, starting pinentry loop\n");
     pinentry_loop2(in, out); // this only exits when done
+    LOGD("pinentry_loop2 returned\n");
+    // close pinentry helper
+    int buf[1] = { EXIT_SUCCESS };
+    int r = write(sock, buf, 1);
+    LOGD("wrote %d to helper\n", r);
+    if( r < 0 ) 
+        perror("closing pinentry helper failed:");
 }
 
 static JNINativeMethod sMethods[] = {
@@ -240,7 +256,7 @@ JNI_OnLoad(JavaVM *vm, void *reserved)
 #endif /* __ANDROID */
     // TODO set locale from the JavaVM's config
 //    setlocale(LC_ALL, "");
-    
+
     _jvm = vm;
 
     return JNI_VERSION_1_6;
