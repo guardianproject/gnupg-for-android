@@ -142,7 +142,7 @@ void fill_struct(pinentry_t pe) {
 
      jclass cls2 = (*env)->FindClass(env, "info/guardianproject/gpg/PinEntryActivity");
      if( !cls2 ) { LOGD("failed to retrieve PinentryActivity\n"); return; }
-     jmethodID myUsefulJavaFunction = (*env)->GetMethodID(env, cls2, "setPinentryStruct", "(Linfo/guardianproject/gpg/pinentry/PinentryStruct;)V");
+     jmethodID myUsefulJavaFunction = (*env)->GetMethodID(env, cls2, "setPinentryStruct", "(Linfo/guardianproject/gpg/pinentry/PinentryStruct;)Linfo/guardianproject/gpg/pinentry/PinentryStruct;");
      if( !myUsefulJavaFunction ) { LOGD("failed to retrieve myUsefulJavaFunction\n"); return; }
      (*env)->CallObjectMethod(env, _pinentryActivity, myUsefulJavaFunction, obj);
 }

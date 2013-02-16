@@ -15,7 +15,7 @@ public class PinentryStruct {
 	public String ok;
 	public String notok;
 	public String cancel;
-	public String pin;
+	public byte[] pin;
 	public int pin_len;
 	public String display;
 	public String ttyname;

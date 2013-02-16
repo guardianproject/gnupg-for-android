@@ -1,5 +1,7 @@
 package info.guardianproject.gpg;
 
+import java.io.UnsupportedEncodingException;
+
 import info.guardianproject.gpg.pinentry.PinentryStruct;
 import android.app.Activity;
 import android.os.Bundle;
@@ -21,6 +23,21 @@ public class PinEntryActivity extends Activity {
 	private Button okButton;
 	private Button cancelButton;
 
+	private OnClickListener okClickListener = new OnClickListener() {
+		@Override
+		public void onClick(View v) {
+			syncNotify();
+			finish();
+		}
+	};
+
+	private OnClickListener cancelClickListener = new OnClickListener() {
+		@Override
+		public void onClick(View v) {
+			syncNotify();
+			finish();
+		}
+	};
 
 	static {
 		System.load("/data/data/info.guardianproject.gpg/lib/libpinentry.so");
@@ -43,7 +60,8 @@ public class PinEntryActivity extends Activity {
         okButton = (Button) findViewById(R.id.okButton);
         pinEdit = (EditText) findViewById(R.id.pinEdit);
 
-
+        okButton.setOnClickListener(okClickListener);
+//        cancelButton.setOnClickListener(cancelClickListener);
 
 		new Thread( new Runnable() {
 
@@ -56,21 +74,24 @@ public class PinEntryActivity extends Activity {
 
 	}
 
-	private OnClickListener okClickListener = new OnClickListener() {
-		@Override
-		public void onClick(View v) {
-			finish();
-		}
-	};
+	private synchronized void syncNotify() {
+		notify();
+	}
 
-	private OnClickListener cancelClickListener = new OnClickListener() {
-		@Override
-		public void onClick(View v) {
-			finish();
+	private synchronized void setPin() {
+		if( pinentry == null) {
+			Log.d(TAG, "setPin(): pinentry struct is null :(");
+			return;
 		}
-};
+		try {
+			pinentry.pin = pinEdit.getText().toString().getBytes("UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			Log.e(TAG, "UnsupportedEncodingException in setPin");
+			e.printStackTrace();
+		}
+	}
 
-	synchronized void updateViews() {
+	private synchronized void updateViews() {
 		if( pinentry == null)
 			Log.d(TAG, "pinentry struct is null :(");
 		else {
@@ -89,16 +110,28 @@ public class PinEntryActivity extends Activity {
 		}
 	}
 
-	void setPinentryStruct(PinentryStruct s) {
+	PinentryStruct setPinentryStruct(PinentryStruct s) {
 
 		synchronized (this) {
 			pinentry = s;
 		}
+		Log.d(TAG, "set pinentry, running update on UI thread");
 
 		runOnUiThread(new Runnable() {
 			public void run() {
 				updateViews();
 			}
 		});
+
+		synchronized (this) {
+			Log.d(TAG, "waiting for user input");
+			try {
+				wait();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			Log.d(TAG, "user input received, returning");
+			return pinentry;
+		}
 	}
 }
