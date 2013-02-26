@@ -731,7 +731,7 @@ clean: install-clean pinentry-clean gnupg-clean curl-clean openldap-clean libksb
 
 distclean: clean install-clean
 	-$(MAKE) -C gnupg distclean
-	-$(MAKE) -C pinentry-distclean
+	-$(MAKE) -C pinentry distclean
 	-$(MAKE) -C curl distclean
 	-rm -f curl/configure # their distclean fails to rm this
 	-$(MAKE) -C openldap distclean
