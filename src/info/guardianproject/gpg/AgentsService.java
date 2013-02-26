@@ -34,6 +34,7 @@ public class AgentsService extends Service {
 
 	@Override
 	public void onCreate() {
+		Log.d(TAG, "onCreate");
 		// since this service is a separate process, it has its own instance of
 		// NativeHelper
 		NativeHelper.setup(this);
@@ -44,6 +45,9 @@ public class AgentsService extends Service {
 
 	@Override
 	public void onDestroy() {
+		Log.d(TAG, "onDestroy");
+		if( pinentryHelperThread != null )
+			pinentryHelperThread.setStopThread(true);
 		// Cancel the persistent notification.
 		mNM.cancel(R.string.remote_service_started);
 		Toast.makeText(this, R.string.remote_service_stopped, Toast.LENGTH_SHORT).show();
@@ -68,6 +72,7 @@ public class AgentsService extends Service {
 	}
 
 	public void startPinentry() {
+		Log.d(TAG, "starting activity!");
 		Intent intent = new Intent(this, PinEntryActivity.class);
 	    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 	    startActivity(intent);

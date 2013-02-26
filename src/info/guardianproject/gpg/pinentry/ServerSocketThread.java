@@ -19,7 +19,7 @@ public class ServerSocketThread extends Thread {
 	AgentsService mService;
 	byte[] buffer;
 	int bytesRead;
-	LocalServerSocket server;
+	LocalServerSocket serverSocket;
 	InputStream input;
 	private volatile boolean stopThread;
 
@@ -30,7 +30,7 @@ public class ServerSocketThread extends Thread {
 		stopThread = false;
 		mService = service;
 		try {
-			server = new LocalServerSocket(PINEntry.SOCKET_ADDRESS);
+			serverSocket = new LocalServerSocket(PINEntry.SOCKET_ADDRESS);
 		} catch (IOException e) {
 			Log.d(TAG, "Error encountered when creating the LocalServerSocket");
 			e.printStackTrace();
@@ -40,11 +40,11 @@ public class ServerSocketThread extends Thread {
 	public void run() {
 		LocalSocket socket = null;
 		Log.d(TAG, "run()");
-		while (!stopThread && server != null) {
+		while (!stopThread && serverSocket != null) {
 			try {
 				Log.d(TAG, "waiting for clients - accept()");
 
-				socket = server.accept();
+				socket = serverSocket.accept();
 				Log.d(TAG, "client connected");
 			} catch (IOException e) {
 				Log.d(TAG, "accept failed");
@@ -84,9 +84,9 @@ public class ServerSocketThread extends Thread {
 				e.printStackTrace();
 			}
 		}
-		if (server != null) {
+		if (serverSocket != null) {
 			try {
-				server.close();
+				serverSocket.close();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -95,6 +95,14 @@ public class ServerSocketThread extends Thread {
 
 	public void setStopThread(boolean value) {
 		stopThread = value;
+
+		try {
+			if( serverSocket != null )
+				serverSocket.close();
+		} catch (IOException e) {
+			Log.d(TAG, "closing server socket exception");
+			e.printStackTrace();
+		}
 		Thread.currentThread().interrupt(); // TODO : Check
 	}
 }
