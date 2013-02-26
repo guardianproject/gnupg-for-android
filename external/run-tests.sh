@@ -40,7 +40,3 @@ runtest gpgme run-import --verbose seckey-1.asc
 runtest gpgme run-import --verbose secdemo.asc
 runtest gpgme run-keylist --verbose
 
-echo "------------------------------"
-echo "pinentry tests:"
-
-runtest pinentry test-decrypt

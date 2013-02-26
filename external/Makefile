@@ -651,7 +651,6 @@ pinentry-test:
 	install -d $(ASSETS)/tests/pinentry
 	install -p \
 		pinentry-tests/*gpg \
-		pinentry-tests/test-* \
 		$(ASSETS)/tests/pinentry
 
 
