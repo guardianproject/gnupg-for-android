@@ -1,7 +1,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
     
     <TextView
         android:id="@+id/title"
@@ -9,7 +9,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="45dp"
         android:text="@string/enter_pin"
         android:textSize="20dp"
         tools:context=".PINEntry" />
@@ -42,16 +41,6 @@
         android:text=""
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
-    <TextView
-        android:id="@+id/description"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignRight="@+id/pinEdit"
-        android:layout_below="@+id/title"
-        android:gravity="center_horizontal"
-        android:text="This is a super long description zomg zomg lorem ipsum " />
-
     <EditText
         android:id="@+id/pinEdit"
         android:layout_width="wrap_content"
@@ -63,5 +52,14 @@
 
         <requestFocus />
     </EditText>
+
+    <TextView
+        android:id="@+id/description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/title"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:text="This is a super long description zomg zomg lorem ipsum " />
 
 </RelativeLayout>

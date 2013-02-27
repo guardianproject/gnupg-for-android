@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.WindowManager.LayoutParams;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -58,6 +59,11 @@ public class PinEntryActivity extends Activity {
         okButton = (Button) findViewById(R.id.okButton);
         cancelButton = (Button) findViewById(R.id.cancelButton);
         pinEdit = (EditText) findViewById(R.id.pinEdit);
+
+        LayoutParams params = getWindow().getAttributes();
+        params.height = LayoutParams.WRAP_CONTENT;
+        params.width = LayoutParams.WRAP_CONTENT;
+        getWindow().setAttributes((android.view.WindowManager.LayoutParams) params);
 
         okButton.setOnClickListener(okClickListener);
         cancelButton.setOnClickListener(cancelClickListener);
