@@ -62,6 +62,9 @@ public class PinEntryActivity extends Activity {
         okButton.setOnClickListener(okClickListener);
         cancelButton.setOnClickListener(cancelClickListener);
 
+        pinentry = (PinentryStruct) getLastNonConfigurationInstance();
+        updateViews();
+
 		new Thread( new Runnable() {
 
 			@Override
@@ -76,6 +79,17 @@ public class PinEntryActivity extends Activity {
 
 		}).start();
 
+	}
+
+	@Override
+	public Object onRetainNonConfigurationInstance() {
+		return pinentry;
+	}
+
+	@Override
+	protected void onDestroy() {
+		// TODO Auto-generated method stub
+		super.onDestroy();
 	}
 
 	private synchronized void syncNotify() {

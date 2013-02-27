@@ -67,6 +67,7 @@ public class AgentsService extends Service {
 	}
 
 	public int onStartCommand(Intent intent, int flags, int startId) {
+		Log.d(TAG, "onStartCommand");
 		startDaemons();
 		return START_STICKY;
 	}
