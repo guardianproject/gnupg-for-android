@@ -1,6 +1,6 @@
 package info.guardianproject.gpg;
 
-import info.guardianproject.gpg.pinentry.PINEntry;
+import info.guardianproject.gpg.pinentry.PinEntryActivity;
 import info.guardianproject.gpg.pinentry.ServerSocketThread;
 import android.app.Notification;
 import android.app.NotificationManager;

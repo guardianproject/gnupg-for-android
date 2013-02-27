@@ -1,6 +1,7 @@
-package info.guardianproject.gpg;
+package info.guardianproject.gpg.pinentry;
 
-import info.guardianproject.gpg.pinentry.PinentryStruct;
+import info.guardianproject.gpg.NativeHelper;
+import info.guardianproject.gpg.R;
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;

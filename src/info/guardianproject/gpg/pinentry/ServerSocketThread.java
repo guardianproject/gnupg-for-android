@@ -1,7 +1,6 @@
 package info.guardianproject.gpg.pinentry;
 
 import info.guardianproject.gpg.AgentsService;
-import info.guardianproject.gpg.GnuPrivacyGuard;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -9,13 +8,14 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 
-import android.content.Intent;
 import android.net.LocalServerSocket;
 import android.net.LocalSocket;
 import android.util.Log;
 
 public class ServerSocketThread extends Thread {
 	public String TAG = "ServerSocketThread";
+
+	public static String SOCKET_ADDRESS = "info.guardianproject.gpg.pinentryhelper";
 	AgentsService mService;
 	byte[] buffer;
 	int bytesRead;
@@ -30,7 +30,7 @@ public class ServerSocketThread extends Thread {
 		stopThread = false;
 		mService = service;
 		try {
-			serverSocket = new LocalServerSocket(PINEntry.SOCKET_ADDRESS);
+			serverSocket = new LocalServerSocket(SOCKET_ADDRESS);
 		} catch (IOException e) {
 			Log.d(TAG, "Error encountered when creating the LocalServerSocket");
 			e.printStackTrace();

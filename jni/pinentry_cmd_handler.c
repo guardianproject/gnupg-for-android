@@ -150,7 +150,7 @@ int contact_javaland(pinentry_t pe) {
      LOGD("prompt %s\n", pe->prompt);
      //SET_STR(error);
 
-     jclass cls2 = (*env)->FindClass(env, "info/guardianproject/gpg/PinEntryActivity");
+     jclass cls2 = (*env)->FindClass(env, "info/guardianproject/gpg/pinentry/PinEntryActivity");
      if( !cls2 ) { LOGD("failed to retrieve PinentryActivity\n"); return -1; }
      jmethodID myUsefulJavaFunction = (*env)->GetMethodID(env, cls2, "setPinentryStruct", "(Linfo/guardianproject/gpg/pinentry/PinentryStruct;)Linfo/guardianproject/gpg/pinentry/PinentryStruct;");
      if( !myUsefulJavaFunction ) { LOGD("failed to retrieve myUsefulJavaFunction\n"); return -1; }
@@ -230,7 +230,7 @@ int  open_socket() {
   return fd;
 }
 JNIEXPORT void JNICALL
-Java_info_guardianproject_gpg_PinEntryActivity_connectToGpgAgent(JNIEnv * env, jobject self)
+Java_info_guardianproject_gpg_pinentry_PinEntryActivity_connectToGpgAgent(JNIEnv * env, jobject self)
 {
     _pinentryActivity = self;
 	LOGD("connectToGpgAgent called!\n");
@@ -266,7 +266,7 @@ Java_info_guardianproject_gpg_PinEntryActivity_connectToGpgAgent(JNIEnv * env, j
 }
 
 static JNINativeMethod sMethods[] = {
-		{"connectToGpgAgent", "()V", (void *)Java_info_guardianproject_gpg_PinEntryActivity_connectToGpgAgent}
+		{"connectToGpgAgent", "()V", (void *)Java_info_guardianproject_gpg_pinentry_PinEntryActivity_connectToGpgAgent}
 };
 
 JNIEXPORT jint JNICALL

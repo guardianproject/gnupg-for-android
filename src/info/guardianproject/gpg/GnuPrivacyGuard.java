@@ -1,9 +1,7 @@
 package info.guardianproject.gpg;
 
 import java.io.File;
-import java.io.FileWriter;
 import java.io.OutputStream;
-import java.io.PrintWriter;
 
 import android.app.Activity;
 import android.app.AlertDialog;
