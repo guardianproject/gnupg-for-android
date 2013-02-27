@@ -16,6 +16,10 @@ public class ServerSocketThread extends Thread {
 	public String TAG = "ServerSocketThread";
 
 	public static String SOCKET_ADDRESS = "info.guardianproject.gpg.pinentryhelper";
+
+	private static String CMD_START = "START";
+	private static String CMD_PING = "PING";
+
 	AgentsService mService;
 	byte[] buffer;
 	int bytesRead;
@@ -66,9 +70,10 @@ public class ServerSocketThread extends Thread {
 					Log.d(TAG, "received 0 length command");
 					out.write(0);
 				} else {
-					Log.d(TAG, "received command: " + cmd);
-					mService.startPinentry();
-					out.write(1);
+					Log.d(TAG, "received command: '" + cmd +"'");
+					int data = handleCommand(cmd);
+					out.write(data);
+
 				}
 			} catch (IOException e1) {
 				Log.d(TAG, "server reading error");
@@ -91,6 +96,20 @@ public class ServerSocketThread extends Thread {
 				e.printStackTrace();
 			}
 		}
+	}
+
+	private int handleCommand(String cmd) {
+		if( cmd.equals(CMD_START)) {
+			Log.d(TAG, "Starting pinentry");
+			mService.startPinentry();
+			return 1;
+		} else if( cmd.equals(CMD_PING) ) {
+			Log.d(TAG, "Ping received!");
+			return 2;
+		} else {
+			Log.d(TAG, "unknown command " + cmd);
+		}
+		return 0;
 	}
 
 	public void setStopThread(boolean value) {
