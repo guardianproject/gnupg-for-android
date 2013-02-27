@@ -113,6 +113,7 @@ public class ServerSocketThread extends Thread {
 	}
 
 	public void setStopThread(boolean value) {
+		Log.d(TAG, "setStopthread called value="+value);
 		stopThread = value;
 
 		try {

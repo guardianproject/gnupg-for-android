@@ -46,8 +46,8 @@ public class AgentsService extends Service {
 	@Override
 	public void onDestroy() {
 		Log.d(TAG, "onDestroy");
-		if( pinentryHelperThread != null )
-			pinentryHelperThread.setStopThread(true);
+//		if( pinentryHelperThread != null )
+//			pinentryHelperThread.setStopThread(true);
 		// Cancel the persistent notification.
 		mNM.cancel(R.string.remote_service_started);
 		Toast.makeText(this, R.string.remote_service_stopped, Toast.LENGTH_SHORT).show();
