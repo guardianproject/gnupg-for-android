@@ -56,10 +56,11 @@ public class PinEntryActivity extends Activity {
 		description = (TextView) findViewById(R.id.description);
 		title = (TextView) findViewById(R.id.title);
         okButton = (Button) findViewById(R.id.okButton);
+        cancelButton = (Button) findViewById(R.id.cancelButton);
         pinEdit = (EditText) findViewById(R.id.pinEdit);
 
         okButton.setOnClickListener(okClickListener);
-//        cancelButton.setOnClickListener(cancelClickListener);
+        cancelButton.setOnClickListener(cancelClickListener);
 
 		new Thread( new Runnable() {
 
