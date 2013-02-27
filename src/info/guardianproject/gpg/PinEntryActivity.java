@@ -1,7 +1,5 @@
 package info.guardianproject.gpg;
 
-import java.io.UnsupportedEncodingException;
-
 import info.guardianproject.gpg.pinentry.PinentryStruct;
 import android.app.Activity;
 import android.os.Bundle;
@@ -28,7 +26,6 @@ public class PinEntryActivity extends Activity {
 		public void onClick(View v) {
 			setPin();
 			syncNotify();
-//			finish();
 		}
 	};
 
@@ -36,7 +33,6 @@ public class PinEntryActivity extends Activity {
 		@Override
 		public void onClick(View v) {
 			syncNotify();
-
 			finish();
 		}
 	};
@@ -45,7 +41,6 @@ public class PinEntryActivity extends Activity {
 		System.load("/data/data/info.guardianproject.gpg/lib/libpinentry.so");
 	}
 
-//    private native void startPinentryLoop();
     private native void connectToGpgAgent();
 
 	/** Called when the activity is first created. */
