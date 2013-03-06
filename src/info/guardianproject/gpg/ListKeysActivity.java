@@ -21,7 +21,10 @@ public class ListKeysActivity extends ListActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		GnuPGKey[] keyArray = ctx.searchKeys("a");
+		if( ctx == null )
+			Log.e(TAG, "GPG context is null!");
+
+		GnuPGKey[] keyArray = ctx.listKeys();
 		String[] keys = new String[0];
 
 		if (keyArray == null) {

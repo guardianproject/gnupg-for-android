@@ -10,6 +10,10 @@
 #include "com_freiheit_gnupg_GnuPGContext.h"
 #include "gpgmeutils.h"
 
+#include <android/log.h>
+
+#define LOGD(...) __android_log_print(ANDROID_LOG_DEBUG , "GnuPGContext", __VA_ARGS__)
+
 JavaVM *_jvm;
 
 gpgme_error_t
@@ -481,9 +485,10 @@ Java_com_freiheit_gnupg_GnuPGContext_gpgmeKeylist(JNIEnv * env, jobject self,
     jobject keyObj = NULL;
 
     //copy string object from java to native string
+    const jsize *query_len = (*env)->GetStringLength(env, query);
+    LOGD("query length %d\n", (int) query_len);
     const jbyte *query_str = (jbyte *)(*env)->GetStringUTFChars(env, query,
 								NULL);
-
     //get the right constructor to invoke for every key in result set
     jclass keyClass;
     keyClass = (*env)->FindClass(env, "com/freiheit/gnupg/GnuPGKey");
@@ -504,7 +509,7 @@ Java_com_freiheit_gnupg_GnuPGContext_gpgmeKeylist(JNIEnv * env, jobject self,
     int j = 0;			//index in result array, used only in second loop run...
     for (i = 0; i < 2; i++) {	//loops [0..1]
 	err = gpgme_op_keylist_start(CONTEXT(context),
-				     (const char *)query_str,
+				     (int)query_len > 0 ? (const char *)query_str : NULL,
 				     0);
 	if (UTILS_onErrorThrowException(env, err)) {
 	    (*env)->ReleaseStringUTFChars(env, query, (const char *)query_str);

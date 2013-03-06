@@ -276,6 +276,17 @@ public class GnuPGContext extends GnuPGPeer{
     }
 
     /**
+    List all keys in keyring.
+
+    @return GnuPGKey array of key objects with all keys
+
+    @see com.freiheit.gnupg.GnuPGKey
+  */
+	 public GnuPGKey[] listKeys() throws GnuPGException{
+		 return searchKeys("");
+	 }
+
+    /**
        Find all keys matching <em>query</em> in keyring.
 
        @param query allows the same expressions as gpg on command line
@@ -284,11 +295,10 @@ public class GnuPGContext extends GnuPGPeer{
        @see com.freiheit.gnupg.GnuPGKey
      */
     public GnuPGKey[] searchKeys(String query) throws GnuPGException{
-        if (query == null || query.length() < 1) {
-            return null;
-        } else{
-            return gpgmeKeylist(getInternalRepresentation(), query);
+        if (query == null ) {
+            query = new String("");
         }
+        return gpgmeKeylist(getInternalRepresentation(), query);
     }
 
     /**
