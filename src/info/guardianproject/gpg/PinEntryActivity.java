@@ -90,12 +90,7 @@ public class PinEntryActivity extends Activity {
 			Log.d(TAG, "setPin(): pinentry struct is null :(");
 			return;
 		}
-		try {
-			pinentry.pin = pinEdit.getText().toString().getBytes("UTF-8");
-		} catch (UnsupportedEncodingException e) {
-			Log.e(TAG, "UnsupportedEncodingException in setPin");
-			e.printStackTrace();
-		}
+		pinentry.pin = pinEdit.getText().toString();
 	}
 
 	private synchronized void updateViews() {
@@ -138,6 +133,7 @@ public class PinEntryActivity extends Activity {
 				e.printStackTrace();
 			}
 			Log.d(TAG, "user input received, returning");
+			Log.d(TAG, "btw, pin is " + pinentry.pin);
 			return pinentry;
 		}
 	}
