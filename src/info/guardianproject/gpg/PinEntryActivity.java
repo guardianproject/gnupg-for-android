@@ -26,8 +26,9 @@ public class PinEntryActivity extends Activity {
 	private OnClickListener okClickListener = new OnClickListener() {
 		@Override
 		public void onClick(View v) {
+			setPin();
 			syncNotify();
-			finish();
+//			finish();
 		}
 	};
 
@@ -35,6 +36,7 @@ public class PinEntryActivity extends Activity {
 		@Override
 		public void onClick(View v) {
 			syncNotify();
+
 			finish();
 		}
 	};
@@ -67,7 +69,12 @@ public class PinEntryActivity extends Activity {
 
 			@Override
 			public void run() {
+				// This function does major magic
+				// it blocks (hence the thread)
+				// when it returns it means gpg-agent is no longer communicating with us
+				// so we quit. we don't like gpg-agent anyways. neaner.
 				connectToGpgAgent();
+				finish();
 			}
 
 		}).start();
