@@ -92,21 +92,31 @@ static int passphrase_ok;
 typedef enum { CONFIRM_CANCEL, CONFIRM_OK, CONFIRM_NOTOK } confirm_value_t;
 static confirm_value_t confirm_value;
 
-void fill_struct(pinentry_t pe) {
+/*
+ * takes a pinentry_t from the command handler
+ * 1. instantiates the corresponding java PinentryStruct object
+ * 2. passes this new object to PinEntryActivity.setPinentryStruct()
+ * 3. accepts return of a NEW PinentryStruct from the method
+ * 4. parses out the user supplied pin (if there is one!)
+ * 5. returns
+ * TODO: would be nice to simplify this function, but each of those
+ * taskes requires lots of shared state, should create a state obj to pass around.
+ */
+int contact_javaland(pinentry_t pe) {
     JNIEnv* env;
     jfieldID fid;
     jclass cls = 0;
-    jobject obj = 0;
-    
+    jobject result = 0, obj = 0;
+
     LOGD("fill_struct %s\n", pe->title);
 
     if(_jvm == 0) {
         LOGD("fill_struct: JVM is null\n");
-        return;
+        return -1;
     }
     if(_pinentryActivity == 0) {
         LOGD("fill_struct: _pinentryActivity is null\n");
-        return;
+        return -1;
     }
 
     // attach to JVM and instantiate a PinentryStruct object
@@ -115,7 +125,7 @@ void fill_struct(pinentry_t pe) {
      cls = (*env)->FindClass(env, "info/guardianproject/gpg/pinentry/PinentryStruct");
      if( !cls ) { 
          LOGD("failed to retrieve PinentryStruct\n");
-         return;
+         return -1;
      }
      LOGD("got cls\n");
 
@@ -124,7 +134,7 @@ void fill_struct(pinentry_t pe) {
      obj = (*env)->NewObject(env, cls, constructor);
      if (!obj)  {
          LOGD("NewObject failed\n");
-         return;
+         return -1;
     }
     LOGD("got obj\n");
 
@@ -141,10 +151,29 @@ void fill_struct(pinentry_t pe) {
      //SET_STR(error);
 
      jclass cls2 = (*env)->FindClass(env, "info/guardianproject/gpg/PinEntryActivity");
-     if( !cls2 ) { LOGD("failed to retrieve PinentryActivity\n"); return; }
+     if( !cls2 ) { LOGD("failed to retrieve PinentryActivity\n"); return -1; }
      jmethodID myUsefulJavaFunction = (*env)->GetMethodID(env, cls2, "setPinentryStruct", "(Linfo/guardianproject/gpg/pinentry/PinentryStruct;)Linfo/guardianproject/gpg/pinentry/PinentryStruct;");
-     if( !myUsefulJavaFunction ) { LOGD("failed to retrieve myUsefulJavaFunction\n"); return; }
-     (*env)->CallObjectMethod(env, _pinentryActivity, myUsefulJavaFunction, obj);
+     if( !myUsefulJavaFunction ) { LOGD("failed to retrieve myUsefulJavaFunction\n"); return -1; }
+     result = (*env)->CallObjectMethod(env, _pinentryActivity, myUsefulJavaFunction, obj);
+     if( !result ) { LOGD("result is null!!\n"); return -1; }
+     fid = (*env)->GetFieldID(env,cls,"pin","Ljava/lang/String;");
+     if( !fid ) { LOGD("failed to get pin field id\n"); return -1; }
+     jstring jpin = (*env)->GetObjectField(env,result,fid);
+     if( !jpin ) { LOGD("jpin is null!!\n"); return -1; }
+     jbyte *pin = (*env)->GetStringUTFChars(env, jpin, NULL);
+
+    int len = strlen (pin);
+    if (len >= 0) {
+        pinentry_setbufferlen (pe, len + 1);
+        if (pe->pin)
+        {
+            strcpy (pe->pin, pin);
+            LOGD("set pin to %s\n", pe->pin);
+            return len;
+        }
+    }
+    LOGD("something went wrong returning -1\n");
+     return -1;
 }
 
 static int
@@ -165,12 +194,7 @@ android_cmd_handler (pinentry_t pe)
     {
         LOGD("android_cmd_handler: i think they want a pin..\n");
 
-        fill_struct(pe);
-        const char *pin = "1234";
-        int len = strlen (pin);
-        pinentry_setbufferlen (pe, len + 1);
-        strcpy (pe->pin, pin);
-        return len;
+        return contact_javaland(pe);
     }
   else
     return (confirm_value == CONFIRM_OK) ? 1 : 0;
