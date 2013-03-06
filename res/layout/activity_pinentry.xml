@@ -2,16 +2,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
-
-    <EditText
-        android:id="@+id/pinEdit"
+    
+    <TextView
+        android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="72dp"
-        android:ems="10"
-        android:inputType="textPassword" />
+        android:layout_marginTop="45dp"
+        android:text="@string/enter_pin"
+        android:textSize="20dp"
+        tools:context=".PINEntry" />
 
     <Button
         android:id="@+id/okButton"
@@ -21,17 +22,6 @@
         android:layout_alignBottom="@+id/cancelButton"
         android:layout_alignLeft="@+id/pinEdit"
         android:text="OK" />
-
-    <TextView
-        android:id="@+id/textView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="45dp"
-        android:text="@string/enter_pin"
-        android:textSize="20dp"
-        tools:context=".PINEntry" />
 
     <Button
         android:id="@+id/cancelButton"
@@ -51,5 +41,27 @@
         android:layout_toRightOf="@+id/okButton"
         android:text=""
         android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android:id="@+id/description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignRight="@+id/pinEdit"
+        android:layout_below="@+id/title"
+        android:gravity="center_horizontal"
+        android:text="This is a super long description zomg zomg lorem ipsum " />
+
+    <EditText
+        android:id="@+id/pinEdit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/description"
+        android:layout_centerHorizontal="true"
+        android:ems="10"
+        android:inputType="textPassword" >
+
+        <requestFocus />
+    </EditText>
 
 </RelativeLayout>
