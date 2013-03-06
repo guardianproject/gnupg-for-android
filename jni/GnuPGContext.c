@@ -513,6 +513,7 @@ Java_com_freiheit_gnupg_GnuPGContext_gpgmeKeylist(JNIEnv * env, jobject self,
 				     0);
 	if (UTILS_onErrorThrowException(env, err)) {
 	    (*env)->ReleaseStringUTFChars(env, query, (const char *)query_str);
+        LOGD("keylist gpgme error 1: %s\n", gpgme_strerror(err));
 	    return NULL;
 	}
 
@@ -520,6 +521,7 @@ Java_com_freiheit_gnupg_GnuPGContext_gpgmeKeylist(JNIEnv * env, jobject self,
 	    err = gpgme_op_keylist_next(CONTEXT(context), &key);
 	    if ((gpg_err_code(err) != GPG_ERR_EOF) 
 		&& UTILS_onErrorThrowException(env, err)) {
+            LOGD("keylist gpgme error: %s\n", gpgme_strerror(err));
 		return NULL;
 	    }
 
@@ -547,6 +549,7 @@ Java_com_freiheit_gnupg_GnuPGContext_gpgmeKeylist(JNIEnv * env, jobject self,
     //..and release the query string for gc..
     (*env)->ReleaseStringUTFChars(env, query, (const char *) query_str);
 
+    LOGD("keylist num_keys_found = %d\n", num_keys_found);
     return result;
 }
 
