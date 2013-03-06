@@ -67,6 +67,8 @@ public class GnuPrivacyGuard extends Activity implements OnCreateContextMenuList
 		Intent intent = new Intent(GnuPrivacyGuard.this, AgentsService.class);
 		startService(intent);
 		NativeHelper.gpgCtx = new GnuPGContext();
+		// set the homeDir option to our custom home location
+		NativeHelper.gpgCtx.setEngineInfo(NativeHelper.gpgCtx.getProtocol(), NativeHelper.gpgCtx.getFilename(), NativeHelper.app_home.getAbsolutePath());
 	}
 
 	@Override
