@@ -9,7 +9,7 @@ public class PinEntryActivity extends Activity {
 
 	static final String TAG = "PinEntryActivity";
 
-	static private PinentryStruct pinentry;
+	private PinentryStruct pinentry;
 
 	static {
 		System.load("/data/data/info.guardianproject.gpg/lib/libpinentry.so");
@@ -43,6 +43,11 @@ public class PinEntryActivity extends Activity {
 		else {
 			Log.d(TAG, "PinentryStruct.title: " + s.title);
 			Log.d(TAG, "PinentryStruct.description: " + s.description);
+
+	void setPinentryStruct(PinentryStruct s) {
+
+		synchronized (this) {
+			pinentry = s;
 		}
 		pinentry = s;
 	}
