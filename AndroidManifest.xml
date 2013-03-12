@@ -11,7 +11,7 @@
 
     <application
         android:icon="@drawable/icon"
-        android:label="@string/app_name" android:debuggable="true">
+        android:label="@string/app_name" >
         <activity
             android:name=".GnuPrivacyGuard"
             android:label="@string/app_name" >
@@ -21,15 +21,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-         <activity
+        <activity
             android:name=".pinentry.PinEntryActivity"
-            android:theme="@android:style/Theme.Dialog"
-            android:label="@string/title_activity_pinentry" >
+            android:label="@string/title_activity_pinentry"
+            android:theme="@android:style/Theme.Dialog" >
             <intent-filter>
             </intent-filter>
         </activity>
         <activity android:name=".ListKeysActivity" />
-        
+
         <service
             android:name=".AgentsService"
             android:process=":agents" />
