@@ -312,13 +312,17 @@ public class NativeHelper {
 				procPs.getInputStream()));
 		String line = null;
 		while ((line = reader.readLine()) != null) {
-			try {
-				// this line should just be the process id
-				pid = Integer.parseInt(line.trim());
-				break;
-			} catch (NumberFormatException e) {
-				Log.i(TAG, "unable to parse process pid: " + line, e);
+			/* this line should just be the process id, but sometimes its
+			 * multiple. so we just return the first one found, for now */
+			for (String pidString : line.split(" ")) {
+				try {
+					pid = Integer.parseInt(pidString);
+					break;
+				} catch (NumberFormatException e) {
+					Log.i(TAG, "unable to parse process pid: " + pidString, e);
+				}
 			}
+			if (pid > -1) break;
 		}
 		return pid;
 	}
