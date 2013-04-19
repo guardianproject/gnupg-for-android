@@ -27,6 +27,7 @@ public class NativeHelper {
 	public static File app_opt; // an /opt tree for the UNIX cmd line tools
 	public static File app_log; // a place to store logs
 	public static File app_home; // dir for $HOME and ~/.gnupg
+	public static File app_gnupghome; // dir for $GNUPGHOME for other apps like Terminal Emulator
 
 	// full paths to key executables, with globally used flags
 	public static String gpg2;
@@ -45,6 +46,7 @@ public class NativeHelper {
 		app_opt = context.getDir("opt", Context.MODE_WORLD_READABLE).getAbsoluteFile();
 		app_log = context.getDir("log", Context.MODE_PRIVATE).getAbsoluteFile();
 		app_home = context.getDir("home", Context.MODE_PRIVATE).getAbsoluteFile();
+		app_gnupghome = context.getDir("gnupghome", Context.MODE_WORLD_WRITEABLE).getAbsoluteFile();
 
 		File bin = new File(app_opt, "bin");
 		String logging = "--debug-level advanced --log-file " + NativeHelper.app_log
