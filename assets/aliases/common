@@ -1,0 +1,19 @@
+
+app=/data/data/info.guardianproject.gpg
+app_opt=$app/app_opt
+app_homeroot=$app/app_homeroot
+
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$app_opt/lib
+
+# use the 'id' output to generate a unique folder for each app
+get_uid () {
+    echo $1
+}
+uid="`get_uid $(id)`"
+
+# GNUPGHOME is created per-app to handle the Android permissions model
+export GNUPGHOME=$app_homeroot/$uid
+
+# create the dir, or ignore if its already there. Many Android ROMs don't even
+# have `test`, so we need to make whack workarounds like this
+mkdir $GNUPGHOME > /dev/null 2>&1 || true

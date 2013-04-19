@@ -695,11 +695,10 @@ android-assets: assets
 ASSETS := $(CWD)/../assets
 assets:
 	install -d $(ASSETS)
-	-rm -rf $(ASSETS)/*
+	for d in $(ASSETS)/*; do test -d "$$d" && rm -rf "$$d"; done
 	cp -a $(LOCAL)/* $(ASSETS)
 # remove all the stuff we don't need
 	rm -f $(ASSETS)/bin/*-static
-	rm -f $(ASSETS)/bin/gpgv2
 	rm -f $(ASSETS)/lib/*.a $(ASSETS)/lib/*.la
 # remove lib symlinks since Android AssetManager copies them as files
 	rm -rf $(ASSETS)/lib/*.so

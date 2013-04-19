@@ -6,8 +6,14 @@ gen/
 # jni build products
 libs/armeabi
 obj/
-# we are currently generating assets/ each time
-assets/
+# we are currently generating assets/ subdirs each time
+assets/bin
+assets/etc
+assets/lib
+assets/libexec
+assets/sbin
+assets/share
+assets/var
 #
 external/TAGS
 external/data
