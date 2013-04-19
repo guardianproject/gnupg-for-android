@@ -2,6 +2,31 @@
 
 **A port of the whole gnupg 2.1 suite to Android.**
 
+## Using GnuPG from the Terminal
+
+Currently, this app offers the full gnupg suite of commands in the terminal.
+When you run the GnuPG tools in an app, a GNUPGHOME folder will be created for
+that specific app.  Because of the Android permissions model, its not possible
+to create a shared GNUPGHOME without having it world-writable.
+
+### Use in Android Terminal Emulator
+
+The app automatically configures Android Terminal Emulator to use the GnuPG
+tools, as long as you have the "Allow PATH extensions" preference set.
+
+### Manual configuration and using it with other apps
+
+In order to use the GnuPG tools in your app, preferred terminal emulator, or
+adb shell, you need to set the PATH to include the full path to the GnuPG
+aliases, for example:
+
+    export PATH=$PATH:/data/data/info.guardianproject.gpg/app_opt/aliases
+
+Or you can call the aliases using the full path:
+
+    /data/data/info.guardianproject.gpg/app_opt/aliases/gpg --encrypt secretfile.txt
+
+
 ## Target Platform
 
 We would like to target as many Android platforms as possible.  Currently
