@@ -14,6 +14,7 @@ assets/libexec
 assets/sbin
 assets/share
 assets/var
+assets/tests
 #
 external/TAGS
 external/data

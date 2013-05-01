@@ -70,7 +70,7 @@ CFLAGS += -g
 	pth-build pth-clean pth-install \
 	libiconv-build libiconv-clean libiconv-install
 
-all: gnupg-install gnupg-static gpgme-install android-assets tests
+all: gnupg-install gnupg-static gpgme-install android-assets
 
 
 #------------------------------------------------------------------------------#
@@ -635,10 +635,10 @@ gpgme-clean:
 #------------------------------------------------------------------------------#
 # separate target for building and installing the tests into assets/
 
-tests: gpgme-tests pinentry-test
+test-assets: gpgme-test-assets pinentry-test-assets
 	install -p run-tests.sh $(ASSETS)/tests
 
-gpgme-tests:
+gpgme-test-assets:
 	$(MAKE) -C gpgme/tests
 	install -d $(ASSETS)/tests/gpgme
 	install -p \
@@ -647,7 +647,7 @@ gpgme-tests:
 		gpgme/tests/gpg/*.asc \
 		$(ASSETS)/tests/gpgme
 
-pinentry-test:
+pinentry-test-assets:
 	install -d $(ASSETS)/tests/pinentry
 	install -p \
 		pinentry-tests/*gpg \
@@ -693,7 +693,7 @@ gpgv2-static:
 android-assets: assets
 
 ASSETS := $(CWD)/../assets
-assets:
+assets: test-assets
 	install -d $(ASSETS)
 	for d in $(ASSETS)/*; do test -d "$$d" && rm -rf "$$d"; done
 	cp -a $(LOCAL)/* $(ASSETS)
