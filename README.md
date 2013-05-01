@@ -12,12 +12,12 @@ to create a shared GNUPGHOME without having it world-writable.
 ### Use in Android Terminal Emulator
 
 The app automatically configures Android Terminal Emulator to use the GnuPG
-tools, as long as you have the "Allow PATH extensions" preference set.
+tools, as long as you have the *Allow PATH extensions* preference set.
 
 ### Manual configuration and using it with other apps
 
 In order to use the GnuPG tools in your app, preferred terminal emulator, or
-adb shell, you need to set the PATH to include the full path to the GnuPG
+adb shell, you need to set the `PATH` to include the full path to the GnuPG
 aliases, for example:
 
     export PATH=$PATH:/data/data/info.guardianproject.gpg/app_opt/aliases
@@ -26,6 +26,17 @@ Or you can call the aliases using the full path:
 
     /data/data/info.guardianproject.gpg/app_opt/aliases/gpg --encrypt secretfile.txt
 
+### Setting up all of the tools
+
+To enable the whole suite of tools, including dirmngr to work with keyservers,
+you need to set another environment variable:
+
+    export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/data/data/info.guardianproject.gpg/app_opt/lib:/data/data/info.guardianproject.gpg/lib
+
+The technical reason why is that GnuPG uses a lot of shared libraries, and
+the only way Android has for finding shared libraries is the `LD_LIBRARY_PATH`
+environment variable.  GNU/Linux has `rpath`, Mac OS X has *install names*,
+but Android has none of this stuff.
 
 ## Target Platform
 
