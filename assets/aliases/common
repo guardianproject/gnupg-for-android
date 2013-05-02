@@ -1,7 +1,7 @@
 
 app=/data/data/info.guardianproject.gpg
 app_opt=$app/app_opt
-app_homeroot=$app/app_homeroot
+app_homeroot=$app/app_gnupghome
 
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$app_opt/lib:$app/lib
 
