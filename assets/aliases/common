@@ -1,4 +1,5 @@
 
+# ensures the 'group' and 'other' permissions are always 0
 umask 0077
 
 app=/data/data/info.guardianproject.gpg
