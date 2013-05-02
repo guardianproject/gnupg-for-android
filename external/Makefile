@@ -751,7 +751,14 @@ distclean: clean install-clean
 
 # watch out, this is dangerous!
 gitclean: distclean
-	rm -rf $(ASSETS)
+	rm -rf $(ASSETS)/bin
+	rm -rf $(ASSETS)/etc
+	rm -rf $(ASSETS)/lib
+	rm -rf $(ASSETS)/libexec
+	rm -rf $(ASSETS)/sbin
+	rm -rf $(ASSETS)/share
+	rm -rf $(ASSETS)/tests
+	rm -rf $(ASSETS)/var
 	rm -rf $(EXTERNAL_ROOT)/data
 	for file in $(EXTERNAL_ROOT)/*; do \
 		test -d $$file || continue; \
