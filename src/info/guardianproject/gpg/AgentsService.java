@@ -75,7 +75,9 @@ public class AgentsService extends Service {
 	public void startPinentry() {
 		Log.d(TAG, "starting activity!");
 		Intent intent = new Intent(this, PinEntryActivity.class);
-	    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+	    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+	    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+	    intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 	    startActivity(intent);
 	}
 

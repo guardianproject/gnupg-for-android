@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.WindowManager;
 import android.view.WindowManager.LayoutParams;
 import android.widget.Button;
 import android.widget.EditText;
@@ -69,6 +70,7 @@ public class PinEntryActivity extends Activity {
         cancelButton.setOnClickListener(cancelClickListener);
 
         pinentry = (PinentryStruct) getLastNonConfigurationInstance();
+        getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
         updateViews();
 
 		new Thread( new Runnable() {
