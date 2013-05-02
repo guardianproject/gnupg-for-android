@@ -18,7 +18,7 @@
 	url = git://git.openldap.org/openldap.git
 [submodule "external/curl"]
 	path = external/curl
-	url = git://github.com/bagder/curl.git
+	url = https://github.com/bagder/curl.git
 [submodule "external/npth"]
 	path = external/npth
 	url = git://git.gnupg.org/npth.git
@@ -30,5 +30,5 @@
 	url = https://github.com/smartrevolution/gnupg-for-java.git
 [submodule "external/pinentry"]
 	path = external/pinentry
-	url = git://github.com/guardianproject/pinentry.git
+	url = https://github.com/guardianproject/pinentry.git
 	ignore = dirty
