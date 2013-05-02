@@ -1,4 +1,6 @@
 
+umask 0077
+
 app=/data/data/info.guardianproject.gpg
 app_opt=$app/app_opt
 app_homeroot=$app/app_gnupghome
