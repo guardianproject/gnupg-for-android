@@ -8,6 +8,7 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
 import android.os.Binder;
+import android.os.Build;
 import android.os.IBinder;
 import android.util.Log;
 import android.widget.Toast;
@@ -35,6 +36,10 @@ public class AgentsService extends Service {
 	@Override
 	public void onCreate() {
 		Log.d(TAG, "onCreate");
+		// Owner permissions only. Necessary on pre-4.1 SDKs.
+		if( Build.VERSION.SDK_INT < 16 ) {
+		    Posix.umask(00077);
+		}
 		// since this service is a separate process, it has its own instance of
 		// NativeHelper
 		NativeHelper.setup(this);

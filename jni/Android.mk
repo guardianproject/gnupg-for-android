@@ -52,3 +52,11 @@ GENERATE_PINENTRY_ASSUAN_ERRORS_C := \
 		> $(external)/pinentry/assuan/assuan-errors.c)
 
 include $(BUILD_SHARED_LIBRARY)
+
+include $(CLEAR_VARS)
+
+LOCAL_MODULE := libposix
+LOCAL_LDLIBS += -llog
+LOCAL_SRC_FILES := info_guardianproject_gpg_Posix.c
+
+include $(BUILD_SHARED_LIBRARY)
