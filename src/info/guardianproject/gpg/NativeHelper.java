@@ -16,7 +16,10 @@ import java.util.StringTokenizer;
 
 import android.content.Context;
 import android.content.res.AssetManager;
+import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 
 import com.freiheit.gnupg.GnuPGContext;
@@ -151,7 +154,15 @@ public class NativeHelper {
 		}
 	}
 
-	public static void unpackAssets(Context context) {
+	static void showMessageInDialog(String message, Handler handler) {
+		Message msg = handler.obtainMessage();
+		Bundle b = new Bundle();
+		b.putString("message", message);
+		msg.setData(b);
+		handler.sendMessage(msg);
+	}
+
+	public static void unpackAssets(Context context, Handler handler) {
 		Log.i(TAG, "Setting up assets in " + app_opt);
 		setupEmptyDirs();
 		writeShProfile();
@@ -173,6 +184,7 @@ public class NativeHelper {
 					|| asset.equals("kioskmode")) // Samsung
 				continue;
 			Log.i(TAG, "copying asset: " + asset);
+			showMessageInDialog("unpacking '" + asset + "'...", handler);
 			copyFileOrDir(asset, app_opt);
 		}
 

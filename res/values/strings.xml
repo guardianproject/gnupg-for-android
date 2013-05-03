@@ -13,6 +13,7 @@
     <string name="title_activity_pinentry">PIN Entry</string>
 
     <string name="dialog_installing_msg">Setting up GnuPG for Android</string>
+    <string name="dialog_installing_title">Native Setup</string>
     
     <string name="pref_start_boot_title">Start Daemons on Boot</string>
     <string name="pref_start_boot_summary">Starts the pinentry and gnupg daemons when your device boots</string>

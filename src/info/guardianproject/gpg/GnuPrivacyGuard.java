@@ -1,5 +1,8 @@
 package info.guardianproject.gpg;
 
+import java.io.File;
+import java.io.OutputStream;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -12,7 +15,9 @@ import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.IBinder;
+import android.os.Message;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -24,9 +29,6 @@ import android.widget.TextView;
 
 import com.freiheit.gnupg.GnuPGContext;
 import com.freiheit.gnupg.GnuPGKey;
-
-import java.io.File;
-import java.io.OutputStream;
 
 public class GnuPrivacyGuard extends Activity implements OnCreateContextMenuListener {
 	public static final String TAG = "GnuPrivacyGuard";
@@ -275,31 +277,53 @@ public class GnuPrivacyGuard extends Activity implements OnCreateContextMenuList
 	}
 
 	public class InstallTask extends AsyncTask<Void, Void, Void> {
-	    private ProgressDialog dialog;
+		private ProgressDialog dialog;
 
-	    public InstallTask(Context c) {
-	        dialog = new ProgressDialog(c);
-	        dialog.setIndeterminate(true);
-	    }
+		private final Handler handler = new Handler() {
+			@Override
+			public void handleMessage(Message msg) {
+				dialog.setMessage(msg.getData().getString("message"));
+			}
+		};
 
-	    @Override
-	    protected void onPreExecute() {
-	        this.dialog.setMessage(getText(R.string.dialog_installing_msg));
-            this.dialog.show();
-	    }
+		private void showProgressMessage(int resId) {
+			String messageText = getString(resId);
+			if (messageText == null) messageText = "(null)";
+			if (dialog == null) {
+				Log.e(TAG, "installDialog is null!");
+				return;
+			}
+			dialog.setMessage(messageText);
+			if (!dialog.isShowing())
+				dialog.show();
+		}
 
-        @Override
-        protected Void doInBackground(Void... params) {
-            if (!new File(NativeHelper.app_opt, "bin").exists()) {
-                NativeHelper.unpackAssets(getApplicationContext());
-            }
-            return null;
-        }
+		private void hideProgressDialog() {
+			dialog.dismiss();
+		}
 
-        @Override
-        protected void onPostExecute(Void result) {
-            if (dialog.isShowing())
-                dialog.dismiss();
+		public InstallTask(Context c) {
+			dialog = new ProgressDialog(c);
+			dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+			dialog.setTitle(R.string.dialog_installing_title);
+		}
+
+		@Override
+		protected void onPreExecute() {
+			showProgressMessage(R.string.dialog_installing_msg);
+		}
+
+		@Override
+		protected Void doInBackground(Void... params) {
+			if (!new File(NativeHelper.app_opt, "bin").exists()) {
+				NativeHelper.unpackAssets(getApplicationContext(), handler);
+			}
+			return null;
+		}
+
+		@Override
+		protected void onPostExecute(Void result) {
+			hideProgressDialog();
 
             // these need to be loaded before System.load("gnupg-for-java"); and in
             // the right order, since they have interdependencies.
@@ -315,6 +339,5 @@ public class GnuPrivacyGuard extends Activity implements OnCreateContextMenuList
             // set the homeDir option to our custom home location
             NativeHelper.gpgCtx.setEngineInfo(NativeHelper.gpgCtx.getProtocol(), NativeHelper.gpgCtx.getFilename(), NativeHelper.app_home.getAbsolutePath());
         }
-
 	}
 }
