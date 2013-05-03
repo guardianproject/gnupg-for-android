@@ -645,10 +645,10 @@ gpgme-clean:
 #------------------------------------------------------------------------------#
 # separate target for building and installing the tests into assets/
 
-test-assets: gpgme-test-assets pinentry-test-assets
+assets-tests: assets-tests-gpgme assets-tests-pinentry
 	install -p run-tests.sh $(ASSETS)/tests
 
-gpgme-test-assets:
+assets-tests-gpgme:
 	$(MAKE) -C gpgme/tests
 	install -d $(ASSETS)/tests/gpgme
 	install -p \
@@ -657,7 +657,7 @@ gpgme-test-assets:
 		gpgme/tests/gpg/*.asc \
 		$(ASSETS)/tests/gpgme
 
-pinentry-test-assets:
+assets-tests-pinentry:
 	install -d $(ASSETS)/tests/pinentry
 	install -p \
 		pinentry-tests/*gpg \
@@ -702,10 +702,20 @@ gpgv2-static:
 
 android-assets: assets
 
+clean-assets:
+	rm -rf $(ASSETS)/bin
+	rm -rf $(ASSETS)/etc
+	rm -rf $(ASSETS)/lib
+	rm -rf $(ASSETS)/libexec
+	rm -rf $(ASSETS)/sbin
+	rm -rf $(ASSETS)/share
+	rm -rf $(ASSETS)/tests
+	rm -rf $(ASSETS)/var
+
 ASSETS := $(CWD)/../assets
-assets: test-assets
+assets: clean-assets assets-tests
+# add the new stuff
 	install -d $(ASSETS)
-	for d in $(ASSETS)/*; do test -d "$$d" && rm -rf "$$d"; done
 	cp -a $(LOCAL)/* $(ASSETS)
 # remove all the stuff we don't need
 	rm -f $(ASSETS)/bin/*-static
