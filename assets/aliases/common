@@ -20,3 +20,7 @@ export GNUPGHOME=$app_homeroot/$uid
 # create the dir, or ignore if its already there. Many Android ROMs don't even
 # have `test`, so we need to make whack workarounds like this
 mkdir $GNUPGHOME > /dev/null 2>&1 || true
+
+# make sure there is a gpg.conf to set up the keyserver for dirmngr
+ls $GNUPGHOME/gpg.conf > /dev/null 2>&1 || \
+    cat $app_opt/share/gnupg/gpg-conf.skel > $GNUPGHOME/gpg.conf
