@@ -5,6 +5,9 @@
     <string name="remote_service_stopped">gpg-agent stopped</string>
     <string name="remote_service_label">gpg-agent</string>
 
+    <string name="pinentry_service_label">gnupg pinentry daemon</string>
+    <string name="pinentry_service_started">gnupg pinentry daemon running</string>
+
     <string name="enter_pin">Enter your PIN</string>
     <string name="menu_settings">Settings</string>
     <string name="title_activity_pinentry">PIN Entry</string>

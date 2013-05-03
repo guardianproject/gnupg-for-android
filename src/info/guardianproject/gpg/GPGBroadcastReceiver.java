@@ -1,20 +1,30 @@
 package info.guardianproject.gpg;
 
-import java.io.File;
-
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
-public class TerminalEmulatorPathReceiver extends BroadcastReceiver {
+import java.io.File;
 
-	@Override
-	public void onReceive(Context context, Intent intent) {
+/**
+ *
+ * @author abel
+ *
+ */
+public class GPGBroadcastReceiver extends BroadcastReceiver {
+
+    /**
+     * We launch PinentryService at boot and register the PATH var in android terminal emulator
+     */
+    @Override
+    public void onReceive(Context context, Intent intent) {
+
+        // we must call setup here to app_opt below isn't null
+        NativeHelper.setup(context);
 
         String packageName = context.getPackageName();
-
         String action = intent.getAction();
 
         if (action.equals("jackpal.androidterm.broadcast.APPEND_TO_PATH")) {
@@ -33,6 +43,9 @@ public class TerminalEmulatorPathReceiver extends BroadcastReceiver {
             result.putString(packageName, pathToAppend);
 
             setResultCode(Activity.RESULT_OK);
+        } else if( action.equals("android.intent.action.BOOT_COMPLETED") ) {
+            Intent startServiceIntent = new Intent(context, PinentryService.class);
+            context.startService(startServiceIntent);
         }
-	}
+    }
 }
