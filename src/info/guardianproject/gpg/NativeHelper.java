@@ -33,6 +33,7 @@ public class NativeHelper {
 	public static String gpg2;
 	public static String gpg_agent;
 	public static String pinentry_android;
+	public static String dirmngr;
 
 	public static String sdcard;
 	public static String[] envp; // environment variables
@@ -54,6 +55,7 @@ public class NativeHelper {
 		gpg2 = new File(bin, "gpg2").getAbsolutePath() + " --no-tty " + logging;
 		gpg_agent = new File(bin, "gpg-agent").getAbsolutePath();
 		pinentry_android = new File(bin, "pinentry-android").getAbsolutePath();
+		dirmngr = new File(bin, "dirmngr").getAbsolutePath();
 
 		sdcard = Environment.getExternalStorageDirectory().getAbsolutePath();
 		String ldLibraryPath = System.getenv("LD_LIBRARY_PATH");
@@ -119,6 +121,7 @@ public class NativeHelper {
 		new File(app_opt, "etc/gnupg/trusted-certs").mkdirs();
 		new File(app_opt, "share/gnupg/extra-certs").mkdirs();
 		new File(app_opt, "var/run/gnupg").mkdirs();
+		new File(app_opt, "var/lib/gnupg").mkdirs();
 		new File(app_opt, "var/cache/gnupg").mkdirs();
 		// /home is outside of this tree, in app_home
 	}

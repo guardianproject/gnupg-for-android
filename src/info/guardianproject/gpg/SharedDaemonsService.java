@@ -1,5 +1,7 @@
 package info.guardianproject.gpg;
 
+import info.guardianproject.gpg.pinentry.PinEntryActivity;
+import info.guardianproject.gpg.pinentry.ServerSocketThread;
 import android.app.Notification;
 import android.app.PendingIntent;
 import android.app.Service;
@@ -9,15 +11,13 @@ import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
-import info.guardianproject.gpg.pinentry.PinEntryActivity;
-import info.guardianproject.gpg.pinentry.ServerSocketThread;
-
 public class SharedDaemonsService extends Service {
 
     public static final String TAG = "PinentryService";
     private static final int SERVICE_FOREGROUND_ID = 8473;
 
     private ServerSocketThread pinentryHelperThread;
+    private DirmngrThread dirmngrThread;
 
     private void startDaemons() {
         Log.i(TAG, "start daemons in " + NativeHelper.app_opt.getAbsolutePath());
@@ -25,6 +25,9 @@ public class SharedDaemonsService extends Service {
 
             pinentryHelperThread = new ServerSocketThread(this);
             pinentryHelperThread.start();
+
+            dirmngrThread = new DirmngrThread();
+            dirmngrThread.start();
         }
     }
 
@@ -92,4 +95,31 @@ public class SharedDaemonsService extends Service {
         return b.build();
     }
 
+    class DirmngrThread extends Thread {
+
+		@Override
+		public void run() {
+			NativeHelper.kill9(NativeHelper.dirmngr);
+			String dirmngrCmd = NativeHelper.dirmngr
+					+ " --daemon " + "--debug-level guru --log-file "
+					+ NativeHelper.app_log + "/dirmngr.log";
+			String chmodCmd = "chmod 777 " + NativeHelper.app_opt + "/var/run/gnupg/S.dirmngr";
+			try {
+				Runtime runtime = Runtime.getRuntime();
+				Log.i(TAG, dirmngrCmd);
+				runtime.exec(dirmngrCmd, NativeHelper.envp, NativeHelper.app_home)
+					.waitFor();
+				Log.i(TAG, chmodCmd);
+				runtime.exec(chmodCmd, NativeHelper.envp, NativeHelper.app_home)
+					.waitFor();
+			} catch (Exception e) {
+				Log.e(TAG, "Could not start dirmngr", e);
+			} finally {
+				stopSelf();
+				synchronized (SharedDaemonsService.this) {
+					dirmngrThread = null;
+				}
+			}
+		}
+	}
 }
