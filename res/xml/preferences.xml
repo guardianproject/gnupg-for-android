@@ -1,0 +1,9 @@
+<PreferenceScreen
+        xmlns:android="http://schemas.android.com/apk/res/android">
+
+        <CheckBoxPreference
+                android:key="pref_start_boot"
+                android:title="@string/pref_start_boot_title"
+                android:defaultValue="true"
+                android:summary="@string/pref_start_boot_summary" />
+</PreferenceScreen>

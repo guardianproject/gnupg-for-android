@@ -44,8 +44,10 @@ public class GPGBroadcastReceiver extends BroadcastReceiver {
 
             setResultCode(Activity.RESULT_OK);
         } else if( action.equals("android.intent.action.BOOT_COMPLETED") ) {
-            Intent startServiceIntent = new Intent(context, PinentryService.class);
-            context.startService(startServiceIntent);
+            if(Preferences.startOnBoot()) {
+                Intent startServiceIntent = new Intent(context, PinentryService.class);
+                context.startService(startServiceIntent);
+            }
         }
     }
 }

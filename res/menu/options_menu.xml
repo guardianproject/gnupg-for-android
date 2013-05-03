@@ -7,5 +7,6 @@
 	<item android:id="@+id/menu_gen_key" android:title="Decrypt File"></item>
 	<item android:id="@+id/menu_search_keys" android:title="Search Keys..."></item>
 	<item android:id="@+id/menu_receive_key" android:title="Receive Key..."></item>
+ <item android:id="@+id/menu_settings_key" android:title="Settings"></item>
 
 </menu>

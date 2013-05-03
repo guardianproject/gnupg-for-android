@@ -89,6 +89,9 @@ public class GnuPrivacyGuard extends Activity implements OnCreateContextMenuList
 		alert.setView(input);
 
 		switch (item.getItemId()) {
+	    case R.id.menu_settings_key:
+	        startActivity(new Intent(this, GPGPreferenceActivity.class));
+	        return true;
 		case R.id.menu_list_keys:
 			startActivity(new Intent(this, ListKeysActivity.class));
 			return true;
