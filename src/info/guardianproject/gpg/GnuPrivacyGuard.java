@@ -261,7 +261,7 @@ public class GnuPrivacyGuard extends Activity implements OnCreateContextMenuList
 		// Establish a connection with the service. We use an explicit
 		// class name because there is no reason to be able to let other
 		// applications replace our component.
-		bindService(new Intent(GnuPrivacyGuard.this, AgentsService.class), mConnection,
+		bindService(new Intent(GnuPrivacyGuard.this, GpgAgentService.class), mConnection,
 				Context.BIND_AUTO_CREATE);
 		mIsBound = true;
 	}
@@ -307,9 +307,9 @@ public class GnuPrivacyGuard extends Activity implements OnCreateContextMenuList
             System.load(NativeHelper.app_opt + "/lib/libassuan.so.0");
             System.load(NativeHelper.app_opt + "/lib/libgpgme.so.11");
 
-            Intent intent = new Intent(GnuPrivacyGuard.this, AgentsService.class);
+            Intent intent = new Intent(GnuPrivacyGuard.this, GpgAgentService.class);
             startService(intent);
-            intent = new Intent(GnuPrivacyGuard.this, PinentryService.class);
+            intent = new Intent(GnuPrivacyGuard.this, SharedDaemonsService.class);
             startService(intent);
             NativeHelper.gpgCtx = new GnuPGContext();
             // set the homeDir option to our custom home location

@@ -12,7 +12,7 @@ import android.util.Log;
 import info.guardianproject.gpg.pinentry.PinEntryActivity;
 import info.guardianproject.gpg.pinentry.ServerSocketThread;
 
-public class PinentryService extends Service {
+public class SharedDaemonsService extends Service {
 
     public static final String TAG = "PinentryService";
     private static final int SERVICE_FOREGROUND_ID = 8473;
@@ -43,8 +43,8 @@ public class PinentryService extends Service {
     }
 
     public class LocalBinder extends Binder {
-        public PinentryService getService() {
-            return PinentryService.this;
+        public SharedDaemonsService getService() {
+            return SharedDaemonsService.this;
         }
     }
 

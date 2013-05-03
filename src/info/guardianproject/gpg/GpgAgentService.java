@@ -11,8 +11,8 @@ import android.os.IBinder;
 import android.util.Log;
 import android.widget.Toast;
 
-public class AgentsService extends Service {
-	public static final String TAG = "AgentsService";
+public class GpgAgentService extends Service {
+	public static final String TAG = "GpgAgentService";
 
 	/** For showing and hiding our notification. */
 	NotificationManager mNM;
@@ -53,8 +53,8 @@ public class AgentsService extends Service {
 	}
 
 	public class LocalBinder extends Binder {
-		public AgentsService getService() {
-			return AgentsService.this;
+		public GpgAgentService getService() {
+			return GpgAgentService.this;
 		}
 	}
 
@@ -116,7 +116,7 @@ public class AgentsService extends Service {
 				Log.e(TAG, "Could not start gpg-agent", e);
 			} finally {
 				stopSelf();
-				synchronized (AgentsService.this) {
+				synchronized (GpgAgentService.this) {
 					gpgAgentThread = null;
 				}
 			}

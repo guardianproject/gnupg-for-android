@@ -62,13 +62,13 @@
         <activity android:name=".GPGPreferenceActivity" />
 
         <service
-            android:name=".AgentsService"
-            android:process=":agents" />
+            android:name=".GpgAgentService"
+            android:process=":gpgagent" />
         <service
-            android:name=".PinentryService"
-            android:process=":pinentry" />
+            android:name=".SharedDaemonsService"
+            android:process=":shareddaemons" />
 
-        <receiver android:name="info.guardianproject.gpg.GPGBroadcastReceiver">
+        <receiver android:name=".GPGBroadcastReceiver">
             <intent-filter>
               <action android:name="android.intent.action.BOOT_COMPLETED" />
               <action android:name="jackpal.androidterm.broadcast.APPEND_TO_PATH" />

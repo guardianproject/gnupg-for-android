@@ -1,7 +1,7 @@
 package info.guardianproject.gpg.pinentry;
 
-import info.guardianproject.gpg.AgentsService;
-import info.guardianproject.gpg.PinentryService;
+import info.guardianproject.gpg.GpgAgentService;
+import info.guardianproject.gpg.SharedDaemonsService;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -21,14 +21,14 @@ public class ServerSocketThread extends Thread {
 	private static String CMD_START = "START";
 	private static String CMD_PING = "PING";
 
-	PinentryService mService;
+	SharedDaemonsService mService;
 	byte[] buffer;
 	int bytesRead;
 	LocalServerSocket serverSocket;
 	InputStream input;
 	private volatile boolean stopThread;
 
-	public ServerSocketThread(PinentryService service) {
+	public ServerSocketThread(SharedDaemonsService service) {
 		Log.d(TAG, "ctor");
 		buffer = new byte[6];
 		bytesRead = 0;
