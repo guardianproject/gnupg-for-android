@@ -11,4 +11,6 @@
     <string name="enter_pin">Enter your PIN</string>
     <string name="menu_settings">Settings</string>
     <string name="title_activity_pinentry">PIN Entry</string>
+
+    <string name="dialog_installing_msg">Setting up GnuPG for Android</string>
 </resources>

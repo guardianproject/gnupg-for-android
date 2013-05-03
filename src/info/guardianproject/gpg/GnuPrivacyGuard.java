@@ -1,10 +1,8 @@
 package info.guardianproject.gpg;
 
-import java.io.File;
-import java.io.OutputStream;
-
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
@@ -12,6 +10,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.util.Log;
@@ -25,6 +24,9 @@ import android.widget.TextView;
 
 import com.freiheit.gnupg.GnuPGContext;
 import com.freiheit.gnupg.GnuPGKey;
+
+import java.io.File;
+import java.io.OutputStream;
 
 public class GnuPrivacyGuard extends Activity implements OnCreateContextMenuListener {
 	public static final String TAG = "GnuPrivacyGuard";
@@ -48,29 +50,14 @@ public class GnuPrivacyGuard extends Activity implements OnCreateContextMenuList
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		NativeHelper.setup(getApplicationContext());
-		// TODO figure out how to manage upgrades to app_opt
-		if (!new File(NativeHelper.app_opt, "bin").exists()) {
-			NativeHelper.unpackAssets(getApplicationContext());
-		}
-		// these need to be loaded before System.load("gnupg-for-java"); and in
-		// the right order, since they have interdependencies.
-		System.load(NativeHelper.app_opt + "/lib/libgpg-error.so.0");
-		System.load(NativeHelper.app_opt + "/lib/libassuan.so.0");
-		System.load(NativeHelper.app_opt + "/lib/libgpgme.so.11");
+
+		new InstallTask(this).execute();
 
 		setContentView(R.layout.main);
 		consoleScroll = (ScrollView) findViewById(R.id.consoleScroll);
 		consoleText = (TextView) findViewById(R.id.consoleText);
 
 		log = new StringBuffer();
-
-		Intent intent = new Intent(GnuPrivacyGuard.this, AgentsService.class);
-		startService(intent);
-		intent = new Intent(GnuPrivacyGuard.this, PinentryService.class);
-        startService(intent);
-		NativeHelper.gpgCtx = new GnuPGContext();
-		// set the homeDir option to our custom home location
-		NativeHelper.gpgCtx.setEngineInfo(NativeHelper.gpgCtx.getProtocol(), NativeHelper.gpgCtx.getFilename(), NativeHelper.app_home.getAbsolutePath());
 	}
 
 	@Override
@@ -282,5 +269,49 @@ public class GnuPrivacyGuard extends Activity implements OnCreateContextMenuList
 			unbindService(mConnection);
 			mIsBound = false;
 		}
+	}
+
+	public class InstallTask extends AsyncTask<Void, Void, Void> {
+	    private ProgressDialog dialog;
+
+	    public InstallTask(Context c) {
+	        dialog = new ProgressDialog(c);
+	        dialog.setIndeterminate(true);
+	    }
+
+	    @Override
+	    protected void onPreExecute() {
+	        this.dialog.setMessage(getText(R.string.dialog_installing_msg));
+            this.dialog.show();
+	    }
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            if (!new File(NativeHelper.app_opt, "bin").exists()) {
+                NativeHelper.unpackAssets(getApplicationContext());
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+            if (dialog.isShowing())
+                dialog.dismiss();
+
+            // these need to be loaded before System.load("gnupg-for-java"); and in
+            // the right order, since they have interdependencies.
+            System.load(NativeHelper.app_opt + "/lib/libgpg-error.so.0");
+            System.load(NativeHelper.app_opt + "/lib/libassuan.so.0");
+            System.load(NativeHelper.app_opt + "/lib/libgpgme.so.11");
+
+            Intent intent = new Intent(GnuPrivacyGuard.this, AgentsService.class);
+            startService(intent);
+            intent = new Intent(GnuPrivacyGuard.this, PinentryService.class);
+            startService(intent);
+            NativeHelper.gpgCtx = new GnuPGContext();
+            // set the homeDir option to our custom home location
+            NativeHelper.gpgCtx.setEngineInfo(NativeHelper.gpgCtx.getProtocol(), NativeHelper.gpgCtx.getFilename(), NativeHelper.app_home.getAbsolutePath());
+        }
+
 	}
 }
