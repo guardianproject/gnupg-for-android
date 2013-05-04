@@ -275,7 +275,9 @@ public class GnuPrivacyGuard extends Activity implements OnCreateContextMenuList
 
 	public class InstallTask extends AsyncTask<Void, Void, Void> {
 		private ProgressDialog dialog;
+		private boolean doInstall;
 
+		private final Context context = getApplicationContext();
 		private final Handler handler = new Handler() {
 			@Override
 			public void handleMessage(Message msg) {
@@ -307,14 +309,15 @@ public class GnuPrivacyGuard extends Activity implements OnCreateContextMenuList
 
 		@Override
 		protected void onPreExecute() {
-			showProgressMessage(R.string.dialog_installing_msg);
+			doInstall = NativeHelper.installOrUpgradeAppOpt(context);
+			if (doInstall)
+				showProgressMessage(R.string.dialog_installing_msg);
 		}
 
 		@Override
 		protected Void doInBackground(Void... params) {
-			if (!new File(NativeHelper.app_opt, "bin").exists()) {
-				NativeHelper.unpackAssets(getApplicationContext(), handler);
-			}
+			if (doInstall)
+				NativeHelper.unpackAssets(context, handler);
 			return null;
 		}
 

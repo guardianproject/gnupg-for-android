@@ -12,9 +12,12 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Calendar;
+import java.util.Scanner;
 import java.util.StringTokenizer;
 
 import android.content.Context;
+import android.content.pm.PackageInfo;
 import android.content.res.AssetManager;
 import android.os.Bundle;
 import android.os.Environment;
@@ -31,6 +34,7 @@ public class NativeHelper {
 	public static File app_log; // a place to store logs
 	public static File app_home; // dir for $HOME and ~/.gnupg
 	public static File app_gnupghome; // dir for $GNUPGHOME for other apps like Terminal Emulator
+	public static File versionFile; // version stamp for unpacked assets
 
 	// full paths to key executables, with globally used flags
 	public static String gpg2;
@@ -52,6 +56,7 @@ public class NativeHelper {
 		app_log = context.getDir("log", Context.MODE_PRIVATE).getAbsoluteFile();
 		app_home = context.getDir("home", Context.MODE_PRIVATE).getAbsoluteFile();
 		app_gnupghome = context.getDir("gnupghome", Context.MODE_WORLD_WRITEABLE).getAbsoluteFile();
+		versionFile = new File(app_opt, "VERSION");
 
 		File bin = new File(app_opt, "bin");
 		String logging = "--debug-level advanced --log-file " + NativeHelper.app_log
@@ -193,6 +198,85 @@ public class NativeHelper {
 		}
 
 		chmod("0755", app_opt, true);
+		writeVersionFile(context);
+	}
+
+
+	private static int readVersionFile() {
+		if (! versionFile.exists()) return 0;
+		Scanner in;
+		int versionCode = 0;
+		try {
+			in = new Scanner(versionFile);
+			versionCode = Integer.parseInt(in.next());
+			in.close();
+		} catch (Exception e) {
+			log.append("Can't read app version file: " + e.getLocalizedMessage() + "\n");
+		}
+		return versionCode;
+	}
+
+	private static void writeVersionFile(Context context) {
+		try {
+			PackageInfo pInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
+			FileOutputStream fos = new FileOutputStream(versionFile);
+			OutputStreamWriter out = new OutputStreamWriter(fos);
+			out.write(String.valueOf(pInfo.versionCode) + "\n");
+			out.close();
+			fos.close();
+		} catch (Exception e) {
+			log.append("Can't write app version file: " + e.getLocalizedMessage() + "\n");
+		}
+	}
+
+	private static int getCurrentVersionCode(Context context) {
+		try {
+			PackageInfo pInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
+			return pInfo.versionCode;
+		} catch (Exception e) {
+			String msg = "Can't get app version: " + e.getLocalizedMessage() + "\n";
+			Log.e(TAG, msg);
+			log.append(msg);
+			return 0;
+		}
+	}
+
+	public static boolean installOrUpgradeAppOpt(Context context) {
+		if (versionFile.exists()) {
+			if (getCurrentVersionCode(context) > readVersionFile()) {
+				Log.i(TAG, "Upgrading '" + app_opt + "'\n");
+				// upgrade: rename current app_opt, then return true to trigger unpack
+				renameOldAppOpt();
+				return true;
+			} else {
+				Log.i(TAG, "Not upgrading '" + app_opt + "'\n");
+			}
+		} else {
+			File[] list = app_opt.listFiles();
+			if (list == null || list.length > 0) {
+				Log.i(TAG, "Old, unversioned app_opt dir, upgrading.\n");
+				renameOldAppOpt();
+			} else {
+				Log.i(TAG, "Fresh app_opt install.\n");
+			}
+			return true;
+		}
+		return false;
+	}
+
+	private static void renameOldAppOpt() {
+		String moveTo = app_opt.toString();
+		Calendar now = Calendar.getInstance();
+		int version = readVersionFile();
+		if (version == 0) {
+			moveTo += ".old";
+		} else {
+			moveTo += ".build" + String.valueOf(version);
+		}
+		moveTo += "." + String.valueOf(now.getTimeInMillis());
+		log.append("Moving '" + app_opt + "' to '" + moveTo + "'\n");
+		app_opt.renameTo(new File(moveTo));
+		app_opt.mkdir(); // Android normally creates this at onCreate()
 	}
 
 	public static void chmod(String modestr, File path) {
