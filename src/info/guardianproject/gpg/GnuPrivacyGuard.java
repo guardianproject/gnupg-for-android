@@ -40,7 +40,6 @@ public class GnuPrivacyGuard extends Activity implements OnCreateContextMenuList
 	public static final String COMMAND_FINISHED = "COMMAND_FINISHED";
 
 	private CommandThread commandThread;
-	private StringBuffer log;
 	private BroadcastReceiver logUpdateReceiver;
 	private BroadcastReceiver commandFinishedReceiver;
 	public String command;
@@ -58,8 +57,6 @@ public class GnuPrivacyGuard extends Activity implements OnCreateContextMenuList
 		setContentView(R.layout.main);
 		consoleScroll = (ScrollView) findViewById(R.id.consoleScroll);
 		consoleText = (TextView) findViewById(R.id.consoleText);
-
-		log = new StringBuffer();
 	}
 
 	@Override
@@ -162,7 +159,7 @@ public class GnuPrivacyGuard extends Activity implements OnCreateContextMenuList
 	}
 
 	private void updateLog() {
-		final String logContents = log.toString();
+		final String logContents = NativeHelper.log.toString();
 		if (logContents != null && logContents.trim().length() > 0)
 			consoleText.setText(logContents);
 		consoleScroll.scrollTo(0, consoleText.getHeight());
@@ -209,7 +206,7 @@ public class GnuPrivacyGuard extends Activity implements OnCreateContextMenuList
 
 		@Override
 		public void update(String val) {
-			log.append(val);
+			NativeHelper.log.append(val);
 			sendBroadcast(new Intent(LOG_UPDATE));
 		}
 	}

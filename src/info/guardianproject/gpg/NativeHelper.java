@@ -44,6 +44,7 @@ public class NativeHelper {
 	protected static GnuPGContext gpgCtx;
 
 	private static Context context;
+	protected static StringBuffer log;
 
 	public static void setup(Context c) {
 		context = c;
@@ -68,6 +69,9 @@ public class NativeHelper {
 				"LD_LIBRARY_PATH=" + ldLibraryPath + ":" + NativeHelper.app_opt + "/lib",
 				"PATH=" + path + ":" + bin.getAbsolutePath(),
 				"app_opt=" + app_opt.getAbsolutePath() };
+
+		log = new StringBuffer();
+
 		Log.i(TAG, "Finished NativeHelper.setup()");
 	}
 
