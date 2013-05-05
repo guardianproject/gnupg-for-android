@@ -6,4 +6,11 @@
                 android:title="@string/pref_start_boot_title"
                 android:defaultValue="true"
                 android:summary="@string/pref_start_boot_summary" />
+
+        <EditTextPreference
+                android:key="pref_keyserver"
+                android:defaultValue="200.144.121.45"
+                android:title="@string/pref_keyserver_title"
+                android:summary="@string/pref_keyserver_summary" />
+
 </PreferenceScreen>

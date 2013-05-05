@@ -13,11 +13,13 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -116,8 +118,11 @@ public class GnuPrivacyGuard extends Activity implements OnCreateContextMenuList
 			alert.setTitle("Receive Key");
 			alert.setPositiveButton("Receive", new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int whichButton) {
+			        Context c = GPGApplication.getGlobalApplicationContext();
+			        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(c);
+			        String ks = prefs.getString(GPGPreferenceActivity.PREF_KEYSERVER, "200.144.121.45");
 					command = NativeHelper.gpg2
-							+ " --keyserver 200.144.121.45 --recv-keys " + input.getText().toString();
+							+ " --keyserver " + ks + " --recv-keys " + input.getText().toString();
 					commandThread = new CommandThread();
 					commandThread.start();
 				}
