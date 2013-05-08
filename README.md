@@ -2,6 +2,9 @@
 
 **A port of the whole gnupg 2.1 suite to Android.**
 
+If you are using these tools in your own apps, we'd love to hear about it. Email us
+at root@guardianproject.info.
+
 ## Using GnuPG from the Terminal
 
 Currently, this app offers the full gnupg suite of commands in the terminal.
@@ -69,15 +72,30 @@ the Android app version:
 SDK: http://developer.android.com/sdk/
 NDK: http://developer.android.com/sdk/ndk/
 
+
 ## Building
 
-Update the git submodules:
+First the get all of the source code from git:
 
-	git submodule --init update
+	git clone https://github.com/guardianproject/gnupg-for-android
+	git submodule init
+	git submodule update
 
-### How to Build the Command Line Utilities
 
-To compile the components individually you can use commands like:
+### How to build the whole app
+
+    make -C external/ distclean clean-assets
+	make -C external/
+	ndk-build clean
+	ndk-build
+	android update project --path . --name GnuPrivacyGuard
+	ant clean debug
+
+
+### How to Build Individual Components
+
+To compile the components individually you can use commands like (the order
+that you run them is important):
 
 	make -C external/ gnupg-install
 	make -C external/ gnupg-static
@@ -88,19 +106,10 @@ The results will be in `external/data/data/info.guardianproject.gpg`
 
 ### How to Build the Android Test App
 
+    make -C external/ clean-assets
 	make -C external/ android-assets
-	make -C external/ tests
 	ndk-build
-	android update project --path . --target android-8 \
-	  --name GnuPrivacyGuard
-	ant clean debug
-
-### How to Build ALL THE THINGS (You want this one)
-
-	make -C external/
-	ndk-build
-	android update project --path . --target android-8 \
-	  --name GnuPrivacyGuard
+	android update project --path . --name GnuPrivacyGuard
 	ant clean debug
 
 
