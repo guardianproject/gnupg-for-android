@@ -1,20 +1,17 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <resources>
-    <string name="app_name">GnuPrivacyGuard</string>
+    <string name="app_name">gpgcli</string>
+    <string name="app_full_name">GnuPG Command-Line</string>
     <string name="remote_service_started">gpg-agent started</string>
     <string name="remote_service_stopped">gpg-agent stopped</string>
     <string name="remote_service_label">gpg-agent</string>
-
     <string name="pinentry_service_label">gnupg pinentry daemon</string>
     <string name="pinentry_service_started">gnupg pinentry daemon running</string>
-
     <string name="enter_pin">Enter your PIN</string>
     <string name="menu_settings">Settings</string>
     <string name="title_activity_pinentry">PIN Entry</string>
-
     <string name="dialog_installing_msg">Setting up GnuPG for Android</string>
     <string name="dialog_installing_title">Native Setup</string>
-
     <string name="pref_keyserver_title">Keyserver</string>
     <string name="pref_keyserver_summary">Which keyserver to download and publish keys to (default: hkp://keys.gnupg.net)</string>
     <string name="pref_start_boot_title">Start Daemons on Boot</string>

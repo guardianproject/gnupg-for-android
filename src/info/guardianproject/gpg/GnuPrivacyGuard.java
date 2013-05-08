@@ -34,7 +34,7 @@ import com.freiheit.gnupg.GnuPGContext;
 
 
 public class GnuPrivacyGuard extends Activity implements OnCreateContextMenuListener {
-	public static final String TAG = "GnuPrivacyGuard";
+	public static final String TAG = "gpgcli";
 
 	private ScrollView consoleScroll;
 	private TextView consoleText;
