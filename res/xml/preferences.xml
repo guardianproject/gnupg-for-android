@@ -1,16 +1,15 @@
-<PreferenceScreen
-        xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
 
-        <CheckBoxPreference
-                android:key="pref_start_boot"
-                android:title="@string/pref_start_boot_title"
-                android:defaultValue="true"
-                android:summary="@string/pref_start_boot_summary" />
+    <CheckBoxPreference
+        android:defaultValue="true"
+        android:key="pref_start_boot"
+        android:summary="@string/pref_start_boot_summary"
+        android:title="@string/pref_start_boot_title" />
 
-        <EditTextPreference
-                android:key="pref_keyserver"
-                android:defaultValue="200.144.121.45"
-                android:title="@string/pref_keyserver_title"
-                android:summary="@string/pref_keyserver_summary" />
+    <EditTextPreference
+        android:defaultValue="200.144.121.45"
+        android:key="pref_keyserver"
+        android:summary="@string/pref_keyserver_summary"
+        android:title="@string/pref_keyserver_title" />
 
 </PreferenceScreen>

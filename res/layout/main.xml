@@ -8,11 +8,17 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="@string/app_name" />
-	<ScrollView android:layout_width="fill_parent"
-		android:layout_height="0dip" android:layout_weight="1"
-		android:id="@+id/consoleScroll">
-		<TextView android:layout_width="fill_parent"
-			android:layout_height="wrap_content" android:id="@+id/consoleText" />
-	</ScrollView>
-    
+
+    <ScrollView
+        android:id="@+id/consoleScroll"
+        android:layout_width="fill_parent"
+        android:layout_height="0dip"
+        android:layout_weight="1" >
+
+        <TextView
+            android:id="@+id/consoleText"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" />
+    </ScrollView>
+
 </LinearLayout>
