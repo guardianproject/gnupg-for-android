@@ -30,7 +30,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.freiheit.gnupg.GnuPGContext;
-import com.freiheit.gnupg.GnuPGKey;
+
 
 public class GnuPrivacyGuard extends Activity implements OnCreateContextMenuListener {
 	public static final String TAG = "GnuPrivacyGuard";
@@ -100,16 +100,9 @@ public class GnuPrivacyGuard extends Activity implements OnCreateContextMenuList
 			alert.setTitle("Search Keys");
 			alert.setPositiveButton("Search", new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int whichButton) {
-			        GnuPGKey[] keylist;
-			        String query = input.getText().toString();
-			        keylist = NativeHelper.gpgCtx.searchKeys(query);
-			        if( keylist == null ) {
-			        	Log.i(TAG, "menu_search_keys: null");
-			        } else {
-				        for(GnuPGKey key : keylist){
-				        	Log.i(TAG, "menu_search_keys: " + key.toString());
-				        }
-			        }
+					Intent intent = new Intent(getApplicationContext(), SearchKeysActivity.class);
+					intent.putExtra(Intent.EXTRA_TEXT, input.getText().toString());
+					startActivity(intent);
 				}
 			});
 			alert.show();
