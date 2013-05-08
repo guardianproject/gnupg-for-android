@@ -15,6 +15,7 @@ import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
@@ -134,29 +135,10 @@ public class GnuPrivacyGuard extends Activity implements OnCreateContextMenuList
 			commandThread.start();
 			Log.i(TAG, "finished " + command);
 			return true;
-		case R.id.menu_gen_key:
-			command = NativeHelper.gpg2 + "-d /data/data/info.guardianproject.gpg/app_opt/tests/pinentry/secret.gpg";
-			commandThread = new CommandThread();
-			commandThread.start();
-			Log.i(TAG, "finished " + command);
+		case R.id.menu_share_log:
+			shareTestLog();
+			Log.i(TAG, "finished menu_share_log");
 			return true;
-			/*
-			String batch = "Key-Type: DSA\nKey-Length: 1024\nSubkey-Type: ELG-E\nSubkey-Length: 1024\nName-Real: Test Key\nName-Comment: for testing only\nName-Email: test@gpg.guardianproject.info\nExpire-Date: 0\n%transient-key\n%no-protection\n%commit\n";
-			File batchfile = new File(getCacheDir(), "batch.txt");
-			try {
-				FileWriter outFile = new FileWriter(batchfile);
-				PrintWriter out = new PrintWriter(outFile);
-				out.println(batch);
-				out.close();
-			} catch (Exception e) {
-				Log.e(TAG, "Error!!!", e);
-				return false;
-			}
-			command = NativeHelper.gpg2 + " --batch --gen-key "
-					+ batchfile.getAbsolutePath();
-			commandThread = new CommandThread();
-			commandThread.start();
-			return true;*/
 		}
 		return false;
 	}
@@ -342,5 +324,32 @@ public class GnuPrivacyGuard extends Activity implements OnCreateContextMenuList
             // set the homeDir option to our custom home location
             NativeHelper.gpgCtx.setEngineInfo(NativeHelper.gpgCtx.getProtocol(), NativeHelper.gpgCtx.getFilename(), NativeHelper.app_home.getAbsolutePath());
         }
+	}
+
+	protected void shareTestLog() {
+		Intent i = new Intent(android.content.Intent.ACTION_SEND);
+		i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+		i.setType("text/plain");
+		i.putExtra(Intent.EXTRA_SUBJECT, "test log from " + getString(R.string.app_name));
+		i.putExtra(Intent.EXTRA_TEXT,
+				"Attached is an log sent by " + getString(R.string.app_name)
+						+ ".  For more info, see:\n"
+						+ "https://github.com/guardianproject/gnupg-for-android\n\n"
+						+ "manufacturer: " + Build.MANUFACTURER + "\n"
+						+ "model: " + Build.MODEL + "\n"
+						+ "product: " + Build.PRODUCT + "\n"
+						+ "brand: " + Build.BRAND + "\n"
+						+ "device: " + Build.DEVICE + "\n"
+						+ "board: " + Build.BOARD + "\n"
+						+ "ID: " + Build.ID + "\n"
+						+ "CPU ABI: " + Build.CPU_ABI + "\n"
+						+ "release: " + Build.VERSION.RELEASE + "\n"
+						+ "incremental: " + Build.VERSION.INCREMENTAL + "\n"
+						+ "codename: " + Build.VERSION.CODENAME + "\n"
+						+ "SDK: " + Build.VERSION.SDK_INT + "\n"
+						+ "\n\nlog:\n----------------------------------\n"
+						+ consoleText.getText().toString()
+						);
+		startActivity(Intent.createChooser(i, "How do you want to share?"));
 	}
 }
