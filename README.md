@@ -5,7 +5,23 @@
 If you are using these tools in your own apps, we'd love to hear about it. Email us
 at root@guardianproject.info.
 
+GNU Privacy Guard gives you access to the entire GnuPG suite of encryption
+software. GPG is GNU’s tool for end-to-end secure communication and encrypted
+data storage. This trusted protocol is the free software alternative to
+PGP. GnuPG 2.1 is the new modularized version of GnuPG that now supports
+OpenPGP and S/MIME.
+
+
+
 ## Using GnuPG from the Terminal
+
+Before using gpgcli, be sure to launch the app and let it finish its
+installation process. Once it has completed, then you're ready to use it. The
+easiest way to get started with gpgcli is to install Android Terminal
+Emulator. gpgcli will automatically configure Android Terminal Emulator as
+long as you have the "Allow PATH extensions" settings enabled. Get the Android
+Terminal Emulator at
+https://play.google.com/store/apps/details?id=jackpal.androidterm
 
 Currently, this app offers the full gnupg suite of commands in the terminal.
 When you run the GnuPG tools in an app, a GNUPGHOME folder will be created for
@@ -40,6 +56,15 @@ The technical reason why is that GnuPG uses a lot of shared libraries, and
 the only way Android has for finding shared libraries is the `LD_LIBRARY_PATH`
 environment variable.  GNU/Linux has `rpath`, Mac OS X has *install names*,
 but Android has none of this stuff.
+
+
+## Please Report Bugs
+
+This is an early release of a big project, so there will inevitable be
+bugs. Help us improve this software by filing bug reports about any problem
+that you encounter. Feature requests are also welcome!
+https://dev.guardianproject.info/projects/gpgandroid/issues
+
 
 ## Target Platform
 
