@@ -143,7 +143,8 @@ public class KeyListActivity extends BaseActivity {
         for (int i = 0; i < mListView.getCount(); ++i) {
             if (mListView.isItemChecked(i)) {
                 keys.add(mListView.getItemIdAtPosition(i));
-                userIds.add((String) mListView.getItemAtPosition(i));
+                String userId[] = (String[]) mListView.getItemAtPosition(i);
+                userIds.add(Apg.userId(userId));
             }
         }
         long selectedKeyIds[] = new long[keys.size()];

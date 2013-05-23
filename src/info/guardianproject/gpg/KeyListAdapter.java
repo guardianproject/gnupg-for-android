@@ -76,7 +76,12 @@ public class KeyListAdapter extends BaseAdapter {
     }
 
     public Object getItem(int position) {
-        return mKeyArray[position].getEmail(); // USER_ID
+        GnuPGKey key = mKeyArray[position];
+        String[] ret = new String[3];
+        ret[0] = key.getName();
+        ret[1] = key.getEmail();
+        ret[2] = key.getComment();
+        return ret;
     }
 
     public long getItemId(int position) {

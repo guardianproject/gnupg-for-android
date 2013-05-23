@@ -75,4 +75,13 @@ public class Apg {
     public static Pattern PGP_PUBLIC_KEY =
             Pattern.compile(".*?(-----BEGIN PGP PUBLIC KEY BLOCK-----.*?-----END PGP PUBLIC KEY BLOCK-----).*",
                             Pattern.DOTALL);
+
+    /**
+     * Convert the GPG user ID format to the APG userID format.
+     * @param userId as String[3] of Name, Email, Comment
+     * @return userId as single String
+     */
+    public static String userId(String[] userId) {
+        return userId[0] + " " + userId[1] + " " + userId[2];
+    }
 }
