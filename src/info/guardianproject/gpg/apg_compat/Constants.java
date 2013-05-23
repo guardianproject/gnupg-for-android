@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.thialfihar.android.apg;
+package info.guardianproject.gpg.apg_compat;
 
 import android.os.Environment;
 

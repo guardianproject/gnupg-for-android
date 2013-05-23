@@ -14,7 +14,9 @@
  * limitations under the License.
  */
 
-package org.thialfihar.android.apg;
+package info.guardianproject.gpg.apg_compat;
+
+import info.guardianproject.gpg.R;
 
 import java.util.Vector;
 
@@ -109,10 +111,6 @@ public class SelectPublicKeyListActivity extends BaseActivity {
         } else {
             mFilterLayout.setVisibility(View.VISIBLE);
             mFilterInfo.setText(getString(R.string.filterInfo, searchString));
-        }
-
-        if (mListAdapter != null) {
-            mListAdapter.cleanup();
         }
 
         mListAdapter = new SelectPublicKeyListAdapter(this, mList, searchString, selectedKeyIds);

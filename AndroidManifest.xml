@@ -66,6 +66,24 @@
                 <data android:mimeType="*/*" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".apg_compat.SelectPublicKeyListActivity"
+            android:configChanges="keyboardHidden|orientation|keyboard"
+            android:label="@string/title_selectRecipients"
+            android:launchMode="singleTop" >
+            <intent-filter>
+                <action android:name="org.thialfihar.android.apg.intent.SELECT_PUBLIC_KEYS" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable_public_keys" />
+        </activity>
 
         <service
             android:name=".GpgAgentService"
