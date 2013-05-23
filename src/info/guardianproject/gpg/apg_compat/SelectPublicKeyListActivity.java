@@ -31,7 +31,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 public class SelectPublicKeyListActivity extends BaseActivity {
-    protected ListView mList;
+    protected ListView mListView;
     protected SelectPublicKeyListAdapter mListAdapter;
     protected View mFilterLayout;
     protected Button mClearFilterButton;
@@ -44,9 +44,9 @@ public class SelectPublicKeyListActivity extends BaseActivity {
 
         setDefaultKeyMode(DEFAULT_KEYS_SEARCH_LOCAL);
 
-        mList = (ListView) findViewById(R.id.list);
+        mListView = (ListView) findViewById(R.id.list);
         // needed in Android 1.5, where the XML attribute gets ignored
-        mList.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+        mListView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
 
         Button okButton = (Button) findViewById(R.id.btn_ok);
         okButton.setOnClickListener(new OnClickListener() {
@@ -95,9 +95,9 @@ public class SelectPublicKeyListActivity extends BaseActivity {
 
         if (selectedKeyIds == null) {
             Vector<Long> vector = new Vector<Long>();
-            for (int i = 0; i < mList.getCount(); ++i) {
-                if (mList.isItemChecked(i)) {
-                    vector.add(mList.getItemIdAtPosition(i));
+            for (int i = 0; i < mListView.getCount(); ++i) {
+                if (mListView.isItemChecked(i)) {
+                    vector.add(mListView.getItemIdAtPosition(i));
                 }
             }
             selectedKeyIds = new long[vector.size()];
@@ -113,15 +113,15 @@ public class SelectPublicKeyListActivity extends BaseActivity {
             mFilterInfo.setText(getString(R.string.filterInfo, searchString));
         }
 
-        mListAdapter = new SelectPublicKeyListAdapter(this, mList, searchString, selectedKeyIds);
-        mList.setAdapter(mListAdapter);
+        mListAdapter = new SelectPublicKeyListAdapter(this, mListView, searchString, selectedKeyIds);
+        mListView.setAdapter(mListAdapter);
 
         if (selectedKeyIds != null) {
             for (int i = 0; i < mListAdapter.getCount(); ++i) {
                 long keyId = mListAdapter.getItemId(i);
                 for (int j = 0; j < selectedKeyIds.length; ++j) {
                     if (keyId == selectedKeyIds[j]) {
-                        mList.setItemChecked(i, true);
+                        mListView.setItemChecked(i, true);
                         break;
                     }
                 }
@@ -138,10 +138,10 @@ public class SelectPublicKeyListActivity extends BaseActivity {
         Intent data = new Intent();
         Vector<Long> keys = new Vector<Long>();
         Vector<String> userIds = new Vector<String>();
-        for (int i = 0; i < mList.getCount(); ++i) {
-            if (mList.isItemChecked(i)) {
-                keys.add(mList.getItemIdAtPosition(i));
-                userIds.add((String) mList.getItemAtPosition(i));
+        for (int i = 0; i < mListView.getCount(); ++i) {
+            if (mListView.isItemChecked(i)) {
+                keys.add(mListView.getItemIdAtPosition(i));
+                userIds.add((String) mListView.getItemAtPosition(i));
             }
         }
         long selectedKeyIds[] = new long[keys.size()];
