@@ -17,18 +17,11 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:singleLine="true"
+    android:background="@drawable/key_selector"
     android:paddingLeft="3dip"
     android:paddingRight="?android:attr/scrollbarSize"
     android:layout_height="?android:attr/listPreferredItemHeight"
     android:layout_width="fill_parent">
-
-    <CheckBox
-        android:id="@+id/selected"
-        android:focusable="false"
-        android:focusableInTouchMode="false"
-        android:clickable="false"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
 
     <LinearLayout
         android:orientation="vertical"

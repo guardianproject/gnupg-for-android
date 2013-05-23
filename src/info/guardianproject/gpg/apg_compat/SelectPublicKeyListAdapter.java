@@ -122,19 +122,14 @@ public class SelectPublicKeyListAdapter extends BaseAdapter {
 
         status.setText(status.getText() + " ");
 
-        CheckBox selected = (CheckBox) view.findViewById(R.id.selected);
-
         if (!enabled) {
             mParent.setItemChecked(position, false);
         }
-
-        selected.setChecked(mParent.isItemChecked(position));
 
         view.setEnabled(enabled);
         mainUserId.setEnabled(enabled);
         mainUserIdRest.setEnabled(enabled);
         keyId.setEnabled(enabled);
-        selected.setEnabled(enabled);
         status.setEnabled(enabled);
 
         return view;
