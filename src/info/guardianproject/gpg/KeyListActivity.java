@@ -16,12 +16,9 @@
 
 package info.guardianproject.gpg;
 
-import info.guardianproject.gpg.R;
 import info.guardianproject.gpg.apg_compat.Apg;
 import info.guardianproject.gpg.apg_compat.BaseActivity;
 import info.guardianproject.gpg.apg_compat.Id;
-import info.guardianproject.gpg.apg_compat.Id.menu;
-import info.guardianproject.gpg.apg_compat.Id.menu.option;
 
 import java.util.Vector;
 

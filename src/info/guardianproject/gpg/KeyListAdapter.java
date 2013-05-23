@@ -16,8 +16,6 @@
 
 package info.guardianproject.gpg;
 
-import info.guardianproject.gpg.R;
-
 import java.math.BigInteger;
 
 import android.app.Activity;
@@ -27,7 +25,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.TextView;
 

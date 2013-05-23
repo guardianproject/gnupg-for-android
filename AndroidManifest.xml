@@ -32,7 +32,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ListKeysActivity" />
         <activity android:name=".SearchKeysActivity" />
         <activity android:name=".GPGPreferenceActivity" />
         <activity
@@ -69,7 +68,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".apg_compat.SelectPublicKeyListActivity"
+            android:name=".KeyListActivity"
             android:configChanges="keyboardHidden|orientation|keyboard"
             android:label="@string/title_selectRecipients"
             android:launchMode="singleTop" >
