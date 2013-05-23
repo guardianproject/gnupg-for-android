@@ -14,9 +14,14 @@
  * limitations under the License.
  */
 
-package info.guardianproject.gpg.apg_compat;
+package info.guardianproject.gpg;
 
 import info.guardianproject.gpg.R;
+import info.guardianproject.gpg.apg_compat.Apg;
+import info.guardianproject.gpg.apg_compat.BaseActivity;
+import info.guardianproject.gpg.apg_compat.Id;
+import info.guardianproject.gpg.apg_compat.Id.menu;
+import info.guardianproject.gpg.apg_compat.Id.menu.option;
 
 import java.util.Vector;
 
@@ -30,9 +35,9 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
-public class SelectPublicKeyListActivity extends BaseActivity {
+public class KeyListActivity extends BaseActivity {
     protected ListView mListView;
-    protected SelectPublicKeyListAdapter mListAdapter;
+    protected KeyListAdapter mListAdapter;
     protected View mFilterLayout;
     protected Button mClearFilterButton;
     protected TextView mFilterInfo;
@@ -40,7 +45,7 @@ public class SelectPublicKeyListActivity extends BaseActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.select_public_key);
+        setContentView(R.layout.key_list);
 
         setDefaultKeyMode(DEFAULT_KEYS_SEARCH_LOCAL);
 
@@ -113,7 +118,7 @@ public class SelectPublicKeyListActivity extends BaseActivity {
             mFilterInfo.setText(getString(R.string.filterInfo, searchString));
         }
 
-        mListAdapter = new SelectPublicKeyListAdapter(this, mListView, searchString, selectedKeyIds);
+        mListAdapter = new KeyListAdapter(this, mListView, searchString, selectedKeyIds);
         mListView.setAdapter(mListAdapter);
 
         if (selectedKeyIds != null) {

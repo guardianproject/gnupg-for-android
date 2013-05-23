@@ -14,10 +14,8 @@
  * limitations under the License.
  */
 
-package info.guardianproject.gpg.apg_compat;
+package info.guardianproject.gpg;
 
-import info.guardianproject.gpg.GPGApplication;
-import info.guardianproject.gpg.NativeHelper;
 import info.guardianproject.gpg.R;
 
 import java.math.BigInteger;
@@ -36,7 +34,7 @@ import android.widget.TextView;
 import com.freiheit.gnupg.GnuPGContext;
 import com.freiheit.gnupg.GnuPGKey;
 
-public class SelectPublicKeyListAdapter extends BaseAdapter {
+public class KeyListAdapter extends BaseAdapter {
     protected LayoutInflater mInflater;
     protected ListView mParent;
     protected String mSearchString;
@@ -46,7 +44,7 @@ public class SelectPublicKeyListAdapter extends BaseAdapter {
     private GnuPGContext mCtx = null;
     private GnuPGKey[] mKeyArray;
 
-    public SelectPublicKeyListAdapter(Activity activity, ListView parent,
+    public KeyListAdapter(Activity activity, ListView parent,
                                       String searchString, long selectedKeyIds[]) {
         mActivity = activity;
         mParent = parent;
@@ -91,7 +89,7 @@ public class SelectPublicKeyListAdapter extends BaseAdapter {
 
     public View getView(int position, View convertView, ViewGroup parent) {
         GnuPGKey key = mKeyArray[position];
-        View view = mInflater.inflate(R.layout.select_public_key_item, null);
+        View view = mInflater.inflate(R.layout.key_list_item, null);
         boolean enabled = isEnabled(position);
 
         TextView mainUserId = (TextView) view.findViewById(R.id.mainUserId);
