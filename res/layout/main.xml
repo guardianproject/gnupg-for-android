@@ -9,6 +9,67 @@
         android:layout_height="wrap_content"
         android:text="@string/app_full_name" />
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <Button
+            android:id="@+id/select_public_keys"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="SELECT_PUBLIC_KEYS"
+            android:textSize="12sp" />
+
+        <Button
+            android:id="@+id/select_secret_key"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="SELECT_SECRET_KEY"
+            android:textSize="12sp" />
+
+        <Button
+            android:id="@+id/encrypt"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ENCRYPT"
+            android:textSize="12sp" />
+
+        <Button
+            android:id="@+id/encrypt_file"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ENCRYPT_FILE"
+            android:textSize="12sp" />
+
+        <Button
+            android:id="@+id/decrypt"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="DECRYPT"
+            android:textSize="12sp" />
+
+        <Button
+            android:id="@+id/decrypt_file"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="DECRYPT_FILE"
+            android:textSize="12sp" />
+
+        <Button
+            android:id="@+id/generate_signature"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="GENERATE_SIGNATURE"
+            android:textSize="12sp" />
+    </LinearLayout>
+
     <ScrollView
         android:id="@+id/consoleScroll"
         android:layout_width="fill_parent"

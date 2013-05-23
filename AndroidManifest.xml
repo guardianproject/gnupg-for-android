@@ -14,6 +14,8 @@
     <uses-permission android:name="jackpal.androidterm.permission.APPEND_TO_PATH" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
+    <uses-permission android:name="org.thialfihar.android.apg.permission.READ_KEY_DETAILS" />
+    
     <application
         android:name=".GPGApplication"
         android:allowBackup="false"
