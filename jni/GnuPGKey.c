@@ -8,12 +8,13 @@
 
 JNIEXPORT jlong JNICALL
 Java_com_freiheit_gnupg_GnuPGKey_gpgmeGetKey(JNIEnv * env, jobject self,
-					     jlong context, jstring fingerprint)
+                                             jlong context, jstring fingerprint,
+                                             jboolean secret)
 {
     gpgme_key_t key;
 
     const char *fpr = (*env)->GetStringUTFChars(env, fingerprint, NULL);
-    gpgme_error_t err = gpgme_get_key(CONTEXT(context), fpr, &key, 0);
+    gpgme_error_t err = gpgme_get_key(CONTEXT(context), fpr, &key, secret);
     if (UTILS_onErrorThrowException(env, err)) {
 	(*env)->ReleaseStringUTFChars(env, fingerprint, fpr);
 	return LNG(NULL);

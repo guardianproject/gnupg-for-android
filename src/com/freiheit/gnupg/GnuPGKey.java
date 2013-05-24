@@ -37,8 +37,25 @@ public class GnuPGKey extends GnuPGPeer{
          setInternalRepresentation(ptr);
     }
 
-    protected GnuPGKey(GnuPGContext context, String fingerprint){
-         setInternalRepresentation(gpgmeGetKey(context.getInternalRepresentation(), fingerprint));
+    /**
+     * Fetch a public key by its 16 hex char fingerprint String
+     *
+     * @param context - the current GnuPGContext
+     * @param fingerprint - the 16 hex char fingerprint String
+     */
+    protected GnuPGKey(GnuPGContext context, String fingerprint) {
+        setInternalRepresentation(gpgmeGetKey(context.getInternalRepresentation(), fingerprint, false));
+    }
+
+    /**
+     * Fetch a key by its 16 hex char fingerprint String
+     *
+     * @param context the current GnuPGContext
+     * @param fingerprint the 16 hex char fingerprint String
+     * @param secret_only whether to return only secret keys
+     */
+    protected GnuPGKey(GnuPGContext context, String fingerprint, boolean secret_only) {
+         setInternalRepresentation(gpgmeGetKey(context.getInternalRepresentation(), fingerprint, secret_only));
     }
 
     /**
@@ -232,7 +249,7 @@ public class GnuPGKey extends GnuPGPeer{
         destroy();
     }
 
-    private native long gpgmeGetKey(long context, String fingerprint);
+    private native long gpgmeGetKey(long context, String fingerprint, boolean secret);
     private native long gpgmeKeyUnref(long keyptr);
     private native String gpgmeGetName(long keyptr);
     private native String gpgmeGetEmail(long keyptr);
