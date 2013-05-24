@@ -98,7 +98,7 @@ JNI_OnLoad(JavaVM *vm, void *reserved)
     // TODO set locale from the JavaVM's config
     setlocale(LC_ALL, "");
     gpgme_set_global_flag("debug",
-                          "9:/data/data/info.guardianproject.gpg/app_log/gpgme.log");
+                          "1:/data/data/info.guardianproject.gpg/app_log/gpgme.log");
     const char* version = gpgme_check_version(NULL);
     gpgme_set_locale(NULL, LC_CTYPE, setlocale(LC_CTYPE, NULL));
 #ifdef LC_MESSAGES
