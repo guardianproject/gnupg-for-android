@@ -477,7 +477,8 @@ Java_com_freiheit_gnupg_GnuPGContext_gpgmeOpVerify(JNIEnv * env, jobject self,
 
 JNIEXPORT jobjectArray JNICALL
 Java_com_freiheit_gnupg_GnuPGContext_gpgmeKeylist(JNIEnv * env, jobject self,
-						  jlong context, jstring query)
+                                                  jlong context, jstring query,
+                                                  jboolean secret_only)
 {
     gpgme_error_t err;
     gpgme_key_t key;
@@ -511,7 +512,7 @@ Java_com_freiheit_gnupg_GnuPGContext_gpgmeKeylist(JNIEnv * env, jobject self,
     for (i = 0; i < 2; i++) {	//loops [0..1]
 	err = gpgme_op_keylist_start(CONTEXT(context),
 				     query_len > 0 ? (const char *)query_str : NULL,
-				     0);
+				     secret_only);
 	if (UTILS_onErrorThrowException(env, err)) {
 	    (*env)->ReleaseStringUTFChars(env, query, (const char *)query_str);
         LOGD("keylist gpgme error 1: %s\n", gpgme_strerror(err));

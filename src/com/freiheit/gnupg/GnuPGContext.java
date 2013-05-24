@@ -294,9 +294,9 @@ public class GnuPGContext extends GnuPGPeer{
     }
 
     /**
-    List all keys in keyring.
+    List all public keys in keyring.
 
-    @return GnuPGKey array of key objects with all keys
+    @return GnuPGKey array of key objects with all public keys
 
     @see com.freiheit.gnupg.GnuPGKey
   */
@@ -304,8 +304,19 @@ public class GnuPGContext extends GnuPGPeer{
 		 return searchKeys("");
 	 }
 
+	 /**
+	    List all secret keys in keyring.
+
+	    @return GnuPGKey array of key objects with all secret keys
+
+	    @see com.freiheit.gnupg.GnuPGKey
+	  */
+	 public GnuPGKey[] listSecretKeys() throws GnuPGException{
+		 return searchSecretKeys("");
+	 }
+
     /**
-       Find all keys matching <em>query</em> in keyring.
+       Find all public keys matching <em>query</em> in keyring.
 
        @param query allows the same expressions as gpg on command line
        @return GnuPGKey array of key objects with all matching keys
@@ -316,7 +327,22 @@ public class GnuPGContext extends GnuPGPeer{
         if (query == null ) {
             query = new String("");
         }
-        return gpgmeKeylist(getInternalRepresentation(), query);
+        return gpgmeKeylist(getInternalRepresentation(), query, false);
+    }
+
+    /**
+       Find all keys matching <em>query</em> in keyring.
+
+       @param query allows the same expressions as gpg on command line
+       @return GnuPGKey array of key objects with all matching keys
+
+       @see com.freiheit.gnupg.GnuPGKey
+     */
+    public GnuPGKey[] searchSecretKeys(String query) throws GnuPGException{
+        if (query == null ) {
+            query = new String("");
+        }
+        return gpgmeKeylist(getInternalRepresentation(), query, true);
     }
 
     /**
@@ -534,7 +560,7 @@ public class GnuPGContext extends GnuPGPeer{
     private native void gpgmeOpDecryptVerify(long context, long cipher, long plain);
     private native void gpgmeOpSign(long context, long l, long m);
     private native void gpgmeOpVerify(long context, long l, long m, long n);
-    private native GnuPGKey[] gpgmeKeylist(long l, String query);
+    private native GnuPGKey[] gpgmeKeylist(long l, String query, boolean secret_only);
     private native void gpgmeAddSigners(long l, long m);
     private native void gpgmeClearSigners(long context);
     private native void gpgmeOpImport(long context, long l);
