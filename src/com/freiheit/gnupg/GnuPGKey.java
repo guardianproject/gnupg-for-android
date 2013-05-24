@@ -123,6 +123,10 @@ public class GnuPGKey extends GnuPGPeer{
         return gpgmeIsSecret(getInternalRepresentation());
     }
 
+    public boolean hasSecretKey() {
+        return gpgmeHasSecretKey(getInternalRepresentation());
+    }
+
     /**
        Lists all signatures of the default key/userid.
        Every key can have multiple signatures. Signatures can
@@ -247,6 +251,7 @@ public class GnuPGKey extends GnuPGPeer{
     private native boolean gpgmeIsInvalid(long keyptr);
     private native boolean gpgmeIsQualified(long keyptr);
     private native boolean gpgmeIsSecret(long keyptr);
+    private native boolean gpgmeHasSecretKey(long keyptr);
 
 }
 /*

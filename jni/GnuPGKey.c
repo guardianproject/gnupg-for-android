@@ -158,6 +158,18 @@ Java_com_freiheit_gnupg_GnuPGKey_gpgmeIsSecret(JNIEnv * env, jobject self,
     return (KEY(key))->secret;
 }
 
+JNIEXPORT jboolean JNICALL
+Java_com_freiheit_gnupg_GnuPGKey_gpgmeHasSecretKey(JNIEnv * env, jobject self,
+						   jlong key)
+{
+    jboolean hasSecretKey = 0;
+    gpgme_subkey_t subkey;
+    for(subkey = KEY(key)->subkeys; subkey; subkey = subkey->next)
+        if (subkey->secret)
+            return 1;
+    return 0;
+}
+
 /* void */
 /* setMembers(JNIEnv *env, jobject self, gpgme_key_t key){ */
 /*   jclass cls = (*env)->GetObjectClass(env, self); */
