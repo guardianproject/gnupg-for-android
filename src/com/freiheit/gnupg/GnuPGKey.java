@@ -83,6 +83,46 @@ public class GnuPGKey extends GnuPGPeer{
         return gpgmeGetUserID(getInternalRepresentation());
     }
 
+    public boolean canEncrypt() {
+        return gpgmeCanEncrypt(getInternalRepresentation());
+    }
+
+    public boolean canSign() {
+        return gpgmeCanSign(getInternalRepresentation());
+    }
+
+    public boolean canCertify() {
+        return gpgmeCanCertify(getInternalRepresentation());
+    }
+
+    public boolean canAuthenticate() {
+        return gpgmeCanAuthenticate(getInternalRepresentation());
+    }
+
+    public boolean isRevoked() {
+        return gpgmeIsRevoked(getInternalRepresentation());
+    }
+
+    public boolean isExpired() {
+        return gpgmeIsExpired(getInternalRepresentation());
+    }
+
+    public boolean isDisabled() {
+        return gpgmeIsDisabled(getInternalRepresentation());
+    }
+
+    public boolean isInvalid() {
+        return gpgmeIsInvalid(getInternalRepresentation());
+    }
+
+    public boolean isQualified() {
+        return gpgmeIsQualified(getInternalRepresentation());
+    }
+
+    public boolean isSecret() {
+        return gpgmeIsSecret(getInternalRepresentation());
+    }
+
     /**
        Lists all signatures of the default key/userid.
        Every key can have multiple signatures. Signatures can
@@ -197,6 +237,17 @@ public class GnuPGKey extends GnuPGPeer{
     private native String gpgmeGetComment(long keyptr);
     private native String gpgmeGetUserID(long keyptr);
     private native long gpgmeGetSignature(long keyptr);
+    private native boolean gpgmeCanEncrypt(long keyptr);
+    private native boolean gpgmeCanSign(long keyptr);
+    private native boolean gpgmeCanCertify(long keyptr);
+    private native boolean gpgmeCanAuthenticate(long keyptr);
+    private native boolean gpgmeIsRevoked(long keyptr);
+    private native boolean gpgmeIsExpired(long keyptr);
+    private native boolean gpgmeIsDisabled(long keyptr);
+    private native boolean gpgmeIsInvalid(long keyptr);
+    private native boolean gpgmeIsQualified(long keyptr);
+    private native boolean gpgmeIsSecret(long keyptr);
+
 }
 /*
  * Local variables:

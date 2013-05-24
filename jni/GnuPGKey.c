@@ -81,12 +81,81 @@ Java_com_freiheit_gnupg_GnuPGKey_gpgmeGetUserID(JNIEnv * env, jobject self,
     return str;
 }
 
-
 JNIEXPORT jlong JNICALL
 Java_com_freiheit_gnupg_GnuPGKey_gpgmeGetSignature(JNIEnv * env, jobject self,
 						   jlong key)
 {
     return LNG((KEY(key))->uids->signatures);
+}
+
+JNIEXPORT jboolean JNICALL
+Java_com_freiheit_gnupg_GnuPGKey_gpgmeCanEncrypt(JNIEnv * env, jobject self,
+						   jlong key)
+{
+    return (KEY(key))->can_encrypt;
+}
+
+JNIEXPORT jboolean JNICALL
+Java_com_freiheit_gnupg_GnuPGKey_gpgmeCanSign(JNIEnv * env, jobject self,
+						   jlong key)
+{
+    return (KEY(key))->can_sign;
+}
+
+JNIEXPORT jboolean JNICALL
+Java_com_freiheit_gnupg_GnuPGKey_gpgmeCanCerify(JNIEnv * env, jobject self,
+						   jlong key)
+{
+    return (KEY(key))->can_certify;
+}
+
+JNIEXPORT jboolean JNICALL
+Java_com_freiheit_gnupg_GnuPGKey_gpgmeCanAuthenticate(JNIEnv * env, jobject self,
+						   jlong key)
+{
+    return (KEY(key))->can_authenticate;
+}
+
+JNIEXPORT jboolean JNICALL
+Java_com_freiheit_gnupg_GnuPGKey_gpgmeIsRevoked(JNIEnv * env, jobject self,
+						   jlong key)
+{
+    return (KEY(key))->revoked;
+}
+
+JNIEXPORT jboolean JNICALL
+Java_com_freiheit_gnupg_GnuPGKey_gpgmeIsExpired(JNIEnv * env, jobject self,
+						   jlong key)
+{
+    return (KEY(key))->expired;
+}
+
+JNIEXPORT jboolean JNICALL
+Java_com_freiheit_gnupg_GnuPGKey_gpgmeIsDisabled(JNIEnv * env, jobject self,
+						   jlong key)
+{
+    return (KEY(key))->disabled;
+}
+
+JNIEXPORT jboolean JNICALL
+Java_com_freiheit_gnupg_GnuPGKey_gpgmeIsInvalid(JNIEnv * env, jobject self,
+						   jlong key)
+{
+    return (KEY(key))->invalid;
+}
+
+JNIEXPORT jboolean JNICALL
+Java_com_freiheit_gnupg_GnuPGKey_gpgmeIsQualified(JNIEnv * env, jobject self,
+						   jlong key)
+{
+    return (KEY(key))->is_qualified;
+}
+
+JNIEXPORT jboolean JNICALL
+Java_com_freiheit_gnupg_GnuPGKey_gpgmeIsSecret(JNIEnv * env, jobject self,
+						   jlong key)
+{
+    return (KEY(key))->secret;
 }
 
 /* void */
