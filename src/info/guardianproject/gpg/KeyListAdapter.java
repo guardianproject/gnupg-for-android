@@ -41,7 +41,7 @@ public class KeyListAdapter extends BaseAdapter {
     private GnuPGContext mCtx = null;
     private GnuPGKey[] mKeyArray;
 
-    public KeyListAdapter(Activity activity, ListView parent,
+    public KeyListAdapter(Activity activity, ListView parent, String action,
                                       String searchString, long selectedKeyIds[]) {
         mActivity = activity;
         mParent = parent;

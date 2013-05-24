@@ -28,6 +28,8 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -47,8 +49,24 @@ public class KeyListActivity extends BaseActivity {
         setDefaultKeyMode(DEFAULT_KEYS_SEARCH_LOCAL);
 
         mListView = (ListView) findViewById(R.id.list);
-        // needed in Android 1.5, where the XML attribute gets ignored
-        mListView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+        String action = getIntent().getAction();
+        if (action == null || action.equals(""))
+            mListView.setChoiceMode(ListView.CHOICE_MODE_NONE);
+        else if (action.equals(Apg.Intent.SELECT_PUBLIC_KEYS))
+            mListView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+        else if (action.equals(Apg.Intent.SELECT_SECRET_KEY)) {
+            mListView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+            mListView.setOnItemClickListener(new OnItemClickListener() {
+                public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                    Intent data = new Intent();
+                    String[] userId = (String[])mListView.getItemAtPosition(position);
+                    data.putExtra(Apg.EXTRA_KEY_ID, id);
+                    data.putExtra(Apg.EXTRA_USER_ID, Apg.userId(userId));
+                    setResult(RESULT_OK, data);
+                    finish();
+                }
+            });
+        }
 
         Button okButton = (Button) findViewById(R.id.btn_ok);
         okButton.setOnClickListener(new OnClickListener() {
@@ -115,7 +133,8 @@ public class KeyListActivity extends BaseActivity {
             mFilterInfo.setText(getString(R.string.filterInfo, searchString));
         }
 
-        mListAdapter = new KeyListAdapter(this, mListView, searchString, selectedKeyIds);
+        mListAdapter = new KeyListAdapter(this, mListView, getIntent().getAction(),
+                searchString, selectedKeyIds);
         mListView.setAdapter(mListAdapter);
 
         if (selectedKeyIds != null) {
