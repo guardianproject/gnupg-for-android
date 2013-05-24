@@ -17,6 +17,14 @@
     <string name="pref_start_boot_title">Start Daemons on Boot</string>
     <string name="pref_start_boot_summary">Starts the pinentry and gnupg daemons when your device boots</string>
 
+    <!-- key status terms -->
+    <string name="usable">usable</string>
+    <string name="disabled">disabled</string>
+    <string name="expired">expired</string>
+    <string name="invalid">invalid</string>
+    <string name="revoked">revoked</string>
+    <string name="noKey">&lt;no key&gt;</string>
+
     <!-- menu item names -->
     <string name="menu_about">About</string>
     <string name="menu_search">Search</string>
@@ -26,10 +34,7 @@
     <string name="error_activity_not_found">No suitable application for this action found.</string>
 
     <!-- APG messages -->
-    <string name="noKey">&lt;no key&gt;</string>
     <string name="unknownStatus"></string>
-    <string name="canEncrypt">can encrypt</string>
-    <string name="expired">expired</string>
     <string name="hint_publicKeys">Search Public Keys</string>
     <string name="filterInfo">Filter: \"%s\"</string>
     <string name="btn_clearFilter">Clear Filter</string>

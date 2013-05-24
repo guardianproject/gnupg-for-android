@@ -16,6 +16,8 @@
 
 package info.guardianproject.gpg;
 
+import info.guardianproject.gpg.apg_compat.Apg;
+
 import java.math.BigInteger;
 
 import android.app.Activity;
@@ -53,17 +55,23 @@ public class KeyListAdapter extends BaseAdapter {
         mCtx = new GnuPGContext();
         // set the homeDir option to our custom home location
         mCtx.setEngineInfo(mCtx.getProtocol(), mCtx.getFilename(),
-        		NativeHelper.app_home.getAbsolutePath());
-        mKeyArray = mCtx.listKeys();
-		if (mKeyArray == null) {
-			Log.e(GPGApplication.TAG, "keyArray is null");
-		}
+                NativeHelper.app_home.getAbsolutePath());
+        if (action == null || !action.equals(Apg.Intent.SELECT_SECRET_KEY))
+            mKeyArray = mCtx.listKeys();
+        else
+            mKeyArray = mCtx.listSecretKeys();
+        if (mKeyArray == null) {
+            Log.e(GPGApplication.TAG, "keyArray is null");
+        }
     }
 
     @Override
     public boolean isEnabled(int position) {
-// TODO this should check whether the key is valid for use, eg. not expired, revoked, etc.
-        return true;
+        GnuPGKey key = mKeyArray[position];
+        return (!key.isDisabled()
+                && !key.isExpired()
+                && !key.isRevoked()
+                && !key.isInvalid());
     }
 
     @Override
@@ -92,7 +100,7 @@ public class KeyListAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         GnuPGKey key = mKeyArray[position];
         View view = mInflater.inflate(R.layout.key_list_item, null);
-        boolean enabled = isEnabled(position);
+        boolean usable = isEnabled(position);
 
         TextView mainUserId = (TextView) view.findViewById(R.id.mainUserId);
         TextView mainUserIdRest = (TextView) view.findViewById(R.id.mainUserIdRest);
@@ -108,29 +116,30 @@ public class KeyListAdapter extends BaseAdapter {
             mainUserIdRest.setVisibility(View.GONE);
         }
 
-        if (enabled) {
-            status.setText(R.string.canEncrypt);
-        } else {
-        	// TODO handle this logic
-            if (0 > 0) {
-                // has some CAN_ENCRYPT keys, but col(4) = 0, so must be revoked or expired
-                status.setText(R.string.expired);
-            } else {
-                status.setText(R.string.noKey);
-            }
-        }
+        if (usable)
+            status.setText(R.string.usable);
+        else if (key.isDisabled())
+            status.setText(R.string.disabled);
+        else if (key.isExpired())
+            status.setText(R.string.expired);
+        else if (key.isInvalid())
+            status.setText(R.string.invalid);
+        else if (key.isRevoked())
+            status.setText(R.string.revoked);
+        else
+            status.setText(R.string.noKey);
 
         status.setText(status.getText() + " ");
 
-        if (!enabled) {
+        if (!usable) {
             mParent.setItemChecked(position, false);
         }
 
-        view.setEnabled(enabled);
-        mainUserId.setEnabled(enabled);
-        mainUserIdRest.setEnabled(enabled);
-        keyId.setEnabled(enabled);
-        status.setEnabled(enabled);
+        view.setEnabled(usable);
+        mainUserId.setEnabled(usable);
+        mainUserIdRest.setEnabled(usable);
+        keyId.setEnabled(usable);
+        status.setEnabled(usable);
 
         return view;
     }
