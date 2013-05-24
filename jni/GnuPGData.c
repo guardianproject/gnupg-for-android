@@ -1,7 +1,7 @@
 #include <jni.h>
 #include <stdio.h>
 
-#include "com_freiheit_gnupg_GnuPGData.h"
+
 #include "gpgmeutils.h"
 
 #include <gpgme.h>

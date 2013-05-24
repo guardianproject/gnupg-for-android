@@ -7,7 +7,7 @@
 #include <gpg-error.h>
 #include <gpgme.h>
 
-#include "com_freiheit_gnupg_GnuPGContext.h"
+
 #include "gpgmeutils.h"
 
 #include <android/log.h>

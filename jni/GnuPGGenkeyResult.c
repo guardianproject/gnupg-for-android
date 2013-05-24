@@ -1,6 +1,6 @@
 #include <jni.h>
 #include <stdio.h>
-#include "com_freiheit_gnupg_GnuPGGenkeyResult.h"
+
 #include "gpgmeutils.h"
 
 #include <gpgme.h>
