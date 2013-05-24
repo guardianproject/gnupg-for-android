@@ -197,21 +197,39 @@ public class GnuPGContext extends GnuPGPeer{
     }
 
     /**
-       Gets the key with the supplied fingerprint from the keyring.
+       Gets the public key with the supplied fingerprint from the keyring.
        This is also kind of a factory method to generate key objects,
        because you always need a context to access the keys in your keyring.
 
-       @param fingerprint gpg fingerprint (must be in your keyring)
-       @return GnuPGKey the key with the matching fingerprint
+       @param fingerprint 16 char hex fingerprint of key in your keyring
+       @return GnuPGKey the public key that matches the fingerprint
 
        @see com.freiheit.gnupg.GnuPGKey
      */
-    public GnuPGKey getKeyByFingerprint(String fingerprint) throws GnuPGException{
+    public GnuPGKey getKeyByFingerprint(String fingerprint) throws GnuPGException {
         if(fingerprint == null || fingerprint.length() < 1) {
             return null;
+        } else {
+            return new GnuPGKey(this, fingerprint, false);
         }
-        else{
-            return new GnuPGKey(this, fingerprint);
+    }
+
+    /**
+       Gets the secret key with the supplied fingerprint from the keyring.
+       This is also kind of a factory method to generate secret key objects,
+       because you always need a context to access the keys in your keyring.
+
+       @param fingerprint 16 char hex fingerprint of key in your keyring
+       @return GnuPGKey the secret key that matches the fingerprint
+
+       @see com.freiheit.gnupg.GnuPGKey
+     */
+    public GnuPGKey getSecretKeyByFingerprint(String fingerprint)
+            throws GnuPGException {
+        if(fingerprint == null || fingerprint.length() < 1) {
+            return null;
+        } else {
+            return new GnuPGKey(this, fingerprint, true);
         }
     }
 
