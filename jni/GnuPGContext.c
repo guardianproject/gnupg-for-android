@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <unistd.h>
+#include <stdlib.h>
 
 #include <locale.h>
 #include <gpg-error.h>
@@ -27,7 +28,7 @@ passphrase_cb(void *hook, const char *uid_hint, const char *passphrase_info,
     }
 
     JNIEnv *env;
-    (*_jvm)->AttachCurrentThread(_jvm, (void **) &env, NULL);
+    (*_jvm)->AttachCurrentThread(_jvm, &env, NULL);
 
     jclass cls = (*env)->GetObjectClass(env, self);
 
@@ -485,8 +486,8 @@ Java_com_freiheit_gnupg_GnuPGContext_gpgmeKeylist(JNIEnv * env, jobject self,
     jobject keyObj = NULL;
 
     //copy string object from java to native string
-    const jsize *query_len = (*env)->GetStringLength(env, query);
-    LOGD("query length %d\n", (int) query_len);
+    const jsize query_len = (*env)->GetStringLength(env, query);
+    LOGD("query length %d\n", query_len);
     const jbyte *query_str = (jbyte *)(*env)->GetStringUTFChars(env, query,
 								NULL);
     //get the right constructor to invoke for every key in result set
@@ -509,7 +510,7 @@ Java_com_freiheit_gnupg_GnuPGContext_gpgmeKeylist(JNIEnv * env, jobject self,
     int j = 0;			//index in result array, used only in second loop run...
     for (i = 0; i < 2; i++) {	//loops [0..1]
 	err = gpgme_op_keylist_start(CONTEXT(context),
-				     (int)query_len > 0 ? (const char *)query_str : NULL,
+				     query_len > 0 ? (const char *)query_str : NULL,
 				     0);
 	if (UTILS_onErrorThrowException(env, err)) {
 	    (*env)->ReleaseStringUTFChars(env, query, (const char *)query_str);
