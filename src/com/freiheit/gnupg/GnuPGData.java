@@ -99,11 +99,11 @@ public class GnuPGData extends GnuPGPeer{
     /**
        Helper method to print out the data/string from this data object.
 
-       @return String representation of the data contained in this data object (expect weired results with binary data)
+       @return String representation of the data contained in this data object (expect weird results with binary data)
      */
     public String toString(){
         String result = null;
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        ByteArrayOutputStream baos = new ByteArrayOutputStream(this.size());
         try{
             this.write(baos);
             result = baos.toString();
@@ -135,6 +135,11 @@ public class GnuPGData extends GnuPGPeer{
         destroy();
     }
 
+    public int size() {
+        return gpgmeSize(getInternalRepresentation());
+    }
+
+    private native int gpgmeSize(long l);
     private native long gpgmeDataNewFromMem(byte[] plain);
     private native long gpgmeDataNew();
     private native void gpgmeDataWrite(long l, OutputStream out) throws IOException;

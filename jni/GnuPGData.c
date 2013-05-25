@@ -5,8 +5,16 @@
 #include "gpgmeutils.h"
 
 #include <gpgme.h>
+#include <data.h>
 
 #define BUFSIZE 1024
+
+
+JNIEXPORT jsize JNICALL
+Java_com_freiheit_gnupg_GnuPGData_gpgmeSize(JNIEnv * env, jobject self, jlong data)
+{
+    return (jsize) (DATA(data))->data.mem.size;
+}
 
 JNIEXPORT jlong JNICALL
 Java_com_freiheit_gnupg_GnuPGData_gpgmeDataNewFromMem(JNIEnv * env,
