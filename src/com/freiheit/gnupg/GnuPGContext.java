@@ -115,8 +115,7 @@ public class GnuPGContext extends GnuPGPeer{
        @return boolean true if results will be ASCII armored, if false binary
      */
     public boolean isArmor(){
-        long armorState = gpgmeGetArmor(getInternalRepresentation());
-        return (armorState == 1);
+        return gpgmeGetArmor(getInternalRepresentation());
     }
 
     /**
@@ -126,9 +125,8 @@ public class GnuPGContext extends GnuPGPeer{
 
        @param state set true if results should be ASCII armored, set false if binary
      */
-    public void setArmor(boolean state){
-        long armorState = (state ? 1 : 0);
-        gpgmeSetArmor(getInternalRepresentation(), armorState);
+    public void setArmor(boolean state) {
+        gpgmeSetArmor(getInternalRepresentation(), state);
     }
 
     /**
@@ -137,24 +135,27 @@ public class GnuPGContext extends GnuPGPeer{
 
        @return boolean true means text mode is on
      */
-    public boolean isTextmode(){
-        boolean result = false;
-        long mode = gpgmeGetTextmode(getInternalRepresentation());
-        if(mode == 1){
-            result = true;
-        }
-        return result;
+    public boolean isTextmode() {
+        return gpgmeGetTextmode(getInternalRepresentation());
     }
 
+    /**
+       Get the current text mode from the gpg engine.
+       Please check GPG/GPGME for documentation if you don't know what this means.
+
+       @return boolean if textmode is currently enabled
+     */
+    public boolean getTextmode(){
+        return gpgmeGetTextmode(getInternalRepresentation());
+    }
     /**
        Tell the gpg engine to set the text mode.
        Please check GPG/GPGME for documentation if you don't know what this means.
 
        @param state set true if you want text mode switched on
      */
-    public void setTextmode(boolean state){
-        long mode = (state ? 1 : 0);
-        gpgmeSetTextmode(getInternalRepresentation(), mode);
+    public void setTextmode(boolean state) {
+        gpgmeSetTextmode(getInternalRepresentation(), state);
     }
 
     /**
@@ -571,10 +572,10 @@ public class GnuPGContext extends GnuPGPeer{
     private native void gpgmeOpDelete(long context, long l, boolean allowSecret);
 
     //getters/setters for members, no caching, always direct access to gpgme
-    private native long gpgmeGetArmor(long l);
-    private native void gpgmeSetArmor(long l, long state);
-    private native long gpgmeGetTextmode(long l);
-    private native void gpgmeSetTextmode(long l, long state);
+    private native boolean gpgmeGetArmor(long l);
+    private native void gpgmeSetArmor(long l, boolean state);
+    private native boolean gpgmeGetTextmode(long l);
+    private native void gpgmeSetTextmode(long l, boolean state);
 
 }
 
