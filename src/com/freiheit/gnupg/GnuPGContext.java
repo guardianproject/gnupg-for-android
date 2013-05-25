@@ -14,7 +14,10 @@
 
 package com.freiheit.gnupg;
 
-import android.util.Log;
+import java.io.BufferedOutputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+
 
 /**
    Start here, because for all operations, you first need to create a
@@ -347,23 +350,181 @@ public class GnuPGContext extends GnuPGPeer{
     }
 
     /**
-       Encrypts the data from <em>plain</em> with the public key
-       of each recipient. The result is stored in <em>cipher</em>.
+     * Encrypt plain text and return ASCII-armored text.
+     *
+     * @param recipients array of keys to encrypt to
+     * @param plain the plain text to be encrypted
+     * @return String encrypted data in ASCII-armored text
+     */
+    public String encryptToAscii(GnuPGKey[] recipients, String plain) {
+    	final GnuPGData plainData = createDataObject(plain);
+    	final String ret = encryptToAscii(recipients, plainData);
+    	plainData.destroy();
+    	return ret;
+    }
 
-       @param recipients Array with the public keys of all recipients
-       @param plain text, that should be encrypted
-       @param cipher text, the encrypted plain text after method call
+    /**
+     * Encrypt a byte array and return ASCII-armored text.
+     *
+     * @param recipients array of keys to encrypt to
+     * @param plain the byte[] to be encrypted
+     * @return String encrypted data in ASCII-armored text
+     */
+    public String encryptToAscii(GnuPGKey[] recipients, byte[] plain) {
+    	final GnuPGData plainData = createDataObject(plain);
+    	final String ret = encryptToAscii(recipients, plainData);
+    	plainData.destroy();
+    	return ret;
+    }
+
+    /**
+     * Encrypt plain text and return ASCII-armored text.
+     *
+     * @param recipients array of keys to encrypt to
+     * @param plain the GnuPGData to be encrypted
+     * @return String encrypted data in ASCII-armored text
+     */
+    public String encryptToAscii(GnuPGKey[] recipients, GnuPGData plain) {
+    	long l = getInternalRepresentation();
+    	boolean previous = gpgmeGetArmor(l);
+    	gpgmeSetArmor(l, true);
+    	GnuPGData cipher = createDataObject();
+    	encrypt(recipients, plain, cipher);
+    	final String ret = cipher.toString();
+    	cipher.destroy();
+    	if (previous == false) // maintain the original ASCII-Armor state
+    		gpgmeSetArmor(l, false);
+    	return ret;
+    }
+
+    /**
+     * Encrypt a byte array and return encrypted data in binary form.
+     *
+     * @param recipients array of keys to encrypt to
+     * @param plain the plain binary data to be encrypted
+     * @return byte[] encrypted data in binary data
+     */
+    public byte[] encryptToBinary(GnuPGKey[] recipients, byte[] plain) {
+    	final GnuPGData plainData = createDataObject(plain);
+    	final byte[] ret = encryptToBinary(recipients, plainData);
+    	plainData.destroy();
+    	return ret;
+    }
+
+    /**
+     * Encrypt plain text and return encrypted data in binary form.
+     *
+     * @param recipients array of keys to encrypt to
+     * @param plain the plain text to be encrypted
+     * @return byte[] encrypted data in binary data
+     */
+    public byte[] encryptToBinary(GnuPGKey[] recipients, String plain) {
+    	final GnuPGData plainData = createDataObject(plain);
+    	final byte[] ret = encryptToBinary(recipients, plainData);
+    	plainData.destroy();
+    	return ret;
+    }
+
+    /**
+     * Encrypt plain data and return encrypted data in binary form.
+     *
+     * @param recipients array of keys to encrypt to
+     * @param plain the GnuPGData to be encrypted
+     * @return String encrypted data in ASCII-armored text
+     */
+    public byte[] encryptToBinary(GnuPGKey[] recipients, GnuPGData plain) {
+    	long l = getInternalRepresentation();
+    	boolean previous = gpgmeGetArmor(l);
+    	gpgmeSetArmor(l, true);
+    	GnuPGData cipher = createDataObject();
+    	encrypt(recipients, plain, cipher);
+    	ByteArrayOutputStream baos = new ByteArrayOutputStream(plain.size());
+    	BufferedOutputStream out = new BufferedOutputStream(baos, 8192);
+    	try {
+    		cipher.write(out);
+    	} catch (IOException e) {
+    		e.printStackTrace();
+    	}
+    	cipher.destroy();
+    	if (previous == false) // maintain the original ASCII-Armor state
+    		gpgmeSetArmor(l, false);
+    	return baos.toByteArray();
+    }
+    
+    /**
+       Encrypts the text in <em>plain</em> with the public key
+       of each recipient. The result is returned as GnuPGData.
+
+       @param recipients array of the keys to encrypt to
+       @param plain bytes to be encrypted
+       @return GnuPGData the encrypted data
 
        @see com.freiheit.gnupg.GnuPGData
        @see com.freiheit.gnupg.GnuPGKey
      */
-    public void encrypt(GnuPGKey[] recipients, GnuPGData plain, GnuPGData cipher) throws GnuPGException{
-        if (hasNoRecipients(recipients) || plain == null || cipher == null) throw new GnuPGException("Encryption-Arguments not complete.");
+    public GnuPGData encrypt(GnuPGKey[] recipients, byte[] plain)
+    		throws GnuPGException{
+        if (hasNoRecipients(recipients) || plain == null || plain.length == 0)
+        	throw new GnuPGException("Encryption arguments not complete.");
 
-        // note that these are pointers to addresses in the javagnupg shared lib
-        long recipientsInternals[] = getInternalRepresentationFromRecipients(recipients);
-        gpgmeOpEncrypt(this.getInternalRepresentation(), recipientsInternals,
-                       plain.getInternalRepresentation(), cipher.getInternalRepresentation());
+        final GnuPGData plainData = createDataObject(plain);
+        GnuPGData cipherData = createDataObject();
+        
+        gpgmeOpEncrypt(this.getInternalRepresentation(),
+        		getInternalRepresentationFromRecipients(recipients),
+        		plainData.getInternalRepresentation(),
+        		cipherData.getInternalRepresentation());
+        plainData.destroy();
+        return cipherData;
+    }
+
+    /**
+       Encrypts the text in <em>plain</em> with the public key
+       of each recipient. The result is returned as GnuPGData.
+
+       @param recipients array of the keys to encrypt to
+       @param plain the text to be encrypted
+       @return GnuPGData the encrypted data
+
+       @see com.freiheit.gnupg.GnuPGData
+       @see com.freiheit.gnupg.GnuPGKey
+     */
+    public GnuPGData encrypt(GnuPGKey[] recipients, String plain)
+    		throws GnuPGException{
+        if (hasNoRecipients(recipients) || plain == null || plain.equals(""))
+        	throw new GnuPGException("Encryption arguments not complete.");
+
+        final GnuPGData plainData = createDataObject(plain);
+        GnuPGData cipherData = createDataObject();
+        
+        gpgmeOpEncrypt(this.getInternalRepresentation(),
+        		getInternalRepresentationFromRecipients(recipients),
+        		plainData.getInternalRepresentation(),
+        		cipherData.getInternalRepresentation());
+        plainData.destroy();
+        return cipherData;
+    }
+
+    /**
+    Encrypts the data from <em>plain</em> with the public key
+    of each recipient. The result is stored in <em>cipher</em>.
+
+    @param recipients Array with the public keys of all recipients
+    @param plain text, that should be encrypted
+    @param cipher text, the encrypted plain text after method call
+
+    @see com.freiheit.gnupg.GnuPGData
+    @see com.freiheit.gnupg.GnuPGKey
+     */
+    public void encrypt(GnuPGKey[] recipients, GnuPGData plain, GnuPGData cipher) throws GnuPGException{
+    	if (hasNoRecipients(recipients) || plain == null || cipher == null)
+    		throw new GnuPGException("Encryption arguments not complete.");
+
+    	// note that these are pointers to addresses in the javagnupg shared lib
+    	gpgmeOpEncrypt(this.getInternalRepresentation(),
+    			getInternalRepresentationFromRecipients(recipients),
+    			plain.getInternalRepresentation(),
+    			cipher.getInternalRepresentation());
     }
 
     /*
