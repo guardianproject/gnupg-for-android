@@ -3,9 +3,6 @@
 
     <string name="app_name">gpgcli</string>
     <string name="app_full_name">GnuPG Command-Line</string>
-    <string name="remote_service_started">gpg-agent started</string>
-    <string name="remote_service_stopped">gpg-agent stopped</string>
-    <string name="remote_service_label">gpg-agent</string>
     <string name="pinentry_service_label">gnupg pinentry daemon</string>
     <string name="pinentry_service_started">gnupg pinentry daemon running</string>
     <string name="enter_pin">Enter your PIN</string>

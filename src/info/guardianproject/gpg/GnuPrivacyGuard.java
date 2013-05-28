@@ -10,18 +10,15 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
 import android.content.BroadcastReceiver;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.IBinder;
 import android.os.Message;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -39,7 +36,6 @@ import android.widget.Toast;
 
 import com.freiheit.gnupg.GnuPGContext;
 
-
 public class GnuPrivacyGuard extends Activity implements OnCreateContextMenuListener {
 	public static final String TAG = "gpgcli";
 
@@ -53,8 +49,6 @@ public class GnuPrivacyGuard extends Activity implements OnCreateContextMenuList
 	private BroadcastReceiver logUpdateReceiver;
 	private BroadcastReceiver commandFinishedReceiver;
 	public String command;
-
-	boolean mIsBound;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -75,13 +69,12 @@ public class GnuPrivacyGuard extends Activity implements OnCreateContextMenuList
 	protected void onResume() {
 		super.onResume();
 		registerReceivers();
-		doBindService();
+		startGpgAgent();
 	}
 
 	@Override
 	protected void onPause() {
 		super.onPause();
-		doUnbindService();
 		unregisterReceivers();
 	}
 
@@ -238,6 +231,15 @@ public class GnuPrivacyGuard extends Activity implements OnCreateContextMenuList
 		os.write((command + "\n").getBytes("ASCII"));
 	}
 
+	private void startGpgAgent() {
+		File gpgAgentSocket = new File(NativeHelper.app_home, "S.gpg-agent");
+		// gpg-agent is not running, start it
+		if (!gpgAgentSocket.exists()) {
+			Intent service = new Intent(this, GpgAgentService.class);
+			startService(service);
+		}
+	}
+
 	private void registerReceivers() {
 		logUpdateReceiver = new BroadcastReceiver() {
 			@Override
@@ -317,38 +319,6 @@ public class GnuPrivacyGuard extends Activity implements OnCreateContextMenuList
 
 		Button generateSignatureButton = (Button) findViewById(R.id.generate_signature);
 		setOnClick(generateSignatureButton, Apg.Intent.GENERATE_SIGNATURE, ApgId.GENERATE_SIGNATURE);
-	}
-
-	// TODO if GpgAgentService needs to send replies, then implement
-	// MSG_REGISTER_CLIENT and IncomingHandler:
-	// http://developer.android.com/reference/android/app/Service.html#RemoteMessengerServiceSample
-
-	/**
-	 * Class for interacting with the main interface of the service.
-	 */
-	private ServiceConnection mConnection = new ServiceConnection() {
-		public void onServiceConnected(ComponentName className, IBinder service) {
-		}
-
-		public void onServiceDisconnected(ComponentName className) {
-		}
-	};
-
-	void doBindService() {
-		// Establish a connection with the service. We use an explicit
-		// class name because there is no reason to be able to let other
-		// applications replace our component.
-		bindService(new Intent(GnuPrivacyGuard.this, GpgAgentService.class), mConnection,
-				Context.BIND_AUTO_CREATE);
-		mIsBound = true;
-	}
-
-	void doUnbindService() {
-		if (mIsBound) {
-			// Detach our existing connection.
-			unbindService(mConnection);
-			mIsBound = false;
-		}
 	}
 
 	public class InstallTask extends AsyncTask<Void, Void, Void> {
