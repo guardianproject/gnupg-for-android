@@ -19,6 +19,7 @@ package info.guardianproject.gpg;
 import info.guardianproject.gpg.apg_compat.Apg;
 
 import java.math.BigInteger;
+import java.util.Locale;
 
 import android.app.Activity;
 import android.content.Context;
@@ -97,6 +98,16 @@ public class KeyListAdapter extends BaseAdapter {
         return new BigInteger(keyId, 16).longValue(); // MASTER_KEY_ID
     }
 
+    private int[] genFingerprintColor(String fingerprint) {
+    	char[] fp = fingerprint.toCharArray();
+    	int[] ret = new int[4];
+    	ret[0] = (int)Long.parseLong("ff"+fp[0]+fp[0]+fp[1]+fp[2]+fp[3]+fp[3], 16);
+    	ret[1] = (int)Long.parseLong("ff"+fp[4]+fp[4]+fp[5]+fp[6]+fp[7]+fp[7], 16);
+    	ret[2] = (int)Long.parseLong("ff"+fp[8]+fp[8]+fp[9]+fp[10]+fp[11]+fp[11], 16);
+    	ret[3] = (int)Long.parseLong("ff"+fp[12]+fp[12]+fp[13]+fp[14]+fp[15]+fp[15], 16);
+    	return ret;
+    }
+
     public View getView(int position, View convertView, ViewGroup parent) {
         GnuPGKey key = mKeyArray[position];
         View view = mInflater.inflate(R.layout.key_list_item, null);
@@ -104,12 +115,29 @@ public class KeyListAdapter extends BaseAdapter {
 
         TextView mainUserId = (TextView) view.findViewById(R.id.mainUserId);
         TextView mainUserIdRest = (TextView) view.findViewById(R.id.mainUserIdRest);
-        TextView keyId = (TextView) view.findViewById(R.id.keyId);
         TextView status = (TextView) view.findViewById(R.id.status);
+
+        TextView keyId0 = (TextView) view.findViewById(R.id.keyId0);
+        TextView keyId1 = (TextView) view.findViewById(R.id.keyId1);
+        TextView keyId2 = (TextView) view.findViewById(R.id.keyId2);
+        TextView keyId3 = (TextView) view.findViewById(R.id.keyId3);
+
+        // set the text color based on the web colors generate from the fingerprint
+        String keyId = key.getKeyID().toLowerCase(Locale.ENGLISH);
+        int[] keyIdColors = genFingerprintColor(keyId);
+
+        keyId0.setText(keyId.substring(0,4));
+        keyId1.setText(keyId.substring(4,8));
+        keyId2.setText(keyId.substring(8,12));
+        keyId3.setText(keyId.substring(12));
+
+        keyId0.setTextColor(keyIdColors[0]);
+        keyId1.setTextColor(keyIdColors[1]);
+        keyId2.setTextColor(keyIdColors[2]);
+        keyId3.setTextColor(keyIdColors[3]);
 
         mainUserId.setText(key.getName());
         mainUserIdRest.setText(key.getEmail());
-        keyId.setText(key.getKeyID());
         status.setText(R.string.unknownStatus);
 
         if (mainUserIdRest.getText().length() == 0) {
@@ -138,7 +166,6 @@ public class KeyListAdapter extends BaseAdapter {
         view.setEnabled(usable);
         mainUserId.setEnabled(usable);
         mainUserIdRest.setEnabled(usable);
-        keyId.setEnabled(usable);
         status.setEnabled(usable);
 
         return view;
