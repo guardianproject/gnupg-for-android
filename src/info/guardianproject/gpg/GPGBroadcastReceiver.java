@@ -1,12 +1,12 @@
 package info.guardianproject.gpg;
 
+import java.io.File;
+
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-
-import java.io.File;
 
 /**
  *
@@ -45,8 +45,10 @@ public class GPGBroadcastReceiver extends BroadcastReceiver {
             setResultCode(Activity.RESULT_OK);
         } else if( action.equals("android.intent.action.BOOT_COMPLETED") ) {
             if(Preferences.startOnBoot(context)) {
-                Intent startServiceIntent = new Intent(context, SharedDaemonsService.class);
-                context.startService(startServiceIntent);
+                Intent gpgAgent = new Intent(context, GpgAgentService.class);
+                context.startService(gpgAgent);
+                Intent sharedDaemons = new Intent(context, SharedDaemonsService.class);
+                context.startService(sharedDaemons);
             }
         }
     }
