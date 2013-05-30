@@ -16,7 +16,7 @@
 
 package info.guardianproject.gpg.apg_compat;
 
-import info.guardianproject.gpg.GPGApplication;
+import info.guardianproject.gpg.GnuPrivacyGuard;
 import info.guardianproject.gpg.R;
 
 import java.io.File;
@@ -148,7 +148,7 @@ public class BaseActivity extends Activity
             case Id.dialog.about: {
                 AlertDialog.Builder alert = new AlertDialog.Builder(this);
 
-                alert.setTitle("About " + GPGApplication.getVersionString(this));
+                alert.setTitle("About " + GnuPrivacyGuard.getVersionString(this));
 
                 LayoutInflater inflater =
                         (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);

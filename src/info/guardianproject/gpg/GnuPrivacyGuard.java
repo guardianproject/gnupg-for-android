@@ -15,6 +15,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -35,7 +37,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class GnuPrivacyGuard extends Activity implements OnCreateContextMenuListener {
-	public static final String TAG = "gpgcli";
+	public static final String TAG = "GnuPrivacyGuard";
+
+    public static final String PACKAGE_NAME = "info.guardianproject.gpg";
+    public static String VERSION = null;
 
 	private ScrollView consoleScroll;
 	private TextView consoleText;
@@ -264,6 +269,20 @@ public class GnuPrivacyGuard extends Activity implements OnCreateContextMenuList
 		if (commandFinishedReceiver != null)
 			unregisterReceiver(commandFinishedReceiver);
 	}
+
+    public static String getVersionString(Context context) {
+        if (VERSION != null) {
+            return VERSION;
+        }
+        try {
+            PackageInfo pi = context.getPackageManager().getPackageInfo(PACKAGE_NAME, 0);
+            VERSION = "gpgcli v" + pi.versionName;
+            return VERSION;
+        } catch (NameNotFoundException e) {
+            // unpossible!
+            return "v0.0.0";
+        }
+    }
 
     public static class ApgId {
         public static final String VERSION = "1";
