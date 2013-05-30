@@ -139,10 +139,10 @@ public class GnuPrivacyGuard extends Activity implements OnCreateContextMenuList
 			alert.show();
 			return true;
 		case R.id.menu_receive_key:
+			final Context c = getApplicationContext();
 			alert.setTitle("Receive Key");
 			alert.setPositiveButton("Receive", new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int whichButton) {
-			        Context c = GPGApplication.getGlobalApplicationContext();
 			        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(c);
 			        String ks = prefs.getString(GPGPreferenceActivity.PREF_KEYSERVER, "200.144.121.45");
 					command = NativeHelper.gpg2

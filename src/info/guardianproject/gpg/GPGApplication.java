@@ -9,17 +9,6 @@ public class GPGApplication extends Application {
     public static final String PACKAGE_NAME = "info.guardianproject.gpg";
     public static String VERSION = null;
 
-    private static Context context;
-
-    public void onCreate(){
-        super.onCreate();
-        GPGApplication.context = getApplicationContext();
-    }
-
-    public static Context getGlobalApplicationContext() {
-        return GPGApplication.context;
-    }
-
     public static String getVersionString(Context context) {
         if (VERSION != null) {
             return VERSION;

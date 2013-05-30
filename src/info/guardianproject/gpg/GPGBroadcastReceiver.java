@@ -44,7 +44,7 @@ public class GPGBroadcastReceiver extends BroadcastReceiver {
 
             setResultCode(Activity.RESULT_OK);
         } else if( action.equals("android.intent.action.BOOT_COMPLETED") ) {
-            if(Preferences.startOnBoot()) {
+            if(Preferences.startOnBoot(context)) {
                 Intent startServiceIntent = new Intent(context, SharedDaemonsService.class);
                 context.startService(startServiceIntent);
             }
