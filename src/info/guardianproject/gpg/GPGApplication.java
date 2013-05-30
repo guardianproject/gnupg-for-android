@@ -6,7 +6,6 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
 
 public class GPGApplication extends Application {
-	public static final String TAG = "gpgcli";
     public static final String PACKAGE_NAME = "info.guardianproject.gpg";
     public static String VERSION = null;
 

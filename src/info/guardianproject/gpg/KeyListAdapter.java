@@ -34,6 +34,8 @@ import android.widget.TextView;
 import com.freiheit.gnupg.GnuPGKey;
 
 public class KeyListAdapter extends BaseAdapter {
+    public static final String TAG = "KeyListAdapter";
+
     protected LayoutInflater mInflater;
     protected ListView mParent;
     protected String mSearchString;

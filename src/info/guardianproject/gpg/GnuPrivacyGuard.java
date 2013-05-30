@@ -85,7 +85,7 @@ public class GnuPrivacyGuard extends Activity implements OnCreateContextMenuList
 
 	@Override
 	protected void onActivityResult (int requestCode, int resultCode, Intent data) {
-		Log.i(GPGApplication.TAG, "Activity Result: " + requestCode + " " + resultCode);
+		Log.i(TAG, "Activity Result: " + requestCode + " " + resultCode);
 		if (resultCode == RESULT_CANCELED || data == null) return;
 		Bundle extras = data.getExtras();
 		if (extras != null) {
@@ -102,7 +102,7 @@ public class GnuPrivacyGuard extends Activity implements OnCreateContextMenuList
 				if (selectedKeyIds != null && userIds != null)
 					for (int i = 0; i < selectedKeyIds.length && i < userIds.length; i++) {
 						text += userIds[i] + " " + Long.toHexString(selectedKeyIds[i]) + " ";
-						Log.i(GPGApplication.TAG, "received: " + userIds[i] + " " + Long.toHexString(selectedKeyIds[i]));
+						Log.i(TAG, "received: " + userIds[i] + " " + Long.toHexString(selectedKeyIds[i]));
 					}
 				break;
 			default:
@@ -286,7 +286,7 @@ public class GnuPrivacyGuard extends Activity implements OnCreateContextMenuList
                     Toast.makeText(view.getContext(),
                             "started " + intentName + " " + intentId,
                             Toast.LENGTH_SHORT).show();
-                    Log.i(GPGApplication.TAG, "started " + intentName + " " + intentId);
+                    Log.i(TAG, "started " + intentName + " " + intentId);
                 } catch (ActivityNotFoundException e) {
                     Toast.makeText(view.getContext(),
                                    R.string.error_activity_not_found,

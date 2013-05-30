@@ -13,6 +13,7 @@ import android.widget.Toast;
 import com.freiheit.gnupg.GnuPGKey;
 
 public class EncryptActivity extends Activity {
+	public static final String TAG = "EncryptActivity";
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
