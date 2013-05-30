@@ -77,7 +77,10 @@ public class KeyListAdapter extends BaseAdapter {
     }
 
     public int getCount() {
-        return mKeyArray.length;
+    	if (mKeyArray == null)
+    		return 0;
+    	else
+    		return mKeyArray.length;
     }
 
     public Object getItem(int position) {
