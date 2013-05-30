@@ -89,8 +89,9 @@ public class PinEntryActivity extends Activity {
 	}
 
 	@Override
-	protected void onDestroy() {
-		// TODO Auto-generated method stub
+	protected void onStop() {
+		syncNotify();
+		finish();
 		super.onDestroy();
 	}
 
