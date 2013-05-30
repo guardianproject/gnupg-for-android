@@ -12,21 +12,19 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.freiheit.gnupg.GnuPGContext;
 import com.freiheit.gnupg.GnuPGKey;
 
 public class SearchKeysActivity extends ListActivity {
 	public static final String TAG = "ListKeysActivity";
-	GnuPGContext ctx = NativeHelper.gpgCtx;
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
 		String query = getIntent().getStringExtra(Intent.EXTRA_TEXT);
-		if( ctx == null )
+		if( GnuPG.context == null )
 			Log.e(TAG, "GPG context is null!");
 		String[] keys = new String[0];
-        GnuPGKey[] keyArray = NativeHelper.gpgCtx.searchKeys(query);
+        GnuPGKey[] keyArray = GnuPG.context.searchKeys(query);
         if( keyArray == null ) {
         	Log.i(TAG, "menu_search_keys: null");
 		} else {

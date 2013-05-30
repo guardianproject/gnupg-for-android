@@ -34,8 +34,6 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.freiheit.gnupg.GnuPGContext;
-
 public class GnuPrivacyGuard extends Activity implements OnCreateContextMenuListener {
 	public static final String TAG = "gpgcli";
 
@@ -383,9 +381,7 @@ public class GnuPrivacyGuard extends Activity implements OnCreateContextMenuList
             startService(intent);
             intent = new Intent(GnuPrivacyGuard.this, SharedDaemonsService.class);
             startService(intent);
-            NativeHelper.gpgCtx = new GnuPGContext();
-            // set the homeDir option to our custom home location
-            NativeHelper.gpgCtx.setEngineInfo(NativeHelper.gpgCtx.getProtocol(), NativeHelper.gpgCtx.getFilename(), NativeHelper.app_home.getAbsolutePath());
+            GnuPG.createContext();
         }
 	}
 

@@ -31,7 +31,6 @@ import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.freiheit.gnupg.GnuPGContext;
 import com.freiheit.gnupg.GnuPGKey;
 
 public class KeyListAdapter extends BaseAdapter {
@@ -41,7 +40,6 @@ public class KeyListAdapter extends BaseAdapter {
     protected Activity mActivity;
     protected long mSelectedKeyIds[];
 
-    private GnuPGContext mCtx = null;
     private GnuPGKey[] mKeyArray;
 
     public KeyListAdapter(Activity activity, ListView parent, String action,
@@ -53,16 +51,12 @@ public class KeyListAdapter extends BaseAdapter {
 
         mInflater = (LayoutInflater) parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-        mCtx = new GnuPGContext();
-        // set the homeDir option to our custom home location
-        mCtx.setEngineInfo(mCtx.getProtocol(), mCtx.getFilename(),
-                NativeHelper.app_home.getAbsolutePath());
         if (action == null || !action.equals(Apg.Intent.SELECT_SECRET_KEY))
-            mKeyArray = mCtx.listKeys();
+            mKeyArray = GnuPG.context.listKeys();
         else
-            mKeyArray = mCtx.listSecretKeys();
+            mKeyArray = GnuPG.context.listSecretKeys();
         if (mKeyArray == null) {
-            Log.e(GPGApplication.TAG, "keyArray is null");
+            Log.e(TAG, "keyArray is null");
         }
     }
 
