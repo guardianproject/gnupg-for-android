@@ -10,56 +10,56 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:text="@string/enter_pin"
-        android:textSize="20dp"
+        android:textAppearance="@android:style/TextAppearance.Large"
         tools:context=".PINEntry" />
-
-    <Button
-        android:id="@+id/okButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/cancelButton"
-        android:layout_alignBottom="@+id/cancelButton"
-        android:layout_alignLeft="@+id/pinEdit"
-        android:text="OK" />
-
-    <Button
-        android:id="@+id/cancelButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignRight="@+id/pinEdit"
-        android:layout_below="@+id/pinEdit"
-        android:layout_marginTop="14dp"
-        android:text="Cancel" />
-
-    <TextView
-        android:id="@+id/statusLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/okButton"
-        android:layout_marginTop="23dp"
-        android:layout_toRightOf="@+id/okButton"
-        android:text=""
-        android:textAppearance="?android:attr/textAppearanceMedium" />
-
-    <EditText
-        android:id="@+id/pinEdit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/description"
-        android:layout_centerHorizontal="true"
-        android:ems="10"
-        android:inputType="textPassword" >
-
-        <requestFocus />
-    </EditText>
 
     <TextView
         android:id="@+id/description"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/title"
+         android:text="@android:string/httpErrorBadUrl"
         android:layout_centerHorizontal="true"
+        android:gravity="center" />
+
+    <EditText
+        android:id="@+id/pinEdit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/description"
+        android:layout_centerInParent="true"
+        android:layout_margin="5dp"
+        android:inputType="textPassword" >
+
+        <requestFocus />
+    </EditText>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/pinEdit"
+        android:layout_alignRight="@+id/pinEdit"
+        android:layout_below="@+id/pinEdit"
         android:gravity="center"
-        android:text="This is a super long description zomg zomg lorem ipsum " />
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/okButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:height="50sp"
+            android:text="@android:string/ok"
+            android:textAppearance="@android:style/TextAppearance.Large" />
+
+        <Button
+            android:id="@+id/cancelButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:height="50sp"
+            android:text="@android:string/cancel"
+            android:textAppearance="@android:style/TextAppearance.Large" />
+    </LinearLayout>
 
 </RelativeLayout>
