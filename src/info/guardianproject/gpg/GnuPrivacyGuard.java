@@ -54,7 +54,8 @@ public class GnuPrivacyGuard extends Activity implements OnCreateContextMenuList
 		super.onCreate(savedInstanceState);
 		NativeHelper.setup(getApplicationContext());
 
-		new InstallTask(this).execute();
+		// this also sets up GnuPG.context in onPostExecute()
+		new InstallAndSetupTask(this).execute();
 
 		setContentView(R.layout.main);
 		consoleScroll = (ScrollView) findViewById(R.id.consoleScroll);
@@ -319,7 +320,7 @@ public class GnuPrivacyGuard extends Activity implements OnCreateContextMenuList
 		setOnClick(generateSignatureButton, Apg.Intent.GENERATE_SIGNATURE, ApgId.GENERATE_SIGNATURE);
 	}
 
-	public class InstallTask extends AsyncTask<Void, Void, Void> {
+	public class InstallAndSetupTask extends AsyncTask<Void, Void, Void> {
 		private ProgressDialog dialog;
 		private boolean doInstall;
 
@@ -347,7 +348,7 @@ public class GnuPrivacyGuard extends Activity implements OnCreateContextMenuList
 			dialog.dismiss();
 		}
 
-		public InstallTask(Context c) {
+		public InstallAndSetupTask(Context c) {
 			dialog = new ProgressDialog(c);
 			dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
 			dialog.setTitle(R.string.dialog_installing_title);
