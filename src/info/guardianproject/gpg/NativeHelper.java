@@ -59,7 +59,7 @@ public class NativeHelper {
 		versionFile = new File(app_opt, "VERSION");
 
 		File bin = new File(app_opt, "bin");
-		String logging = "--debug-level advanced --log-file " + NativeHelper.app_log
+		String logging = "--debug-level basic --log-file " + NativeHelper.app_log
 				+ "/gpg2.log ";
 		gpg2 = new File(bin, "gpg2").getAbsolutePath() + " --no-tty " + logging;
 		gpg_agent = new File(bin, "gpg-agent").getAbsolutePath();
