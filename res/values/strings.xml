@@ -14,6 +14,14 @@
     <string name="pref_keyserver_summary">Which keyserver to download and publish keys to (default: hkp://keys.gnupg.net)</string>
     <string name="pref_start_boot_title">Start Daemons on Boot</string>
     <string name="pref_start_boot_summary">Starts the pinentry and gnupg daemons when your device boots</string>
+    <string name="title_import_keys">Import Keys</string>
+    <string name="error_no_file_manager_installed">No compatible file manager app installed!</string>
+    <string name="error_files_not_supported">File URIs are not supported via this Intent!</string>
+    <string name="dialog_specify_import_file_msg">Choose the file to import:</string>
+    <string name="label_delete_after_import">Delete after import</string>
+
+    <!-- content descriptions for accessibility -->
+    <string name="folder">folder</string>
 
     <!-- key status terms -->
     <string name="usable">usable</string>

@@ -1,6 +1,7 @@
 package info.guardianproject.gpg;
 
 import info.guardianproject.gpg.apg_compat.Apg;
+import info.guardianproject.gpg.apg_compat.Id;
 
 import java.io.File;
 import java.io.OutputStream;
@@ -111,6 +112,8 @@ public class GnuPrivacyGuard extends Activity implements OnCreateContextMenuList
 						Log.i(TAG, "received: " + userIds[i] + " " + Long.toHexString(selectedKeyIds[i]));
 					}
 				break;
+			case Id.dialog.import_keys:
+				break;
 			default:
 				text += "unknown intent";
 			}
@@ -164,11 +167,28 @@ public class GnuPrivacyGuard extends Activity implements OnCreateContextMenuList
 			commandThread.start();
 			Log.i(TAG, "finished " + command);
 			return true;
-		case R.id.menu_import_test_key:
-			command = NativeHelper.gpg2 + " --import /data/data/info.guardianproject.gpg/app_opt/tests/pinentry/secret-keys.gpg";
-			commandThread = new CommandThread();
-			commandThread.start();
-			Log.i(TAG, "finished " + command);
+		case R.id.menu_import_key_from_file:
+			final String defaultFilename = (NativeHelper.app_opt.getAbsolutePath()
+					+ "/tests/pinentry/secret-keys.gpg");
+			AlertDialog importDialog = FileDialog.build(this,
+					getString(R.string.title_import_keys),
+					getString(R.string.dialog_specify_import_file_msg),
+					defaultFilename,
+					new FileDialog.OnClickListener() {
+				public void onClick(String filename, boolean checked) {
+					removeDialog(Id.dialog.import_keys);
+					command = NativeHelper.gpg2 + " --import " + filename;
+					commandThread = new CommandThread();
+					commandThread.start();
+					Log.i(TAG, "finished " + command);
+					if (checked)
+						new File(filename).delete();
+				}
+			},
+			getString(R.string.label_delete_after_import),
+			Id.dialog.import_keys
+					);
+			importDialog.show();
 			return true;
 		case R.id.menu_share_log:
 			shareTestLog();

@@ -8,8 +8,8 @@
         android:id="@+id/menu_share_log"
         android:title="Share Test Log..."/>
     <item
-        android:id="@+id/menu_import_test_key"
-        android:title="Import Test Key..."/>
+        android:id="@+id/menu_import_key_from_file"
+        android:title="Import Key from File..."/>
     <item
         android:id="@+id/menu_receive_key"
         android:title="Receive Key..."/>
