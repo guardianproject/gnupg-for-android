@@ -71,7 +71,7 @@ public class NativeHelper {
 		String path = System.getenv("PATH");
 		envp = new String[] { "HOME=" + NativeHelper.app_home,
 				"GNUPGHOME=" + NativeHelper.app_home,
-				"LD_LIBRARY_PATH=" + ldLibraryPath + ":" + NativeHelper.app_opt + "/lib",
+				"LD_LIBRARY_PATH=" + NativeHelper.app_opt + "/lib" + ":" + ldLibraryPath,
 				"PATH=" + path + ":" + bin.getAbsolutePath(),
 				"app_opt=" + app_opt.getAbsolutePath() };
 

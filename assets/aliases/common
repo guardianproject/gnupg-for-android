@@ -6,7 +6,7 @@ app=/data/data/info.guardianproject.gpg
 app_opt=$app/app_opt
 app_homeroot=$app/app_gnupghome
 
-export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$app_opt/lib:$app/lib
+export LD_LIBRARY_PATH=$app_opt/lib:$app/lib:$LD_LIBRARY_PATH
 
 # use the 'id' output to generate a unique folder for each app
 get_uid () {

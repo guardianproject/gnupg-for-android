@@ -93,7 +93,7 @@ JNI_OnLoad(JavaVM *vm, void *reserved)
     const char *gpgAppOpt = "/data/data/info.guardianproject.gpg/app_opt/lib";
     size_t newPathLen = strlen(ldLibraryPath) + strlen(gpgAppOpt) + 2;
     char newPath[newPathLen];
-    snprintf(newPath, newPathLen, "%s:%s", ldLibraryPath, gpgAppOpt);
+    snprintf(newPath, newPathLen, "%s:%s", gpgAppOpt, ldLibraryPath);
     setenv("LD_LIBRARY_PATH", newPath, 1);
 #endif /* __ANDROID */
     // TODO set locale from the JavaVM's config

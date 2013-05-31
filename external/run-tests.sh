@@ -8,7 +8,7 @@ set -e
 app=/data/data/info.guardianproject.gpg
 app_opt=$app/app_opt
 export HOME=$app/app_home
-export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$app_opt/lib
+export LD_LIBRARY_PATH=$app_opt/lib:$LD_LIBRARY_PATH
 export USER=`findusername`
 
 findusername_helper() {
