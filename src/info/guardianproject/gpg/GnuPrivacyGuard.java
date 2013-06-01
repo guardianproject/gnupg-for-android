@@ -391,6 +391,7 @@ public class GnuPrivacyGuard extends Activity implements OnCreateContextMenuList
 			dialog = new ProgressDialog(c);
 			dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
 			dialog.setTitle(R.string.dialog_installing_title);
+			dialog.setCancelable(false);
 		}
 
 		@Override

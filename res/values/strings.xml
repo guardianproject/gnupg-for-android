@@ -9,7 +9,7 @@
     <string name="title_activity_pinentry">PIN Entry</string>
     <string name="title_activity_encrypt">Encrypt</string>
     <string name="dialog_installing_msg">Setting up GnuPG for Android</string>
-    <string name="dialog_installing_title">Native Setup</string>
+    <string name="dialog_installing_title">Installing&#8230; (wait for it to finish!)</string>
     <string name="pref_keyserver_title">Keyserver</string>
     <string name="pref_keyserver_summary">Which keyserver to download and publish keys to (default: hkp://keys.gnupg.net)</string>
     <string name="pref_start_boot_title">Start Daemons on Boot</string>
