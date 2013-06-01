@@ -17,11 +17,11 @@
 package info.guardianproject.gpg;
 
 import info.guardianproject.gpg.apg_compat.Apg;
-import info.guardianproject.gpg.apg_compat.BaseActivity;
 import info.guardianproject.gpg.apg_compat.Id;
 
 import java.util.Vector;
 
+import android.app.Activity;
 import android.app.SearchManager;
 import android.content.Intent;
 import android.os.Bundle;
@@ -34,7 +34,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
-public class KeyListActivity extends BaseActivity {
+public class KeyListActivity extends Activity {
     protected ListView mListView;
     protected KeyListAdapter mListAdapter;
     protected View mFilterLayout;
