@@ -530,6 +530,7 @@ gnupg/Makefile: gnupg/configure gnupg/config.sub gnupg/config.guess
 				--with-ldap=$(LOCAL) \
 				--without-libiconv-prefix \
 				--disable-doc \
+				--disable-g13 \
 				--enable-dirmngr-auto-start \
 				--with-agent-pgm=$(prefix)/bin/gpg-agent \
 				--with-dirmngr-pgm=$(prefix)/bin/dirmngr \
@@ -622,7 +623,7 @@ gpgme/Makefile: gpgme/configure
 				--with-gpg=$(prefix)/bin/gpg2 \
 				--with-gpgsm=$(prefix)/bin/gpgsm \
 				--with-gpgconf=$(prefix)/bin/gpgconf \
-				--with-g13=$(prefix)/bin/g13 \
+				--without-g13 \
 				--disable-glibtest \
 				--disable-gpg-test \
 				--disable-gpgsm-test \
