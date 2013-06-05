@@ -521,10 +521,17 @@ public class GnuPGContext extends GnuPGPeer{
     		throw new GnuPGException("Encryption arguments not complete.");
 
     	// note that these are pointers to addresses in the javagnupg shared lib
-    	gpgmeOpEncrypt(this.getInternalRepresentation(),
-    			getInternalRepresentationFromRecipients(recipients),
-    			plain.getInternalRepresentation(),
-    			cipher.getInternalRepresentation());
+    	long context = this.getInternalRepresentation();
+    	if (gpgmeGetSignersLength(context) == 0)
+    		gpgmeOpEncrypt(context,
+    				getInternalRepresentationFromRecipients(recipients),
+    				plain.getInternalRepresentation(),
+    				cipher.getInternalRepresentation());
+    	else
+    		gpgmeOpEncryptSign(context,
+    				getInternalRepresentationFromRecipients(recipients),
+    				plain.getInternalRepresentation(),
+    				cipher.getInternalRepresentation());
     }
 
 	public void encryptAndSign(GnuPGKey[] recipients, GnuPGData plain, GnuPGData cipher) throws GnuPGException {
