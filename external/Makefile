@@ -28,10 +28,9 @@ endif
 NDK_BASE ?= /opt/android-ndk
 NDK_PLATFORM_LEVEL ?= 8
 NDK_ABI=arm
+NDK_COMPILER_VERSION = 4.7
 NDK_SYSROOT=$(NDK_BASE)/platforms/android-$(NDK_PLATFORM_LEVEL)/arch-$(NDK_ABI)
 NDK_UNAME:=`uname -s | tr '[A-Z]' '[a-z]'`
-#NDK_COMPILER_VERSION=4.4.3
-NDK_COMPILER_VERSION = 4.7
 ifeq ($(NDK_ABI),x86)
  HOST = i686-linux-android
  NDK_TOOLCHAIN = $(NDK_ABI)-$(NDK_COMPILER_VERSION)
