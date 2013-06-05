@@ -46,10 +46,10 @@
     <string name="btn_clearFilter">Clear Filter</string>
     <string name="title_selectRecipients">Select Recipients</string>
     <string name="progress_done">done.</string>
-    <string name="progress_initializing">initializing...</string>
-    <string name="progress_saving">saving...</string>
-    <string name="progress_importing">importing...</string>
-    <string name="progress_exporting">exporting...</string>
-    <string name="progress_querying">querying...</string>
+    <string name="progress_initializing">Initializing&#8230;</string>
+    <string name="progress_saving">Saving&#8230;</string>
+    <string name="progress_importing">Importing&#8230;</string>
+    <string name="progress_exporting">Exporting&#8230;</string>
+    <string name="progress_querying">Querying&#8230;</string>
 
 </resources>
