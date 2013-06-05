@@ -631,6 +631,30 @@ public class GnuPGContext extends GnuPGPeer{
         gpgmeClearSigners(getInternalRepresentation());
     }
 
+	/**
+	   Get a specific Signer at a given index. You add Signers
+	   with addSigner().
+	  
+	   @param int index to the list of Signers
+	   @return GnuPGKey the key at index, or null if it doesn't exist
+
+       @see com.freiheit.gnupg.GnuPGKey
+	 */
+	public GnuPGKey getSigner(int index) throws GnuPGException {
+		return new GnuPGKey(gpgmeGetSigner(getInternalRepresentation(), index));
+	}
+
+	/**
+	   Gets the number of Signers currently in the GnuPGContext. You add Signers
+	   with addSigner().
+	   @return long the number of Signers currently in the GnuPGContext
+
+       @see com.freiheit.gnupg.GnuPGKey
+	 */
+	public long getSignersLength() throws GnuPGException {
+		return gpgmeGetSignersLength(getInternalRepresentation());
+	}
+
     /**
        Imports a Key (private or public). You can supply the key in ASCII armor.
      */
@@ -725,6 +749,8 @@ public class GnuPGContext extends GnuPGPeer{
     private native GnuPGKey[] gpgmeKeylist(long l, String query, boolean secret_only);
     private native void gpgmeAddSigners(long l, long m);
     private native void gpgmeClearSigners(long context);
+    private native long gpgmeGetSigner(long context, int index);
+    private native long gpgmeGetSignersLength(long context);
     private native void gpgmeOpImport(long context, long l);
     private native void gpgmeOpExport(long context, String pattern, long reserved, long l);
     private native void gpgmeOpGenKey(long context,String params);
