@@ -47,14 +47,11 @@ public class EncryptActivity extends Activity {
 				finishWithError("no valid encryption keys!");
 
 			long signatureKeyId = extras.getLong(Apg.EXTRA_SIGNATURE_KEY_ID);
-			GnuPGKey signatureKey = null;
 			if (signatureKeyId != 0) {
 				key = GnuPG.context.getSecretKeyByFingerprint(Long.toHexString(signatureKeyId));
 				if (key != null && key.canSign() && !key.isDisabled() && !key.isRevoked())
-					signatureKey = key;
+					GnuPG.context.addSigner(key);
 			}
-
-			// TODO encrypt and sign!
 
             byte[] extraData = extras.getByteArray(Apg.EXTRA_DATA);
             final GnuPGKey[] recipients = recipientsKeyList.toArray(new GnuPGKey[0]);
