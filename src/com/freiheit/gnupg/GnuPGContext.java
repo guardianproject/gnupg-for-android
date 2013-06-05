@@ -527,17 +527,15 @@ public class GnuPGContext extends GnuPGPeer{
     			cipher.getInternalRepresentation());
     }
 
-    /*
-       Not finished.
-     */
-//     public void encryptAndSign(GnuPGKey[] recipients, GnuPGData plain, GnuPGData cipher) throws GnuPGException{
-//         if (hasNoRecipients(recipients) || plain == null || cipher == null) throw new GnuPGException("Encryption-Arguments not complete.");
+	public void encryptAndSign(GnuPGKey[] recipients, GnuPGData plain, GnuPGData cipher) throws GnuPGException {
+		if (hasNoRecipients(recipients) || plain == null || cipher == null)
+			throw new GnuPGException("Encryption-Arguments not complete.");
 
-//         long recipientsInternals[] = getInternalRepresentationFromRecipients(recipients);
-
-//         gpgmeOpEncryptSign(this.getInternalRepresentation(), recipientsInternals,
-//                            plain.getInternalRepresentation(), cipher.getInternalRepresentation());
-//     }
+		gpgmeOpEncryptSign(this.getInternalRepresentation(),
+				getInternalRepresentationFromRecipients(recipients),
+				plain.getInternalRepresentation(),
+				cipher.getInternalRepresentation());
+	}
 
     /**
        Decrypts the data from <em>cipher</em> and stores the result
