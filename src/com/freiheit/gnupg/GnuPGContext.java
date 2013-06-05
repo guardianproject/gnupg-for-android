@@ -563,6 +563,49 @@ public class GnuPGContext extends GnuPGPeer{
 	}
 
     /**
+       Decrypts the data from <em>cipher</em> and returns the result.
+
+       @param cipher the data to be decrypted
+       @return plain the resulting decrypted data
+
+       @see com.freiheit.gnupg.GnuPGData
+     */
+    public GnuPGData decrypt(byte[] cipher) throws GnuPGException{
+        if (cipher == null || cipher.length == 0)
+        	throw new GnuPGException("Encryption arguments not complete.");
+
+        GnuPGData plainData = createDataObject();
+        final GnuPGData cipherData = createDataObject(cipher);
+        
+        gpgmeOpDecrypt(this.getInternalRepresentation(),
+        		cipherData.getInternalRepresentation(),
+        		plainData.getInternalRepresentation());
+        cipherData.destroy();
+        return plainData;
+    }
+
+    /**
+       Decrypts the data from <em>cipher</em> and returns the result.
+
+       @param cipher the data to be decrypted
+       @return plain the resulting decrypted data
+
+       @see com.freiheit.gnupg.GnuPGData
+     */
+    public GnuPGData decrypt(String cipher) throws GnuPGException{
+        if (cipher == null || cipher.length() == 0)
+        	throw new GnuPGException("Encryption arguments not complete.");
+
+        GnuPGData plainData = createDataObject();
+        final GnuPGData cipherData = createDataObject(cipher);
+        
+        gpgmeOpDecrypt(this.getInternalRepresentation(),
+        		cipherData.getInternalRepresentation(),
+        		plainData.getInternalRepresentation());
+        cipherData.destroy();
+        return plainData;
+    }
+    /**
        Decrypts the data from <em>cipher</em> and stores the result
        in <em>plain</em>.
 

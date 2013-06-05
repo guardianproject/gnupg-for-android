@@ -181,6 +181,16 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".apg_compat.DecryptActivity"
+            android:label="@string/title_activity_decrypt"
+            android:launchMode="singleTop" >
+            <intent-filter>
+                <action android:name="org.thialfihar.android.apg.intent.DECRYPT_AND_RETURN" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
             android:name=".KeyListActivity"
             android:configChanges="keyboardHidden|orientation|keyboard"
             android:label="@string/title_selectRecipients"

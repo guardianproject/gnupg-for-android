@@ -8,6 +8,7 @@
     <string name="enter_pin">Enter your PIN</string>
     <string name="title_activity_pinentry">PIN Entry</string>
     <string name="title_activity_encrypt">Encrypt</string>
+    <string name="title_activity_decrypt">Decrypt</string>
     <string name="dialog_installing_msg">Setting up GnuPG for Android</string>
     <string name="dialog_installing_title">Installing&#8230; (wait for it to finish!)</string>
     <string name="pref_keyserver_title">Keyserver</string>
