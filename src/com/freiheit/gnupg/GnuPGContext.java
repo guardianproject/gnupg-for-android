@@ -718,7 +718,7 @@ public class GnuPGContext extends GnuPGPeer{
     private native void gpgmeOpDecrypt(long l, long m, long n);
     private native void gpgmeOpChangePassphrase(long l, long m );
     private native void gpgmeRelease(long l);
-    private native void gpgmeOpEncryptSign(long context, int[] recipients, long plain, long cipher);
+    private native void gpgmeOpEncryptSign(long context, long[] recipients, long plain, long cipher);
     private native void gpgmeOpDecryptVerify(long context, long cipher, long plain);
     private native void gpgmeOpSign(long context, long l, long m);
     private native void gpgmeOpVerify(long context, long l, long m, long n);
