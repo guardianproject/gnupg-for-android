@@ -10,23 +10,16 @@ import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
-import info.guardianproject.gpg.pinentry.PinEntryActivity;
-import info.guardianproject.gpg.pinentry.ServerSocketThread;
-
 public class SharedDaemonsService extends Service {
 
     public static final String TAG = "PinentryService";
     private static final int SERVICE_FOREGROUND_ID = 8473;
 
-    private ServerSocketThread pinentryHelperThread;
     private DirmngrThread dirmngrThread;
 
     private void startDaemons() {
         Log.i(TAG, "start daemons in " + NativeHelper.app_opt.getAbsolutePath());
         synchronized (this) {
-
-            pinentryHelperThread = new ServerSocketThread(this);
-            pinentryHelperThread.start();
 
             dirmngrThread = new DirmngrThread();
             dirmngrThread.start();
@@ -65,15 +58,6 @@ public class SharedDaemonsService extends Service {
         Log.d(TAG, "onStartCommand");
         startDaemons();
         return START_STICKY;
-    }
-
-    public void startPinentry() {
-        Log.d(TAG, "starting activity!");
-        Intent intent = new Intent(this, PinEntryActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-        startActivity(intent);
     }
 
     private void goForeground() {

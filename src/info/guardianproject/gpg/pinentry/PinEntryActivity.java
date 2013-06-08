@@ -14,6 +14,16 @@ import android.widget.TextView;
 import info.guardianproject.gpg.NativeHelper;
 import info.guardianproject.gpg.R;
 
+/**
+ * Activity for communicating with the native pinentry.
+ *
+ * To achieve the nice dialog overlay, this Activity should be started with
+ *      Intent.FLAG_ACTIVITY_NEW_TASK);
+ *      Intent.FLAG_ACTIVITY_CLEAR_TOP);
+ *      Intent.FLAG_ACTIVITY_NO_HISTORY);
+ * @author user
+ *
+ */
 public class PinEntryActivity extends Activity {
 
     static final String TAG = "PinEntryActivity";
