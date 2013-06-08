@@ -55,7 +55,7 @@ public class PinEntryActivity extends Activity {
         System.load("/data/data/info.guardianproject.gpg/lib/libpinentry.so");
     }
 
-    private native void connectToGpgAgent();
+    private native void connectToGpgAgent(int uid);
 
     /** Called when the activity is first created. */
     @Override
@@ -65,6 +65,14 @@ public class PinEntryActivity extends Activity {
         setContentView(R.layout.activity_pinentry);
         NativeHelper.setup(this);
         Log.d("PinEntryActivity", "PinEntryActivity::onCreate");
+
+        Bundle params = getIntent().getExtras();
+        final int uid = params.getInt("uid", -1);
+
+        if( uid < 0 ) {
+            Log.e(TAG, "missing uid");
+            finish();
+        }
 
         description = (TextView) findViewById(R.id.description);
         title = (TextView) findViewById(R.id.title);
@@ -88,7 +96,7 @@ public class PinEntryActivity extends Activity {
                 // when it returns it means gpg-agent is no longer communicating
                 // with us
                 // so we quit. we don't like gpg-agent anyways. neaner.
-                connectToGpgAgent();
+                connectToGpgAgent(uid);
                 finish();
             }
 

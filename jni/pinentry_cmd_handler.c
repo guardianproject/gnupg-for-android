@@ -253,9 +253,9 @@ int connect_helper() {
 }
 
 JNIEXPORT void JNICALL
-Java_info_guardianproject_gpg_pinentry_PinEntryActivity_connectToGpgAgent ( JNIEnv * env, jobject self ) {
+Java_info_guardianproject_gpg_pinentry_PinEntryActivity_connectToGpgAgent ( JNIEnv * env, jobject self, jint app_uid ) {
     _pinentryActivity = self;
-    LOGD ( "connectToGpgAgent called!\n" );
+    LOGD ( "connectToGpgAgent called, uid=%d!\n", app_uid );
     int in, out, sock;
     sock = connect_helper();
     LOGD ( "connected to pinentry helper\n" );
@@ -288,7 +288,7 @@ Java_info_guardianproject_gpg_pinentry_PinEntryActivity_connectToGpgAgent ( JNIE
 }
 
 static JNINativeMethod sMethods[] = {
-    {"connectToGpgAgent", "()V", ( void * ) Java_info_guardianproject_gpg_pinentry_PinEntryActivity_connectToGpgAgent}
+    {"connectToGpgAgent", "(I)V", ( void * ) Java_info_guardianproject_gpg_pinentry_PinEntryActivity_connectToGpgAgent}
 };
 
 JNIEXPORT jint JNICALL
