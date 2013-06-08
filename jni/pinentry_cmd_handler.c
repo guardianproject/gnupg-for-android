@@ -17,6 +17,11 @@
 
 #include "pinentry.h"
 
+#define GPG_APP_PATH "/data/data/info.guardianproject.gpg"
+
+#define INTERNAL_GNUPGHOME GPG_APP_PATH "/app_home"
+#define EXTERNAL_GNUPGHOME GPG_APP_PATH "/app_gnupghome"
+
 #define SOCKET_NAME "info.guardianproject.gpg.pinentry"
 #define LOGD(...) __android_log_print(ANDROID_LOG_DEBUG , "PINENTRY", __VA_ARGS__)
 
@@ -217,9 +222,14 @@ android_cmd_handler ( pinentry_t pe ) {
 pinentry_cmd_handler_t pinentry_cmd_handler = android_cmd_handler;
 
 
-int  open_socket() {
-    /* 2. connect to activity's socket */
+/*
+ * connect to the pinetry helper over a unix domain socket
+ * and fetch the stdin and stdout of that process so we
+ * can directly communicate with gpg-agent
+ */
+int connect_helper() {
     struct sockaddr_un addr;
+    char path[PATH_MAX];
     int fd;
 
     if ( ( fd = socket ( AF_UNIX, SOCK_STREAM, 0 ) ) == -1 ) {
@@ -227,17 +237,15 @@ int  open_socket() {
         exit ( -1 );
     }
 
-    memset ( &addr, 0, sizeof ( addr ) );
-    addr.sun_family = AF_UNIX;
-    addr.sun_path[0] = '\0';
-    strncpy ( &addr.sun_path[1], SOCKET_NAME, sizeof ( addr.sun_path )-1 );
-    /* calculate the length of our addrlen, for some reason this isn't simply
-     * sizeof(addr), TODO: learn why, i suspect it has something to do with sun_path
-     * being a char[108]
-     */
-    int len = offsetof ( struct sockaddr_un, sun_path ) + 1 + strlen ( &addr.sun_path[1] );
+    memset(&addr, 0, sizeof(addr));
+    addr.sun_family = AF_LOCAL;
+    snprintf(path, sizeof(path), "%s/S.pinentry", INTERNAL_GNUPGHOME, getpid());
+    LOGD("connect helper sock: %s", path);
+    memset(addr.sun_path, 0, sizeof(addr.sun_path));
+    snprintf(addr.sun_path, sizeof(addr.sun_path), "%s", path);
+    LOGD("snprintfed");
 
-    if ( connect ( fd, ( struct sockaddr* ) &addr, len ) < 0 ) {
+    if ( connect ( fd, ( struct sockaddr* ) &addr, sizeof(addr) ) < 0 ) {
         perror ( "connect error" );
         exit ( -1 );
     }
@@ -249,7 +257,7 @@ Java_info_guardianproject_gpg_pinentry_PinEntryActivity_connectToGpgAgent ( JNIE
     _pinentryActivity = self;
     LOGD ( "connectToGpgAgent called!\n" );
     int in, out, sock;
-    sock = open_socket();
+    sock = connect_helper();
     LOGD ( "connected to pinentry helper\n" );
 
     in = recv_fd ( sock );
