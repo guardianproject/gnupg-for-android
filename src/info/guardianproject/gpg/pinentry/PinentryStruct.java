@@ -1,5 +1,10 @@
 package info.guardianproject.gpg.pinentry;
 
+
+/**
+ * This class is tightly coupled with the C/JNI code in jni/pinentry_cmd_handler.c
+ * DO NOT change this class without checking how it will affect the JNI.
+ */
 public class PinentryStruct {
 	public enum PinentryColor {
 		PINENTRY_COLOR_NONE, PINENTRY_COLOR_DEFAULT,
