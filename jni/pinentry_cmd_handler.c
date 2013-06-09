@@ -27,15 +27,6 @@
 #define LOGD(...) __android_log_print(ANDROID_LOG_DEBUG , "PINENTRY", __VA_ARGS__)
 #define LOGE(...) __android_log_print(ANDROID_LOG_ERROR , "PE-HELPER", __VA_ARGS__)
 
-#define TO_JAVA_STRING(NAME, EXP) \
-        jstring NAME = (*env)->NewStringUTF(env,EXP); \
-        if (NAME == 0) { LOGD("failed to create str NAME with EXP\n"); return; }
-
-#define SET_STR(NAME) \
-     TO_JAVA_STRING(NAME, pe->NAME); \
-     fid = (*env)->GetFieldID(env,cls,#NAME,"Ljava/lang/String;"); \
-     (*env)->SetObjectField(env,obj,fid,NAME);
-
 int recv_fd ( int socket ) {
     int sent_fd, available_ancillary_element_buffer_space;
     struct msghdr socket_message;
@@ -98,111 +89,204 @@ static int passphrase_ok;
 typedef enum { CONFIRM_CANCEL, CONFIRM_OK, CONFIRM_NOTOK } confirm_value_t;
 static confirm_value_t confirm_value;
 
-/*
- * takes a pinentry_t from the command handler
- * 1. instantiates the corresponding java PinentryStruct object
- * 2. passes this new object to PinEntryActivity.setPinentryStruct()
- * 3. accepts return of a NEW PinentryStruct from the method
- * 4. parses out the user supplied pin (if there is one!)
- * 5. returns
- * TODO: would be nice to simplify this function, but each of those
- * taskes requires lots of shared state, should create a state obj to pass around.
- */
-int contact_javaland ( pinentry_t pe ) {
+struct pe_context {
+    JavaVM* jvm;
     JNIEnv* env;
-    jfieldID fid;
-    jclass cls = 0;
-    jobject result = 0, obj = 0;
 
-    LOGD ( "fill_struct %s\n", pe->title );
+    pinentry_t pe;
+
+    // "info.guardianproject.gpg.pinentry.PinentryStruct"
+    jclass  pe_struct_class;
+    jobject pe_struct;
+
+    // "info.guardianproject.gpg.pinentry.PinEntryActivity"
+    jclass  pe_activity_class; 
+    jobject pe_activity;
+};
+
+int pe_context_init( struct pe_context* ctx ) {
 
     if ( _jvm == 0 ) {
-        LOGD ( "fill_struct: JVM is null\n" );
+        LOGE ( "pe_context_init: JVM is null\n" );
         return -1;
     }
+
     if ( _pinentryActivity == 0 ) {
-        LOGD ( "fill_struct: _pinentryActivity is null\n" );
+        LOGE ( "pe_context_init: _pinentryActivity is null\n" );
         return -1;
     }
 
     // attach to JVM and instantiate a PinentryStruct object
-    ( *_jvm )->AttachCurrentThread ( _jvm, &env, 0 );
-    LOGD ( "attached thread\n" );
-    cls = ( *env )->FindClass ( env, "info/guardianproject/gpg/pinentry/PinentryStruct" );
-    if ( !cls ) {
-        LOGD ( "failed to retrieve PinentryStruct\n" );
+    if( JNI_OK != ( *_jvm )->AttachCurrentThread ( _jvm, &ctx->env, 0 ) ) {
+        LOGE( "pe_context_init: AttachCurrentThread failed");
         return -1;
     }
-    LOGD ( "got cls\n" );
+    ctx->jvm = _jvm;
+    return 0;
+}
 
-    jmethodID constructor = ( *env )->GetMethodID ( env, cls, "<init>", "()V" );
-    LOGD ( "got ctor\n" );
-    obj = ( *env )->NewObject ( env, cls, constructor );
-    if ( !obj )  {
-        LOGD ( "NewObject failed\n" );
+int pe_struct_init( struct pe_context* ctx ) {
+
+    ctx->pe_struct_class = ( *ctx->env )->FindClass ( ctx->env, "info/guardianproject/gpg/pinentry/PinentryStruct" );
+
+    if ( !ctx->pe_struct_class ) {
+        LOGE ( "pe_struct_init: failed to retrieve PinentryStruct\n" );
         return -1;
-    }
-    LOGD ( "got obj\n" );
-
-    // assign all values
-    LOGD ( "title %s\n", pe->title );
-    if ( pe->title ) {
-        SET_STR ( title );
-    }
-    LOGD ( "description %s\n", pe->description );
-    if ( pe->description ) {
-        SET_STR ( description );
-    }
-    LOGD ( "prompt %s\n", pe->prompt );
-
-    LOGD ( "error %s\n", pe->error );
-    if ( pe->error ) {
-        SET_STR ( error );
     }
 
-    jclass cls2 = ( *env )->FindClass ( env, "info/guardianproject/gpg/pinentry/PinEntryActivity" );
-    if ( !cls2 ) {
-        LOGD ( "failed to retrieve PinentryActivity\n" );
+    jmethodID constructor = ( *ctx->env )->GetMethodID ( ctx->env, ctx->pe_struct_class, "<init>", "()V" );
+    ctx->pe_struct = ( *ctx->env )->NewObject ( ctx->env, ctx->pe_struct_class, constructor );
+    if ( !ctx->pe_struct )  {
+        LOGE ( "pe_struct_init: NewObject failed\n" );
         return -1;
     }
-    jmethodID myUsefulJavaFunction = ( *env )->GetMethodID ( env, cls2, "setPinentryStruct", "(Linfo/guardianproject/gpg/pinentry/PinentryStruct;)Linfo/guardianproject/gpg/pinentry/PinentryStruct;" );
-    if ( !myUsefulJavaFunction ) {
-        LOGD ( "failed to retrieve myUsefulJavaFunction\n" );
-        return -1;
-    }
-    result = ( *env )->CallObjectMethod ( env, _pinentryActivity, myUsefulJavaFunction, obj );
-    if ( !result ) {
-        LOGD ( "result is null!!\n" );
-        return -1;
-    }
-    fid = ( *env )->GetFieldID ( env,cls,"pin","Ljava/lang/String;" );
-    if ( !fid ) {
-        LOGD ( "failed to get pin field id\n" );
-        return -1;
-    }
-    jstring jpin = ( *env )->GetObjectField ( env,result,fid );
-    if ( !jpin ) {
-        LOGD ( "jpin is null!!\n" );
-        return -1;
-    }
-    const jbyte *pin = ( *env )->GetStringUTFChars ( env, jpin, NULL );
+    return 0;
+}
 
-    int len = strlen ( pin );
-    if ( len >= 0 ) {
-        pinentry_setbufferlen ( pe, len + 1 );
-        if ( pe->pin ) {
-            strcpy ( pe->pin, pin );
-            LOGD ( "set pin to %s\n", pe->pin );
-            return len;
+jstring pe_new_string ( const struct pe_context* ctx, const char* field, const char* value ) {
+    jstring jString = (*ctx->env)->NewStringUTF(ctx->env, value);
+    if (jString == 0) {
+        LOGE( "pe_new_string: failed to create str %s with %s\n", field, value );
+        return 0;
+    }
+    return jString;
+}
+
+int pe_set_str(const struct pe_context* ctx,  const char* field, jstring value) {
+    jfieldID fid;
+
+    // TODO error handling here
+    fid = (*ctx->env)->GetFieldID( ctx->env, ctx->pe_struct_class, field, "Ljava/lang/String;");
+    (*ctx->env)->SetObjectField( ctx->env, ctx->pe_struct, fid, value );
+    return 0;
+}
+
+int pe_add_string( const struct pe_context* ctx, const char* field, const char* value ) {
+    if( value ) {
+        jstring jField = pe_new_string( ctx, field, value );
+        if( !jField ) {
+            LOGE("pe_add_string: no such field, %s", field);
+            return -1;
         }
+        pe_set_str( ctx, field, jField );
     }
-    LOGD ( "something went wrong returning -1\n" );
+    return 0;
+}
+
+int pe_activity_init( struct pe_context* ctx ) {
+    ctx->pe_activity_class = ( *ctx->env )->FindClass ( ctx->env, "info/guardianproject/gpg/pinentry/PinEntryActivity" );
+    if ( !ctx->pe_activity_class ) {
+        LOGE ( "pe_activity_init: failed to retrieve PinentryActivity.class\n" );
+        return -1;
+    }
+    ctx->pe_activity = _pinentryActivity;
+    if ( !ctx->pe_activity ) {
+        LOGE ( "pe_activity_init: PinentryActivity null\n" );
+        return -1;
+    }
+    return 0;
+}
+
+int pe_set_pe_struct( struct pe_context* ctx ) {
+    jobject result;
+    jmethodID setPinentryStructMethod;
+    setPinentryStructMethod = ( *ctx->env )->GetMethodID ( ctx->env, ctx->pe_activity_class, "setPinentryStruct", "(Linfo/guardianproject/gpg/pinentry/PinentryStruct;)Linfo/guardianproject/gpg/pinentry/PinentryStruct;" );
+    if ( !setPinentryStructMethod ) {
+        LOGE ( "pe_set_pe_struct: failed to retrieve setPinentryStructMethod\n" );
+        return -1;
+    }
+    result = ( *ctx->env )->CallObjectMethod ( ctx->env, ctx->pe_activity, setPinentryStructMethod, ctx->pe_struct );
+    if ( !result ) {
+        LOGE ( "pe_set_pe_struct: result is null!!\n" );
+        return -1;
+    }
+    ctx->pe_struct = result;
+    return 0;
+}
+
+/*
+ * returns the pin length, or -1 on error
+ */
+int pe_get_pin( const struct pe_context* ctx ) {
+    jfieldID fid;
+    fid = ( *ctx->env )->GetFieldID ( ctx->env, ctx->pe_struct_class , "pin", "Ljava/lang/String;" );
+    if ( !fid ) {
+        LOGE ( "pe_get_pin: failed to get pin jfieldID\n" );
+        return -1;
+    }
+
+    jstring jpin = ( *ctx->env )->GetObjectField ( ctx->env, ctx->pe_struct, fid );
+    if ( !jpin ) {
+        LOGE ( "pe_get_pin: jpin is null!!\n" );
+        return -1;
+    }
+
+    jsize pin_len = ( *ctx->env )->GetStringUTFLength ( ctx->env, jpin );
+    const jbyte *pin = ( *ctx->env )->GetStringUTFChars ( ctx->env, jpin, 0 );
+
+    if ( pin_len <= 0 ) {
+        LOGE( "pe_get_pin: pin_len <=0 " );
+        goto pin_error;
+    }
+
+    pinentry_setbufferlen ( ctx->pe, pin_len + 1 );
+    if ( !ctx->pe->pin ) {
+        LOGE( "pe_get_pin: error allocating pin buffer" );
+        goto pin_error;
+    }
+
+    strncpy ( ctx->pe->pin, pin, pin_len );
+
+    ( *ctx->env )->ReleaseStringUTFChars ( ctx->env, jpin, pin );
+    return pin_len;
+
+pin_error:
+    ( *ctx->env )->ReleaseStringUTFChars ( ctx->env, jpin, pin );
     return -1;
+}
+
+/*
+ * JNI voodoo to drive the Android GUI
+ * create the pin prompt and fetch back the user's input
+ * blocks until user enters pin or it is canceled
+ */
+int pe_prompt_pin ( pinentry_t pe ) {
+    int rc = 0;
+    struct pe_context ctx;
+
+    // prepare
+    rc = pe_context_init(&ctx);
+    ctx.pe = pe;
+
+    // instantiates the Java PinentryStruct object
+    rc = pe_struct_init( &ctx );
+    if( rc < 0 ) return -1;
+
+    // populate the PinentryStruct with values from pinentry_t pe
+    rc = pe_add_string( &ctx, "title", pe->title );
+    if( rc < 0 ) return -1;
+    rc = pe_add_string( &ctx, "description", pe->description );
+    if( rc < 0 ) return -1;
+    rc = pe_add_string( &ctx, "prompt", pe->prompt );
+    if( rc < 0 ) return -1;
+    rc = pe_add_string( &ctx, "error", pe->error );
+    if( rc < 0 ) return -1;
+
+    // prepare PinEntryActivity for subsequent method call
+    rc = pe_activity_init( &ctx );
+    if( rc < 0 ) return -1;
+
+    // call PinEntryActivity.setPinentryStruct() to set PinentryStruct we made
+    //    note → this function blocks until the users enters a pin, cancels, or the PinentryActivity is closed
+    rc = pe_set_pe_struct( &ctx );
+    if( rc < 0 ) return -1;
+
+    // fetches the user supplied pin from Java (if there is one!)
+    return pe_get_pin( &ctx );
 }
 
 static int
 android_cmd_handler ( pinentry_t pe ) {
-    LOGD ( "android_cmd_handler\n" );
     int want_pass = !!pe->pin;
 
     pinentry = pe;
@@ -215,10 +299,11 @@ android_cmd_handler ( pinentry_t pe ) {
     pinentry = NULL;
     if ( want_pass ) {
         LOGD ( "android_cmd_handler: i think they want a pin..\n" );
-
-        return contact_javaland ( pe );
-    } else
+        return pe_prompt_pin ( pe );
+    } else {
+        LOGD("android_cmd_handler: we don't do this");
         return ( confirm_value == CONFIRM_OK ) ? 1 : 0;
+    }
 }
 
 pinentry_cmd_handler_t pinentry_cmd_handler = android_cmd_handler;
@@ -226,8 +311,6 @@ pinentry_cmd_handler_t pinentry_cmd_handler = android_cmd_handler;
 
 /*
  * connect to the pinetry helper over a unix domain socket
- * and fetch the stdin and stdout of that process so we
- * can directly communicate with gpg-agent
  */
 int connect_helper( int app_uid ) {
     struct sockaddr_un addr;
@@ -253,7 +336,7 @@ int connect_helper( int app_uid ) {
         snprintf( path, sizeof( path ), "%s/uid=%d(%s)/S.pinentry", EXTERNAL_GNUPGHOME, app_uid, pw->pw_name );
     }
 
-    memset(&addr, 0, sizeof(addr));
+    memset( &addr, 0, sizeof( addr ) );
     addr.sun_family = AF_LOCAL;
 
     LOGD( "connect helper sock: %s", path );
@@ -273,9 +356,14 @@ Java_info_guardianproject_gpg_pinentry_PinEntryActivity_connectToGpgAgent ( JNIE
     LOGD ( "connectToGpgAgent called, uid=%d!\n", app_uid );
     int in, out, sock;
 
-    sock = connect_helper(app_uid);
+    sock = connect_helper( app_uid );
     LOGD ( "connected to pinentry helper\n" );
 
+    /*
+     * fetch the stdin and stdout from the helper
+     * over the socket so that we can
+     * directly communicate with gpg-agent
+     */
     in = recv_fd ( sock );
     if ( in == -1 ) {
         LOGD ( "STDIN receiving failed!\n" );
@@ -285,22 +373,28 @@ Java_info_guardianproject_gpg_pinentry_PinEntryActivity_connectToGpgAgent ( JNIE
         LOGD ( "STDOUT receiving failed!\n" );
     }
 
+    /*
+     * now we can act like a normal pinentry
+     */
     pinentry_init ( "pinentry-android" );
 
-    char* debug[1];
-    debug[0] = "--debug";
     /* Consumes all arguments.  */
-    if ( pinentry_parse_opts ( 1, debug ) )
+    if ( pinentry_parse_opts ( 0, 0 ) )
         write ( sock, EXIT_SUCCESS, 1 );
-    LOGD ( "good to go, starting pinentry loop\n" );
-    pinentry_loop2 ( in, out ); // this only exits when done
+
+    // this only exits when done
+    pinentry_loop2 ( in, out );
     LOGD ( "pinentry_loop2 returned\n" );
-    // close pinentry helper
+
+    /*
+     * the helper proces has stayed alive waiting for us
+     * to finish, so here we send back the exit code
+     */
     int buf[1] = { EXIT_SUCCESS };
     int r = write ( sock, buf, 1 );
-    LOGD ( "wrote %d to helper\n", r );
     if ( r < 0 )
         perror ( "closing pinentry helper failed:" );
+    close( sock );
 }
 
 static JNINativeMethod sMethods[] = {
