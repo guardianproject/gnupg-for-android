@@ -357,6 +357,28 @@ Java_info_guardianproject_gpg_pinentry_PinEntryActivity_connectToGpgAgent ( JNIE
     sock = connect_helper( app_uid );
 
     /*
+     * we make sure we've connected to the correct server by checking that the
+     * app_uid we passed (from our starting Intent) is the same uid of our peer.
+     * This should always succeed, and doesn't provide any assurance we're NOT
+     * connected to a malicious pinentry, but we check it because we can.
+     * If it does fail, something incredibly janky is going on
+     */
+    struct ucred credentials;
+    int ucred_length = sizeof( struct ucred );
+    if( getsockopt( sock, SOL_SOCKET, SO_PEERCRED, &credentials, &ucred_length ) ) {
+        LOGE("connectToGpgAgent: couldn't obtain peer's credentials");
+        close( sock );
+        return;
+    }
+
+    if( app_uid != credentials.uid ) {
+        LOGE( "connectToGpgAgent: authentication error. Something JANKY is going on!" );
+        LOGE( "                   expected uid %d, but found %d", app_uid, credentials.uid );
+        close( sock );
+        return;
+    }
+
+    /*
      * fetch the stdin and stdout from the helper
      * over the socket so that we can
      * directly communicate with gpg-agent
