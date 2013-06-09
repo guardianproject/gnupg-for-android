@@ -318,7 +318,7 @@ int connect_helper( int app_uid ) {
     int fd;
 
     if ( ( fd = socket ( AF_UNIX, SOCK_STREAM, 0 ) ) == -1 ) {
-        perror ( "socket error" );
+        LOGE ( "connect_helper: socket error" );
         exit ( -1 );
     }
 
@@ -330,7 +330,7 @@ int connect_helper( int app_uid ) {
         struct passwd *pw;
         pw = getpwuid( app_uid );
         if( !pw ) {
-            LOGE( "unknown user for uid %d", app_uid );
+            LOGE( "connect_helper: unknown user for uid %d", app_uid );
             exit( EXIT_FAILURE );
         }
         snprintf( path, sizeof( path ), "%s/uid=%d(%s)/S.pinentry", EXTERNAL_GNUPGHOME, app_uid, pw->pw_name );
@@ -339,12 +339,11 @@ int connect_helper( int app_uid ) {
     memset( &addr, 0, sizeof( addr ) );
     addr.sun_family = AF_LOCAL;
 
-    LOGD( "connect helper sock: %s", path );
     memset( addr.sun_path, 0, sizeof( addr.sun_path ) );
     snprintf( addr.sun_path, sizeof( addr.sun_path ), "%s", path );
 
     if ( connect ( fd, ( struct sockaddr* ) &addr, sizeof(addr) ) < 0 ) {
-        perror ( "connect error" );
+        LOGE ( "connect_helper: connect error" );
         exit ( -1 );
     }
     return fd;
@@ -353,11 +352,9 @@ int connect_helper( int app_uid ) {
 JNIEXPORT void JNICALL
 Java_info_guardianproject_gpg_pinentry_PinEntryActivity_connectToGpgAgent ( JNIEnv * env, jobject self, jint app_uid ) {
     _pinentryActivity = self;
-    LOGD ( "connectToGpgAgent called, uid=%d!\n", app_uid );
     int in, out, sock;
 
     sock = connect_helper( app_uid );
-    LOGD ( "connected to pinentry helper\n" );
 
     /*
      * fetch the stdin and stdout from the helper
@@ -366,11 +363,11 @@ Java_info_guardianproject_gpg_pinentry_PinEntryActivity_connectToGpgAgent ( JNIE
      */
     in = recv_fd ( sock );
     if ( in == -1 ) {
-        LOGD ( "STDIN receiving failed!\n" );
+        LOGE ( "STDIN receiving failed!\n" );
     }
     out = recv_fd ( sock );
     if ( out == -1 ) {
-        LOGD ( "STDOUT receiving failed!\n" );
+        LOGE ( "STDOUT receiving failed!\n" );
     }
 
     /*
@@ -384,7 +381,6 @@ Java_info_guardianproject_gpg_pinentry_PinEntryActivity_connectToGpgAgent ( JNIE
 
     // this only exits when done
     pinentry_loop2 ( in, out );
-    LOGD ( "pinentry_loop2 returned\n" );
 
     /*
      * the helper proces has stayed alive waiting for us
@@ -393,7 +389,7 @@ Java_info_guardianproject_gpg_pinentry_PinEntryActivity_connectToGpgAgent ( JNIE
     int buf[1] = { EXIT_SUCCESS };
     int r = write ( sock, buf, 1 );
     if ( r < 0 )
-        perror ( "closing pinentry helper failed:" );
+        LOGE ( "closing pinentry helper failed:" );
     close( sock );
 }
 
