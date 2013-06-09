@@ -35,6 +35,8 @@ public class PinEntryActivity extends Activity {
     private Button okButton;
     private Button cancelButton;
 
+    private int app_uid;
+
     private OnClickListener okClickListener = new OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -72,7 +74,9 @@ public class PinEntryActivity extends Activity {
         if( uid < 0 ) {
             Log.e(TAG, "missing uid. aborting");
             finish();
+            return;
         }
+        app_uid = uid;
 
         description = (TextView) findViewById(R.id.description);
         title = (TextView) findViewById(R.id.title);
@@ -87,6 +91,11 @@ public class PinEntryActivity extends Activity {
         getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
         updateViews();
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         new Thread(new Runnable() {
 
             @Override
@@ -96,12 +105,11 @@ public class PinEntryActivity extends Activity {
                 // when it returns it means gpg-agent is no longer communicating
                 // with us
                 // so we quit. we don't like gpg-agent anyways. neaner.
-                connectToGpgAgent(uid);
+                connectToGpgAgent(app_uid);
                 finish();
             }
 
         }).start();
-
     }
 
     @Override
