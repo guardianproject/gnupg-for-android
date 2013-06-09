@@ -34,7 +34,11 @@
             android:name=".pinentry.PinEntryActivity"
             android:label="@string/title_activity_pinentry"
             android:launchMode="singleInstance"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
             android:exported="true"
+            android:excludeFromRecents="true"
+            android:finishOnTaskLaunch="true"
+            android:noHistory="true"
             android:theme="@android:style/Theme.Dialog" >
             <intent-filter>
             </intent-filter>
