@@ -34,6 +34,7 @@
             android:name=".pinentry.PinEntryActivity"
             android:label="@string/title_activity_pinentry"
             android:launchMode="singleInstance"
+            android:exported="true"
             android:theme="@android:style/Theme.Dialog" >
             <intent-filter>
             </intent-filter>

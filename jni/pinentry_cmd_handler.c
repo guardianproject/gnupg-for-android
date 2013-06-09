@@ -23,7 +23,8 @@
 #define INTERNAL_GNUPGHOME GPG_APP_PATH "/app_home"
 #define EXTERNAL_GNUPGHOME GPG_APP_PATH "/app_gnupghome"
 
-#define SOCKET_NAME "info.guardianproject.gpg.pinentry"
+#define SOCKET_PINENTRY "info.guardianproject.gpg.pinentry"
+
 #define LOGD(...) __android_log_print(ANDROID_LOG_DEBUG , "PINENTRY", __VA_ARGS__)
 #define LOGE(...) __android_log_print(ANDROID_LOG_ERROR , "PE-HELPER", __VA_ARGS__)
 
@@ -314,38 +315,40 @@ pinentry_cmd_handler_t pinentry_cmd_handler = android_cmd_handler;
  */
 int connect_helper( int app_uid ) {
     struct sockaddr_un addr;
-    char path[PATH_MAX];
+    char path[UNIX_PATH_MAX];
+    int path_len = 0;
     int fd;
 
     if ( ( fd = socket ( AF_UNIX, SOCK_STREAM, 0 ) ) == -1 ) {
         LOGE ( "connect_helper: socket error" );
-        exit ( -1 );
+        return -1;
     }
 
     if( app_uid == getuid() ) {
-        // we're an internal pinentry
-        snprintf( path, sizeof( path ), "%s/S.pinentry", INTERNAL_GNUPGHOME );
+        // we're an internal pinentry, so use a file-backed socket
+        path_len = snprintf( path, sizeof( path ), "%s/S.pinentry", INTERNAL_GNUPGHOME );
     } else {
-        // we're an external pinentry
-        struct passwd *pw;
-        pw = getpwuid( app_uid );
-        if( !pw ) {
-            LOGE( "connect_helper: unknown user for uid %d", app_uid );
-            exit( EXIT_FAILURE );
-        }
-        snprintf( path, sizeof( path ), "%s/uid=%d(%s)/S.pinentry", EXTERNAL_GNUPGHOME, app_uid, pw->pw_name );
+        // we're an external pinentry, so use an abstract socket
+        path_len = snprintf( &path[1], sizeof( path ), "%s.%d", SOCKET_PINENTRY, app_uid );
+        path[0] = '\0';
+        ++path_len;
     }
 
     memset( &addr, 0, sizeof( addr ) );
     addr.sun_family = AF_LOCAL;
-
     memset( addr.sun_path, 0, sizeof( addr.sun_path ) );
-    snprintf( addr.sun_path, sizeof( addr.sun_path ), "%s", path );
+    memcpy( addr.sun_path, path, path_len );
 
     if ( connect ( fd, ( struct sockaddr* ) &addr, sizeof(addr) ) < 0 ) {
         LOGE ( "connect_helper: connect error" );
-        exit ( -1 );
+        return -1;
     }
+
+    if( fd < 0 ) {
+        LOGE( " connect_helper: socket error" );
+        return -1;
+    }
+
     return fd;
 }
 
@@ -354,7 +357,13 @@ Java_info_guardianproject_gpg_pinentry_PinEntryActivity_connectToGpgAgent ( JNIE
     _pinentryActivity = self;
     int in, out, sock;
 
+    LOGD("connectToGpgAgent");
+
     sock = connect_helper( app_uid );
+    if( sock < 0 ) {
+        LOGE("connectToGpgAgent aborting");
+        return;
+    }
 
     /*
      * we make sure we've connected to the correct server by checking that the
