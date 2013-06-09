@@ -12,6 +12,7 @@
 #include <string.h>
 #include <sys/un.h>
 #include <locale.h>
+#include <pwd.h>
 
 #include <android/log.h>
 
@@ -24,6 +25,7 @@
 
 #define SOCKET_NAME "info.guardianproject.gpg.pinentry"
 #define LOGD(...) __android_log_print(ANDROID_LOG_DEBUG , "PINENTRY", __VA_ARGS__)
+#define LOGE(...) __android_log_print(ANDROID_LOG_ERROR , "PE-HELPER", __VA_ARGS__)
 
 #define TO_JAVA_STRING(NAME, EXP) \
         jstring NAME = (*env)->NewStringUTF(env,EXP); \
@@ -227,7 +229,7 @@ pinentry_cmd_handler_t pinentry_cmd_handler = android_cmd_handler;
  * and fetch the stdin and stdout of that process so we
  * can directly communicate with gpg-agent
  */
-int connect_helper() {
+int connect_helper( int app_uid ) {
     struct sockaddr_un addr;
     char path[PATH_MAX];
     int fd;
@@ -237,13 +239,26 @@ int connect_helper() {
         exit ( -1 );
     }
 
+    if( app_uid == getuid() ) {
+        // we're an internal pinentry
+        snprintf( path, sizeof( path ), "%s/S.pinentry", INTERNAL_GNUPGHOME );
+    } else {
+        // we're an external pinentry
+        struct passwd *pw;
+        pw = getpwuid( app_uid );
+        if( !pw ) {
+            LOGE( "unknown user for uid %d", app_uid );
+            exit( EXIT_FAILURE );
+        }
+        snprintf( path, sizeof( path ), "%s/uid=%d(%s)/S.pinentry", EXTERNAL_GNUPGHOME, app_uid, pw->pw_name );
+    }
+
     memset(&addr, 0, sizeof(addr));
     addr.sun_family = AF_LOCAL;
-    snprintf(path, sizeof(path), "%s/S.pinentry", INTERNAL_GNUPGHOME, getpid());
-    LOGD("connect helper sock: %s", path);
-    memset(addr.sun_path, 0, sizeof(addr.sun_path));
-    snprintf(addr.sun_path, sizeof(addr.sun_path), "%s", path);
-    LOGD("snprintfed");
+
+    LOGD( "connect helper sock: %s", path );
+    memset( addr.sun_path, 0, sizeof( addr.sun_path ) );
+    snprintf( addr.sun_path, sizeof( addr.sun_path ), "%s", path );
 
     if ( connect ( fd, ( struct sockaddr* ) &addr, sizeof(addr) ) < 0 ) {
         perror ( "connect error" );
@@ -257,7 +272,8 @@ Java_info_guardianproject_gpg_pinentry_PinEntryActivity_connectToGpgAgent ( JNIE
     _pinentryActivity = self;
     LOGD ( "connectToGpgAgent called, uid=%d!\n", app_uid );
     int in, out, sock;
-    sock = connect_helper();
+
+    sock = connect_helper(app_uid);
     LOGD ( "connected to pinentry helper\n" );
 
     in = recv_fd ( sock );
