@@ -302,7 +302,7 @@ android_cmd_handler ( pinentry_t pe ) {
         LOGD ( "android_cmd_handler: i think they want a pin..\n" );
         return pe_prompt_pin ( pe );
     } else {
-        LOGD("android_cmd_handler: we don't do this");
+        LOGE("android_cmd_handler: we don't do this");
         return ( confirm_value == CONFIRM_OK ) ? 1 : 0;
     }
 }
@@ -356,8 +356,6 @@ JNIEXPORT void JNICALL
 Java_info_guardianproject_gpg_pinentry_PinEntryActivity_connectToGpgAgent ( JNIEnv * env, jobject self, jint app_uid ) {
     _pinentryActivity = self;
     int in, out, sock;
-
-    LOGD("connectToGpgAgent");
 
     sock = connect_helper( app_uid );
     if( sock < 0 ) {
@@ -430,7 +428,6 @@ static JNINativeMethod sMethods[] = {
 
 JNIEXPORT jint JNICALL
 JNI_OnLoad ( JavaVM *vm, void *reserved ) {
-    LOGD ( "JNI_OnLoad called\n" );
 #ifdef __ANDROID__
     // TODO get the actual gpgAppOpt path from Java
     // we need to set LD_LIBRARY_PATH because gpgme calls the cmd line utils

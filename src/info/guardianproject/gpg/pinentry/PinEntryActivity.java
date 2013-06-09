@@ -65,7 +65,6 @@ public class PinEntryActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pinentry);
         NativeHelper.setup(this);
-        Log.d("PinEntryActivity", "PinEntryActivity::onCreate");
 
         Bundle params = getIntent().getExtras();
         final int uid = params.getInt("uid", -1);
@@ -137,7 +136,6 @@ public class PinEntryActivity extends Activity {
     private synchronized void updateViews() {
         if (pinentry != null) {
             if (pinentry.title != null) {
-                Log.d(TAG, "PinentryStruct.title: " + pinentry.title);
                 title.setText(pinentry.title);
                 title.setVisibility(View.VISIBLE);
             } else {
@@ -145,7 +143,6 @@ public class PinEntryActivity extends Activity {
                 title.setVisibility(View.GONE);
             }
             if (pinentry.description != null) {
-                Log.d(TAG, "PinentryStruct.description: " + pinentry.description);
                 description.setText(pinentry.description);
                 description.setVisibility(View.VISIBLE);
             } else {
