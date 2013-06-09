@@ -70,7 +70,7 @@ public class PinEntryActivity extends Activity {
         final int uid = params.getInt("uid", -1);
 
         if( uid < 0 ) {
-            Log.e(TAG, "missing uid");
+            Log.e(TAG, "missing uid. aborting");
             finish();
         }
 
@@ -122,16 +122,13 @@ public class PinEntryActivity extends Activity {
 
     private synchronized void setPin() {
         if (pinentry == null) {
-            Log.d(TAG, "setPin(): pinentry struct is null :(");
             return;
         }
         pinentry.pin = pinEdit.getText().toString();
     }
 
     private synchronized void updateViews() {
-        if (pinentry == null)
-            Log.d(TAG, "pinentry struct is null :(");
-        else {
+        if (pinentry != null) {
             if (pinentry.title != null) {
                 Log.d(TAG, "PinentryStruct.title: " + pinentry.title);
                 title.setText(pinentry.title);
@@ -156,8 +153,6 @@ public class PinEntryActivity extends Activity {
         synchronized (this) {
             pinentry = s;
         }
-        Log.d(TAG, "set pinentry, running update on UI thread");
-
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -166,14 +161,11 @@ public class PinEntryActivity extends Activity {
         });
 
         synchronized (this) {
-            Log.d(TAG, "waiting for user input");
             try {
                 wait();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            Log.d(TAG, "user input received, returning");
-            Log.d(TAG, "btw, pin is " + pinentry.pin);
             return pinentry;
         }
     }
