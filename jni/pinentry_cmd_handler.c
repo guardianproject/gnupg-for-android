@@ -21,12 +21,11 @@
 #define GPG_APP_PATH "/data/data/info.guardianproject.gpg"
 
 #define INTERNAL_GNUPGHOME GPG_APP_PATH "/app_home"
-#define EXTERNAL_GNUPGHOME GPG_APP_PATH "/app_gnupghome"
 
 #define SOCKET_PINENTRY "info.guardianproject.gpg.pinentry"
 
 #define LOGD(...) __android_log_print(ANDROID_LOG_DEBUG , "PINENTRY", __VA_ARGS__)
-#define LOGE(...) __android_log_print(ANDROID_LOG_ERROR , "PE-HELPER", __VA_ARGS__)
+#define LOGE(...) __android_log_print(ANDROID_LOG_ERROR , "PINENTRY", __VA_ARGS__)
 
 int recv_fd ( int socket ) {
     int sent_fd, available_ancillary_element_buffer_space;
