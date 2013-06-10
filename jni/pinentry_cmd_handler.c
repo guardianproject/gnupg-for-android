@@ -50,8 +50,6 @@ int recv_fd ( int socket ) {
     socket_message.msg_control = ancillary_element_buffer;
     socket_message.msg_controllen = CMSG_SPACE ( sizeof ( int ) );
 
-    // TODO: the 0 third arg below used ot be MSG_CMSG_CLOEXEC
-    // but it broke compilation on android, make sure this isn't killing puppies
     if ( recvmsg ( socket, &socket_message,  0) < 0 )
         return -1;
 
