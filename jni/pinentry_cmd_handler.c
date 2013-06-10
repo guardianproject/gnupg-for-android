@@ -533,18 +533,8 @@ static JNINativeMethod sMethods[] = {
 
 JNIEXPORT jint JNICALL
 JNI_OnLoad ( JavaVM *vm, void *reserved ) {
-#ifdef __ANDROID__
-    // TODO get the actual gpgAppOpt path from Java
-    // we need to set LD_LIBRARY_PATH because gpgme calls the cmd line utils
-    const char *ldLibraryPath = getenv ( "LD_LIBRARY_PATH" );
-    const char *gpgAppOpt = "/data/data/info.guardianproject.gpg/app_opt/lib";
-    size_t newPathLen = strlen ( ldLibraryPath ) + strlen ( gpgAppOpt ) + 2;
-    char newPath[newPathLen];
-    snprintf ( newPath, newPathLen, "%s:%s", gpgAppOpt, ldLibraryPath );
-    setenv ( "LD_LIBRARY_PATH", newPath, 1 );
-#endif /* __ANDROID */
     // TODO set locale from the JavaVM's config
-//    setlocale(LC_ALL, "");
+    // setlocale(LC_ALL, "");
 
     _jvm = vm;
 
