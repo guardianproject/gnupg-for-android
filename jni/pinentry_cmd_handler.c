@@ -20,8 +20,6 @@
 
 #define GPG_APP_PATH "/data/data/info.guardianproject.gpg"
 
-#define INTERNAL_GNUPGHOME GPG_APP_PATH "/app_home"
-
 #define SOCKET_PINENTRY "info.guardianproject.gpg.pinentry"
 
 #define LOGD(...) __android_log_print(ANDROID_LOG_DEBUG , "PINENTRY", __VA_ARGS__)
@@ -77,9 +75,7 @@ int recv_fd ( int socket ) {
 }
 
 /* static variables for JNI voodoo */
-
-JavaVM* _jvm = 0;
-jobject _pinentryActivity = 0;
+struct pe_context _ctx;
 
 /* static variables for pinentry voodoo */
 static pinentry_t pinentry;
@@ -100,26 +96,77 @@ struct pe_context {
     // "info.guardianproject.gpg.pinentry.PinEntryActivity"
     jclass  pe_activity_class; 
     jobject pe_activity;
+
+    char internal_gnupghome[UNIX_PATH_MAX];
 };
 
-int pe_context_init( struct pe_context* ctx ) {
+int pe_get_internal_gnupghome( struct pe_context* ctx ) {
+    jclass NativeHelperCls = ( *ctx->env )->FindClass ( ctx->env, "info/guardianproject/gpg/NativeHelper" );
+    if ( !NativeHelperCls ) {
+        LOGE ( "pe_get_internal_gnupghome: failed to retrieve NativeHelperCls\n" );
+        return -1;
+    }
 
-    if ( _jvm == 0 ) {
+    jfieldID fid_app_home = (*ctx->env)->GetStaticFieldID( ctx->env, NativeHelperCls, "app_home", "Ljava/io/File;");
+    if( fid_app_home == 0 ) {
+        LOGE( "pe_get_internal_gnupghome: failed to get fid_app_home" );
+        return -1;
+    }
+
+    jclass FileCls = ( *ctx->env )->FindClass ( ctx->env, "java/io/File" );
+    if ( !FileCls ) {
+        LOGE ( "pe_get_internal_gnupghome: failed to retrieve FileCls\n" );
+        return -1;
+    }
+
+    jobject obj_File_app_home = (*ctx->env)->GetStaticObjectField( ctx->env, NativeHelperCls, fid_app_home );
+    if( obj_File_app_home == 0 ) {
+        LOGE( "pe_get_internal_gnupghome: failed to get obj_File_app_home" );
+        return -1;
+    }
+
+    jmethodID method_File_getAbsolutePath = ( *ctx->env )->GetMethodID ( ctx->env, FileCls, "getAbsolutePath", "()Ljava/lang/String;" );
+    if( method_File_getAbsolutePath == 0 ) {
+        LOGE( "pe_get_internal_gnupghome: failed to get method_File_getAbsolutePath" );
+        return -1;
+    }
+
+    jstring absolutePath = ( *ctx->env )->CallObjectMethod ( ctx->env, obj_File_app_home, method_File_getAbsolutePath );
+    if( method_File_getAbsolutePath == 0 ) {
+        LOGE( "pe_get_internal_gnupghome: failed to CallObjectMethod(method_File_getAbsolutePath)" );
+        return -1;
+    }
+
+    jsize gnupghome_len = ( *ctx->env )->GetStringUTFLength ( ctx->env, absolutePath );
+    const jbyte *gnupghome = ( *ctx->env )->GetStringUTFChars ( ctx->env, absolutePath, 0 );
+
+    if( gnupghome_len > UNIX_PATH_MAX ) {
+        LOGE("pe_get_internal_gnupghome: gnupghome_len > UNIX_PATH_MAX (%d > %d)", gnupghome_len, UNIX_PATH_MAX);
+        return -1;
+    }
+    strncpy(ctx->internal_gnupghome, gnupghome, gnupghome_len);
+
+    ( *ctx->env )->ReleaseStringUTFChars ( ctx->env, absolutePath, gnupghome );
+    return 0;
+}
+int pe_context_init( struct pe_context* ctx, JavaVM *vm ) {
+    ctx->jvm = vm;
+    if ( ctx->jvm == 0 ) {
         LOGE ( "pe_context_init: JVM is null\n" );
         return -1;
     }
 
-    if ( _pinentryActivity == 0 ) {
-        LOGE ( "pe_context_init: _pinentryActivity is null\n" );
-        return -1;
-    }
-
-    // attach to JVM and instantiate a PinentryStruct object
-    if( JNI_OK != ( *_jvm )->AttachCurrentThread ( _jvm, &ctx->env, 0 ) ) {
+    // attach to JVM
+    if( JNI_OK != ( *ctx->jvm )->AttachCurrentThread ( ctx->jvm, &ctx->env, 0 ) ) {
         LOGE( "pe_context_init: AttachCurrentThread failed");
         return -1;
     }
-    ctx->jvm = _jvm;
+
+    ctx->pe_activity = 0;
+    ctx->pe_activity_class = 0;
+    ctx->pe_struct = 0;
+    ctx->pe_struct_class = 0;
+    ctx->env = 0;
     return 0;
 }
 
@@ -186,13 +233,14 @@ int pe_add_string( const struct pe_context* ctx, const char* field, const char* 
     return 0;
 }
 
-int pe_activity_init( struct pe_context* ctx ) {
+int pe_activity_init( struct pe_context* ctx, jobject pe_activity ) {
     ctx->pe_activity_class = ( *ctx->env )->FindClass ( ctx->env, "info/guardianproject/gpg/pinentry/PinEntryActivity" );
     if ( !ctx->pe_activity_class ) {
         LOGE ( "pe_activity_init: failed to retrieve PinentryActivity.class\n" );
         return -1;
     }
-    ctx->pe_activity = _pinentryActivity;
+
+    ctx->pe_activity = pe_activity;
     if ( !ctx->pe_activity ) {
         LOGE ( "pe_activity_init: PinentryActivity null\n" );
         return -1;
@@ -323,66 +371,47 @@ int pe_fill_data( struct pe_context* ctx ) {
  * create the pin prompt and fetch back the user's input
  * blocks until user enters pin or it is canceled
  */
-int pe_prompt_pin ( pinentry_t pe ) {
+int pe_prompt_pin ( void ) {
     int rc = 0;
-    struct pe_context ctx;
-
-    // prepare
-    rc = pe_context_init(&ctx);
-    ctx.pe = pe;
 
     // instantiates the Java PinentryStruct object
-    rc = pe_struct_init( &ctx );
+    rc = pe_struct_init( &_ctx );
     if( rc < 0 ) return -1;
 
-    rc = pe_fill_data( &ctx );
-    if( rc < 0 ) return -1;
-
-    // prepare PinEntryActivity for subsequent method call
-    rc = pe_activity_init( &ctx );
+    rc = pe_fill_data( &_ctx );
     if( rc < 0 ) return -1;
 
     // call PinEntryActivity.setPinentryStruct() to set PinentryStruct we made
     //    note → this function blocks until the users enters a pin, cancels, or the PinentryActivity is closed
-    rc = pe_set_pe_struct( &ctx );
+    rc = pe_set_pe_struct( &_ctx );
     if( rc < 0 ) return -1;
 
-    pe_get_result( & ctx );
-    pe_get_canceled( & ctx );
+    pe_get_result( &_ctx );
+    pe_get_canceled( &_ctx );
 
     // fetches the user supplied pin from Java (if there is one!)
-    return pe_get_pin( &ctx );
+    return pe_get_pin( &_ctx );
 }
 
-int pe_prompt_buttons ( pinentry_t pe ) {
+int pe_prompt_buttons ( void ) {
     int rc = 0;
-    struct pe_context ctx;
-
-    // prepare
-    rc = pe_context_init(&ctx);
-    ctx.pe = pe;
-
     // instantiates the Java PinentryStruct object
-    rc = pe_struct_init( &ctx );
+    rc = pe_struct_init( &_ctx );
     if( rc < 0 ) return -1;
 
-    rc = pe_fill_data( &ctx );
+    rc = pe_fill_data( &_ctx );
     if( rc < 0 ) return -1;
 
-    rc = pe_set_int( &ctx, "isButtonBox", 0 ); // true
-    if( rc < 0 ) return -1;
-
-    // prepare PinEntryActivity for subsequent method call
-    rc = pe_activity_init( &ctx );
+    rc = pe_set_int( &_ctx, "isButtonBox", 0 ); // true
     if( rc < 0 ) return -1;
 
     // call PinEntryActivity.setPinentryStruct() to set PinentryStruct we made
     //    note → this function blocks until the user clicks a button or the PinentryActivity is closed
-    rc = pe_set_pe_struct( &ctx );
+    rc = pe_set_pe_struct( &_ctx );
     if( rc < 0 ) return -1;
 
-    pe_get_result( & ctx );
-    pe_get_canceled( & ctx );
+    pe_get_result( &_ctx );
+    pe_get_canceled( &_ctx );
 
     return 0;
 }
@@ -399,12 +428,13 @@ android_cmd_handler ( pinentry_t pe ) {
         pe->canceled = 1;
 
     pinentry = NULL;
+    _ctx.pe = pe;
     if ( want_pass ) {
         LOGD ( "android_cmd_handler: i think they want a pin..\n" );
-        return pe_prompt_pin ( pe );
+        return pe_prompt_pin ();
     } else {
         LOGE("android_cmd_handler: we don't do this");
-        return pe_prompt_buttons( pe );
+        return pe_prompt_buttons();
         return ( confirm_value == CONFIRM_OK ) ? 1 : 0;
     }
 }
@@ -428,7 +458,7 @@ int connect_helper( int app_uid ) {
 
     if( app_uid == getuid() ) {
         // we're an internal pinentry, so use a file-backed socket
-        path_len = snprintf( path, sizeof( path ), "%s/S.pinentry", INTERNAL_GNUPGHOME );
+        path_len = snprintf( path, sizeof( path ), "%s/S.pinentry", _ctx.internal_gnupghome );
     } else {
         // we're an external pinentry, so use an abstract socket
         path_len = snprintf( &path[1], sizeof( path ), "%s.%d", SOCKET_PINENTRY, app_uid );
@@ -442,7 +472,7 @@ int connect_helper( int app_uid ) {
     memcpy( addr.sun_path, path, path_len );
 
     if ( connect ( fd, ( struct sockaddr* ) &addr, sizeof(addr) ) < 0 ) {
-        LOGE ( "connect_helper: connect error" );
+        LOGE ( "connect_helper: connect error, sock=%s", path);
         return -1;
     }
 
@@ -456,8 +486,11 @@ int connect_helper( int app_uid ) {
 
 JNIEXPORT void JNICALL
 Java_info_guardianproject_gpg_pinentry_PinEntryActivity_connectToGpgAgent ( JNIEnv * env, jobject self, jint app_uid ) {
-    _pinentryActivity = self;
     int in, out, sock;
+
+    _ctx.env = env;
+    pe_activity_init(&_ctx, self);
+    pe_get_internal_gnupghome(&_ctx);
 
     sock = connect_helper( app_uid );
     if( sock < 0 ) {
@@ -512,6 +545,7 @@ Java_info_guardianproject_gpg_pinentry_PinEntryActivity_connectToGpgAgent ( JNIE
 
     // this only exits when done
     pinentry_loop2 ( in, out );
+    LOGD("pinentry_loop2  returned");
 
     /*
      * the helper proces has stayed alive waiting for us
@@ -533,7 +567,6 @@ JNI_OnLoad ( JavaVM *vm, void *reserved ) {
     // TODO set locale from the JavaVM's config
     // setlocale(LC_ALL, "");
 
-    _jvm = vm;
-
+    pe_context_init(&_ctx, vm);
     return JNI_VERSION_1_6;
 }
