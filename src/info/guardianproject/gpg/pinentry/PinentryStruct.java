@@ -13,39 +13,41 @@ public class PinentryStruct {
 		  PINENTRY_COLOR_BLUE, PINENTRY_COLOR_MAGENTA,
 		  PINENTRY_COLOR_CYAN, PINENTRY_COLOR_WHITE
 	}
-	public String title;
-	public String description;
-	public String error;
-	public String prompt;
-	public String ok;
-	public String notok;
-	public String cancel;
-	public String pin;
+	public String title = new String();
+	public String description = new String();
+	public String error = new String();
+	public String prompt = new String();
+	public String ok = new String();
+	public String notok = new String();
+	public String cancel = new String();
+	public String pin = new String();
 	public int pin_len;
-	public String display;
-	public String ttyname;
-	public String ttytpe;
-	public String lc_ctype;
-	public String lc_messages;
+	public String display = new String();
+	public String ttyname = new String();
+	public String ttytpe = new String();
+	public String lc_ctype = new String();
+	public String lc_messages = new String();
 	public boolean debug;
 	public int timeout;
 	public int grab;
 	public int parent_wid;
-	public String touch_file;
+	public String touch_file = new String();
 	public int result;
 	public int canceled;
 	public int locale_err;
 	public int close_button;
 	public int one_button;
-	public String quality_bar;
-	public String quality_bar_tt;
+	public String quality_bar = new String();
+	public String quality_bar_tt = new String();
 	public PinentryColor color_fg;
 	public int color_fg_bright;
 	public PinentryColor color_bg;
 	public PinentryColor color_so;
 	public 	int color_so_bright;
-	public String default_ok;
-	public String default_cancel;
-	public String default_prompt;
+	public String default_ok = new String();
+	public String default_cancel = new String();
+	public String default_prompt = new String();
+
+	public int isButtonBox = 1; // C-style boolean
 
 }

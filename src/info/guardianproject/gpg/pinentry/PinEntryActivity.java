@@ -33,11 +33,15 @@ public class PinEntryActivity extends Activity {
     private TextView description;
     private TextView title;
     private Button okButton;
+    private Button notOkButton;
     private Button cancelButton;
 
     private int app_uid;
 
-    private OnClickListener okClickListener = new OnClickListener() {
+    private boolean oneButton;
+    private boolean promptingPin;
+
+    private OnClickListener pinEnterClickListener = new OnClickListener() {
         @Override
         public void onClick(View v) {
             setPin();
@@ -45,11 +49,29 @@ public class PinEntryActivity extends Activity {
         }
     };
 
+    private OnClickListener notOkClickListener = new OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            setNotOked(true);
+            syncNotify();
+//            finish();;
+        }
+    };
+
     private OnClickListener cancelClickListener = new OnClickListener() {
         @Override
         public void onClick(View v) {
+            setCanceled(true);
             syncNotify();
-            finish();
+//            finish();
+        }
+    };
+
+    private OnClickListener okClickListener = new OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            setCanceled(false);
+            syncNotify();
         }
     };
 
@@ -79,11 +101,10 @@ public class PinEntryActivity extends Activity {
         description = (TextView) findViewById(R.id.description);
         title = (TextView) findViewById(R.id.title);
         okButton = (Button) findViewById(R.id.okButton);
+        notOkButton = (Button) findViewById(R.id.notOkButton);
         cancelButton = (Button) findViewById(R.id.cancelButton);
         pinEdit = (EditText) findViewById(R.id.pinEdit);
 
-        okButton.setOnClickListener(okClickListener);
-        cancelButton.setOnClickListener(cancelClickListener);
 
         pinentry = (PinentryStruct) getLastNonConfigurationInstance();
         getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
@@ -127,28 +148,134 @@ public class PinEntryActivity extends Activity {
     }
 
     private synchronized void setPin() {
-        if (pinentry == null) {
+        if (pinentry == null) return;
+        pinentry.pin    = pinEdit.getText().toString();
+        pinentry.result = pinEdit.getText().length();
+    }
+
+    private synchronized void setNotOked( boolean notoked ) {
+        if (pinentry == null) return;
+        pinentry.canceled = notoked ? 0 : 1;
+    }
+    private synchronized void setCanceled( boolean canceled ) {
+        if (pinentry == null) return;
+        if(canceled)          pinentry.result = -1;
+    }
+
+    private synchronized void updateTitle() {
+        if (!pinentry.title.isEmpty() ) {
+            title.setText(pinentry.title);
+            title.setVisibility(View.VISIBLE);
+        } else {
+            title.setText("");
+            title.setVisibility(View.GONE);
+        }
+    }
+
+    private synchronized void updateDesc() {
+        if (!pinentry.description.isEmpty() ) {
+            description.setText(pinentry.description);
+            description.setVisibility(View.VISIBLE);
+        } else {
+            description.setText("");
+            description.setVisibility(View.GONE);
+        }
+    }
+
+    private synchronized void setButton(boolean pinPrompt, boolean oneButton) {
+        if( !pinentry.ok.isEmpty() ) {
+            okButton.setText(pinentry.ok);
+        } else {
+            okButton.setText(pinentry.default_ok);
+        }
+        if( !pinentry.cancel.isEmpty() ) {
+            cancelButton.setText(pinentry.cancel);
+        } else {
+            cancelButton.setText(pinentry.default_cancel);
+        }
+    }
+
+    private synchronized void updateOkButton() {
+        if( this.promptingPin ) {
+            okButton.setOnClickListener(pinEnterClickListener);
+        } else {
+            okButton.setOnClickListener(okClickListener);
+        }
+        if( this.oneButton ) {
+            okButton.setVisibility(View.GONE);
+        } else {
+            okButton.setVisibility(View.VISIBLE);
+        }
+
+        if( !pinentry.ok.isEmpty() ) {
+            okButton.setText(fix(pinentry.ok));
+        } else {
+            okButton.setText(fix(pinentry.default_ok));
+        }
+    }
+
+    private synchronized void updateCancelButton() {
+        cancelButton.setOnClickListener(cancelClickListener);
+        okButton.setVisibility(View.VISIBLE);
+        if( !pinentry.cancel.isEmpty() ) {
+            cancelButton.setText(fix(pinentry.cancel));
+        } else {
+            cancelButton.setText(fix(pinentry.default_cancel));
+        }
+    }
+
+    private synchronized void updateNotOkButton() {
+        notOkButton.setOnClickListener(notOkClickListener);
+        if( this.promptingPin ) {
+            notOkButton.setVisibility(View.GONE);
             return;
         }
-        pinentry.pin = pinEdit.getText().toString();
+        if( this.oneButton ) {
+            notOkButton.setVisibility(View.GONE);
+            return;
+        }
+
+        if( !pinentry.notok.isEmpty() ) {
+            notOkButton.setText(fix(pinentry.notok));
+            notOkButton.setVisibility(View.VISIBLE);
+        } else {
+            notOkButton.setVisibility(View.GONE);
+        }
+    }
+
+    private synchronized void updatePinEdit() {
+        if( this.promptingPin ) {
+            pinEdit.setVisibility(View.VISIBLE);
+            return;
+        } else {
+            pinEdit.setVisibility(View.GONE);
+        }
+    }
+
+    /*
+     * The strings gpg-agent sends us include accelerator markers
+     * these are underscores and on the desktop they enable the
+     * ALT+X shortcuts actions. We remove them.
+     */
+    private String fix( String str ) {
+        // double underscores are escaped underscores
+        return str.replace("__", "ILoveHotSauce").replace("_", "").replace("ILoveHotSauce", "_");
+    }
+
+    private synchronized void updateView() {
+        updateTitle();
+        updateDesc();
+        updateOkButton();
+        updateCancelButton();
+        updateNotOkButton();
+        updatePinEdit();
     }
 
     private synchronized void updateViews() {
         if (pinentry != null) {
-            if (pinentry.title != null) {
-                title.setText(pinentry.title);
-                title.setVisibility(View.VISIBLE);
-            } else {
-                title.setText("");
-                title.setVisibility(View.GONE);
-            }
-            if (pinentry.description != null) {
-                description.setText(pinentry.description);
-                description.setVisibility(View.VISIBLE);
-            } else {
-                description.setText("");
-                description.setVisibility(View.GONE);
-            }
+            promptingPin = pinentry.isButtonBox != 0;
+            oneButton = pinentry.one_button == 0;
+            updateView();
         }
     }
 

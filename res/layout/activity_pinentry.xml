@@ -51,7 +51,14 @@
             android:height="50sp"
             android:text="@android:string/ok"
             android:textAppearance="@android:style/TextAppearance.Large" />
-
+        <Button
+            android:id="@+id/notOkButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:height="50sp"
+            android:text="Not Ok"
+            android:textAppearance="@android:style/TextAppearance.Large" />
         <Button
             android:id="@+id/cancelButton"
             android:layout_width="wrap_content"

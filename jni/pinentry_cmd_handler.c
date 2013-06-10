@@ -156,9 +156,24 @@ jstring pe_new_string ( const struct pe_context* ctx, const char* field, const c
 int pe_set_str(const struct pe_context* ctx,  const char* field, jstring value) {
     jfieldID fid;
 
-    // TODO error handling here
     fid = (*ctx->env)->GetFieldID( ctx->env, ctx->pe_struct_class, field, "Ljava/lang/String;");
+    if( fid == 0 ) {
+        LOGE( "pe_set_str: failed to get fid %s", field );
+        return -1;
+    }
     (*ctx->env)->SetObjectField( ctx->env, ctx->pe_struct, fid, value );
+    return 0;
+}
+
+int pe_set_int(const struct pe_context* ctx,  const char* field, int value) {
+    jfieldID fid;
+
+    fid = (*ctx->env)->GetFieldID( ctx->env, ctx->pe_struct_class, field, "I");
+    if( fid == 0 ) {
+        LOGE( "pe_set_int: failed to get fid %s", field );
+        return -1;
+    }
+    (*ctx->env)->SetIntField( ctx->env, ctx->pe_struct, fid, value );
     return 0;
 }
 
@@ -169,7 +184,7 @@ int pe_add_string( const struct pe_context* ctx, const char* field, const char* 
             LOGE("pe_add_string: no such field, %s", field);
             return -1;
         }
-        pe_set_str( ctx, field, jField );
+        return pe_set_str( ctx, field, jField );
     }
     return 0;
 }
@@ -246,6 +261,66 @@ pin_error:
     return -1;
 }
 
+int pe_get_result( const struct pe_context* ctx ) {
+    jfieldID fid;
+    fid = ( *ctx->env )->GetFieldID ( ctx->env, ctx->pe_struct_class , "result", "I" );
+    if ( !fid ) {
+        LOGE ( "pe_get_result: failed to get result jfieldID\n" );
+        return -1;
+    }
+
+    jint result = ( *ctx->env )->GetIntField ( ctx->env, ctx->pe_struct, fid );
+    ctx->pe->result = result;
+    return 0;
+}
+
+int pe_get_canceled( const struct pe_context* ctx ) {
+    jfieldID fid;
+    fid = ( *ctx->env )->GetFieldID ( ctx->env, ctx->pe_struct_class , "canceled", "I" );
+    if ( !fid ) {
+        LOGE ( "pe_get_canceled: failed to get canceled jfieldID\n" );
+        return -1;
+    }
+
+    jint canceled = ( *ctx->env )->GetIntField ( ctx->env, ctx->pe_struct, fid );
+    ctx->pe->canceled = canceled;
+    return 0;
+}
+
+int pe_fill_data( struct pe_context* ctx ) {
+    int rc = 0;
+    // populate the PinentryStruct with values from pinentry_t pe
+    rc = pe_add_string( ctx, "title", ctx->pe->title );
+    if( rc < 0 ) return -1;
+    rc = pe_add_string( ctx, "description", ctx->pe->description );
+    if( rc < 0 ) return -1;
+    rc = pe_add_string( ctx, "prompt", ctx->pe->prompt );
+    if( rc < 0 ) return -1;
+    rc = pe_add_string( ctx, "error", ctx->pe->error );
+    if( rc < 0 ) return -1;
+    rc = pe_add_string( ctx, "ok", ctx->pe->ok );
+    if( rc < 0 ) return -1;
+    rc = pe_add_string( ctx, "default_ok", ctx->pe->default_ok );
+    if( rc < 0 ) return -1;
+    rc = pe_add_string( ctx, "cancel", ctx->pe->cancel );
+    if( rc < 0 ) return -1;
+    rc = pe_add_string( ctx, "default_cancel", ctx->pe->default_cancel );
+    if( rc < 0 ) return -1;
+    rc = pe_add_string( ctx, "quality_bar", ctx->pe->quality_bar );
+    if( rc < 0 ) return -1;
+    rc = pe_add_string( ctx, "quality_bar_tt", ctx->pe->quality_bar_tt );
+    if( rc < 0 ) return -1;
+    rc = pe_add_string( ctx, "notok", ctx->pe->notok );
+    if( rc < 0 ) return -1;
+
+    rc = pe_set_int( ctx, "one_button", ctx->pe->one_button );
+    if( rc < 0 ) return -1;
+    rc = pe_set_int( ctx, "timeout", ctx->pe->timeout );
+    if( rc < 0 ) return -1;
+
+    return 0;
+}
+
 /*
  * JNI voodoo to drive the Android GUI
  * create the pin prompt and fetch back the user's input
@@ -263,14 +338,7 @@ int pe_prompt_pin ( pinentry_t pe ) {
     rc = pe_struct_init( &ctx );
     if( rc < 0 ) return -1;
 
-    // populate the PinentryStruct with values from pinentry_t pe
-    rc = pe_add_string( &ctx, "title", pe->title );
-    if( rc < 0 ) return -1;
-    rc = pe_add_string( &ctx, "description", pe->description );
-    if( rc < 0 ) return -1;
-    rc = pe_add_string( &ctx, "prompt", pe->prompt );
-    if( rc < 0 ) return -1;
-    rc = pe_add_string( &ctx, "error", pe->error );
+    rc = pe_fill_data( &ctx );
     if( rc < 0 ) return -1;
 
     // prepare PinEntryActivity for subsequent method call
@@ -282,8 +350,44 @@ int pe_prompt_pin ( pinentry_t pe ) {
     rc = pe_set_pe_struct( &ctx );
     if( rc < 0 ) return -1;
 
+    pe_get_result( & ctx );
+    pe_get_canceled( & ctx );
+
     // fetches the user supplied pin from Java (if there is one!)
     return pe_get_pin( &ctx );
+}
+
+int pe_prompt_buttons ( pinentry_t pe ) {
+    int rc = 0;
+    struct pe_context ctx;
+
+    // prepare
+    rc = pe_context_init(&ctx);
+    ctx.pe = pe;
+
+    // instantiates the Java PinentryStruct object
+    rc = pe_struct_init( &ctx );
+    if( rc < 0 ) return -1;
+
+    rc = pe_fill_data( &ctx );
+    if( rc < 0 ) return -1;
+
+    rc = pe_set_int( &ctx, "isButtonBox", 0 ); // true
+    if( rc < 0 ) return -1;
+
+    // prepare PinEntryActivity for subsequent method call
+    rc = pe_activity_init( &ctx );
+    if( rc < 0 ) return -1;
+
+    // call PinEntryActivity.setPinentryStruct() to set PinentryStruct we made
+    //    note → this function blocks until the user clicks a button or the PinentryActivity is closed
+    rc = pe_set_pe_struct( &ctx );
+    if( rc < 0 ) return -1;
+
+    pe_get_result( & ctx );
+    pe_get_canceled( & ctx );
+
+    return 0;
 }
 
 static int
@@ -303,6 +407,7 @@ android_cmd_handler ( pinentry_t pe ) {
         return pe_prompt_pin ( pe );
     } else {
         LOGE("android_cmd_handler: we don't do this");
+        return pe_prompt_buttons( pe );
         return ( confirm_value == CONFIRM_OK ) ? 1 : 0;
     }
 }
