@@ -18,7 +18,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/title"
-         android:text="@android:string/httpErrorBadUrl"
+         android:text="Desc"
+        android:layout_centerHorizontal="true"
+        android:gravity="center" />
+
+    <TextView
+        android:id="@+id/error"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/description"
+         android:text="Error"
         android:layout_centerHorizontal="true"
         android:gravity="center" />
 
@@ -26,7 +35,7 @@
         android:id="@+id/pinEdit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/description"
+        android:layout_below="@+id/error"
         android:layout_centerInParent="true"
         android:layout_margin="5dp"
         android:inputType="textPassword" >

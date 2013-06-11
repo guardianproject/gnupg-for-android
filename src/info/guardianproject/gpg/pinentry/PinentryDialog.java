@@ -25,6 +25,7 @@ public class PinentryDialog extends DialogFragment {
     private PinentryStruct pinentry;
     private EditText pinEdit;
     private TextView description;
+    private TextView error;
     private TextView title;
     private Button okButton;
     private Button notOkButton;
@@ -88,6 +89,7 @@ public class PinentryDialog extends DialogFragment {
         app_uid = uid;
 
         description = (TextView) view.findViewById(R.id.description);
+        error = (TextView) view.findViewById(R.id.error);
         title = (TextView) view.findViewById(R.id.title);
         okButton = (Button) view.findViewById(R.id.okButton);
         notOkButton = (Button) view.findViewById(R.id.notOkButton);
@@ -167,6 +169,13 @@ public class PinentryDialog extends DialogFragment {
         } else {
             description.setText("");
             description.setVisibility(View.GONE);
+        }
+        if (!pinentry.error.isEmpty() ) {
+            error.setText(pinentry.error);
+            error.setVisibility(View.VISIBLE);
+        } else {
+            error.setText("");
+            error.setVisibility(View.GONE);
         }
     }
 
