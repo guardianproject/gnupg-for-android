@@ -19,8 +19,12 @@ import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.ActionBar.Tab;
 import com.actionbarsherlock.app.ActionBar.TabListener;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
 
 import info.guardianproject.gpg.GnuPG;
+import info.guardianproject.gpg.GnuPrivacyGuard;
 import info.guardianproject.gpg.GnuPrivacyGuard.ApgId;
 import info.guardianproject.gpg.GpgAgentService;
 import info.guardianproject.gpg.NativeHelper;
@@ -58,6 +62,22 @@ public class MainActivity extends SherlockFragmentActivity
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        new MenuInflater(this).inflate(R.menu.menu_main, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if( item.getItemId() == R.id.debugMode) {
+            Intent intent = new Intent(this, GnuPrivacyGuard.class);
+            startActivity(intent);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
     public void onRestoreInstanceState(Bundle state) {
       super.onRestoreInstanceState(state);
 
@@ -71,7 +91,6 @@ public class MainActivity extends SherlockFragmentActivity
       state.putInt(TAB_POSITION, pager.getCurrentItem());
     }
 
-
     @Override
     public void onPageSelected(int position) {
         getSupportActionBar().setSelectedNavigationItem(position);
@@ -82,44 +101,6 @@ public class MainActivity extends SherlockFragmentActivity
         Integer position=(Integer) tab.getTag();
         pager.setCurrentItem(position);
     }
-
-
-    public class MainPagerAdapter extends FragmentPagerAdapter {
-        public MainPagerAdapter(FragmentManager mgr) {
-          super(mgr);
-        }
-
-        @Override
-        public int getCount() {
-          return(2);
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            KeyListFragment frag = new KeyListFragment();
-            Bundle args = new Bundle();
-            Bundle extras = new Bundle();
-            switch (position) {
-                case 0: // public keys
-                {
-                    args.putString("action", Apg.Intent.SELECT_PUBLIC_KEYS);
-                    extras.putString(ApgId.EXTRA_INTENT_VERSION, ApgId.VERSION);
-                    break;
-                }
-                case 1: //private keys
-                {
-                    args.putString("action", Apg.Intent.SELECT_SECRET_KEY);
-                    extras.putString(ApgId.EXTRA_INTENT_VERSION, ApgId.VERSION);
-                    break;
-                }
-                default:
-                    return null;
-            }
-            args.putBundle("extras", extras);
-            frag.setArguments(args);
-            return frag;
-        }
-      }
 
 
     @Override
@@ -220,6 +201,43 @@ public class MainActivity extends SherlockFragmentActivity
             MainActivity.this.setupView();
         }
     }
+
+    public class MainPagerAdapter extends FragmentPagerAdapter {
+        public MainPagerAdapter(FragmentManager mgr) {
+          super(mgr);
+        }
+
+        @Override
+        public int getCount() {
+          return(2);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            KeyListFragment frag = new KeyListFragment();
+            Bundle args = new Bundle();
+            Bundle extras = new Bundle();
+            switch (position) {
+                case 0: // public keys
+                {
+                    args.putString("action", Apg.Intent.SELECT_PUBLIC_KEYS);
+                    extras.putString(ApgId.EXTRA_INTENT_VERSION, ApgId.VERSION);
+                    break;
+                }
+                case 1: //private keys
+                {
+                    args.putString("action", Apg.Intent.SELECT_SECRET_KEY);
+                    extras.putString(ApgId.EXTRA_INTENT_VERSION, ApgId.VERSION);
+                    break;
+                }
+                default:
+                    return null;
+            }
+            args.putBundle("extras", extras);
+            frag.setArguments(args);
+            return frag;
+        }
+      }
 
 /* IGNORED EVENTS */
 

@@ -1,11 +1,5 @@
 package info.guardianproject.gpg;
 
-import info.guardianproject.gpg.apg_compat.Apg;
-import info.guardianproject.gpg.apg_compat.Id;
-
-import java.io.File;
-import java.io.OutputStream;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -37,6 +31,12 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import info.guardianproject.gpg.apg_compat.Apg;
+import info.guardianproject.gpg.apg_compat.Id;
+
+import java.io.File;
+import java.io.OutputStream;
+
 public class GnuPrivacyGuard extends Activity implements OnCreateContextMenuListener {
 	public static final String TAG = "GnuPrivacyGuard";
 
@@ -58,10 +58,10 @@ public class GnuPrivacyGuard extends Activity implements OnCreateContextMenuList
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		NativeHelper.setup(getApplicationContext());
+//		NativeHelper.setup(getApplicationContext());
 
 		// this also sets up GnuPG.context in onPostExecute()
-		new InstallAndSetupTask(this).execute();
+//		new InstallAndSetupTask(this).execute();
 
 		setContentView(R.layout.main);
 		consoleScroll = (ScrollView) findViewById(R.id.consoleScroll);
@@ -138,7 +138,8 @@ public class GnuPrivacyGuard extends Activity implements OnCreateContextMenuList
 		case R.id.menu_search_keys:
 			alert.setTitle("Search Keys");
 			alert.setPositiveButton("Search", new DialogInterface.OnClickListener() {
-				public void onClick(DialogInterface dialog, int whichButton) {
+				@Override
+                public void onClick(DialogInterface dialog, int whichButton) {
 					Intent intent = new Intent(getApplicationContext(), SearchKeysActivity.class);
 					intent.putExtra(Intent.EXTRA_TEXT, input.getText().toString());
 					startActivity(intent);
@@ -150,7 +151,8 @@ public class GnuPrivacyGuard extends Activity implements OnCreateContextMenuList
 			final Context c = getApplicationContext();
 			alert.setTitle("Receive Key");
 			alert.setPositiveButton("Receive", new DialogInterface.OnClickListener() {
-				public void onClick(DialogInterface dialog, int whichButton) {
+				@Override
+                public void onClick(DialogInterface dialog, int whichButton) {
 			        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(c);
 			        String ks = prefs.getString(GPGPreferenceActivity.PREF_KEYSERVER, "200.144.121.45");
 					command = NativeHelper.gpg2
@@ -175,7 +177,8 @@ public class GnuPrivacyGuard extends Activity implements OnCreateContextMenuList
 					getString(R.string.dialog_specify_import_file_msg),
 					defaultFilename,
 					new FileDialog.OnClickListener() {
-				public void onClick(String filename, boolean checked) {
+				@Override
+                public void onClick(String filename, boolean checked) {
 					removeDialog(Id.dialog.import_keys);
 					command = NativeHelper.gpg2 + " --import " + filename;
 					commandThread = new CommandThread();
@@ -318,6 +321,7 @@ public class GnuPrivacyGuard extends Activity implements OnCreateContextMenuList
 
     private void setOnClick(Button button, final String intentName, final int intentId) {
 		button.setOnClickListener(new OnClickListener() {
+            @Override
             public void onClick(View view) {
                 Intent intent = new android.content.Intent(intentName);
                 intent.putExtra(ApgId.EXTRA_INTENT_VERSION, ApgId.VERSION);
