@@ -16,12 +16,6 @@
 
 package info.guardianproject.gpg;
 
-import info.guardianproject.gpg.apg_compat.Apg;
-
-import java.math.BigInteger;
-import java.util.Locale;
-
-import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -33,20 +27,23 @@ import android.widget.TextView;
 
 import com.freiheit.gnupg.GnuPGKey;
 
+import info.guardianproject.gpg.apg_compat.Apg;
+
+import java.math.BigInteger;
+import java.util.Locale;
+
 public class KeyListAdapter extends BaseAdapter {
     public static final String TAG = "KeyListAdapter";
 
     protected LayoutInflater mInflater;
     protected ListView mParent;
     protected String mSearchString;
-    protected Activity mActivity;
     protected long mSelectedKeyIds[];
 
     private GnuPGKey[] mKeyArray;
 
-    public KeyListAdapter(Activity activity, ListView parent, String action,
+    public KeyListAdapter(ListView parent, String action,
                                       String searchString, long selectedKeyIds[]) {
-        mActivity = activity;
         mParent = parent;
         mSearchString = searchString;
         mSelectedKeyIds = selectedKeyIds;
@@ -76,6 +73,7 @@ public class KeyListAdapter extends BaseAdapter {
         return true;
     }
 
+    @Override
     public int getCount() {
     	if (mKeyArray == null)
     		return 0;
@@ -83,6 +81,7 @@ public class KeyListAdapter extends BaseAdapter {
     		return mKeyArray.length;
     }
 
+    @Override
     public Object getItem(int position) {
         GnuPGKey key = mKeyArray[position];
         String[] ret = new String[3];
@@ -92,6 +91,7 @@ public class KeyListAdapter extends BaseAdapter {
         return ret;
     }
 
+    @Override
     public long getItemId(int position) {
         String keyId = mKeyArray[position].getKeyID();
         return new BigInteger(keyId, 16).longValue(); // MASTER_KEY_ID
@@ -107,6 +107,7 @@ public class KeyListAdapter extends BaseAdapter {
     	return ret;
     }
 
+    @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         GnuPGKey key = mKeyArray[position];
         View view = mInflater.inflate(R.layout.key_list_item, null);

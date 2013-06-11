@@ -16,11 +16,6 @@
 
 package info.guardianproject.gpg;
 
-import info.guardianproject.gpg.apg_compat.Apg;
-import info.guardianproject.gpg.apg_compat.Id;
-
-import java.util.Vector;
-
 import android.app.Activity;
 import android.app.SearchManager;
 import android.content.Intent;
@@ -33,6 +28,11 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import info.guardianproject.gpg.apg_compat.Apg;
+import info.guardianproject.gpg.apg_compat.Id;
+
+import java.util.Vector;
 
 public class KeyListActivity extends Activity {
     protected ListView mListView;
@@ -57,6 +57,7 @@ public class KeyListActivity extends Activity {
         else if (action.equals(Apg.Intent.SELECT_SECRET_KEY)) {
             mListView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
             mListView.setOnItemClickListener(new OnItemClickListener() {
+                @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
                     Intent data = new Intent();
                     String[] userId = (String[])mListView.getItemAtPosition(position);
@@ -70,6 +71,7 @@ public class KeyListActivity extends Activity {
 
         Button okButton = (Button) findViewById(R.id.btn_ok);
         okButton.setOnClickListener(new OnClickListener() {
+            @Override
             public void onClick(View v) {
                 okClicked();
             }
@@ -77,6 +79,7 @@ public class KeyListActivity extends Activity {
 
         Button cancelButton = (Button) findViewById(R.id.btn_cancel);
         cancelButton.setOnClickListener(new OnClickListener() {
+            @Override
             public void onClick(View v) {
                 cancelClicked();
             }
@@ -87,6 +90,7 @@ public class KeyListActivity extends Activity {
         mClearFilterButton = (Button) mFilterLayout.findViewById(R.id.btn_clear);
 
         mClearFilterButton.setOnClickListener(new OnClickListener() {
+            @Override
             public void onClick(View v) {
                 handleIntent(new Intent());
             }
@@ -133,7 +137,7 @@ public class KeyListActivity extends Activity {
             mFilterInfo.setText(getString(R.string.filterInfo, searchString));
         }
 
-        mListAdapter = new KeyListAdapter(this, mListView, getIntent().getAction(),
+        mListAdapter = new KeyListAdapter(mListView, getIntent().getAction(),
                 searchString, selectedKeyIds);
         mListView.setAdapter(mListAdapter);
 
