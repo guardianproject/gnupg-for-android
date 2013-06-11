@@ -88,7 +88,7 @@ public class SharedDaemonsService extends Service {
         public void run() {
             NativeHelper.kill9(NativeHelper.dirmngr);
             String dirmngrCmd = NativeHelper.dirmngr
-                    + " --daemon " + "--debug-level guru --log-file "
+                    + " --daemon " + "--debug-level basic --log-file "
                     + NativeHelper.app_log + "/dirmngr.log";
             String chmodCmd = "chmod 777 " + NativeHelper.app_opt + "/var/run/gnupg/S.dirmngr";
             try {

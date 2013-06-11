@@ -42,7 +42,7 @@ public class GpgAgentService extends Service {
 		public void run() {
 			String gpgAgentCmd = NativeHelper.gpg_agent
                     + " --pinentry-program " + NativeHelper.pinentry_android
-					+ " --daemon --write-env-file " + "--debug-level 3 --log-file "
+					+ " --daemon --write-env-file " + "--debug-level basic --log-file "
 					+ NativeHelper.app_log + "/gpg-agent.log";
 			Log.i(TAG, gpgAgentCmd);
 			try {
