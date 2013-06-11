@@ -79,7 +79,7 @@ public class SharedDaemonsService extends Service {
         b.setContentIntent(PendingIntent.getService(getApplicationContext(), 0,
                 new Intent(), 0));
 
-        return b.build();
+        return b.getNotification();
     }
 
     class DirmngrThread extends Thread {
