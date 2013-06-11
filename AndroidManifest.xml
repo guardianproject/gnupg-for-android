@@ -41,7 +41,7 @@
             android:excludeFromRecents="true"
             android:finishOnTaskLaunch="true"
             android:noHistory="true"
-            android:theme="@android:style/Theme.Dialog" >
+            android:theme="@style/DialogTheme">
             <intent-filter>
             </intent-filter>
         </activity>

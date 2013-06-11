@@ -93,7 +93,7 @@ struct pe_context {
     jclass  pe_struct_class;
     jobject pe_struct;
 
-    // "info.guardianproject.gpg.pinentry.PinEntryActivity"
+    // "info.guardianproject.gpg.pinentry.PinentryDialog"
     jclass  pe_activity_class; 
     jobject pe_activity;
 
@@ -234,15 +234,15 @@ int pe_add_string( const struct pe_context* ctx, const char* field, const char* 
 }
 
 int pe_activity_init( struct pe_context* ctx, jobject pe_activity ) {
-    ctx->pe_activity_class = ( *ctx->env )->FindClass ( ctx->env, "info/guardianproject/gpg/pinentry/PinEntryActivity" );
+    ctx->pe_activity_class = ( *ctx->env )->FindClass ( ctx->env, "info/guardianproject/gpg/pinentry/PinentryDialog" );
     if ( !ctx->pe_activity_class ) {
-        LOGE ( "pe_activity_init: failed to retrieve PinentryActivity.class\n" );
+        LOGE ( "pe_activity_init: failed to retrieve PinentryDialog.class\n" );
         return -1;
     }
 
     ctx->pe_activity = pe_activity;
     if ( !ctx->pe_activity ) {
-        LOGE ( "pe_activity_init: PinentryActivity null\n" );
+        LOGE ( "pe_activity_init: PinentryDialog null\n" );
         return -1;
     }
     return 0;
@@ -381,8 +381,8 @@ int pe_prompt_pin ( void ) {
     rc = pe_fill_data( &_ctx );
     if( rc < 0 ) return -1;
 
-    // call PinEntryActivity.setPinentryStruct() to set PinentryStruct we made
-    //    note → this function blocks until the users enters a pin, cancels, or the PinentryActivity is closed
+    // call PinentryDialog.setPinentryStruct() to set PinentryStruct we made
+    //    note â this function blocks until the users enters a pin, cancels, or the PinentryDialog is closed
     rc = pe_set_pe_struct( &_ctx );
     if( rc < 0 ) return -1;
 
@@ -405,8 +405,8 @@ int pe_prompt_buttons ( void ) {
     rc = pe_set_int( &_ctx, "isButtonBox", 0 ); // true
     if( rc < 0 ) return -1;
 
-    // call PinEntryActivity.setPinentryStruct() to set PinentryStruct we made
-    //    note → this function blocks until the user clicks a button or the PinentryActivity is closed
+    // call PinentryDialog.setPinentryStruct() to set PinentryStruct we made
+    //    note â this function blocks until the user clicks a button or the PinentryDialog is closed
     rc = pe_set_pe_struct( &_ctx );
     if( rc < 0 ) return -1;
 
@@ -485,7 +485,7 @@ int connect_helper( int app_uid ) {
 }
 
 JNIEXPORT void JNICALL
-Java_info_guardianproject_gpg_pinentry_PinEntryActivity_connectToGpgAgent ( JNIEnv * env, jobject self, jint app_uid ) {
+Java_info_guardianproject_gpg_pinentry_PinentryDialog_connectToGpgAgent ( JNIEnv * env, jobject self, jint app_uid ) {
     int in, out, sock;
 
     _ctx.env = env;
@@ -559,7 +559,7 @@ Java_info_guardianproject_gpg_pinentry_PinEntryActivity_connectToGpgAgent ( JNIE
 }
 
 static JNINativeMethod sMethods[] = {
-    {"connectToGpgAgent", "(I)V", ( void * ) Java_info_guardianproject_gpg_pinentry_PinEntryActivity_connectToGpgAgent}
+    {"connectToGpgAgent", "(I)V", ( void * ) Java_info_guardianproject_gpg_pinentry_PinentryDialog_connectToGpgAgent}
 };
 
 JNIEXPORT jint JNICALL
