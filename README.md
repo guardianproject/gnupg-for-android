@@ -45,6 +45,23 @@ Or you can call the aliases using the full path:
 
     /data/data/info.guardianproject.gpg/app_opt/aliases/gpg --encrypt secretfile.txt
 
+**WARNING**: The above method will store key material inside the data dir of gpgcli
+
+gpgcli is not able to read your key material, only root or your app can, but the
+material will remain after the app is uninstalled. If this is not desirable
+for you then you should set the environment variables managed in
+
+    /data/data/info.guardianproject.gpg/app_opt/aliases/common
+
+and set the PATH to `/data/data/info.guardianproject.gpg/app_opt/bin:$PATH`
+instead of using the aliases method described above.
+
+At a minimum you should set the environment variables LD_LIBRARY_PATH, HOME,
+GNUPGHOME, and PATH.
+
+GNUPGHOME should be set to a secure path inside your app's data directory, for
+example you could call `getDir("gnupghome")` from your Activity.
+
 ### Setting up all of the tools
 
 To enable the whole suite of tools, including dirmngr to work with keyservers,
