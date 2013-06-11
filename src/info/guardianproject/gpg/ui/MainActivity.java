@@ -266,7 +266,6 @@ public class MainActivity extends SherlockFragmentActivity
         // no op
     }
 
-
     @Override
     public void onKeysSelected(long[] selectedKeyIds, String[] selectedUserIds) {
         // no op

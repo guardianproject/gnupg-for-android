@@ -32,3 +32,6 @@
 	path = external/pinentry
 	url = https://github.com/guardianproject/pinentry.git
 	ignore = dirty
+[submodule "external/ActionBarSherlock"]
+	path = external/ActionBarSherlock
+	url = git@github.com:JakeWharton/ActionBarSherlock.git
