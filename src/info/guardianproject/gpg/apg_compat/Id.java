@@ -52,13 +52,14 @@ public final class Id {
         public static final int unknown_signature_key = 0x21070011;
     }
 
+    // use only lower 16 bits due to compatibility lib
     public static final class request {
-        public static final int public_keys = 0x21070001;
-        public static final int secret_keys = 0x21070002;
-        public static final int filename = 0x21070003;
-        public static final int output_filename = 0x21070004;
-        public static final int key_server_preference = 0x21070005;
-        public static final int look_up_key_id = 0x21070006;
+        public static final int public_keys = 0x00007001;
+        public static final int secret_keys = 0x00007002;
+//        public static final int filename = 0x00007003;
+        public static final int output_filename = 0x00007004;
+        public static final int key_server_preference = 0x00007005;
+        public static final int look_up_key_id = 0x00007006;
     }
 
     public static final class dialog {

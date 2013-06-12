@@ -1,6 +1,5 @@
 package info.guardianproject.gpg;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
@@ -17,7 +16,9 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.os.Messenger;
 import android.preference.PreferenceManager;
+import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -33,11 +34,12 @@ import android.widget.Toast;
 
 import info.guardianproject.gpg.apg_compat.Apg;
 import info.guardianproject.gpg.apg_compat.Id;
+import info.guardianproject.gpg.ui.FileDialogFragment;
 
 import java.io.File;
 import java.io.OutputStream;
 
-public class GnuPrivacyGuard extends Activity implements OnCreateContextMenuListener {
+public class GnuPrivacyGuard extends FragmentActivity implements OnCreateContextMenuListener {
 	public static final String TAG = "GnuPrivacyGuard";
 
     public static final String PACKAGE_NAME = "info.guardianproject.gpg";
@@ -53,6 +55,8 @@ public class GnuPrivacyGuard extends Activity implements OnCreateContextMenuList
 	private BroadcastReceiver logUpdateReceiver;
 	private BroadcastReceiver commandFinishedReceiver;
 	public String command;
+
+	private FileDialogFragment mFileDialog;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -83,9 +87,9 @@ public class GnuPrivacyGuard extends Activity implements OnCreateContextMenuList
 		unregisterReceivers();
 	}
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		MenuInflater inflater = getMenuInflater();
+	 @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+	    MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.options_menu, menu);
 		return true;
 	}
@@ -94,6 +98,23 @@ public class GnuPrivacyGuard extends Activity implements OnCreateContextMenuList
 	protected void onActivityResult (int requestCode, int resultCode, Intent data) {
 		Log.i(TAG, "Activity Result: " + requestCode + " " + resultCode);
 		if (resultCode == RESULT_CANCELED || data == null) return;
+
+		switch( requestCode ) {
+		    case ApgId.FILENAME: {
+	            if (resultCode == RESULT_OK) {
+	                try {
+	                    String path = data.getData().getPath();
+	                    Log.d(TAG, "path=" + path);
+
+	                    // set filename used in export/import dialogs
+	                    mFileDialog.setFilename(path);
+	                } catch (NullPointerException e) {
+	                    Log.e(TAG, "Nullpointer while retrieving path!", e);
+	                }
+	            }
+	            return;
+	        }
+		}
 		Bundle extras = data.getExtras();
 		if (extras != null) {
 			String text = "RESULT: ";
@@ -172,26 +193,7 @@ public class GnuPrivacyGuard extends Activity implements OnCreateContextMenuList
 		case R.id.menu_import_key_from_file:
 			final String defaultFilename = (NativeHelper.app_opt.getAbsolutePath()
 					+ "/tests/pinentry/secret-keys.gpg");
-			AlertDialog importDialog = FileDialog.build(this,
-					getString(R.string.title_import_keys),
-					getString(R.string.dialog_specify_import_file_msg),
-					defaultFilename,
-					new FileDialog.OnClickListener() {
-				@Override
-                public void onClick(String filename, boolean checked) {
-					removeDialog(Id.dialog.import_keys);
-					command = NativeHelper.gpg2 + " --import " + filename;
-					commandThread = new CommandThread();
-					commandThread.start();
-					Log.i(TAG, "finished " + command);
-					if (checked)
-						new File(filename).delete();
-				}
-			},
-			getString(R.string.label_delete_after_import),
-			Id.dialog.import_keys
-					);
-			importDialog.show();
+			showImportFromFileDialog(defaultFilename);
 			return true;
 		case R.id.menu_share_log:
 			shareTestLog();
@@ -200,6 +202,46 @@ public class GnuPrivacyGuard extends Activity implements OnCreateContextMenuList
 		}
 		return false;
 	}
+
+    /**
+     * Show to dialog from where to import keys
+     */
+    public void showImportFromFileDialog(final String defaultFilename) {
+        // Message is received after file is selected
+        Handler returnHandler = new Handler() {
+            @Override
+            public void handleMessage(Message message) {
+                if (message.what == FileDialogFragment.MESSAGE_OKAY) {
+                    Bundle data = message.getData();
+                    String importFilename = new File(data.getString(FileDialogFragment.MESSAGE_DATA_FILENAME)).getAbsolutePath();
+                    boolean deleteAfterImport = data.getBoolean(FileDialogFragment.MESSAGE_DATA_CHECKED);
+
+
+                    Log.d(TAG, "importFilename: " + importFilename);
+                    Log.d(TAG, "deleteAfterImport: " + deleteAfterImport);
+                    command = NativeHelper.gpg2 + " --import " + importFilename;
+                    commandThread = new CommandThread();
+                    commandThread.start();
+                    if(deleteAfterImport) new File(importFilename).delete();
+                }
+            }
+        };
+
+        // Create a new Messenger for the communication back
+        final Messenger messenger = new Messenger(returnHandler);
+
+        new Runnable() {
+            @Override
+            public void run() {
+                mFileDialog = FileDialogFragment.newInstance(messenger,
+                        getString(R.string.title_import_keys),
+                        getString(R.string.dialog_specify_import_file_msg), defaultFilename,
+                        null, ApgId.FILENAME);
+
+                mFileDialog.show(getSupportFragmentManager(), "fileDialog");
+            }
+        }.run();
+    }
 
 	private void updateLog() {
 		final String logContents = NativeHelper.log.toString();
@@ -312,11 +354,14 @@ public class GnuPrivacyGuard extends Activity implements OnCreateContextMenuList
 
         public static final String EXTRA_INTENT_VERSION = "intentVersion";
 
-        public static final int DECRYPT = 0x21070001;
-        public static final int ENCRYPT = 0x21070002;
-        public static final int SELECT_PUBLIC_KEYS = 0x21070003;
-        public static final int SELECT_SECRET_KEY = 0x21070004;
-        public static final int GENERATE_SIGNATURE = 0x21070005;
+        // must us only lowest 16 bits, otherwise you get (not sure under which conditions exactly)
+        // java.lang.IllegalArgumentException: Can only use lower 16 bits for requestCode
+        public static final int DECRYPT = 0x00007001;
+        public static final int ENCRYPT = 0x00007002;
+        public static final int SELECT_PUBLIC_KEYS = 0x00007003;
+        public static final int SELECT_SECRET_KEY = 0x00007004;
+        public static final int GENERATE_SIGNATURE = 0x00007005;
+        public static final int FILENAME = 0x00007006;
     }
 
     private void setOnClick(Button button, final String intentName, final int intentId) {
