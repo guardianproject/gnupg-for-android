@@ -45,6 +45,10 @@
     <string name="menu_search">Search</string>
     <string name="menu_settings">Settings</string>
 
+    <!-- permission info -->
+    <string name="perm_read_key_details_label">Read key details in the APG style</string>
+    <string name="perm_read_key_details_description">Read the 16 char key ID and associated email address via a ContentProvider in the style of APG.</string>
+
     <!-- APG-related messages -->
     <string name="error_activity_not_found">No suitable application for this action found.</string>
 

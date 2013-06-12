@@ -23,6 +23,12 @@
     <uses-permission android:name="android.permission.READ_SYNC_SETTINGS" />
     <uses-permission android:name="android.permission.WRITE_SYNC_SETTINGS" />
 
+    <permission
+        android:name="info.guardianproject.gpg.permission.READ_KEY_DETAILS"
+        android:description="@string/perm_read_key_details_description"
+        android:label="@string/perm_read_key_details_label"
+        android:protectionLevel="dangerous" />
+
     <application
         android:allowBackup="false"
         android:icon="@drawable/icon"
@@ -109,6 +115,12 @@
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable_public_keys" />
         </activity>
+
+        <provider
+            android:name=".KeyDataProvider"
+            android:authorities="info.guardianproject.gpg"
+            android:exported="true"
+            android:readPermission="info.guardianproject.gpg.permission.READ_KEY_DETAILS" />
 
         <service
             android:name=".GpgAgentService"
