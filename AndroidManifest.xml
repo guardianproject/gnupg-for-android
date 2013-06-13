@@ -108,7 +108,18 @@
         <service
             android:name=".SharedDaemonsService"
             android:process=":shareddaemons" />
-
+        <!-- The authenticator service -->
+        <service
+            android:name=".sync.AuthenticationService"
+            android:exported="true">
+            <intent-filter>
+                <action
+                    android:name="android.accounts.AccountAuthenticator" />
+            </intent-filter>
+            <meta-data
+                android:name="android.accounts.AccountAuthenticator"
+                android:resource="@xml/authenticator" />
+        </service>
         <receiver android:name=".GPGBroadcastReceiver" >
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
