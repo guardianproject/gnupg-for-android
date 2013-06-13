@@ -42,3 +42,6 @@ external/pinentry-build-stamp
 build.xml
 proguard-project.txt
 local.properties
+
+#kdevelop project files
+*.kdev4
