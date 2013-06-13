@@ -2,6 +2,9 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <item
+        android:id="@+id/menu_create_key"
+        android:title="Create Key"/>
+    <item
         android:id="@+id/menu_run_test"
         android:title="Run Tests"/>
     <item

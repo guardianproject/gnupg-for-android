@@ -160,6 +160,9 @@ public class GnuPrivacyGuard extends FragmentActivity implements OnCreateContext
 	    case R.id.menu_settings_key:
 	        startActivity(new Intent(this, GPGPreferenceActivity.class));
 	        return true;
+	    case R.id.menu_create_key:
+	        startActivity(new Intent(this, CreateKeyActivity.class));
+	        return true;
 		case R.id.menu_list_keys:
 			startActivity(new Intent(this, KeyListActivity.class));
 			return true;

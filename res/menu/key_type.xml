@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item
+        android:id="@+id/keyTypeRSA"
+        android:title="RSA"/>
+    <item
+        android:id="@+id/keyTypeDSA"
+        android:title="DSA"/>
+    <item
+        android:id="@+id/keyTypeElGamal"
+        android:title="ElGamal"/>
+
+</menu>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item
+        android:id="@+id/keySize8192"
+        android:title="8192"/>
+    <item
+        android:id="@+id/keySize4096"
+        android:title="4096"/>
+    <item
+        android:id="@+id/keySize2048"
+        android:title="2048"/>
+    <item
+        android:id="@+id/keySize1024"
+        android:title="1024"/>
+
+</menu>

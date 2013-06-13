@@ -44,6 +44,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".CreateKeyActivity" />
         <activity android:name=".SearchKeysActivity" />
         <activity android:name=".GPGPreferenceActivity" />
         <activity

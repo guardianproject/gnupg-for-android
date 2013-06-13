@@ -28,6 +28,21 @@
     <string name="contact_group">GnuPG Keyring</string>
     <string name="contact_encrypt_file">Encrypt file to</string>
     <string name="contact_view_key">View key</string>
+    <string name="create_key">Create Key</string>
+    <string name="key_name_label">Name:</string>
+    <string name="key_email_label">Email:</string>
+    <string name="key_comment_label">Comment:</string>
+    <string name="key_type_label">Key type:</string>
+    <string name="key_type_default">RSA</string>
+    <string name="key_size_label">Bits:</string>
+    <string name="key_size_default">2048</string>
+    <string name="key_expire_label">Expiration:</string>
+    <string name="key_expire_one_month">1 Month</string>
+    <string name="key_expire_one_year">1 Year</string>
+    <string name="key_expire_two_years">2 Years</string>
+    <string name="key_expire_five_years">5 Years</string>
+    <string name="key_expire_ten_years">10 Years</string>
+    <string name="key_expire_never">Never</string>
 
     <!-- content descriptions for accessibility -->
     <string name="folder">folder</string>
