@@ -689,6 +689,13 @@ public class GnuPGContext extends GnuPGPeer{
     }
 
     /**
+     *  Generates a new PGP key and stores it in the keyring.
+     */
+    public void genPgpKey(String params) throws GnuPGException {
+        gpgmeOpGenKey(getInternalRepresentation(),params);
+    }
+
+    /**
     Generates a new Key.
     */
     public void genKey(String params,GnuPGData pub, GnuPGData secret) throws GnuPGException{
