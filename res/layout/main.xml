@@ -12,7 +12,13 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
-
+        <Button
+            android:id="@+id/contacts_button"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Add Account"
+            android:textSize="12sp" />
         <Button
             android:id="@+id/select_public_keys"
             style="?android:attr/buttonStyleSmall"

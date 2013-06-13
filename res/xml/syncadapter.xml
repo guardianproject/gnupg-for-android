@@ -17,12 +17,21 @@
  */
 -->
 
-<!-- The attributes in this XML file provide configuration information -->
-<!-- for the Account Manager. -->
+<!--
+  The attributes in this XML file provide configuration information
+  for the SampleSyncAdapter.
 
-<account-authenticator xmlns:android="http://schemas.android.com/apk/res/android"
+  We have two versions of this file - one here, and one in the
+  xml-v11 directory (Honeycomb and beyond). This one specifies that
+  the syncadapter does not support uploading (and thus the contacts
+  associated with this syncadapter are not editable).  The SDK 11
+  version of the file specifies that the adapter DOES support
+  uploading, so the contacts on SDK 11 and greater are editable.
+-->
+
+<sync-adapter xmlns:android="http://schemas.android.com/apk/res/android"
+    android:contentAuthority="com.android.contacts"
     android:accountType="info.guardianproject.gpg.sync"
-    android:icon="@drawable/icon"
-    android:smallIcon="@drawable/icon"
-    android:label="@string/account_label"
+    android:supportsUploading="false"
+    android:userVisible="true"
 />

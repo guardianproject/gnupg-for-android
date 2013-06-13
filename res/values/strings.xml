@@ -19,7 +19,12 @@
     <string name="error_files_not_supported">File URIs are not supported via this Intent!</string>
     <string name="dialog_specify_import_file_msg">Choose the file to import:</string>
     <string name="label_delete_after_import">Delete after import</string>
+
+    <!-- account, contacts, and contact syncing -->
     <string name="account_label">GnuPG</string>
+    <string name="contact_group">GnuPG Keyring</string>
+    <string name="contact_encrypt_file">Encrypt file to</string>
+    <string name="contact_view_key">View key</string>
 
     <!-- content descriptions for accessibility -->
     <string name="folder">folder</string>

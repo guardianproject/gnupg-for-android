@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
 /**
- * Copyright (c) 2010, The Android Open Source Project
+ * Copyright (c) 2011, The Android Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,12 +17,17 @@
  */
 -->
 
-<!-- The attributes in this XML file provide configuration information -->
-<!-- for the Account Manager. -->
+<!--
+  The attributes in this XML file provide configuration information
+  for the SampleSyncAdapter.
 
-<account-authenticator xmlns:android="http://schemas.android.com/apk/res/android"
+  See xml/syncadapter.xml for greater details, but this version of
+  the file specifies that uploading (and thus editing) is supported.
+-->
+
+<sync-adapter xmlns:android="http://schemas.android.com/apk/res/android"
+    android:contentAuthority="com.android.contacts"
     android:accountType="info.guardianproject.gpg.sync"
-    android:icon="@drawable/icon"
-    android:smallIcon="@drawable/icon"
-    android:label="@string/account_label"
+    android:supportsUploading="true"
+    android:userVisible="true"
 />

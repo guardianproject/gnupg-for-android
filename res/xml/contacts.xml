@@ -17,12 +17,13 @@
  */
 -->
 
-<!-- The attributes in this XML file provide configuration information -->
-<!-- for the Account Manager. -->
+<ContactsSource xmlns:android="http://schemas.android.com/apk/res/android">
 
-<account-authenticator xmlns:android="http://schemas.android.com/apk/res/android"
-    android:accountType="info.guardianproject.gpg.sync"
-    android:icon="@drawable/icon"
-    android:smallIcon="@drawable/icon"
-    android:label="@string/account_label"
-/>
+    <ContactsDataKind
+        android:mimeType="vnd.android.cursor.item/vnd.pgp.keyid"
+        android:icon="@drawable/icon"
+        android:summaryColumn="data2"
+        android:detailColumn="data3"
+        android:detailSocialSummary="false" />
+
+</ContactsSource>
