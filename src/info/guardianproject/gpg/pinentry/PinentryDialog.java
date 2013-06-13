@@ -153,7 +153,7 @@ public class PinentryDialog extends DialogFragment {
     }
 
     private synchronized void updateTitle() {
-        if (!pinentry.title.isEmpty() ) {
+        if (pinentry.title.length() != 0 ) {
             title.setText(pinentry.title);
             title.setVisibility(View.VISIBLE);
         } else {
@@ -163,14 +163,14 @@ public class PinentryDialog extends DialogFragment {
     }
 
     private synchronized void updateDesc() {
-        if (!pinentry.description.isEmpty() ) {
+        if (pinentry.description.length() != 0 ) {
             description.setText(pinentry.description);
             description.setVisibility(View.VISIBLE);
         } else {
             description.setText("");
             description.setVisibility(View.GONE);
         }
-        if (!pinentry.error.isEmpty() ) {
+        if (pinentry.error.length() != 0 ) {
             error.setText(pinentry.error);
             error.setVisibility(View.VISIBLE);
         } else {
@@ -180,12 +180,12 @@ public class PinentryDialog extends DialogFragment {
     }
 
     private synchronized void setButton(boolean pinPrompt, boolean oneButton) {
-        if( !pinentry.ok.isEmpty() ) {
+        if( pinentry.ok.length() != 0 ) {
             okButton.setText(pinentry.ok);
         } else {
             okButton.setText(pinentry.default_ok);
         }
-        if( !pinentry.cancel.isEmpty() ) {
+        if( pinentry.cancel.length() != 0 ) {
             cancelButton.setText(pinentry.cancel);
         } else {
             cancelButton.setText(pinentry.default_cancel);
@@ -204,7 +204,7 @@ public class PinentryDialog extends DialogFragment {
             okButton.setVisibility(View.VISIBLE);
         }
 
-        if( !pinentry.ok.isEmpty() ) {
+        if( pinentry.ok.length() != 0 ) {
             okButton.setText(fix(pinentry.ok));
         } else {
             okButton.setText(fix(pinentry.default_ok));
@@ -214,7 +214,7 @@ public class PinentryDialog extends DialogFragment {
     private synchronized void updateCancelButton() {
         cancelButton.setOnClickListener(cancelClickListener);
         okButton.setVisibility(View.VISIBLE);
-        if( !pinentry.cancel.isEmpty() ) {
+        if( pinentry.cancel.length() != 0 ) {
             cancelButton.setText(fix(pinentry.cancel));
         } else {
             cancelButton.setText(fix(pinentry.default_cancel));
@@ -232,7 +232,7 @@ public class PinentryDialog extends DialogFragment {
             return;
         }
 
-        if( !pinentry.notok.isEmpty() ) {
+        if( pinentry.notok.length() != 0 ) {
             notOkButton.setText(fix(pinentry.notok));
             notOkButton.setVisibility(View.VISIBLE);
         } else {
