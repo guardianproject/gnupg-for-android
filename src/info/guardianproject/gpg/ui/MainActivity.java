@@ -67,18 +67,6 @@ public class MainActivity extends SherlockFragmentActivity
     protected void onResume() {
         super.onResume();
         startGpgAgent();
-
-        /*
-         * show the first run wizard if necessary
-         */
-        SharedPreferences prefs =  PreferenceManager.getDefaultSharedPreferences(this);
-        boolean showWizard = prefs.getBoolean(FirstRunWelcome.PREFS_SHOW_WIZARD, true);
-        if( showWizard ) {
-            Editor prefsEditor = prefs.edit();
-            prefsEditor.putBoolean(FirstRunWelcome.PREFS_SHOW_WIZARD, false);
-            prefsEditor.commit();
-            showWizard();
-        }
     }
 
     @Override
@@ -139,7 +127,7 @@ public class MainActivity extends SherlockFragmentActivity
     }
 
     private void showWizard() {
-        startActivityForResult(new Intent(getBaseContext(), FirstRunSetup.class), 1);
+        startActivityForResult(new Intent(getBaseContext(), FirstRunWelcome.class), 1);
     }
 
     private void setupView() {
@@ -172,6 +160,18 @@ public class MainActivity extends SherlockFragmentActivity
         GnuPG.createContext();
 
         setupView();
+
+        /*
+         * show the first run wizard if necessary
+         */
+        SharedPreferences prefs =  PreferenceManager.getDefaultSharedPreferences(this);
+        boolean showWizard = prefs.getBoolean(FirstRunWelcome.PREFS_SHOW_WIZARD, true);
+        if( showWizard ) {
+            Editor prefsEditor = prefs.edit();
+            prefsEditor.putBoolean(FirstRunWelcome.PREFS_SHOW_WIZARD, false);
+            prefsEditor.commit();
+            showWizard();
+        }
     }
 
     public class InstallAndSetupTask extends AsyncTask<Void, Void, Void> {
