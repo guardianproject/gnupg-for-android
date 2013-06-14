@@ -202,7 +202,8 @@ public class CreateKeyActivity extends Activity {
 			GnuPG.context.genPgpKey(params[0]);
 			GnuPGGenkeyResult result = GnuPG.context.getGenkeyResult();
 			String fpr = result.getFpr();
-			String sdcard = Environment.getExternalStorageDirectory().getAbsolutePath();
+			String sdcard = Environment.getExternalStorageDirectory()
+					.getAbsolutePath();
 			if (((CheckBox) findViewById(R.id.keyRevokeGen)).isChecked()) {
 				// TODO update ProgressDialog to say
 				// "generating revokation certificate"
@@ -232,6 +233,12 @@ public class CreateKeyActivity extends Activity {
 		protected void onPostExecute(Void r) {
 			if (dialog.isShowing())
 				dialog.dismiss();
+			if (getCallingActivity() != null) {
+				// we were called by another activity, so lets give
+				// control back to them.
+				setResult(RESULT_OK);
+				finish();
+			}
 		}
 	}
 }
