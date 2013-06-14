@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 
 import info.guardianproject.gpg.CreateKeyActivity;
+import info.guardianproject.gpg.ImportFileActivity;
 import info.guardianproject.gpg.R;
 import info.guardianproject.gpg.sync.SyncConstants;
 
@@ -49,7 +50,7 @@ public class FirstRunSetup extends Activity  {
         @Override
         public void onClick(View v) {
             setIntegratePrefs();
-            startActivity(new Intent(FirstRunSetup.this, CreateKeyActivity.class));
+            startActivity(new Intent(FirstRunSetup.this, ImportFileActivity.class));
         }
     };
 

@@ -32,8 +32,10 @@
                 android:id="@+id/integrateCheckBox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:checked="true"
                 android:gravity="center"
                 android:text="@string/wizard_integration_checkbox_label" />
+
         </LinearLayout>
     </ScrollView>
 
