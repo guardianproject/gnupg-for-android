@@ -50,7 +50,7 @@ public class MainActivity extends SherlockFragmentActivity
       setContentView(R.layout.activity_main);
 
       NativeHelper.setup(getApplicationContext());
-
+      pager = (ViewPager) findViewById(R.id.main_pager);
       // this also sets up GnuPG.context in onPostExecute()
       new InstallAndSetupTask(this).execute();
     }
@@ -81,7 +81,9 @@ public class MainActivity extends SherlockFragmentActivity
     public void onRestoreInstanceState(Bundle state) {
       super.onRestoreInstanceState(state);
 
-      pager.setCurrentItem(state.getInt(TAB_POSITION));
+      if( pager!= null && state != null ) {
+          pager.setCurrentItem(state.getInt(TAB_POSITION));
+      }
     }
 
     @Override
@@ -117,7 +119,6 @@ public class MainActivity extends SherlockFragmentActivity
     }
 
     private void setupView() {
-        pager = (ViewPager)findViewById(R.id.main_pager);
         FragmentManager mgr = getSupportFragmentManager();
         if( mgr == null ) Log.e("GNUPG", "getSupportFragmentManager returned null wtf!");
         pager.setAdapter(new MainPagerAdapter(mgr));
