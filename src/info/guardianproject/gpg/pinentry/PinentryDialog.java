@@ -18,7 +18,7 @@ public class PinentryDialog extends DialogFragment {
     private final static String TAG = PinentryDialog.class.getSimpleName();
 
     static {
-        System.load("pinentry");
+        System.load("/data/data/info.guardianproject.gpg/lib/libpinentry.so");
     }
 
     private PinentryCallback mCallback;
