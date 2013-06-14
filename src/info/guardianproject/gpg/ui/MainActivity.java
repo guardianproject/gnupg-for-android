@@ -1,6 +1,9 @@
 package info.guardianproject.gpg.ui;
 
+import android.accounts.Account;
+import android.accounts.AccountManager;
 import android.app.ProgressDialog;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -10,6 +13,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.preference.PreferenceManager;
+import android.provider.ContactsContract;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -34,6 +38,7 @@ import info.guardianproject.gpg.NativeHelper;
 import info.guardianproject.gpg.R;
 import info.guardianproject.gpg.SharedDaemonsService;
 import info.guardianproject.gpg.apg_compat.Apg;
+import info.guardianproject.gpg.sync.SyncConstants;
 
 import java.io.File;
 
@@ -146,6 +151,37 @@ public class MainActivity extends SherlockFragmentActivity
                 .setTabListener(this).setTag(1));
     }
 
+    private void setupSyncAccount() {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        boolean contactIntegrationEnabled = prefs.getBoolean(
+                SyncConstants.PREFS_INTEGRATE_CONTACTS, true);
+        if (contactIntegrationEnabled) {
+            AccountManager am = AccountManager.get(MainActivity.this);
+            if (am == null) {
+                Log.e(TAG, "AccountManager is null");
+                return;
+            }
+            // the main account name, this should be the user's primary email
+            String account_name = "gnupg-test";
+            // password can always be something fake, we don't need it
+            String password = "fake-password";
+            Account[] accts = am.getAccountsByType(SyncConstants.ACCOUNT_TYPE);
+            for( Account a : accts ) {
+                if( a.name == account_name )
+                    return;
+            }
+            Account account = new Account(account_name, SyncConstants.ACCOUNT_TYPE);
+            boolean result = am.addAccountExplicitly(account, password, null);
+            if (result) {
+                Log.d(TAG, "Account Added");
+            } else {
+                Log.e(TAG, "Account Add failed");
+            }
+            ContentResolver.setSyncAutomatically(account, ContactsContract.AUTHORITY, true);
+            ContentResolver.requestSync(account, ContactsContract.AUTHORITY, new Bundle());
+        }
+    }
+
     private void resourcesReady() {
         // these need to be loaded before System.load("gnupg-for-java"); and in
         // the right order, since they have interdependencies.
@@ -172,6 +208,7 @@ public class MainActivity extends SherlockFragmentActivity
             prefsEditor.commit();
             showWizard();
         }
+        setupSyncAccount();
     }
 
     public class InstallAndSetupTask extends AsyncTask<Void, Void, Void> {

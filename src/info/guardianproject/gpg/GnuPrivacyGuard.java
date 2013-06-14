@@ -1,12 +1,9 @@
 package info.guardianproject.gpg;
 
-import android.accounts.Account;
-import android.accounts.AccountManager;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
 import android.content.BroadcastReceiver;
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -14,7 +11,6 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
-import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -23,7 +19,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.os.Messenger;
 import android.preference.PreferenceManager;
-import android.provider.ContactsContract;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -38,12 +33,14 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.freiheit.gnupg.GnuPGException;
+
 import info.guardianproject.gpg.apg_compat.Apg;
 import info.guardianproject.gpg.apg_compat.Id;
-import info.guardianproject.gpg.sync.SyncConstants;
 import info.guardianproject.gpg.ui.FileDialogFragment;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.OutputStream;
 
 public class GnuPrivacyGuard extends FragmentActivity implements OnCreateContextMenuListener {
@@ -442,8 +439,6 @@ public class GnuPrivacyGuard extends FragmentActivity implements OnCreateContext
     }
 
 	private void wireTestButtons() {
-	    Button contactsbutton = (Button) findViewById(R.id.contacts_button);
-	    contactsbutton.setOnClickListener(mContactsListener);
 		Button selectPublicKeysButton = (Button) findViewById(R.id.select_public_keys);
 		setOnClick(selectPublicKeysButton, Apg.Intent.SELECT_PUBLIC_KEYS, ApgId.SELECT_PUBLIC_KEYS);
 
@@ -465,58 +460,6 @@ public class GnuPrivacyGuard extends FragmentActivity implements OnCreateContext
 		Button generateSignatureButton = (Button) findViewById(R.id.generate_signature);
 		setOnClick(generateSignatureButton, Apg.Intent.GENERATE_SIGNATURE, ApgId.GENERATE_SIGNATURE);
 	}
-
-	/**
-	 * Get all contacts
-	 * @return
-	 */
-    private Cursor getContacts()
-    {
-        String[] PROJECTION = new String[] {
-                ContactsContract.RawContacts._ID,
-                ContactsContract.Contacts.DISPLAY_NAME,
-                ContactsContract.Contacts.PHOTO_ID,
-                ContactsContract.CommonDataKinds.Email.DATA,
-                ContactsContract.CommonDataKinds.Photo.CONTACT_ID };
-        String order = "CASE WHEN "
-                + ContactsContract.Contacts.DISPLAY_NAME
-                + " NOT LIKE '%@%' THEN 1 ELSE 2 END, "
-                + ContactsContract.Contacts.DISPLAY_NAME
-                + ", "
-                + ContactsContract.CommonDataKinds.Email.DATA
-                + " COLLATE NOCASE";
-        String filter = ContactsContract.CommonDataKinds.Email.DATA + " NOT LIKE ''";
-        return getContentResolver().query(ContactsContract.CommonDataKinds.Email.CONTENT_URI, PROJECTION, filter, null, order);
-    }
-    /**
-     * Add a new gnug account to the system
-     */
-	OnClickListener mContactsListener = new OnClickListener() {
-
-        @Override
-        public void onClick(View v) {
-            Log.d(TAG, "mContactsListener");
-
-            AccountManager am = AccountManager.get(GnuPrivacyGuard.this);
-            if( am == null) {
-                Log.e(TAG, "AccountManager is null");
-                return;
-            }
-            // the main account name, this should be the user's primary email
-            String account_name = "gnupg-test";
-            // password can always be something fake, we don't need it
-            String password = "fake-password";
-            Account account = new Account(account_name, SyncConstants.ACCOUNT_TYPE);
-            boolean result = am.addAccountExplicitly(account, password, null);
-            if( result ) {
-                Log.d(TAG, "Account Added");
-            } else {
-                Log.e(TAG, "Account Add failed");
-            }
-            ContentResolver.setSyncAutomatically(account, ContactsContract.AUTHORITY, true);
-
-        }
-    };
 
 	public class InstallAndSetupTask extends AsyncTask<Void, Void, Void> {
 		private ProgressDialog dialog;
