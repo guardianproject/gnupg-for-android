@@ -84,7 +84,9 @@ public class ContactManager {
             contentValues.put(Groups.ACCOUNT_NAME, account.name);
             contentValues.put(Groups.ACCOUNT_TYPE, account.type);
             contentValues.put(Groups.TITLE, groupName);
-            contentValues.put(Groups.GROUP_IS_READ_ONLY, true);
+            // GROUP_IS_READ_ONLY was added in API 11
+            if( android.os.Build.VERSION.SDK_INT >= 11 )
+                contentValues.put(Groups.GROUP_IS_READ_ONLY, true);
 
             final Uri newGroupUri = resolver.insert(Groups.CONTENT_URI, contentValues);
             groupId = ContentUris.parseId(newGroupUri);
