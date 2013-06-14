@@ -33,9 +33,7 @@
     <string name="key_email_label">Email:</string>
     <string name="key_comment_label">Comment:</string>
     <string name="key_type_label">Key type:</string>
-    <string name="key_type_default">RSA</string>
     <string name="key_size_label">Bits:</string>
-    <string name="key_size_default">2048</string>
     <string name="key_expire_label">Expiration:</string>
     <string name="key_expire_one_month">1 Month</string>
     <string name="key_expire_one_year">1 Year</string>

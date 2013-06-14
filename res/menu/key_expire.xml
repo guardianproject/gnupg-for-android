@@ -1,23 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
 
-    <item
-        android:id="@+id/keyExpire1Month"
-        android:title="@string/key_expire_one_month"/>
-    <item
-        android:id="@+id/keyExpire1Year"
-        android:title="@string/key_expire_one_year"/>
-    <item
-        android:id="@+id/keyExpire2Years"
-        android:title="@string/key_expire_two_years"/>
-    <item
-        android:id="@+id/keyExpire5Years"
-        android:title="@string/key_expire_five_years"/>
-    <item
-        android:id="@+id/keyExpire10Years"
-        android:title="@string/key_expire_ten_years"/>
-    <item
-        android:id="@+id/keyExpireNever"
-        android:title="@string/key_expire_never"/>
+    <group android:id="@+id/groupKeyExpire" >
+        <item
+            android:id="@+id/keyExpire1Month"
+            android:title="@string/key_expire_one_month"/>
+        <item
+            android:id="@+id/keyExpire1Year"
+            android:title="@string/key_expire_one_year"/>
+        <item
+            android:id="@+id/keyExpire2Years"
+            android:title="@string/key_expire_two_years"/>
+        <item
+            android:id="@+id/keyExpire5Years"
+            android:title="@string/key_expire_five_years"/>
+        <item
+            android:id="@+id/keyExpire10Years"
+            android:title="@string/key_expire_ten_years"/>
+        <item
+            android:id="@+id/keyExpireNever"
+            android:title="@string/key_expire_never"/>
+    </group>
 
 </menu>

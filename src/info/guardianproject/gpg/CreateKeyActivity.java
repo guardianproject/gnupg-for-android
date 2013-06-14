@@ -35,42 +35,47 @@ public class CreateKeyActivity extends Activity {
 
 		setNameAndEmail();
 
-		// TODO figure out key/subkey logic, right now, just go with GPG default RSA+RSA
-		//registerForContextMenu(findViewById(R.id.keyType));
 		registerForContextMenu(findViewById(R.id.keySize));
 		registerForContextMenu(findViewById(R.id.keyExpire));
-		
+
 		Button createKeyButton = (Button) findViewById(R.id.createKeyButton);
 		createKeyButton.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				String params = "<GnupgKeyParms format=\"internal\">\n";
-				String keyName = ((EditText) findViewById(R.id.keyName)).getText().toString();
+				String keyName = ((EditText) findViewById(R.id.keyName))
+						.getText().toString();
 				params += "Name-Real: " + keyName + "\n";
-				String keyEmail = ((EditText) findViewById(R.id.keyEmail)).getText().toString();
+				String keyEmail = ((EditText) findViewById(R.id.keyEmail))
+						.getText().toString();
 				params += "Name-Email: " + keyEmail + "\n";
-				String keyComment = ((EditText) findViewById(R.id.keyComment)).getText().toString();
+				String keyComment = ((EditText) findViewById(R.id.keyComment))
+						.getText().toString();
 				params += "Name-Comment: " + keyComment + "\n";
-				// TODO figure out key/subkey logic, right now, just go with GPG default RSA+RSA
-				//String keyType = ((TextView) findViewById(R.id.keyType)).getText().toString();
-				//params += "Key-Type: " + keyType + "\n";
+				// TODO figure out key/subkey, for now default to RSA+RSA
 				params += "Key-Type: RSA\n";
-				String keySize = ((TextView) findViewById(R.id.keySize)).getText().toString();
+				String keySize = ((TextView) findViewById(R.id.keySize))
+						.getText().toString();
 				params += "Key-Length: " + keySize + "\n";
 				// TODO the subkeys should be configurable
 				params += "Subkey-Type: RSA\n";
 				params += "Subkey-Length: " + keySize + "\n";
-				String keyExpire = ((TextView) findViewById(R.id.keyExpire)).getText().toString();
+				String keyExpire = ((TextView) findViewById(R.id.keyExpire))
+						.getText().toString();
 				if (keyExpire.equals(getString(R.string.key_expire_one_month)))
 					keyExpire = "1m";
-				else if (keyExpire.equals(getString(R.string.key_expire_one_year)))
+				else if (keyExpire
+						.equals(getString(R.string.key_expire_one_year)))
 					keyExpire = "1y";
-				else if (keyExpire.equals(getString(R.string.key_expire_two_years)))
+				else if (keyExpire
+						.equals(getString(R.string.key_expire_two_years)))
 					keyExpire = "2y";
-				else if (keyExpire.equals(getString(R.string.key_expire_five_years)))
+				else if (keyExpire
+						.equals(getString(R.string.key_expire_five_years)))
 					keyExpire = "5y";
-				else if (keyExpire.equals(getString(R.string.key_expire_ten_years)))
+				else if (keyExpire
+						.equals(getString(R.string.key_expire_ten_years)))
 					keyExpire = "10y";
 				else if (keyExpire.equals(getString(R.string.key_expire_never)))
 					keyExpire = "0";
@@ -97,21 +102,21 @@ public class CreateKeyActivity extends Activity {
 			return;
 
 		// use that email to look up the name in Contacts
-		final String[] projection = {
-				Contacts.DISPLAY_NAME,
-				CommonDataKinds.Email.DATA,
-		};
+		final String[] projection = { Contacts.DISPLAY_NAME,
+				CommonDataKinds.Email.DATA, };
 		Cursor cursor = getContentResolver().query(
-				CommonDataKinds.Email.CONTENT_URI,
-				projection,
-				CommonDataKinds.Email.DATA + " = ?",
-				new String[]{email},
+				CommonDataKinds.Email.CONTENT_URI, projection,
+				CommonDataKinds.Email.DATA + " = ?", new String[] { email },
 				null);
 		if (cursor != null && cursor.getCount() > 0 && cursor.moveToNext()) {
-			String name = cursor.getString(cursor.getColumnIndex(Contacts.DISPLAY_NAME));
+			String name = cursor.getString(cursor
+					.getColumnIndex(Contacts.DISPLAY_NAME));
 			EditText keyName = (EditText) findViewById(R.id.keyName);
 			keyName.setText(name);
-		}
+			// set the focus on the layout so the keyboard doesn't pop up
+			findViewById(R.id.createKeyLayout).requestFocus();
+		} else // keyName is blank, so put the keyboard focus there
+			findViewById(R.id.keyName).requestFocus();
 		// TODO we might want to use Profile.DISPLAY_NAME_PRIMARY on API >= 11
 	}
 
@@ -121,9 +126,6 @@ public class CreateKeyActivity extends Activity {
 		super.onCreateContextMenu(menu, v, menuInfo);
 		MenuInflater inflater = getMenuInflater();
 		switch (v.getId()) {
-		case R.id.keyType:
-			inflater.inflate(R.menu.key_type, menu);
-			break;
 		case R.id.keySize:
 			inflater.inflate(R.menu.key_size, menu);
 			break;
@@ -135,38 +137,47 @@ public class CreateKeyActivity extends Activity {
 
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
-		AdapterContextMenuInfo info = (AdapterContextMenuInfo) item
-				.getMenuInfo();
-		switch (item.getItemId()) {
-		case R.id.keyTypeRSA:
-			return true;
-		case R.id.keyTypeDSA:
-			return true;
-		case R.id.keyTypeElGamal:
-			return true;
-		case R.id.keySize1024:
-			return true;
-		case R.id.keySize2048:
-			return true;
-		case R.id.keySize4096:
-			return true;
-		case R.id.keySize8192:
-			return true;
-		case R.id.keyExpire1Month:
-			return true;
-		case R.id.keyExpire1Year:
-			return true;
-		case R.id.keyExpire2Years:
-			return true;
-		case R.id.keyExpire5Years:
-			return true;
-		case R.id.keyExpire10Years:
-			return true;
-		case R.id.keyExpireNever:
-			return true;
-		default:
-			return super.onContextItemSelected(item);
+		int groupId = item.getGroupId();
+		if (groupId == R.id.groupKeySize) {
+			TextView keySize = ((TextView) findViewById(R.id.keySize));
+			switch (item.getItemId()) {
+			case R.id.keySize1024:
+				keySize.setText(R.string.key_size_1024);
+				return true;
+			case R.id.keySize2048:
+				keySize.setText(R.string.key_size_2048);
+				return true;
+			case R.id.keySize4096:
+				keySize.setText(R.string.key_size_4096);
+				return true;
+			case R.id.keySize8192:
+				keySize.setText(R.string.key_size_8192);
+				return true;
+			}
+		} else if (groupId == R.id.groupKeyExpire) {
+			TextView keyExpire = ((TextView) findViewById(R.id.keyExpire));
+			switch (item.getItemId()) {
+			case R.id.keyExpire1Month:
+				keyExpire.setText(R.string.key_expire_one_month);
+				return true;
+			case R.id.keyExpire1Year:
+				keyExpire.setText(R.string.key_expire_one_year);
+				return true;
+			case R.id.keyExpire2Years:
+				keyExpire.setText(R.string.key_expire_two_years);
+				return true;
+			case R.id.keyExpire5Years:
+				keyExpire.setText(R.string.key_expire_five_years);
+				return true;
+			case R.id.keyExpire10Years:
+				keyExpire.setText(R.string.key_expire_ten_years);
+				return true;
+			case R.id.keyExpireNever:
+				keyExpire.setText(R.string.key_expire_never);
+				return true;
+			}
 		}
+		return super.onContextItemSelected(item);
 	}
 
 	public class CreateKeyTask extends AsyncTask<String, Void, Void> {
@@ -188,8 +199,8 @@ public class CreateKeyActivity extends Activity {
 
 		@Override
 		protected void onPostExecute(Void r) {
-	        if (dialog.isShowing())
-	            dialog.dismiss();
-        }
+			if (dialog.isShowing())
+				dialog.dismiss();
+		}
 	}
 }
