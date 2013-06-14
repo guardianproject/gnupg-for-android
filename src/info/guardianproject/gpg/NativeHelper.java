@@ -1,5 +1,16 @@
 package info.guardianproject.gpg;
 
+import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.res.AssetManager;
+import android.os.Bundle;
+import android.os.Environment;
+import android.os.Handler;
+import android.os.Message;
+import android.util.Log;
+
+import com.freiheit.gnupg.GnuPGContext;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -15,17 +26,6 @@ import java.lang.reflect.Method;
 import java.util.Calendar;
 import java.util.Scanner;
 import java.util.StringTokenizer;
-
-import android.content.Context;
-import android.content.pm.PackageInfo;
-import android.content.res.AssetManager;
-import android.os.Bundle;
-import android.os.Environment;
-import android.os.Handler;
-import android.os.Message;
-import android.util.Log;
-
-import com.freiheit.gnupg.GnuPGContext;
 
 public class NativeHelper {
 	public static final String TAG = "NativeHelper";
@@ -239,6 +239,15 @@ public class NativeHelper {
 			log.append(msg);
 			return 0;
 		}
+	}
+
+	public static boolean installOrUpgradeNeeded() {
+	    if (versionFile.exists()) {
+	        if (getCurrentVersionCode(context) == readVersionFile()) {
+	            return false;
+	        }
+	    }
+        return true;
 	}
 
 	public static boolean installOrUpgradeAppOpt(Context context) {

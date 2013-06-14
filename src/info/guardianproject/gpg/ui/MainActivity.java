@@ -55,7 +55,12 @@ public class MainActivity extends SherlockFragmentActivity
       NativeHelper.setup(getApplicationContext());
       pager = (ViewPager) findViewById(R.id.main_pager);
       // this also sets up GnuPG.context in onPostExecute()
-      new InstallAndSetupTask(this).execute();
+
+      if( NativeHelper.installOrUpgradeNeeded() ) {
+          new InstallAndSetupTask(this).execute();
+      } else {
+          resourcesReady();
+      }
     }
 
     @Override
@@ -153,6 +158,22 @@ public class MainActivity extends SherlockFragmentActivity
                 .setTabListener(this).setTag(1));
     }
 
+    private void resourcesReady() {
+        // these need to be loaded before System.load("gnupg-for-java"); and in
+        // the right order, since they have interdependencies.
+        System.load(NativeHelper.app_opt + "/lib/libgpg-error.so.0");
+        System.load(NativeHelper.app_opt + "/lib/libassuan.so.0");
+        System.load(NativeHelper.app_opt + "/lib/libgpgme.so.11");
+
+        Intent intent = new Intent(MainActivity.this, GpgAgentService.class);
+        startService(intent);
+        intent = new Intent(MainActivity.this, SharedDaemonsService.class);
+        startService(intent);
+        GnuPG.createContext();
+
+        setupView();
+    }
+
     public class InstallAndSetupTask extends AsyncTask<Void, Void, Void> {
         private ProgressDialog dialog;
         private boolean doInstall;
@@ -206,19 +227,7 @@ public class MainActivity extends SherlockFragmentActivity
         protected void onPostExecute(Void result) {
             hideProgressDialog();
 
-            // these need to be loaded before System.load("gnupg-for-java"); and in
-            // the right order, since they have interdependencies.
-            System.load(NativeHelper.app_opt + "/lib/libgpg-error.so.0");
-            System.load(NativeHelper.app_opt + "/lib/libassuan.so.0");
-            System.load(NativeHelper.app_opt + "/lib/libgpgme.so.11");
-
-            Intent intent = new Intent(MainActivity.this, GpgAgentService.class);
-            startService(intent);
-            intent = new Intent(MainActivity.this, SharedDaemonsService.class);
-            startService(intent);
-            GnuPG.createContext();
-
-            MainActivity.this.setupView();
+            MainActivity.this.resourcesReady();
         }
     }
 
