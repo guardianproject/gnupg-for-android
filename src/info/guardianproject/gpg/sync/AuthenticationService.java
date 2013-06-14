@@ -5,6 +5,9 @@ import android.content.Intent;
 import android.os.IBinder;
 import android.util.Log;
 
+/**
+ * Service responsible for instantiating our Authenticator
+ */
 public class AuthenticationService extends Service {
 
     private static final String TAG = AuthenticationService.class.getSimpleName();
