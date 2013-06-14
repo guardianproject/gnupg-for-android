@@ -11,6 +11,9 @@
         android:id="@+id/menu_import_key_from_file"
         android:title="Import Key from File..."/>
     <item
+        android:id="@+id/menu_export_keys_to_file"
+        android:title="Export Keys to File..."/>
+    <item
         android:id="@+id/menu_receive_key"
         android:title="Receive Key..."/>
     <item

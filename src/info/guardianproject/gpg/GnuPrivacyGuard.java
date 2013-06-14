@@ -18,6 +18,7 @@ import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.os.Messenger;
@@ -201,6 +202,10 @@ public class GnuPrivacyGuard extends FragmentActivity implements OnCreateContext
 					+ "/tests/pinentry/secret-keys.gpg");
 			showImportFromFileDialog(defaultFilename);
 			return true;
+		case R.id.menu_export_keys_to_file:
+		    final String exportFilename = Environment.getExternalStorageDirectory().getAbsolutePath() + "/gnupg-keyring.asc";
+		    showExportToFileDialog(exportFilename);
+		    return true;
 		case R.id.menu_share_log:
 			shareTestLog();
 			Log.i(TAG, "finished menu_share_log");
@@ -243,6 +248,48 @@ public class GnuPrivacyGuard extends FragmentActivity implements OnCreateContext
                         getString(R.string.title_import_keys),
                         getString(R.string.dialog_specify_import_file_msg), defaultFilename,
                         null, ApgId.FILENAME);
+
+                mFileDialog.show(getSupportFragmentManager(), "fileDialog");
+            }
+        }.run();
+    }
+
+    /**
+     * Show Export Dialog
+     */
+    public void showExportToFileDialog(final String defaultFilename) {
+     // Message is received after file is selected
+        Handler returnHandler = new Handler() {
+            @Override
+            public void handleMessage(Message message) {
+                if (message.what == FileDialogFragment.MESSAGE_OKAY) {
+                    Bundle data = message.getData();
+                    String exportFilename = new File(data.getString(FileDialogFragment.MESSAGE_DATA_FILENAME)).getAbsolutePath();
+                    boolean exportSecretKeys = data.getBoolean(FileDialogFragment.MESSAGE_DATA_CHECKED);
+
+
+                    Log.d(TAG, "exportFilename: " + exportFilename);
+                    Log.d(TAG, "exportSecretKeys: " + exportSecretKeys);
+                    command = NativeHelper.gpg2 + " --batch ";
+                    if( exportSecretKeys ) {
+                        command += " --export-secret-keys ";
+                    } else {
+                        command += " --export ";
+                    }
+                    command += " --output " + exportFilename;
+                    commandThread = new CommandThread();
+                    commandThread.start();
+                }
+            }
+        };
+        final Messenger messenger = new Messenger(returnHandler);
+        new Runnable() {
+            @Override
+            public void run() {
+                mFileDialog = FileDialogFragment.newInstance(messenger,
+                        getString(R.string.title_export_keys),
+                        getString(R.string.dialog_specify_export_file_msg), defaultFilename,
+                        getString(R.string.label_export_secret_keys), ApgId.FILENAME);
 
                 mFileDialog.show(getSupportFragmentManager(), "fileDialog");
             }
