@@ -204,6 +204,18 @@
         </activity>
         <activity android:name=".ui.FirstRunWelcome" />
         <activity android:name=".ui.FirstRunSetup" />
+        <activity
+            android:name=".sync.ContactIntentRouter"
+            android:configChanges="touchscreen|keyboard|keyboardHidden|orientation|screenLayout|screenSize"
+            android:launchMode="singleTask" >
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <data android:mimeType="vnd.android.cursor.item/vnd.openpgp4fpr" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
 
         <provider
             android:name=".KeyDataProvider"
