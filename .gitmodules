@@ -35,3 +35,4 @@
 [submodule "external/ActionBarSherlock"]
 	path = external/ActionBarSherlock
 	url = git@github.com:JakeWharton/ActionBarSherlock.git
+	ignore = dirty
