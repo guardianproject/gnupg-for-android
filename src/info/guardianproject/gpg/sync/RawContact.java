@@ -12,8 +12,8 @@ public class RawContact {
     private final String mFullName;
     private final String mEmail;
     private final String mComment;
-    private final String mReadableKeyId;
-    private final String mKeyId;
+    private final String mReadableFingerprint;
+    private final String mFingerprint;
     private final long mRawContactId;
     private final boolean mDeleted;
 
@@ -30,20 +30,20 @@ public class RawContact {
         return new RawContact(key.getName(),
                                       key.getEmail(),
                                       key.getComment(),
-                                      key.getKeyID(),
-                                      key.getKeyID(),
+                                      key.getFingerprint(),
+                                      key.getFingerprint(),
                                       0,
                                       false);
 
     }
 
-    public RawContact(String name, String email, String comment, String readableKeyId, String keyId, long rawContactId, boolean deleted) {
+    public RawContact(String name, String email, String comment, String readableFpr, String fingerprint, long rawContactId, boolean deleted) {
         super();
         this.mFullName = name;
         this.mEmail = email;
         this.mComment = comment;
-        this.mReadableKeyId = readableKeyId;
-        this.mKeyId = keyId;
+        this.mReadableFingerprint = readableFpr;
+        this.mFingerprint = fingerprint;
         this.mRawContactId = rawContactId;
         this.mDeleted = deleted;
     }
@@ -63,12 +63,12 @@ public class RawContact {
         return mComment;
     }
 
-    public String getReadableKeyId() {
-        return mReadableKeyId;
+    public String getReadableFingerprint() {
+        return mReadableFingerprint;
     }
 
-    public String getKeyId() {
-        return mKeyId;
+    public String getFingerprint() {
+        return mFingerprint;
     }
 
     public long getRawContactId() {

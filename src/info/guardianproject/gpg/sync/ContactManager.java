@@ -184,18 +184,18 @@ public class ContactManager {
 
         // Put the data in the contacts provider
         final ContactOperations contactOp = ContactOperations.createNewContact(
-                context, rawContact.getKeyId(), accountName, inSync, batchOperation);
+                context, rawContact.getFingerprint(), accountName, inSync, batchOperation);
 
         contactOp.addName(rawContact.getFullName())
                 .addEmail(rawContact.getEmail())
-                .addKeyId(rawContact.getKeyId())
+                .addKeyFingerprint(rawContact.getFingerprint())
                 .addComment(rawContact.getComment())
                 .addGroupMembership(groupId);
 
         // If we have a serverId, then go ahead and create our status profile.
         // Otherwise skip it - and we'll create it after we sync-up to the
         // server later on.
-        if (!TextUtils.isEmpty(rawContact.getKeyId())) {
+        if (!TextUtils.isEmpty(rawContact.getFingerprint())) {
             // TODO
             // contactOp.addProfileAction(rawContact.getServerContactId());
         }
@@ -282,7 +282,7 @@ public class ContactManager {
         String fullName = null;
         String email = null;
         String comment = null;
-        String keyid = null;
+        String keyfingerprint = null;
         long serverId = -1;
 
         final ContentResolver resolver = context.getContentResolver();
@@ -309,8 +309,8 @@ public class ContactManager {
                     email = c.getString(DataQuery.COLUMN_EMAIL_ADDRESS);
                     Log.d(TAG, "email:" + email);
                 } else if (mimeType.equals(SyncAdapterColumns.MIME_PROFILE)) {
-                    keyid = c.getString(DataQuery.COLUMN_KEYID);
-                    Log.d(TAG, "keyid:" + keyid);
+                    keyfingerprint = c.getString(DataQuery.COLUMN_KEYFPR);
+                    Log.d(TAG, "fingerprint:" + keyfingerprint);
                 } else {
                     Log.d(TAG, "GOT UNKNOWN DATA: " + mimeType);
                 }
@@ -321,7 +321,7 @@ public class ContactManager {
 
         // Now that we've extracted all the information we care about,
         // create the actual User object.
-        RawContact rawContact = new RawContact(fullName, email, comment, keyid, keyid,
+        RawContact rawContact = new RawContact(fullName, email, comment, keyfingerprint, keyfingerprint,
                 rawContactId, false);
 
         return rawContact;
@@ -389,7 +389,7 @@ public class ContactManager {
         public static final int COLUMN_EMAIL_ADDRESS = COLUMN_DATA1;
         public static final int COLUMN_EMAIL_TYPE = COLUMN_DATA2;
         public static final int COLUMN_NOTE = COLUMN_DATA1;
-        public static final int COLUMN_KEYID = COLUMN_DATA1;
+        public static final int COLUMN_KEYFPR = COLUMN_DATA1;
         public static final int COLUMN_FULL_NAME = COLUMN_DATA1;
         public static final int COLUMN_AVATAR_IMAGE = COLUMN_DATA15;
         public static final int COLUMN_SYNC_DIRTY = COLUMN_SYNC1;

@@ -14,9 +14,9 @@ public final class SyncAdapterColumns {
      * ContactsContract.Data table. see: res/xml/contacts.xml
      */
     public static final String MIME_PROFILE =
-            "vnd.android.cursor.item/vnd.pgp.keyid";
+            "vnd.android.cursor.item/vnd.openpgp4fpr";
 
-    public static final String DATA_KEYID = Data.DATA1;
+    public static final String DATA_KEYFINGERPRINT = Data.DATA1;
     public static final String DATA_SUMMARY = Data.DATA2;
     public static final String DATA_DETAIL = Data.DATA3;
 }

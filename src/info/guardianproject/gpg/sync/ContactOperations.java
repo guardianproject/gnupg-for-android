@@ -52,9 +52,9 @@ public class ContactOperations {
      * @param isSyncOperation are we executing this as part of a sync operation?
      * @return instance of ContactOperations
      */
-    public static ContactOperations createNewContact(Context context, String keyId,
+    public static ContactOperations createNewContact(Context context, String keyFpr,
             String accountName, boolean isSyncOperation, BatchOperation batchOperation) {
-        return new ContactOperations(context, keyId, accountName, isSyncOperation, batchOperation);
+        return new ContactOperations(context, keyFpr, accountName, isSyncOperation, batchOperation);
     }
 
     /**
@@ -80,12 +80,12 @@ public class ContactOperations {
         mBatchOperation = batchOperation;
     }
 
-    public ContactOperations(Context context, String keyId, String accountName,
+    public ContactOperations(Context context, String keyFpr, String accountName,
             boolean isSyncOperation, BatchOperation batchOperation) {
         this(context, isSyncOperation, batchOperation);
         mBackReference = mBatchOperation.size();
         mIsNewContact = true;
-        mValues.put(RawContacts.SOURCE_ID, keyId);
+        mValues.put(RawContacts.SOURCE_ID, keyFpr);
         mValues.put(RawContacts.ACCOUNT_TYPE, SyncConstants.ACCOUNT_TYPE);
         mValues.put(RawContacts.ACCOUNT_NAME, accountName);
         ContentProviderOperation.Builder builder =
@@ -144,10 +144,10 @@ public class ContactOperations {
      * @param the email address we're adding
      * @return instance of ContactOperations
      */
-    public ContactOperations addKeyId(String keyid) {
+    public ContactOperations addKeyFingerprint(String keyfpr) {
         mValues.clear();
-        if (!TextUtils.isEmpty(keyid)) {
-            mValues.put(SyncAdapterColumns.DATA_KEYID, keyid);
+        if (!TextUtils.isEmpty(keyfpr)) {
+            mValues.put(SyncAdapterColumns.DATA_KEYFINGERPRINT, keyfpr);
             mValues.put(SyncAdapterColumns.DATA_DETAIL, mContext.getString(R.string.contact_encrypt_file));
             mValues.put(SyncAdapterColumns.DATA_SUMMARY, mContext.getString(R.string.contact_encrypt_file));
             mValues.put(Data.MIMETYPE, SyncAdapterColumns.MIME_PROFILE);
@@ -243,16 +243,16 @@ public class ContactOperations {
     }
 
     /**
-     * Updates contact's keyid
+     * Updates contact's keyfingerprint
      *
-     * @param keyId
+     * @param keyfpr
      * @param uri Uri for the existing raw contact to be updated
      * @return instance of ContactOperations
      */
-    public ContactOperations updateKeyId(String keyId, String existingKeyId, Uri uri) {
-        if (!TextUtils.equals(existingKeyId, keyId)) {
+    public ContactOperations updateKeyFingerprint(String keyfpr, String existingKeyfpr, Uri uri) {
+        if (!TextUtils.equals(existingKeyfpr, keyfpr)) {
             mValues.clear();
-            mValues.put(SyncAdapterColumns.DATA_KEYID, keyId);
+            mValues.put(SyncAdapterColumns.DATA_KEYFINGERPRINT, keyfpr);
             addUpdateOp(uri);
         }
         return this;
