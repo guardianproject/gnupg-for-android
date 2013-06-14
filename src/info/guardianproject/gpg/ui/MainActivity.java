@@ -7,7 +7,6 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -203,12 +202,11 @@ public class MainActivity extends SherlockFragmentActivity
         SharedPreferences prefs =  PreferenceManager.getDefaultSharedPreferences(this);
         boolean showWizard = prefs.getBoolean(FirstRunWelcome.PREFS_SHOW_WIZARD, true);
         if( showWizard ) {
-            Editor prefsEditor = prefs.edit();
-            prefsEditor.putBoolean(FirstRunWelcome.PREFS_SHOW_WIZARD, false);
-            prefsEditor.commit();
             showWizard();
+        } else {
+            // don't setup account syncing unless we've shown the wizard
+            setupSyncAccount();
         }
-        setupSyncAccount();
     }
 
     public class InstallAndSetupTask extends AsyncTask<Void, Void, Void> {
