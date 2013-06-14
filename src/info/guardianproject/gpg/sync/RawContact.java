@@ -19,6 +19,7 @@ public class RawContact {
 
     public static List<RawContact> fromPublicKeys() {
         GnuPGKey[] keys = GnuPG.context.listKeys();
+        if( keys == null ) return new ArrayList<RawContact>();
         ArrayList<RawContact> list = new ArrayList<RawContact>(keys.length);
         for( GnuPGKey key : keys ) {
             list.add( RawContact.fromKey(key) );
