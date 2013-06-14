@@ -14,8 +14,11 @@
 
 package com.freiheit.gnupg;
 
+import android.util.Log;
+
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 
 
@@ -238,6 +241,21 @@ public class GnuPGContext extends GnuPGPeer{
     }
 
     /**
+     * Factory method to generate a GnuPGData-Object from a File.
+     *
+     * @param data should not be null be readable
+     * @return GnuPGData null is data is null or empty, otherwise a
+     *         GnuPGData-Object
+     * @throws IOException
+     */
+    public GnuPGData createDataObject(File f) throws GnuPGException, IOException {
+        if(f != null && f.exists() && !f.isDirectory() && f.canRead()){
+            return new GnuPGData(f);
+        }
+        return null;
+    }
+
+    /**
        Factory method to generate a GnuPGData-Object from a String.
 
        @param data should not be null and should have a length > 0
@@ -450,7 +468,7 @@ public class GnuPGContext extends GnuPGPeer{
     		gpgmeSetArmor(l, false);
     	return baos.toByteArray();
     }
-    
+
     /**
        Encrypts the text in <em>plain</em> with the public key
        of each recipient. The result is returned as GnuPGData.
@@ -469,7 +487,7 @@ public class GnuPGContext extends GnuPGPeer{
 
         final GnuPGData plainData = createDataObject(plain);
         GnuPGData cipherData = createDataObject();
-        
+
         gpgmeOpEncrypt(this.getInternalRepresentation(),
         		getInternalRepresentationFromRecipients(recipients),
         		plainData.getInternalRepresentation(),
@@ -496,7 +514,7 @@ public class GnuPGContext extends GnuPGPeer{
 
         final GnuPGData plainData = createDataObject(plain);
         GnuPGData cipherData = createDataObject();
-        
+
         gpgmeOpEncrypt(this.getInternalRepresentation(),
         		getInternalRepresentationFromRecipients(recipients),
         		plainData.getInternalRepresentation(),
@@ -639,7 +657,7 @@ public class GnuPGContext extends GnuPGPeer{
 	/**
 	   Get a specific Signer at a given index. You add Signers
 	   with addSigner().
-	  
+
 	   @param int index to the list of Signers
 	   @return GnuPGKey the key at index, or null if it doesn't exist
 
@@ -668,6 +686,15 @@ public class GnuPGContext extends GnuPGPeer{
     }
 
     /**
+     * Imports a Key (private or public). You can supply the key in ASCII armor.
+     */
+    public void importKey(File file) throws GnuPGException, IOException {
+        GnuPGData keydata = createDataObject(file);
+        if( keydata == null ) { Log.e(TAG, "importkey: parsing key data failed" ); return; }
+        gpgmeOpImport(getInternalRepresentation(), keydata.getInternalRepresentation());
+    }
+
+    /**
        This calls immediately the release method for the context
        in the underlying gpgme library. This method is called by
        the finalizer of the class anyway, but you can call it yourself
@@ -684,6 +711,7 @@ public class GnuPGContext extends GnuPGPeer{
     /**
        Releases underlying datastructures. Simple calls the destroy() method.
      */
+    @Override
     protected void finalize(){
         destroy();
     }

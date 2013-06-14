@@ -14,7 +14,10 @@
 
 package com.freiheit.gnupg;
 
+import org.apache.commons.io.FileUtils;
+
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -38,18 +41,18 @@ public class GnuPGData extends GnuPGPeer{
         setInternalRepresentation(gpgmeDataNew());
     }
 
-    /*
-       Use the factory methods from GnuPGContext to
-       generate GnuPGData-Objects.
-       FIXME: This is not working! Use it, and it will crash the JVM.
-    */
-//     public GnuPGData(File f) throws IOException{
-//         this();
-//         if(f != null && f.exists() && !f.isDirectory() && f.canRead()){
-//             FileInputStream fin = new FileInputStream(f);
-//             this.read(fin);
-//         }
-//     }
+
+    /**
+    Use the factory methods from GnuPGContext to
+    generate GnuPGData-Objects.
+    Generates a new data object containing the contents of the given File.
+
+    @param f your file
+    @throws IOException
+  */
+     public GnuPGData(File f) throws IOException {
+         this(FileUtils.readFileToByteArray(f));
+     }
 
     /**
        Use the factory methods from GnuPGContext to
@@ -78,11 +81,11 @@ public class GnuPGData extends GnuPGPeer{
     /*
        FIXME: This is not working! Use it, and it will crash the JVM.
     */
-//     public void read(InputStream in) throws IOException{
-//         if(in != null){
-//             gpgmeDataRead(getInternalRepresentation(), in);
-//         }
-//     }
+     public void read(InputStream in) throws IOException{
+         if(in != null){
+             gpgmeDataRead(getInternalRepresentation(), in);
+         }
+     }
 
     /**
        Writes the data/string contained in this data object
@@ -101,6 +104,7 @@ public class GnuPGData extends GnuPGPeer{
 
        @return String representation of the data contained in this data object (expect weird results with binary data)
      */
+    @Override
     public String toString(){
         String result = null;
         ByteArrayOutputStream baos = new ByteArrayOutputStream(this.size());
@@ -131,6 +135,7 @@ public class GnuPGData extends GnuPGPeer{
     /**
        Releases underlying datastructures. Simple calls the destroy() method.
      */
+    @Override
     protected void finalize(){
         destroy();
     }
