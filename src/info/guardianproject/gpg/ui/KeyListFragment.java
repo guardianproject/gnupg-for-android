@@ -44,7 +44,11 @@ public class KeyListFragment extends SherlockFragment {
     protected KeyListAdapter mListAdapter;
     protected View mFilterLayout;
     protected Button mClearFilterButton;
+    protected Button mOkButton;
+    protected Button mCancelButton;
     protected TextView mFilterInfo;
+    protected View mKeyListButtonBar;
+    protected boolean mShowButtons = true;
 
     private OnKeysSelectedListener mCallback;
 
@@ -92,18 +96,24 @@ public class KeyListFragment extends SherlockFragment {
             });
         }
 
-        Button okButton = (Button) getView().findViewById(R.id.btn_ok);
-        okButton.setOnClickListener(okClicked);
+        mOkButton = (Button) getView().findViewById(R.id.btn_ok);
+        mOkButton.setOnClickListener(okClicked);
 
-        Button cancelButton = (Button) getView().findViewById(R.id.btn_cancel);
-        cancelButton.setOnClickListener(cancelClicked);
+        mCancelButton = (Button) getView().findViewById(R.id.btn_cancel);
+        mCancelButton.setOnClickListener(cancelClicked);
         mFilterLayout = getView().findViewById(R.id.layout_filter);
         mFilterInfo = (TextView) mFilterLayout.findViewById(R.id.filterInfo);
         mClearFilterButton = (Button) mFilterLayout.findViewById(R.id.btn_clear);
+        mKeyListButtonBar = getView().findViewById(R.id.keyListButtonBar);
 
         mClearFilterButton.setOnClickListener(clearFilterclicked);
-
+        updateButtons();
         handleIntent(action, getArguments().getBundle("extras"));
+    }
+
+    public void toggleButtons(boolean visible) {
+        mShowButtons = visible;
+        updateButtons();
     }
 
     public void handleIntent(String action, Bundle extras) {
@@ -155,6 +165,14 @@ public class KeyListFragment extends SherlockFragment {
                     }
                 }
             }
+        }
+    }
+
+    private void updateButtons() {
+        if( mOkButton != null && mCancelButton != null){
+            mOkButton.setVisibility(mShowButtons ? View.VISIBLE : View.INVISIBLE);
+            mCancelButton.setVisibility(mShowButtons ? View.VISIBLE : View.INVISIBLE);
+            mKeyListButtonBar.setVisibility(mShowButtons ? View.VISIBLE : View.INVISIBLE);
         }
     }
 

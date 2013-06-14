@@ -262,6 +262,7 @@ public class MainActivity extends SherlockFragmentActivity
                 default:
                     return null;
             }
+            frag.toggleButtons(false);
             args.putBundle("extras", extras);
             frag.setArguments(args);
             return frag;
