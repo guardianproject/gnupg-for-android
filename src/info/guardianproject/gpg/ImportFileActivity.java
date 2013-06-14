@@ -118,7 +118,11 @@ public class ImportFileActivity extends FragmentActivity {
         Handler returnHandler = new Handler() {
             @Override
             public void handleMessage(Message message) {
-                if (message.what == FileDialogFragment.MESSAGE_OKAY) {
+                if (message.what == FileDialogFragment.MESSAGE_CANCELED) {
+                    setResult(RESULT_CANCELED);
+                    finish();
+                }
+                else if (message.what == FileDialogFragment.MESSAGE_OKAY) {
                     Bundle data = message.getData();
                     String importFilename = new File(
                             data.getString(FileDialogFragment.MESSAGE_DATA_FILENAME))
@@ -142,6 +146,7 @@ public class ImportFileActivity extends FragmentActivity {
                         Log.e(TAG, "File import failed: ");
                         e.printStackTrace();
                     }
+                    setResult(RESULT_OK);
                     finish();
                 }
             }
