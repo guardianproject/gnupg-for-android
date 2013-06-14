@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.freiheit.gnupg.GnuPGContext;
@@ -71,6 +72,7 @@ public class NativeHelper {
 		String path = System.getenv("PATH");
 		envp = new String[] { "HOME=" + NativeHelper.app_home,
 				"GNUPGHOME=" + NativeHelper.app_home,
+				"PINENTRY_USER_DATA=" + constructPinentryUserData(),
 				"LD_LIBRARY_PATH=" + NativeHelper.app_opt + "/lib" + ":" + ldLibraryPath,
 				"PATH=" + path + ":" + bin.getAbsolutePath(),
 				"app_opt=" + app_opt.getAbsolutePath() };
@@ -78,6 +80,72 @@ public class NativeHelper {
 		log = new StringBuffer();
 
 		Log.i(TAG, "Finished NativeHelper.setup()");
+	}
+
+    private static String getUserNumber() {
+        /* Getting the user number requires APIs not added till SDK 17
+         * So we use reflection.
+         * See https://bugzilla.mozilla.org/show_bug.cgi?id=811763#c11
+
+        if (Build.VERSION.SDK_INT >= 17) {
+            android.os.UserManager um = (android.os.UserManager) context
+                    .getSystemService(Context.USER_SERVICE);
+            if (um != null) {
+                return um.getSerialNumberForUser(android.os.Process.myUserHandle());
+            } else {
+                Log.d(TAG, "Unable to obtain user manager service on a device with SDK version "
+                        + Build.VERSION.SDK_INT);
+            }
+        }*/
+        try {
+            Object userManager = context.getSystemService("user");
+            if (userManager != null) {
+                Log.d(TAG, "got us a nonnull user manager!");
+                // if userManager is non-null that means we're running on 4.2+
+                // and so the rest of this
+                // should just work
+                Object userHandle = android.os.Process.class.getMethod(
+                        "myUserHandle", (Class[]) null).invoke(null);
+                Object userSerial = userManager
+                        .getClass()
+                        .getMethod("getSerialNumberForUser",
+                                userHandle.getClass())
+                        .invoke(userManager, userHandle);
+                return userSerial.toString();
+            }
+        } catch (Exception e) {
+            // we're not yet on 4.2
+        }
+        return new String();
+    }
+
+    /**
+     * returns a string containing the
+     *  "LD_LIBRARY_PATH;BOOTCLASSPATH;USERID;"
+     * @return
+     */
+	private static String constructPinentryUserData() {
+	    String pinentryUserData = new String();
+
+	    pinentryUserData += System.getenv("LD_LIBRARY_PATH");
+	    pinentryUserData += ";";
+
+	    // we need to pass BOOTCLASSPATH for all versions
+	    pinentryUserData += System.getenv("BOOTCLASSPATH");
+	    pinentryUserData += ";";
+	    /*
+         * As per https://code.google.com/p/android/issues/detail?id=39801
+         * on Android 4.2 we need to pass the userid to "am start"
+         * with --user, because 4.2 supports multiple users.
+         */
+	    String u = getUserNumber();
+	    if( !TextUtils.isEmpty(u) ) {
+	        pinentryUserData += getUserNumber();
+	    } else {
+	        pinentryUserData += "-1";
+	    }
+	    pinentryUserData += ";";
+	    return pinentryUserData;
 	}
 
 	private static void copyFileOrDir(String path, File dest) {
