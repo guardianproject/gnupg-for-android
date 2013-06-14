@@ -48,6 +48,7 @@ public class FileDialogFragment extends DialogFragment {
     private static final String ARG_REQUEST_CODE = "request_code";
 
     public static final int MESSAGE_OKAY = 1;
+    public static final int MESSAGE_CANCELED = 2;
 
     public static final String MESSAGE_DATA_FILENAME = "filename";
     public static final String MESSAGE_DATA_CHECKED = "checked";
@@ -150,6 +151,7 @@ public class FileDialogFragment extends DialogFragment {
 
             @Override
             public void onClick(DialogInterface dialog, int id) {
+                sendMessageToHandler(MESSAGE_CANCELED, null);
                 dismiss();
             }
         });
