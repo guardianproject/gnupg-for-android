@@ -3,10 +3,13 @@ package info.guardianproject.gpg.ui;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -59,6 +62,18 @@ public class MainActivity extends SherlockFragmentActivity
     protected void onResume() {
         super.onResume();
         startGpgAgent();
+
+        /*
+         * show the first run wizard if necessary
+         */
+        SharedPreferences prefs =  PreferenceManager.getDefaultSharedPreferences(this);
+        boolean showWizard = prefs.getBoolean(FirstRunWelcome.PREFS_SHOW_WIZARD, true);
+        if( showWizard ) {
+            Editor prefsEditor = prefs.edit();
+            prefsEditor.putBoolean(FirstRunWelcome.PREFS_SHOW_WIZARD, false);
+            prefsEditor.commit();
+            showWizard();
+        }
     }
 
     @Override
@@ -116,6 +131,10 @@ public class MainActivity extends SherlockFragmentActivity
             Intent service = new Intent(this, GpgAgentService.class);
             startService(service);
         }
+    }
+
+    private void showWizard() {
+        startActivityForResult(new Intent(getBaseContext(), FirstRunSetup.class), 1);
     }
 
     private void setupView() {

@@ -11,6 +11,8 @@ import info.guardianproject.gpg.R;
 
 public class FirstRunWelcome extends Activity {
 
+    public final static String PREFS_SHOW_WIZARD = "show_wizard";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
