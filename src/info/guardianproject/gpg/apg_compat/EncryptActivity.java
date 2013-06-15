@@ -2,6 +2,7 @@
 package info.guardianproject.gpg.apg_compat;
 
 import info.guardianproject.gpg.GnuPG;
+import info.guardianproject.gpg.R;
 
 import java.util.ArrayList;
 
@@ -10,6 +11,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 
+import com.freiheit.gnupg.GnuPGException;
 import com.freiheit.gnupg.GnuPGKey;
 
 public class EncryptActivity extends Activity {
@@ -55,20 +57,25 @@ public class EncryptActivity extends Activity {
 
             byte[] extraData = extras.getByteArray(Apg.EXTRA_DATA);
             final GnuPGKey[] recipients = recipientsKeyList.toArray(new GnuPGKey[0]);
-			Bundle data = new Bundle();
+            Bundle data = new Bundle();
             data.putInt(Constants.extras.status, Id.message.done);
-			if (extraData == null) {
-				String extraText = extras.getString(Apg.EXTRA_TEXT);
-	    		data.putString(Apg.EXTRA_ENCRYPTED_MESSAGE,
-	    				GnuPG.context.encryptToAscii(recipients, extraText));
-			} else {
-	    		data.putByteArray(Apg.EXTRA_ENCRYPTED_DATA,
-	    				GnuPG.context.encryptToBinary(recipients, extraData));
-			}
-
-			Intent resultIntent = new Intent();
-            resultIntent.putExtras(data);
-            setResult(RESULT_OK, resultIntent);
+            Intent resultIntent = new Intent();
+            try {
+            	if (extraData == null) {
+            		String extraText = extras.getString(Apg.EXTRA_TEXT);
+            		data.putString(Apg.EXTRA_ENCRYPTED_MESSAGE,
+            				GnuPG.context.encryptToAscii(recipients, extraText));
+            	} else {
+            		data.putByteArray(Apg.EXTRA_ENCRYPTED_DATA,
+            				GnuPG.context.encryptToBinary(recipients, extraData));
+            	}
+                resultIntent.putExtras(data);
+                setResult(RESULT_OK, resultIntent);
+            } catch (GnuPGException e) {
+            	Toast.makeText(this, R.string.error_encrypting_failed, Toast.LENGTH_LONG).show();
+            	e.printStackTrace();
+                setResult(RESULT_CANCELED, resultIntent);
+            }
 		}
 		finish();
 	}
