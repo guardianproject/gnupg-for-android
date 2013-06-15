@@ -5,11 +5,12 @@ import android.accounts.AccountManager;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
+import android.os.Environment;
+import android.preference.PreferenceManager;
 import android.provider.ContactsContract.CommonDataKinds;
 import android.provider.ContactsContract.Contacts;
 import android.util.Log;
@@ -19,10 +20,12 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import com.freiheit.gnupg.GnuPGGenkeyResult;
 
 public class CreateKeyActivity extends Activity {
 	public static final String TAG = "CreateKeyActivity";
@@ -115,7 +118,8 @@ public class CreateKeyActivity extends Activity {
 			keyName.setText(name);
 			// set the focus on the layout so the keyboard doesn't pop up
 			findViewById(R.id.createKeyLayout).requestFocus();
-		} else // keyName is blank, so put the keyboard focus there
+		} else
+			// keyName is blank, so put the keyboard focus there
 			findViewById(R.id.keyName).requestFocus();
 		// TODO we might want to use Profile.DISPLAY_NAME_PRIMARY on API >= 11
 	}
@@ -182,9 +186,11 @@ public class CreateKeyActivity extends Activity {
 
 	public class CreateKeyTask extends AsyncTask<String, Void, Void> {
 		private ProgressDialog dialog;
+		private Context context;
 
 		public CreateKeyTask(Context c) {
-			dialog = new ProgressDialog(c);
+			context = c;
+			dialog = new ProgressDialog(context);
 			dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
 			dialog.setTitle(R.string.dialog_generating_new_key_title);
 			dialog.setMessage(getString(R.string.dialog_generating_new_key_msg));
@@ -194,6 +200,31 @@ public class CreateKeyActivity extends Activity {
 		protected Void doInBackground(String... params) {
 			Log.i(TAG, params[0]);
 			GnuPG.context.genPgpKey(params[0]);
+			GnuPGGenkeyResult result = GnuPG.context.getGenkeyResult();
+			String fpr = result.getFpr();
+			String sdcard = Environment.getExternalStorageDirectory().getAbsolutePath();
+			if (((CheckBox) findViewById(R.id.keyRevokeGen)).isChecked()) {
+				// TODO update ProgressDialog to say
+				// "generating revokation certificate"
+				GnuPG.gpg2(" --output " + sdcard + "/revoke-" + fpr
+						+ ".asc --gen-revoke " + fpr);
+			}
+			if (((CheckBox) findViewById(R.id.keyUpload)).isChecked()) {
+				// TODO update ProgressDialog to say
+				// "Uploading to Keyserver"
+				SharedPreferences prefs = PreferenceManager
+						.getDefaultSharedPreferences(context);
+				String ks = prefs.getString(
+						GPGPreferenceActivity.PREF_KEYSERVER, "200.144.121.45");
+				GnuPG.gpg2(" --keyserver " + ks + " --send-keys " + fpr);
+			}
+			if (((CheckBox) findViewById(R.id.keyMakeBackup)).isChecked()) {
+				// TODO update ProgressDialog to say
+				// "Backing up to SDCard"
+				GnuPG.gpg2(" --output " + sdcard + NativeHelper.app_home
+						+ "/gpgSecreyKey-" + fpr + ".asc --export-secret-keys "
+						+ fpr);
+			}
 			return null;
 		}
 

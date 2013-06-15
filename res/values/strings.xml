@@ -52,6 +52,9 @@
     <string name="key_expire_five_years">5 Years</string>
     <string name="key_expire_ten_years">10 Years</string>
     <string name="key_expire_never">Never</string>
+    <string name="key_revoke_gen">Generate Revokation Certificate</string>
+    <string name="key_upload">Upload To Keyservers</string>
+    <string name="key_make_backup">Backup To SD Card</string>
     <string name="dialog_generating_new_key_title">Generating new key&#8230;</string>
     <string name="dialog_generating_new_key_msg">This process can currently take up to 15 minutes.</string>
 
