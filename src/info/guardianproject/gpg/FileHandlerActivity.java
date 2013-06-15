@@ -13,8 +13,10 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.webkit.MimeTypeMap;
+import android.widget.Toast;
 
 import com.freiheit.gnupg.GnuPGData;
+import com.freiheit.gnupg.GnuPGException;
 
 public class FileHandlerActivity extends Activity {
 	public static final String TAG = "FileHandlerActivity";
@@ -40,7 +42,6 @@ public class FileHandlerActivity extends Activity {
 				+ incomingFile);
 
 		GnuPGData cipher;
-		// getCanonicalFile() is a workaround for missing /storage/emulated/0
 		try {
 			byte[] contents = FileUtils.readFileToByteArray(incomingFile);
 			cipher = GnuPG.context.createDataObject(contents);
@@ -49,7 +50,16 @@ public class FileHandlerActivity extends Activity {
 			return;
 		}
 		GnuPGData plain = GnuPG.context.createDataObject();
-		GnuPG.context.decrypt(cipher, plain);
+		try {
+			GnuPG.context.decrypt(cipher, plain);
+		} catch (GnuPGException e) {
+			String msg = String.format(getString(R.string.error_decrypting_file_failed),
+					incomingFile);
+			Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
+			e.printStackTrace();
+			finish();
+			return;
+		}
 		cipher.destroy();
 
 		String incomingFileName = incomingFile.getAbsolutePath();
