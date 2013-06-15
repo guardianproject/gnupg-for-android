@@ -18,6 +18,9 @@
 
 JavaVM *_jvm;
 
+void* passphrase_cb = NULL;
+
+/*
 gpgme_error_t
 passphrase_cb(void *hook, const char *uid_hint, const char *passphrase_info,
 	      int prev_was_bad, int fd)
@@ -81,6 +84,7 @@ passphrase_cb(void *hook, const char *uid_hint, const char *passphrase_info,
 
     return GPG_ERR_NO_ERROR;
 }
+*/
 
 JNIEXPORT jint JNICALL
 JNI_OnLoad(JavaVM *vm, void *reserved)

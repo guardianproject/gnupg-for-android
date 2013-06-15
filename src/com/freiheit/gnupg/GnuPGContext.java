@@ -572,7 +572,6 @@ public class GnuPGContext extends GnuPGPeer{
        @see com.freiheit.gnupg.GnuPGData
      */
     public void decrypt(GnuPGData cipher, GnuPGData plain) throws GnuPGException{
-        if(_passphraseListener == null) throw new GnuPGException("Aborting: No GnuPGPassphraseListener set.");
         if (cipher == null || plain == null) return;
 
         gpgmeOpDecrypt(this.getInternalRepresentation(),
@@ -597,7 +596,6 @@ public class GnuPGContext extends GnuPGPeer{
        @param plain will contain the result after the method call
      */
 //     public void decryptAndVerify(GnuPGData cipher, GnuPGData plain) throws GnuPGException{
-//         if(_passphraseListener == null) throw new GnuPGException("Aborting: No GnuPGPassphraseListener set.");
 //         if (cipher == null || plain == null) return;
 
 //         gpgmeOpDecryptVerify(this.getInternalRepresentation(),
@@ -611,7 +609,6 @@ public class GnuPGContext extends GnuPGPeer{
        @param signature result of the operation
      */
     public void sign(GnuPGData plain, GnuPGData signature) throws GnuPGException{
-        if(_passphraseListener == null) throw new GnuPGException("Aborting: No GnuPGPassphraseListener set.");
         if (plain == null || signature == null) throw new GnuPGException("Parameters not complete or null.");
 
         gpgmeOpSign(this.getInternalRepresentation(),
