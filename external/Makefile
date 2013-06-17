@@ -83,7 +83,7 @@ CFLAGS += -g
 	pth-build pth-clean pth-install \
 	libiconv-build libiconv-clean libiconv-install
 
-all: gnupg-install gpgme-install android-assets
+all: gnupg-install gnupg-static gpgme-install android-assets
 
 
 #------------------------------------------------------------------------------#
