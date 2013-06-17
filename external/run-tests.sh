@@ -9,7 +9,6 @@ app=/data/data/info.guardianproject.gpg
 app_opt=$app/app_opt
 export HOME=$app/app_home
 export LD_LIBRARY_PATH=$app_opt/lib:$LD_LIBRARY_PATH
-export USER=`findusername`
 
 findusername_helper() {
     echo $2
@@ -31,6 +30,7 @@ export
 
 echo "------------------------------"
 echo "gpgme tests:"
+export USER=`findusername`
 cd $app_opt/tests/
 runtest gpgme t-version
 runtest gpgme t-engine-info
