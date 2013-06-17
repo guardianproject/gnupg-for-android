@@ -281,17 +281,20 @@ public class MainActivity extends SherlockFragmentActivity
             KeyListFragment frag = new KeyListFragment();
             Bundle args = new Bundle();
             Bundle extras = new Bundle();
+            // TODO this should use GnuPG.context.listKeys() and .listSecretKeys()
+    		final String VERSION = "1";
+    		final String EXTRA_INTENT_VERSION = "intentVersion";
             switch (position) {
                 case 0: // public keys
                 {
                     args.putString("action", Apg.Intent.SELECT_PUBLIC_KEYS);
-                    extras.putString(ApgId.EXTRA_INTENT_VERSION, ApgId.VERSION);
+                    extras.putString(EXTRA_INTENT_VERSION, VERSION);
                     break;
                 }
                 case 1: //private keys
                 {
                     args.putString("action", Apg.Intent.SELECT_SECRET_KEY);
-                    extras.putString(ApgId.EXTRA_INTENT_VERSION, ApgId.VERSION);
+                    extras.putString(EXTRA_INTENT_VERSION, VERSION);
                     break;
                 }
                 default:

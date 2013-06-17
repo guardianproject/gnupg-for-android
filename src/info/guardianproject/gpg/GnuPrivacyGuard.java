@@ -1,8 +1,12 @@
 package info.guardianproject.gpg;
 
+import info.guardianproject.gpg.ui.FileDialogFragment;
+
+import java.io.File;
+import java.io.OutputStream;
+
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.ActivityNotFoundException;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -24,24 +28,10 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.View.OnCreateContextMenuListener;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import com.freiheit.gnupg.GnuPGException;
-
-import info.guardianproject.gpg.apg_compat.Apg;
-import info.guardianproject.gpg.apg_compat.Id;
-import info.guardianproject.gpg.ui.FileDialogFragment;
-
-import java.io.File;
-import java.io.IOException;
-import java.io.OutputStream;
 
 public class GnuPrivacyGuard extends FragmentActivity implements OnCreateContextMenuListener {
 	public static final String TAG = "GnuPrivacyGuard";
@@ -74,8 +64,6 @@ public class GnuPrivacyGuard extends FragmentActivity implements OnCreateContext
 		setContentView(R.layout.main);
 		consoleScroll = (ScrollView) findViewById(R.id.consoleScroll);
 		consoleText = (TextView) findViewById(R.id.consoleText);
-
-		wireTestButtons();
 	}
 
 	@Override
@@ -118,31 +106,6 @@ public class GnuPrivacyGuard extends FragmentActivity implements OnCreateContext
 	            }
 	            return;
 	        }
-		}
-		Bundle extras = data.getExtras();
-		if (extras != null) {
-			String text = "RESULT: ";
-			switch (requestCode) {
-			case ApgId.SELECT_SECRET_KEY:
-				long keyId = extras.getLong(Apg.EXTRA_KEY_ID);
-				String userId = extras.getString(Apg.EXTRA_USER_ID);
-				text += userId + " " + Long.toHexString(keyId);
-				break;
-			case ApgId.SELECT_PUBLIC_KEYS:
-				long[] selectedKeyIds = extras.getLongArray(Apg.EXTRA_SELECTION);
-				String[] userIds = extras.getStringArray(Apg.EXTRA_USER_IDS);
-				if (selectedKeyIds != null && userIds != null)
-					for (int i = 0; i < selectedKeyIds.length && i < userIds.length; i++) {
-						text += userIds[i] + " " + Long.toHexString(selectedKeyIds[i]) + " ";
-						Log.i(TAG, "received: " + userIds[i] + " " + Long.toHexString(selectedKeyIds[i]));
-					}
-				break;
-			case Id.dialog.import_keys:
-				break;
-			default:
-				text += "unknown intent";
-			}
-			Toast.makeText(this, text, Toast.LENGTH_LONG).show();
 		}
 	}
 
@@ -403,65 +366,12 @@ public class GnuPrivacyGuard extends FragmentActivity implements OnCreateContext
     }
 
     public static class ApgId {
-        public static final String VERSION = "1";
-
-        public static final String EXTRA_INTENT_VERSION = "intentVersion";
-
         // must us only lowest 16 bits, otherwise you get (not sure under which conditions exactly)
         // java.lang.IllegalArgumentException: Can only use lower 16 bits for requestCode
-        public static final int DECRYPT = 0x00007001;
-        public static final int ENCRYPT = 0x00007002;
-        public static final int SELECT_PUBLIC_KEYS = 0x00007003;
-        public static final int SELECT_SECRET_KEY = 0x00007004;
-        public static final int GENERATE_SIGNATURE = 0x00007005;
         public static final int FILENAME = 0x00007006;
     }
 
-    private void setOnClick(Button button, final String intentName, final int intentId) {
-		button.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new android.content.Intent(intentName);
-                intent.putExtra(ApgId.EXTRA_INTENT_VERSION, ApgId.VERSION);
-                try {
-                    startActivityForResult(intent, intentId);
-                    Toast.makeText(view.getContext(),
-                            "started " + intentName + " " + intentId,
-                            Toast.LENGTH_SHORT).show();
-                    Log.i(TAG, "started " + intentName + " " + intentId);
-                } catch (ActivityNotFoundException e) {
-                    Toast.makeText(view.getContext(),
-                                   R.string.error_activity_not_found,
-                                   Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-    }
-
-	private void wireTestButtons() {
-		Button selectPublicKeysButton = (Button) findViewById(R.id.select_public_keys);
-		setOnClick(selectPublicKeysButton, Apg.Intent.SELECT_PUBLIC_KEYS, ApgId.SELECT_PUBLIC_KEYS);
-
-		Button selectSecretKeyButton = (Button) findViewById(R.id.select_secret_key);
-		setOnClick(selectSecretKeyButton, Apg.Intent.SELECT_SECRET_KEY, ApgId.SELECT_SECRET_KEY);
-
-		Button encryptButton = (Button) findViewById(R.id.encrypt);
-		setOnClick(encryptButton, Apg.Intent.ENCRYPT, ApgId.ENCRYPT);
-
-		Button encryptFileButton = (Button) findViewById(R.id.encrypt_file);
-		setOnClick(encryptFileButton, Apg.Intent.ENCRYPT_FILE, ApgId.ENCRYPT);
-
-		Button decryptButton = (Button) findViewById(R.id.decrypt);
-		setOnClick(decryptButton, Apg.Intent.DECRYPT, ApgId.DECRYPT);
-
-		Button decryptFileButton = (Button) findViewById(R.id.decrypt_file);
-		setOnClick(decryptFileButton, Apg.Intent.DECRYPT_FILE, ApgId.DECRYPT);
-
-		Button generateSignatureButton = (Button) findViewById(R.id.generate_signature);
-		setOnClick(generateSignatureButton, Apg.Intent.GENERATE_SIGNATURE, ApgId.GENERATE_SIGNATURE);
-	}
-
-	public class InstallAndSetupTask extends AsyncTask<Void, Void, Void> {
+    public class InstallAndSetupTask extends AsyncTask<Void, Void, Void> {
 		private ProgressDialog dialog;
 		private boolean doInstall;
 
