@@ -61,7 +61,7 @@ public class GnuPrivacyGuard extends FragmentActivity implements OnCreateContext
 		// this also sets up GnuPG.context in onPostExecute()
 //		new InstallAndSetupTask(this).execute();
 
-		setContentView(R.layout.main);
+		setContentView(R.layout.debug_log);
 		consoleScroll = (ScrollView) findViewById(R.id.consoleScroll);
 		consoleText = (TextView) findViewById(R.id.consoleText);
 	}
