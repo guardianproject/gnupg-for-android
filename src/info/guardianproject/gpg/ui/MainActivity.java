@@ -1,14 +1,10 @@
 package info.guardianproject.gpg.ui;
 
 import info.guardianproject.gpg.GnuPrivacyGuard;
-import info.guardianproject.gpg.GpgAgentService;
-import info.guardianproject.gpg.NativeHelper;
+import info.guardianproject.gpg.GpgApplication;
 import info.guardianproject.gpg.R;
 import info.guardianproject.gpg.apg_compat.Apg;
 import info.guardianproject.gpg.sync.SyncConstants;
-
-import java.io.File;
-
 import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.content.ContentResolver;
@@ -68,7 +64,7 @@ public class MainActivity extends SherlockFragmentActivity
     @Override
     protected void onResume() {
         super.onResume();
-        startGpgAgent();
+        GpgApplication.startGpgAgent(this);
     }
 
     @Override
@@ -117,15 +113,6 @@ public class MainActivity extends SherlockFragmentActivity
 
     @Override
     public void onKeySelectionCanceled() {
-    }
-
-    private void startGpgAgent() {
-        File gpgAgentSocket = new File(NativeHelper.app_home, "S.gpg-agent");
-        // gpg-agent is not running, start it
-        if (!gpgAgentSocket.exists()) {
-            Intent service = new Intent(this, GpgAgentService.class);
-            startService(service);
-        }
     }
 
     private void showWizard() {

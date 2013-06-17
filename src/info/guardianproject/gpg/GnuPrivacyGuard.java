@@ -63,7 +63,7 @@ public class GnuPrivacyGuard extends FragmentActivity implements OnCreateContext
 	protected void onResume() {
 		super.onResume();
 		registerReceivers();
-		startGpgAgent();
+		GpgApplication.startGpgAgent(this);
 	}
 
 	@Override
@@ -307,15 +307,6 @@ public class GnuPrivacyGuard extends FragmentActivity implements OnCreateContext
 
 	public static void writeCommand(OutputStream os, String command) throws Exception {
 		os.write((command + "\n").getBytes("ASCII"));
-	}
-
-	private void startGpgAgent() {
-		File gpgAgentSocket = new File(NativeHelper.app_home, "S.gpg-agent");
-		// gpg-agent is not running, start it
-		if (!gpgAgentSocket.exists()) {
-			Intent service = new Intent(this, GpgAgentService.class);
-			startService(service);
-		}
 	}
 
 	private void registerReceivers() {

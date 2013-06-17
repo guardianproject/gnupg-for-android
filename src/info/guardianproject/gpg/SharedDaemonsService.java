@@ -12,7 +12,7 @@ import android.util.Log;
 
 public class SharedDaemonsService extends Service {
 
-    public static final String TAG = "PinentryService";
+    public static final String TAG = "SharedDaemonsService";
     private static final int SERVICE_FOREGROUND_ID = 8473;
 
     private DirmngrThread dirmngrThread;

@@ -16,7 +16,7 @@ import android.os.Bundle;
 public class GPGBroadcastReceiver extends BroadcastReceiver {
 
     /**
-     * We launch PinentryService at boot and register the PATH var in android terminal emulator
+     * We launch SharedDaemonsService at boot and register the PATH var in android terminal emulator
      */
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -45,10 +45,8 @@ public class GPGBroadcastReceiver extends BroadcastReceiver {
             setResultCode(Activity.RESULT_OK);
         } else if( action.equals("android.intent.action.BOOT_COMPLETED") ) {
             if(Preferences.startOnBoot(context)) {
-                Intent gpgAgent = new Intent(context, GpgAgentService.class);
-                context.startService(gpgAgent);
-                Intent sharedDaemons = new Intent(context, SharedDaemonsService.class);
-                context.startService(sharedDaemons);
+            	GpgApplication.startGpgAgent(context);
+            	GpgApplication.startSharedDaemons(context);
             }
         }
     }
