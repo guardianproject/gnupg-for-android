@@ -12,8 +12,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -33,9 +31,6 @@ import android.widget.TextView;
 
 public class GnuPrivacyGuard extends FragmentActivity implements OnCreateContextMenuListener {
 	public static final String TAG = "GnuPrivacyGuard";
-
-    public static final String PACKAGE_NAME = "info.guardianproject.gpg";
-    public static String VERSION = null;
 
 	private ScrollView consoleScroll;
 	private TextView consoleText;
@@ -334,20 +329,6 @@ public class GnuPrivacyGuard extends FragmentActivity implements OnCreateContext
 		if (commandFinishedReceiver != null)
 			unregisterReceiver(commandFinishedReceiver);
 	}
-
-    public static String getVersionString(Context context) {
-        if (VERSION != null) {
-            return VERSION;
-        }
-        try {
-            PackageInfo pi = context.getPackageManager().getPackageInfo(PACKAGE_NAME, 0);
-            VERSION = "gpgcli v" + pi.versionName;
-            return VERSION;
-        } catch (NameNotFoundException e) {
-            // unpossible!
-            return "v0.0.0";
-        }
-    }
 
     public static class ApgId {
         // must us only lowest 16 bits, otherwise you get (not sure under which conditions exactly)

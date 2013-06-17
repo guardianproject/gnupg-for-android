@@ -5,10 +5,16 @@ import java.io.File;
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.util.Log;
 
 public class GpgApplication extends Application {
 	public static final String TAG = "GpgApplication";
+
+	public static String PACKAGE_NAME = null;
+	public static String VERSION_NAME = null;
+	public static int VERSION_CODE = 0;
 
 	Context mContext;
 
@@ -16,6 +22,8 @@ public class GpgApplication extends Application {
 	public void onCreate() {
 		Log.i(TAG, "onCreate");
 		super.onCreate();
+
+		makeVersions();
 
 		mContext = getApplicationContext();
 		NativeHelper.setup(mContext);
@@ -46,6 +54,18 @@ public class GpgApplication extends Application {
 		startSharedDaemons(mContext);
 	}
 
+	private void makeVersions() {
+		try {
+			PACKAGE_NAME = getPackageName();
+			PackageInfo pi = getPackageManager()
+					.getPackageInfo(PACKAGE_NAME, 0);
+			VERSION_NAME = pi.versionName;
+			VERSION_CODE = pi.versionCode;
+		} catch (NameNotFoundException e) {
+			e.printStackTrace();
+		}
+	}
+
 	public void onLowMemory() {
 		// TODO kill dirmngr and maybe gpg-agent here
 	}
@@ -60,7 +80,8 @@ public class GpgApplication extends Application {
 	}
 
 	public static void startSharedDaemons(Context context) {
-		File dirmngrSocket = new File(NativeHelper.app_opt, "var/run/gnupg/S.dirmngr");
+		File dirmngrSocket = new File(NativeHelper.app_opt,
+				"var/run/gnupg/S.dirmngr");
 		if (!dirmngrSocket.exists()) {
 			// dirmngr is not running, start it
 			Intent service = new Intent(context, SharedDaemonsService.class);

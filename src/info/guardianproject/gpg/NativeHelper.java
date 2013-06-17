@@ -1,17 +1,5 @@
 package info.guardianproject.gpg;
 
-import android.content.Context;
-import android.content.pm.PackageInfo;
-import android.content.res.AssetManager;
-import android.os.Bundle;
-import android.os.Environment;
-import android.os.Handler;
-import android.os.Message;
-import android.text.TextUtils;
-import android.util.Log;
-
-import com.freiheit.gnupg.GnuPGContext;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -27,6 +15,17 @@ import java.lang.reflect.Method;
 import java.util.Calendar;
 import java.util.Scanner;
 import java.util.StringTokenizer;
+
+import android.content.Context;
+import android.content.res.AssetManager;
+import android.os.Bundle;
+import android.os.Environment;
+import android.os.Handler;
+import android.os.Message;
+import android.text.TextUtils;
+import android.util.Log;
+
+import com.freiheit.gnupg.GnuPGContext;
 
 public class NativeHelper {
 	public static final String TAG = "NativeHelper";
@@ -286,10 +285,9 @@ public class NativeHelper {
 
 	private static void writeVersionFile(Context context) {
 		try {
-			PackageInfo pInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
 			FileOutputStream fos = new FileOutputStream(versionFile);
 			OutputStreamWriter out = new OutputStreamWriter(fos);
-			out.write(String.valueOf(pInfo.versionCode) + "\n");
+			out.write(String.valueOf(GpgApplication.VERSION_CODE) + "\n");
 			out.close();
 			fos.close();
 		} catch (Exception e) {
@@ -297,30 +295,16 @@ public class NativeHelper {
 		}
 	}
 
-	private static int getCurrentVersionCode(Context context) {
-		try {
-			PackageInfo pInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
-			return pInfo.versionCode;
-		} catch (Exception e) {
-			String msg = "Can't get app version: " + e.getLocalizedMessage() + "\n";
-			Log.e(TAG, msg);
-			log.append(msg);
-			return 0;
-		}
-	}
-
 	public static boolean installOrUpgradeNeeded() {
-	    if (versionFile.exists()) {
-	        if (getCurrentVersionCode(context) == readVersionFile()) {
-	            return false;
-	        }
-	    }
-        return true;
+		if (versionFile.exists() && GpgApplication.VERSION_CODE == readVersionFile())
+			return false;
+		else
+			return true;
 	}
 
 	public static boolean installOrUpgradeAppOpt(Context context) {
 		if (versionFile.exists()) {
-			if (getCurrentVersionCode(context) > readVersionFile()) {
+			if (GpgApplication.VERSION_CODE > readVersionFile()) {
 				Log.i(TAG, "Upgrading '" + app_opt + "'\n");
 				// upgrade: rename current app_opt, then return true to trigger unpack
 				renameOldAppOpt();
