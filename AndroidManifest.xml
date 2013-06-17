@@ -30,6 +30,7 @@
         android:protectionLevel="dangerous" />
 
     <application
+        android:name=".GpgApplication"
         android:allowBackup="false"
         android:icon="@drawable/icon"
         android:label="@string/app_name"
@@ -45,6 +46,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".CreateKeyActivity" />
+        <activity android:name=".InstallActivity" />
         <activity android:name=".SearchKeysActivity" />
         <activity android:name=".GPGPreferenceActivity" />
         <activity

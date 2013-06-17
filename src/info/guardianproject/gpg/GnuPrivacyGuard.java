@@ -6,7 +6,6 @@ import java.io.File;
 import java.io.OutputStream;
 
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -15,7 +14,6 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -56,11 +54,6 @@ public class GnuPrivacyGuard extends FragmentActivity implements OnCreateContext
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-//		NativeHelper.setup(getApplicationContext());
-
-		// this also sets up GnuPG.context in onPostExecute()
-//		new InstallAndSetupTask(this).execute();
-
 		setContentView(R.layout.debug_log);
 		consoleScroll = (ScrollView) findViewById(R.id.consoleScroll);
 		consoleText = (TextView) findViewById(R.id.consoleText);
@@ -370,73 +363,6 @@ public class GnuPrivacyGuard extends FragmentActivity implements OnCreateContext
         // java.lang.IllegalArgumentException: Can only use lower 16 bits for requestCode
         public static final int FILENAME = 0x00007006;
     }
-
-    public class InstallAndSetupTask extends AsyncTask<Void, Void, Void> {
-		private ProgressDialog dialog;
-		private boolean doInstall;
-
-		private final Context context = getApplicationContext();
-		private final Handler handler = new Handler() {
-			@Override
-			public void handleMessage(Message msg) {
-				dialog.setMessage(msg.getData().getString("message"));
-			}
-		};
-
-		private void showProgressMessage(int resId) {
-			String messageText = getString(resId);
-			if (messageText == null) messageText = "(null)";
-			if (dialog == null) {
-				Log.e(TAG, "installDialog is null!");
-				return;
-			}
-			dialog.setMessage(messageText);
-			if (!dialog.isShowing())
-				dialog.show();
-		}
-
-		private void hideProgressDialog() {
-			dialog.dismiss();
-		}
-
-		public InstallAndSetupTask(Context c) {
-			dialog = new ProgressDialog(c);
-			dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-			dialog.setTitle(R.string.dialog_installing_title);
-			dialog.setCancelable(false);
-		}
-
-		@Override
-		protected void onPreExecute() {
-			doInstall = NativeHelper.installOrUpgradeAppOpt(context);
-			if (doInstall)
-				showProgressMessage(R.string.dialog_installing_msg);
-		}
-
-		@Override
-		protected Void doInBackground(Void... params) {
-			if (doInstall)
-				NativeHelper.unpackAssets(context, handler);
-			return null;
-		}
-
-		@Override
-		protected void onPostExecute(Void result) {
-			hideProgressDialog();
-
-            // these need to be loaded before System.load("gnupg-for-java"); and in
-            // the right order, since they have interdependencies.
-            System.load(NativeHelper.app_opt + "/lib/libgpg-error.so.0");
-            System.load(NativeHelper.app_opt + "/lib/libassuan.so.0");
-            System.load(NativeHelper.app_opt + "/lib/libgpgme.so.11");
-
-            Intent intent = new Intent(GnuPrivacyGuard.this, GpgAgentService.class);
-            startService(intent);
-            intent = new Intent(GnuPrivacyGuard.this, SharedDaemonsService.class);
-            startService(intent);
-            GnuPG.createContext();
-        }
-	}
 
 	protected void shareTestLog() {
 		Intent i = new Intent(android.content.Intent.ACTION_SEND);

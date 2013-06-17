@@ -1,0 +1,54 @@
+package info.guardianproject.gpg;
+
+import android.app.Application;
+import android.content.Context;
+import android.content.Intent;
+import android.util.Log;
+
+public class GpgApplication extends Application {
+	public static final String TAG = "GpgApplication";
+	
+	Context mContext;
+
+	@Override
+	public void onCreate() {
+		Log.i(TAG, "onCreate");
+		super.onCreate();
+
+		mContext = getApplicationContext();
+		NativeHelper.setup(mContext);
+
+		if (NativeHelper.installOrUpgradeNeeded()) {
+			Intent intent = new Intent(mContext, InstallActivity.class);
+			intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+			startActivity(intent);
+			// InstallActivity runs setup() when its done
+		} else {
+			setup();
+		}
+	}
+
+	/**
+	 * This handles setting up stuff that is unpacked from the assets. The
+	 * assets must have already been unpacked before this can be run.
+	 */
+	void setup() {
+		// these need to be loaded before System.load("gnupg-for-java"); and
+		// in the right order, since they have interdependencies.
+		System.load(NativeHelper.app_opt + "/lib/libgpg-error.so.0");
+		System.load(NativeHelper.app_opt + "/lib/libassuan.so.0");
+		System.load(NativeHelper.app_opt + "/lib/libgpgme.so.11");
+
+		GnuPG.createContext();
+
+		Intent intent;
+		intent = new Intent(mContext, GpgAgentService.class);
+		startService(intent);
+		intent = new Intent(mContext, SharedDaemonsService.class);
+		startService(intent);
+	}
+
+	public void onLowMemory() {
+		// TODO kill dirmngr and maybe gpg-agent here
+	}
+}

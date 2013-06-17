@@ -1,16 +1,20 @@
 package info.guardianproject.gpg.ui;
 
+import info.guardianproject.gpg.GnuPrivacyGuard;
+import info.guardianproject.gpg.GpgAgentService;
+import info.guardianproject.gpg.NativeHelper;
+import info.guardianproject.gpg.R;
+import info.guardianproject.gpg.apg_compat.Apg;
+import info.guardianproject.gpg.sync.SyncConstants;
+
+import java.io.File;
+
 import android.accounts.Account;
 import android.accounts.AccountManager;
-import android.app.ProgressDialog;
 import android.content.ContentResolver;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
 import android.support.v4.app.Fragment;
@@ -29,18 +33,6 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 
-import info.guardianproject.gpg.GnuPG;
-import info.guardianproject.gpg.GnuPrivacyGuard;
-import info.guardianproject.gpg.GnuPrivacyGuard.ApgId;
-import info.guardianproject.gpg.GpgAgentService;
-import info.guardianproject.gpg.NativeHelper;
-import info.guardianproject.gpg.R;
-import info.guardianproject.gpg.SharedDaemonsService;
-import info.guardianproject.gpg.apg_compat.Apg;
-import info.guardianproject.gpg.sync.SyncConstants;
-
-import java.io.File;
-
 public class MainActivity extends SherlockFragmentActivity
                           implements TabListener,
                           OnPageChangeListener,
@@ -53,18 +45,24 @@ public class MainActivity extends SherlockFragmentActivity
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-      super.onCreate(savedInstanceState);
-      setContentView(R.layout.activity_main);
+    	Log.i(TAG, "onCreate");
+    	super.onCreate(savedInstanceState);
+    	setContentView(R.layout.activity_main);
+    	pager = (ViewPager) findViewById(R.id.main_pager);
 
-      NativeHelper.setup(getApplicationContext());
-      pager = (ViewPager) findViewById(R.id.main_pager);
-      // this also sets up GnuPG.context in onPostExecute()
+    	setupView();
 
-      if( NativeHelper.installOrUpgradeNeeded() ) {
-          new InstallAndSetupTask(this).execute();
-      } else {
-          resourcesReady();
-      }
+    	/*
+    	 * show the first run wizard if necessary
+    	 */
+    	SharedPreferences prefs =  PreferenceManager.getDefaultSharedPreferences(this);
+    	boolean showWizard = prefs.getBoolean(FirstRunWelcome.PREFS_SHOW_WIZARD, true);
+    	if( showWizard ) {
+    		showWizard();
+    	} else {
+    		// don't setup account syncing unless we've shown the wizard
+    		setupSyncAccount();
+    	}
     }
 
     @Override
@@ -178,91 +176,6 @@ public class MainActivity extends SherlockFragmentActivity
             }
             ContentResolver.setSyncAutomatically(account, ContactsContract.AUTHORITY, true);
             ContentResolver.requestSync(account, ContactsContract.AUTHORITY, new Bundle());
-        }
-    }
-
-    private void resourcesReady() {
-        // these need to be loaded before System.load("gnupg-for-java"); and in
-        // the right order, since they have interdependencies.
-        System.load(NativeHelper.app_opt + "/lib/libgpg-error.so.0");
-        System.load(NativeHelper.app_opt + "/lib/libassuan.so.0");
-        System.load(NativeHelper.app_opt + "/lib/libgpgme.so.11");
-
-        Intent intent = new Intent(MainActivity.this, GpgAgentService.class);
-        startService(intent);
-        intent = new Intent(MainActivity.this, SharedDaemonsService.class);
-        startService(intent);
-        GnuPG.createContext();
-
-        setupView();
-
-        /*
-         * show the first run wizard if necessary
-         */
-        SharedPreferences prefs =  PreferenceManager.getDefaultSharedPreferences(this);
-        boolean showWizard = prefs.getBoolean(FirstRunWelcome.PREFS_SHOW_WIZARD, true);
-        if( showWizard ) {
-            showWizard();
-        } else {
-            // don't setup account syncing unless we've shown the wizard
-            setupSyncAccount();
-        }
-    }
-
-    public class InstallAndSetupTask extends AsyncTask<Void, Void, Void> {
-        private ProgressDialog dialog;
-        private boolean doInstall;
-
-        private final Context context = getApplicationContext();
-        private final Handler handler = new Handler() {
-            @Override
-            public void handleMessage(Message msg) {
-                dialog.setMessage(msg.getData().getString("message"));
-            }
-        };
-
-        private void showProgressMessage(int resId) {
-            String messageText = getString(resId);
-            if (messageText == null) messageText = "(null)";
-            if (dialog == null) {
-                Log.e(TAG, "installDialog is null!");
-                return;
-            }
-            dialog.setMessage(messageText);
-            if (!dialog.isShowing())
-                dialog.show();
-        }
-
-        private void hideProgressDialog() {
-            dialog.dismiss();
-        }
-
-        public InstallAndSetupTask(Context c) {
-            dialog = new ProgressDialog(c);
-            dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-            dialog.setTitle(R.string.dialog_installing_title);
-            dialog.setCancelable(false);
-        }
-
-        @Override
-        protected void onPreExecute() {
-            doInstall = NativeHelper.installOrUpgradeAppOpt(context);
-            if (doInstall)
-                showProgressMessage(R.string.dialog_installing_msg);
-        }
-
-        @Override
-        protected Void doInBackground(Void... params) {
-            if (doInstall)
-                NativeHelper.unpackAssets(context, handler);
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void result) {
-            hideProgressDialog();
-
-            MainActivity.this.resourcesReady();
         }
     }
 
