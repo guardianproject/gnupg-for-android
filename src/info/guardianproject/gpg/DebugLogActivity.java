@@ -1,6 +1,5 @@
 package info.guardianproject.gpg;
 
-import info.guardianproject.gpg.ui.FileDialogFragment;
 
 import java.io.File;
 import java.io.OutputStream;

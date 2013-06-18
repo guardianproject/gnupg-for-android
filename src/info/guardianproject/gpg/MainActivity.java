@@ -1,10 +1,5 @@
-package info.guardianproject.gpg.ui;
+package info.guardianproject.gpg;
 
-import info.guardianproject.gpg.DebugLogActivity;
-import info.guardianproject.gpg.GpgApplication;
-import info.guardianproject.gpg.InstallActivity;
-import info.guardianproject.gpg.NativeHelper;
-import info.guardianproject.gpg.R;
 import info.guardianproject.gpg.apg_compat.Apg;
 import info.guardianproject.gpg.sync.SyncConstants;
 import android.accounts.Account;

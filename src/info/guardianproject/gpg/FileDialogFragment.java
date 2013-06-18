@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package info.guardianproject.gpg.ui;
+package info.guardianproject.gpg;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -35,8 +35,6 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
-
-import info.guardianproject.gpg.R;
 
 public class FileDialogFragment extends DialogFragment {
     private final static String TAG = FileDialogFragment.class.getSimpleName();

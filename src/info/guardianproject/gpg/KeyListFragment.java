@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package info.guardianproject.gpg.ui;
+package info.guardianproject.gpg;
 
 import android.app.Activity;
 import android.app.SearchManager;
@@ -33,7 +33,6 @@ import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockFragment;
 
-import info.guardianproject.gpg.KeyListAdapter;
 import info.guardianproject.gpg.R;
 import info.guardianproject.gpg.apg_compat.Apg;
 
