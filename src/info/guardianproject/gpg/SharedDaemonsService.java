@@ -86,7 +86,7 @@ public class SharedDaemonsService extends Service {
 
         @Override
         public void run() {
-            NativeHelper.kill9(NativeHelper.dirmngr);
+            Posix.kill9(NativeHelper.dirmngr);
             String dirmngrCmd = NativeHelper.dirmngr
                     + " --daemon " + "--debug-level basic --log-file "
                     + NativeHelper.app_log + "/dirmngr.log";
