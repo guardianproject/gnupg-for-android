@@ -49,7 +49,7 @@ public class GnuPrivacyGuard extends FragmentActivity implements OnCreateContext
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.debug_log);
+		setContentView(R.layout.debug_log_activity);
 		consoleScroll = (ScrollView) findViewById(R.id.consoleScroll);
 		consoleText = (TextView) findViewById(R.id.consoleText);
 	}

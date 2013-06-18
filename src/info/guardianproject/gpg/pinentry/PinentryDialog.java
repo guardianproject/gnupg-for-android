@@ -77,7 +77,7 @@ public class PinentryDialog extends DialogFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        View view = inflater.inflate(R.layout.activity_pinentry, container);
+        View view = inflater.inflate(R.layout.pinentry_activity, container);
 
         Bundle params = getArguments();
         final int uid = params.getInt("uid", -1);

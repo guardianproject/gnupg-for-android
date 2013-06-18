@@ -101,7 +101,7 @@ public class FileDialogFragment extends DialogFragment {
         alert.setTitle(title);
         alert.setMessage(message);
 
-        View view = inflater.inflate(R.layout.file_dialog, null);
+        View view = inflater.inflate(R.layout.file_dialog_fragment, null);
 
         mFilename = (EditText) view.findViewById(R.id.input);
         mFilename.setText(defaultFile);

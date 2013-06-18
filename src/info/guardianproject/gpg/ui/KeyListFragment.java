@@ -57,7 +57,7 @@ public class KeyListFragment extends SherlockFragment {
                              ViewGroup container,
                              Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        View result = inflater.inflate(R.layout.key_list, container, false);
+        View result = inflater.inflate(R.layout.key_list_fragment, container, false);
         return result;
     }
 

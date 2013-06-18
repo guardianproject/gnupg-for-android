@@ -19,7 +19,7 @@ public class KeyListActivity extends SherlockFragmentActivity implements
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_keylist);
+        setContentView(R.layout.key_list_activity);
 
         setDefaultKeyMode(DEFAULT_KEYS_SEARCH_LOCAL);
 

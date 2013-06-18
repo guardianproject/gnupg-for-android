@@ -19,7 +19,7 @@ public class FirstRunWelcome extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_wizard_welcome);
+        setContentView(R.layout.first_run_welcome_activity);
 
         Button next = (Button) findViewById(R.id.nextButton);
         next.setOnClickListener(new OnClickListener() {

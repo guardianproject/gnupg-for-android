@@ -30,7 +30,7 @@ public class FirstRunSetup extends Activity  {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_wizard_keys);
+        setContentView(R.layout.first_run_setup_activity);
 
         integrateBox = (CheckBox) findViewById(R.id.integrateCheckBox);
         Button createButton = (Button) findViewById(R.id.createKey);

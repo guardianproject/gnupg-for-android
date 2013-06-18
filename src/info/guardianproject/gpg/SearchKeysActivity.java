@@ -15,7 +15,7 @@ import android.widget.Toast;
 import com.freiheit.gnupg.GnuPGKey;
 
 public class SearchKeysActivity extends ListActivity {
-	public static final String TAG = "ListKeysActivity";
+	public static final String TAG = "SearchKeysActivity";
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -33,7 +33,7 @@ public class SearchKeysActivity extends ListActivity {
 				keys[i] = keyArray[i].toString();
 			}
 		}
-		setListAdapter(new ArrayAdapter<String>(this, R.layout.keys, keys));
+		setListAdapter(new ArrayAdapter<String>(this, R.layout.search_keys_activity, keys));
 
 		ListView listView = getListView();
 		listView.setTextFilterEnabled(true);

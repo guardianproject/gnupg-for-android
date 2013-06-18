@@ -78,7 +78,7 @@ public class MainActivity extends SherlockFragmentActivity
     		setupSyncAccount();
     	}
 
-    	setContentView(R.layout.activity_main);
+    	setContentView(R.layout.main_activity);
     	pager = (ViewPager) findViewById(R.id.main_pager);
         FragmentManager mgr = getSupportFragmentManager();
         if( mgr == null ) Log.e(TAG, "getSupportFragmentManager returned null wtf!");
