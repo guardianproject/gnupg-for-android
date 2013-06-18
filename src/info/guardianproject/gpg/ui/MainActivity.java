@@ -96,7 +96,9 @@ public class MainActivity extends SherlockFragmentActivity
     public void onSaveInstanceState(Bundle state) {
       super.onSaveInstanceState(state);
 
-      state.putInt(TAB_POSITION, pager.getCurrentItem());
+      if(pager != null && state != null) {
+    	  state.putInt(TAB_POSITION, pager.getCurrentItem());
+      }
     }
 
     @Override
