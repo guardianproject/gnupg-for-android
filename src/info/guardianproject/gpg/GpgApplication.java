@@ -18,6 +18,11 @@ public class GpgApplication extends Application {
 
 	Context mContext;
 
+	/* request codes for intents */
+    // must us only lowest 16 bits, otherwise you get (not sure under which conditions exactly)
+    // java.lang.IllegalArgumentException: Can only use lower 16 bits for requestCode
+    public static final int FILENAME = 0x00007006;
+
 	@Override
 	public void onCreate() {
 		Log.i(TAG, "onCreate");

@@ -1,6 +1,12 @@
 
 package info.guardianproject.gpg;
 
+import info.guardianproject.gpg.ui.FileDialogFragment;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -12,13 +18,6 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.freiheit.gnupg.GnuPGException;
-
-import info.guardianproject.gpg.GnuPrivacyGuard.ApgId;
-import info.guardianproject.gpg.ui.FileDialogFragment;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
 
 public class ImportFileActivity extends FragmentActivity {
     private static final String TAG = ImportFileActivity.class.getSimpleName();
@@ -57,7 +56,7 @@ public class ImportFileActivity extends FragmentActivity {
         if (resultCode == RESULT_CANCELED || data == null) return;
 
         switch( requestCode ) {
-            case ApgId.FILENAME: { // file picker result returned
+            case GpgApplication.FILENAME: { // file picker result returned
                 if (resultCode == RESULT_OK) {
                     try {
                         String path = data.getData().getPath();
@@ -161,7 +160,7 @@ public class ImportFileActivity extends FragmentActivity {
                 mFileDialog = FileDialogFragment.newInstance(messenger,
                         getString(R.string.title_import_keys),
                         getString(R.string.dialog_specify_import_file_msg), defaultFilename,
-                        null, ApgId.FILENAME);
+                        null, GpgApplication.FILENAME);
 
                 mFileDialog.show(getSupportFragmentManager(), "fileDialog");
             }
