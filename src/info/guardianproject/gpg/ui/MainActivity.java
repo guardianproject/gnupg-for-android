@@ -1,6 +1,6 @@
 package info.guardianproject.gpg.ui;
 
-import info.guardianproject.gpg.GnuPrivacyGuard;
+import info.guardianproject.gpg.DebugLogActivity;
 import info.guardianproject.gpg.GpgApplication;
 import info.guardianproject.gpg.InstallActivity;
 import info.guardianproject.gpg.NativeHelper;
@@ -70,7 +70,7 @@ public class MainActivity extends SherlockFragmentActivity
     	
     	// show the first run wizard if necessary
     	SharedPreferences prefs =  PreferenceManager.getDefaultSharedPreferences(this);
-    	boolean showWizard = prefs.getBoolean(FirstRunWelcome.PREFS_SHOW_WIZARD, true);
+    	boolean showWizard = prefs.getBoolean(FirstRunWelcomeActivity.PREFS_SHOW_WIZARD, true);
     	if( showWizard ) {
     		showWizard();
     	} else {
@@ -110,7 +110,7 @@ public class MainActivity extends SherlockFragmentActivity
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if( item.getItemId() == R.id.debugMode) {
-            Intent intent = new Intent(this, GnuPrivacyGuard.class);
+            Intent intent = new Intent(this, DebugLogActivity.class);
             startActivity(intent);
             return true;
         }
@@ -153,7 +153,7 @@ public class MainActivity extends SherlockFragmentActivity
 
     private void showWizard() {
     	Log.i(TAG, "showWizard");
-    	Intent intent = new Intent(getBaseContext(), FirstRunWelcome.class);
+    	Intent intent = new Intent(getBaseContext(), FirstRunWelcomeActivity.class);
     	intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
     	startActivityForResult(intent, SHOW_WIZARD);
     }

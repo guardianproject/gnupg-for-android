@@ -12,7 +12,7 @@ import android.widget.Button;
 
 import info.guardianproject.gpg.R;
 
-public class FirstRunWelcome extends Activity {
+public class FirstRunWelcomeActivity extends Activity {
 
     public final static String PREFS_SHOW_WIZARD = "show_wizard";
 
@@ -28,12 +28,12 @@ public class FirstRunWelcome extends Activity {
             public void onClick(View v) {
                 // since they clicked a button, we know for sure
                 // this wizard was run and at least seen
-                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(FirstRunWelcome.this);
+                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(FirstRunWelcomeActivity.this);
                 Editor prefsEditor = prefs.edit();
-                prefsEditor.putBoolean(FirstRunWelcome.PREFS_SHOW_WIZARD, false);
+                prefsEditor.putBoolean(FirstRunWelcomeActivity.PREFS_SHOW_WIZARD, false);
                 prefsEditor.commit();
 
-                startActivity(new Intent(FirstRunWelcome.this, FirstRunSetup.class));
+                startActivity(new Intent(FirstRunWelcomeActivity.this, FirstRunSetupActivity.class));
             }
         });
     }

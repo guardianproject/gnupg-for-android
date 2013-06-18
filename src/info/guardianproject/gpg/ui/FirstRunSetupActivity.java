@@ -17,9 +17,9 @@ import info.guardianproject.gpg.ImportFileActivity;
 import info.guardianproject.gpg.R;
 import info.guardianproject.gpg.sync.SyncConstants;
 
-public class FirstRunSetup extends Activity  {
+public class FirstRunSetupActivity extends Activity  {
 
-    private final static String TAG = FirstRunSetup.class.getSimpleName();
+    private final static String TAG = FirstRunSetupActivity.class.getSimpleName();
 
     private static final int REQUEST_GENKEY    = 0x501;
     private static final int REQUEST_IMPORTKEY = 0x502;
@@ -69,7 +69,7 @@ public class FirstRunSetup extends Activity  {
         @Override
         public void onClick(View v) {
             setIntegratePrefs();
-            startActivityForResult(new Intent(FirstRunSetup.this, CreateKeyActivity.class), REQUEST_GENKEY );
+            startActivityForResult(new Intent(FirstRunSetupActivity.this, CreateKeyActivity.class), REQUEST_GENKEY );
         }
     };
 
@@ -78,7 +78,7 @@ public class FirstRunSetup extends Activity  {
         @Override
         public void onClick(View v) {
             setIntegratePrefs();
-            startActivityForResult(new Intent(FirstRunSetup.this, ImportFileActivity.class), REQUEST_IMPORTKEY);
+            startActivityForResult(new Intent(FirstRunSetupActivity.this, ImportFileActivity.class), REQUEST_IMPORTKEY);
         }
     };
 
@@ -87,7 +87,7 @@ public class FirstRunSetup extends Activity  {
         @Override
         public void onClick(View v) {
             setIntegratePrefs();
-            startActivity(new Intent(FirstRunSetup.this, MainActivity.class));
+            startActivity(new Intent(FirstRunSetupActivity.this, MainActivity.class));
         }
     };
 

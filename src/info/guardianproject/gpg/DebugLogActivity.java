@@ -29,8 +29,8 @@ import android.widget.EditText;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-public class GnuPrivacyGuard extends FragmentActivity implements OnCreateContextMenuListener {
-	public static final String TAG = "GnuPrivacyGuard";
+public class DebugLogActivity extends FragmentActivity implements OnCreateContextMenuListener {
+	public static final String TAG = "DebugLogActivity";
 
 	private ScrollView consoleScroll;
 	private TextView consoleText;
@@ -80,7 +80,7 @@ public class GnuPrivacyGuard extends FragmentActivity implements OnCreateContext
 		if (resultCode == RESULT_CANCELED || data == null) return;
 
 		switch( requestCode ) {
-		    case ApgId.FILENAME: {
+		    case GpgApplication.FILENAME: {
 	            if (resultCode == RESULT_OK) {
 	                try {
 	                    String path = data.getData().getPath();
@@ -198,7 +198,7 @@ public class GnuPrivacyGuard extends FragmentActivity implements OnCreateContext
                 mFileDialog = FileDialogFragment.newInstance(messenger,
                         getString(R.string.title_import_keys),
                         getString(R.string.dialog_specify_import_file_msg), defaultFilename,
-                        null, ApgId.FILENAME);
+                        null, GpgApplication.FILENAME);
 
                 mFileDialog.show(getSupportFragmentManager(), "fileDialog");
             }
@@ -240,7 +240,7 @@ public class GnuPrivacyGuard extends FragmentActivity implements OnCreateContext
                 mFileDialog = FileDialogFragment.newInstance(messenger,
                         getString(R.string.title_export_keys),
                         getString(R.string.dialog_specify_export_file_msg), defaultFilename,
-                        getString(R.string.label_export_secret_keys), ApgId.FILENAME);
+                        getString(R.string.label_export_secret_keys), GpgApplication.FILENAME);
 
                 mFileDialog.show(getSupportFragmentManager(), "fileDialog");
             }
@@ -266,8 +266,8 @@ public class GnuPrivacyGuard extends FragmentActivity implements OnCreateContext
 						NativeHelper.envp, dir);
 				OutputStream os = sh.getOutputStream();
 
-				StreamThread it = new StreamThread(sh.getInputStream(), logUpdate);
-				StreamThread et = new StreamThread(sh.getErrorStream(), logUpdate);
+				DebugStreamThread it = new DebugStreamThread(sh.getInputStream(), logUpdate);
+				DebugStreamThread et = new DebugStreamThread(sh.getErrorStream(), logUpdate);
 
 				it.start();
 				et.start();
@@ -281,7 +281,7 @@ public class GnuPrivacyGuard extends FragmentActivity implements OnCreateContext
 			} catch (Exception e) {
 				Log.e(TAG, "Error!!!", e);
 			} finally {
-				synchronized (GnuPrivacyGuard.this) {
+				synchronized (DebugLogActivity.this) {
 					commandThread = null;
 				}
 				sendBroadcast(new Intent(COMMAND_FINISHED));
@@ -289,7 +289,7 @@ public class GnuPrivacyGuard extends FragmentActivity implements OnCreateContext
 		}
 	}
 
-	class LogUpdate extends StreamThread.StreamUpdate {
+	class LogUpdate extends DebugStreamThread.StreamUpdate {
 
 		StringBuffer sb = new StringBuffer();
 
@@ -311,7 +311,7 @@ public class GnuPrivacyGuard extends FragmentActivity implements OnCreateContext
 				updateLog();
 			}
 		};
-		registerReceiver(logUpdateReceiver, new IntentFilter(GnuPrivacyGuard.LOG_UPDATE));
+		registerReceiver(logUpdateReceiver, new IntentFilter(DebugLogActivity.LOG_UPDATE));
 
 		commandFinishedReceiver = new BroadcastReceiver() {
 			@Override
@@ -319,7 +319,7 @@ public class GnuPrivacyGuard extends FragmentActivity implements OnCreateContext
 			}
 		};
 		registerReceiver(commandFinishedReceiver, new IntentFilter(
-				GnuPrivacyGuard.COMMAND_FINISHED));
+				DebugLogActivity.COMMAND_FINISHED));
 	}
 
 	private void unregisterReceivers() {
@@ -329,12 +329,6 @@ public class GnuPrivacyGuard extends FragmentActivity implements OnCreateContext
 		if (commandFinishedReceiver != null)
 			unregisterReceiver(commandFinishedReceiver);
 	}
-
-    public static class ApgId {
-        // must us only lowest 16 bits, otherwise you get (not sure under which conditions exactly)
-        // java.lang.IllegalArgumentException: Can only use lower 16 bits for requestCode
-        public static final int FILENAME = 0x00007006;
-    }
 
 	protected void shareTestLog() {
 		Intent i = new Intent(android.content.Intent.ACTION_SEND);

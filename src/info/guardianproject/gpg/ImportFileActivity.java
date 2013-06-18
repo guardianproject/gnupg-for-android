@@ -95,7 +95,7 @@ public class ImportFileActivity extends FragmentActivity {
         if (isSupportedFileType(uri)) {
             Toast.makeText(this, "handle send binary: " + uri,
                     Toast.LENGTH_LONG).show();
-            Log.v(GnuPrivacyGuard.TAG, "handle send binary: " + uri);
+            Log.v(TAG, "handle send binary: " + uri);
         }
     }
 
@@ -106,7 +106,7 @@ public class ImportFileActivity extends FragmentActivity {
             if (isSupportedFileType(uri)) {
                 Toast.makeText(this, "handle multiple binaries: " + uri, Toast.LENGTH_LONG)
                         .show();
-                Log.v(GnuPrivacyGuard.TAG, "handle multiple binaries: " + uri);
+                Log.v(TAG, "handle multiple binaries: " + uri);
             }
     }
 

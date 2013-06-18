@@ -35,7 +35,7 @@
         android:icon="@drawable/icon"
         android:label="@string/app_name"
         android:theme="@style/Theme.Sherlock" >
-        <activity android:name=".GnuPrivacyGuard" />
+        <activity android:name=".DebugLogActivity" />
         <activity
             android:name=".ui.MainActivity"
             android:label="@string/app_name" >
@@ -214,8 +214,8 @@
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable_public_keys" />
         </activity>
-        <activity android:name=".ui.FirstRunWelcome" />
-        <activity android:name=".ui.FirstRunSetup" />
+        <activity android:name=".ui.FirstRunWelcomeActivity" />
+        <activity android:name=".ui.FirstRunSetupActivity" />
         <activity
             android:name=".sync.ContactIntentRouter"
             android:configChanges="touchscreen|keyboard|keyboardHidden|orientation|screenLayout|screenSize"

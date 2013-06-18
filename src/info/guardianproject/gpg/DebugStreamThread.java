@@ -5,17 +5,17 @@ import java.io.InputStream;
 
 import android.util.Log;
 
-public class StreamThread extends Thread {
-	public static final String TAG = "StreamThread";
+public class DebugStreamThread extends Thread {
+	public static final String TAG = "DebugStreamThread";
 
 	InputStream i;
 	StreamUpdate update;
 
-	StreamThread(InputStream i) {
+	DebugStreamThread(InputStream i) {
 		this.i = i;
 	}
 
-	StreamThread(InputStream i, StreamUpdate update) {
+	DebugStreamThread(InputStream i, StreamUpdate update) {
 		this.i = i;
 		this.update = update;
 	}
