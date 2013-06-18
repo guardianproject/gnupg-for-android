@@ -29,11 +29,16 @@ public class GpgApplication extends Application {
 		NativeHelper.setup(mContext);
 
 		if (NativeHelper.installOrUpgradeNeeded()) {
-			Intent intent = new Intent(mContext, InstallActivity.class);
-			intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-			startActivity(intent);
-			// InstallActivity runs setup() when its done
+			/*
+			 * Currently InstallActivity is triggered in
+			 * MainActivity.onCreate(), since that's the LAUNCHER Activity. When
+			 * InstallActivity is complete, it runs setup().
+			 */
 		} else {
+			/*
+			 * setup() is run here so that we can be sure it was run before any
+			 * Activity has started, so things like GnuPG.context won't be null.
+			 */
 			setup();
 		}
 	}
@@ -43,12 +48,12 @@ public class GpgApplication extends Application {
 	 * assets must have already been unpacked before this can be run.
 	 */
 	void setup() {
+		Log.i(TAG, "setup");
 		// these need to be loaded before System.load("gnupg-for-java"); and
 		// in the right order, since they have interdependencies.
 		System.load(NativeHelper.app_opt + "/lib/libgpg-error.so.0");
 		System.load(NativeHelper.app_opt + "/lib/libassuan.so.0");
 		System.load(NativeHelper.app_opt + "/lib/libgpgme.so.11");
-
 		GnuPG.createContext();
 		startGpgAgent(mContext);
 		startSharedDaemons(mContext);

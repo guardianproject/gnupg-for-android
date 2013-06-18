@@ -2,6 +2,8 @@ package info.guardianproject.gpg.ui;
 
 import info.guardianproject.gpg.GnuPrivacyGuard;
 import info.guardianproject.gpg.GpgApplication;
+import info.guardianproject.gpg.InstallActivity;
+import info.guardianproject.gpg.NativeHelper;
 import info.guardianproject.gpg.R;
 import info.guardianproject.gpg.apg_compat.Apg;
 import info.guardianproject.gpg.sync.SyncConstants;
@@ -38,19 +40,35 @@ public class MainActivity extends SherlockFragmentActivity
 
     private static final String TAB_POSITION="position";
     private ViewPager pager = null;
-
+    private final int INSTALL_COMPLETE = 0x00000000;
+    private final int SHOW_WIZARD =      0x00000001;
+    
     @Override
     public void onCreate(Bundle savedInstanceState) {
     	Log.i(TAG, "onCreate");
     	super.onCreate(savedInstanceState);
-    	setContentView(R.layout.activity_main);
-    	pager = (ViewPager) findViewById(R.id.main_pager);
 
-    	setupView();
+    	// run the installer if needed
+		if (NativeHelper.installOrUpgradeNeeded()) {
+			Log.i(TAG, "starting InstallActivity");
+			Intent intent = new Intent(this, InstallActivity.class);
+			intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+			startActivityForResult(intent, INSTALL_COMPLETE);
+		} else
+			createMainActivity();
+    }
 
-    	/*
-    	 * show the first run wizard if necessary
-    	 */
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    	Log.i(TAG, "onActivityResult");
+    	if (requestCode == INSTALL_COMPLETE)
+    		createMainActivity();
+    }
+
+    private void createMainActivity() {
+    	Log.i(TAG, "createMainActivity");
+    	
+    	// show the first run wizard if necessary
     	SharedPreferences prefs =  PreferenceManager.getDefaultSharedPreferences(this);
     	boolean showWizard = prefs.getBoolean(FirstRunWelcome.PREFS_SHOW_WIZARD, true);
     	if( showWizard ) {
@@ -59,6 +77,22 @@ public class MainActivity extends SherlockFragmentActivity
     		// don't setup account syncing unless we've shown the wizard
     		setupSyncAccount();
     	}
+
+    	setContentView(R.layout.activity_main);
+    	pager = (ViewPager) findViewById(R.id.main_pager);
+        FragmentManager mgr = getSupportFragmentManager();
+        if( mgr == null ) Log.e(TAG, "getSupportFragmentManager returned null wtf!");
+        pager.setAdapter(new MainPagerAdapter(mgr));
+        pager.setOnPageChangeListener(this);
+
+        ActionBar bar = getSupportActionBar();
+        bar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+        bar.addTab(bar.newTab()
+                        .setText("Public Keys")
+                        .setTabListener(this).setTag(0));
+        bar.addTab(bar.newTab()
+                .setText("Private Keys")
+                .setTabListener(this).setTag(1));
     }
 
     @Override
@@ -118,23 +152,10 @@ public class MainActivity extends SherlockFragmentActivity
     }
 
     private void showWizard() {
-        startActivityForResult(new Intent(getBaseContext(), FirstRunWelcome.class), 1);
-    }
-
-    private void setupView() {
-        FragmentManager mgr = getSupportFragmentManager();
-        if( mgr == null ) Log.e("GNUPG", "getSupportFragmentManager returned null wtf!");
-        pager.setAdapter(new MainPagerAdapter(mgr));
-        pager.setOnPageChangeListener(this);
-
-        ActionBar bar = getSupportActionBar();
-        bar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-        bar.addTab(bar.newTab()
-                        .setText("Public Keys")
-                        .setTabListener(this).setTag(0));
-        bar.addTab(bar.newTab()
-                .setText("Private Keys")
-                .setTabListener(this).setTag(1));
+    	Log.i(TAG, "showWizard");
+    	Intent intent = new Intent(getBaseContext(), FirstRunWelcome.class);
+    	intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+    	startActivityForResult(intent, SHOW_WIZARD);
     }
 
     private void setupSyncAccount() {

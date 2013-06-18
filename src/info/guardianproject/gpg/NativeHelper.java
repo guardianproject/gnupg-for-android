@@ -296,10 +296,13 @@ public class NativeHelper {
 	}
 
 	public static boolean installOrUpgradeNeeded() {
-		if (versionFile.exists() && GpgApplication.VERSION_CODE == readVersionFile())
+		if (versionFile.exists() && GpgApplication.VERSION_CODE == readVersionFile()) {
+			Log.i(TAG, "no install or upgrade needed");
 			return false;
-		else
+		} else {
+			Log.i(TAG, "installOrUpgradeNeeded");
 			return true;
+		}
 	}
 
 	public static boolean installOrUpgradeAppOpt(Context context) {
