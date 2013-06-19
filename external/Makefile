@@ -598,7 +598,13 @@ pinentry-build-stamp:  pinentry/Makefile
 
 $(LOCAL)/bin/pinentry-android: pinentry-build $(PINENTRY_SOURCES) pinentry/configure
 	$(MAKE) -C pinentry prefix=$(LOCAL) install
-	ls -l $(LOCAL)/bin/pinentry
+	# we only want pinentry-android, not the 'pinentry' symlink, since it'll
+	# be copied as a full file in Android's assets procedure, and we hardcode
+	# the full path to pinentry in gnupg. pinentry on all other platforms
+	# invokes it via the name 'pinentry' in the PATH, here Android is the
+	# outlier, so we have to leave the link in the pinentry build system, and
+	# just delete the symlink here.
+	rm -f $(LOCAL)/bin/pinentry
 
 pinentry-install: $(LOCAL)/bin/pinentry-android
 
