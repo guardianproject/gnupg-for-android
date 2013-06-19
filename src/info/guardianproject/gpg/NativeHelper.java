@@ -11,6 +11,8 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.util.Scanner;
 
+import org.apache.commons.io.FileUtils;
+
 import android.content.Context;
 import android.content.res.AssetManager;
 import android.os.Bundle;
@@ -235,6 +237,11 @@ public class NativeHelper {
 
 	public static void unpackAssets(Context context, Handler handler) {
 		Log.i(TAG, "Setting up assets in " + app_opt);
+		try {
+			FileUtils.deleteDirectory(app_opt);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		setupEmptyDirs();
 		writeShProfile();
 
