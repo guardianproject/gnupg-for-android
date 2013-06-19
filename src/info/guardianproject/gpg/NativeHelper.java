@@ -31,6 +31,7 @@ public class NativeHelper {
 	public static File app_log; // a place to store logs
 	public static File app_home; // dir for $HOME and ~/.gnupg
 	public static File app_gnupghome; // dir for $GNUPGHOME for other apps like Terminal Emulator
+	public static File environmentConf; // the various env vars that native processes need
 	public static File versionFile; // version stamp for unpacked assets
 
 	// full paths to key executables, with globally used flags
@@ -53,6 +54,7 @@ public class NativeHelper {
 		app_log = context.getDir("log", Context.MODE_PRIVATE).getAbsoluteFile();
 		app_home = context.getDir("home", Context.MODE_PRIVATE).getAbsoluteFile();
 		app_gnupghome = context.getDir("gnupghome", Context.MODE_WORLD_WRITEABLE).getAbsoluteFile();
+		environmentConf = new File (app_opt, "etc/environment.conf");
 		versionFile = new File(app_opt, "VERSION");
 
 		File bin = new File(app_opt, "bin");
@@ -68,13 +70,12 @@ public class NativeHelper {
 		String path = System.getenv("PATH");
 		envp = new String[] { "HOME=" + NativeHelper.app_home,
 				"GNUPGHOME=" + NativeHelper.app_home,
-				"PINENTRY_USER_DATA=" + constructPinentryUserData(),
 				"LD_LIBRARY_PATH=" + NativeHelper.app_opt + "/lib" + ":" + ldLibraryPath,
 				"PATH=" + path + ":" + bin.getAbsolutePath(),
 				"app_opt=" + app_opt.getAbsolutePath() };
 
 		log = new StringBuffer();
-
+		constructEnvironmentConf();
 		Log.i(TAG, "Finished NativeHelper.setup()");
 	}
 
@@ -116,32 +117,39 @@ public class NativeHelper {
     }
 
     /**
-     * returns a string containing the
-     *  "LD_LIBRARY_PATH;BOOTCLASSPATH;USERID;"
-     * @return
+     * Generates a conf file for pinentry to load the environment variables
+     * LD_LIBRARY_PATH, BOOTCLASSPATH, and USERID from.
      */
-	private static String constructPinentryUserData() {
-	    String pinentryUserData = new String();
+	private static void constructEnvironmentConf() {
+	    String conf = new String();
 
-	    pinentryUserData += System.getenv("LD_LIBRARY_PATH");
-	    pinentryUserData += ";";
+	    conf += "PACKAGE_NAME=" + GpgApplication.PACKAGE_NAME + "\n";
+	    conf += "LD_LIBRARY_PATH=" + System.getenv("LD_LIBRARY_PATH") + "\n";
+	    conf += "BOOTCLASSPATH=" + System.getenv("BOOTCLASSPATH") + "\n";
+	    conf += "GNUPGHOME=" + app_home + "\n";
+	    conf += "app_opt=" + app_opt + "\n";
+	    conf += "app_gnupghome=" + app_gnupghome + "\n";
 
-	    // we need to pass BOOTCLASSPATH for all versions
-	    pinentryUserData += System.getenv("BOOTCLASSPATH");
-	    pinentryUserData += ";";
 	    /*
          * As per https://code.google.com/p/android/issues/detail?id=39801
          * on Android 4.2 we need to pass the userid to "am start"
          * with --user, because 4.2 supports multiple users.
          */
+	    conf += "ANDROID_USER_ID=";
 	    String u = getUserNumber();
 	    if( !TextUtils.isEmpty(u) ) {
-	        pinentryUserData += getUserNumber();
+	        conf += getUserNumber();
 	    } else {
-	        pinentryUserData += "-1";
+	        conf += "-1";
 	    }
-	    pinentryUserData += ";";
-	    return pinentryUserData;
+	    conf += "\n";
+
+	    try {
+			FileUtils.writeStringToFile(environmentConf, conf);
+		} catch (IOException e) {
+			Log.e(TAG, "Failed to write native environment config: " + environmentConf);
+			e.printStackTrace();
+		}
 	}
 
 	private static void copyFileOrDir(String path, File dest) {
