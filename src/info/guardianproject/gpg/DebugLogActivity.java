@@ -3,6 +3,7 @@ package info.guardianproject.gpg;
 
 import java.io.File;
 import java.io.OutputStream;
+import java.util.Calendar;
 
 import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
@@ -27,6 +28,7 @@ import android.view.View.OnCreateContextMenuListener;
 import android.widget.EditText;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class DebugLogActivity extends FragmentActivity implements OnCreateContextMenuListener {
 	public static final String TAG = "DebugLogActivity";
@@ -217,6 +219,15 @@ public class DebugLogActivity extends FragmentActivity implements OnCreateContex
                     String exportFilename = new File(data.getString(FileDialogFragment.MESSAGE_DATA_FILENAME)).getAbsolutePath();
                     boolean exportSecretKeys = data.getBoolean(FileDialogFragment.MESSAGE_DATA_CHECKED);
 
+        			final File exportFile = new File(exportFilename);
+        			if (exportFile.exists()) {
+        				Calendar now = Calendar.getInstance();
+        				File newPath = new File(exportFile + "." + String.valueOf(now.getTimeInMillis()));
+        				exportFile.renameTo(newPath);
+        				Toast.makeText(getBaseContext(),
+        						String.format(getString(R.string.renamed_existing_file), newPath),
+        						Toast.LENGTH_LONG).show();
+        			}
 
                     Log.d(TAG, "exportFilename: " + exportFilename);
                     Log.d(TAG, "exportSecretKeys: " + exportSecretKeys);
