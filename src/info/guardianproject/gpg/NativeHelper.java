@@ -300,44 +300,6 @@ public class NativeHelper {
 		}
 	}
 
-	public static boolean installOrUpgradeAppOpt(Context context) {
-		if (versionFile.exists()) {
-			if (GpgApplication.VERSION_CODE > readVersionFile()) {
-				Log.i(TAG, "Upgrading '" + app_opt + "'\n");
-				// upgrade: rename current app_opt, then return true to trigger unpack
-				renameOldAppOpt();
-				return true;
-			} else {
-				Log.i(TAG, "Not upgrading '" + app_opt + "'\n");
-			}
-		} else {
-			File[] list = app_opt.listFiles();
-			if (list == null || list.length > 0) {
-				Log.i(TAG, "Old, unversioned app_opt dir, upgrading.\n");
-				renameOldAppOpt();
-			} else {
-				Log.i(TAG, "Fresh app_opt install.\n");
-			}
-			return true;
-		}
-		return false;
-	}
-
-	private static void renameOldAppOpt() {
-		String moveTo = app_opt.toString();
-		Calendar now = Calendar.getInstance();
-		int version = readVersionFile();
-		if (version == 0) {
-			moveTo += ".old";
-		} else {
-			moveTo += ".build" + String.valueOf(version);
-		}
-		moveTo += "." + String.valueOf(now.getTimeInMillis());
-		log.append("Moving '" + app_opt + "' to '" + moveTo + "'\n");
-		app_opt.renameTo(new File(moveTo));
-		app_opt.mkdir(); // Android normally creates this at onCreate()
-	}
-
 	public static boolean isSdCardPresent() {
 		return Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED);
 	}
