@@ -9,9 +9,6 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.Calendar;
 import java.util.Scanner;
 
 import android.content.Context;
@@ -262,7 +259,7 @@ public class NativeHelper {
 			copyFileOrDir(asset, app_opt);
 		}
 
-		chmod("0755", app_opt, true);
+		Posix.chmod("0755", app_opt, true);
 		writeVersionFile(context);
 	}
 
@@ -339,45 +336,6 @@ public class NativeHelper {
 		log.append("Moving '" + app_opt + "' to '" + moveTo + "'\n");
 		app_opt.renameTo(new File(moveTo));
 		app_opt.mkdir(); // Android normally creates this at onCreate()
-	}
-
-	public static void chmod(String modestr, File path) {
-		Log.i(TAG, "chmod " + modestr + " " + path.getAbsolutePath());
-		try {
-			Class<?> fileUtils = Class.forName("android.os.FileUtils");
-			Method setPermissions = fileUtils.getMethod("setPermissions", String.class,
-					int.class, int.class, int.class);
-			int mode = Integer.parseInt(modestr, 8);
-			int a = (Integer) setPermissions.invoke(null, path.getAbsolutePath(), mode,
-					-1, -1);
-			if (a != 0) {
-				Log.i(TAG, "ERROR: android.os.FileUtils.setPermissions() returned " + a
-						+ " for '" + path + "'");
-			}
-		} catch (ClassNotFoundException e) {
-			Log.i(TAG, "android.os.FileUtils.setPermissions() failed:", e);
-		} catch (IllegalAccessException e) {
-			Log.i(TAG, "android.os.FileUtils.setPermissions() failed:", e);
-		} catch (InvocationTargetException e) {
-			Log.i(TAG, "android.os.FileUtils.setPermissions() failed:", e);
-		} catch (NoSuchMethodException e) {
-			Log.i(TAG, "android.os.FileUtils.setPermissions() failed:", e);
-		}
-	}
-
-	public static void chmod(String mode, File path, boolean recursive) {
-		chmod(mode, path);
-		if (recursive) {
-			File[] files = path.listFiles();
-			for (File d : files) {
-				if (d.isDirectory()) {
-					Log.i(TAG, "chmod recurse: " + d.getAbsolutePath());
-					chmod(mode, d, true);
-				} else {
-					chmod(mode, d);
-				}
-			}
-		}
 	}
 
 	public static boolean isSdCardPresent() {

@@ -3,6 +3,8 @@ package info.guardianproject.gpg;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStreamReader;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.StringTokenizer;
 
 import android.util.Log;
@@ -29,6 +31,45 @@ public class Posix {
 			Runtime.getRuntime().exec("kill -9 " + pid.toString()).waitFor();
 		} catch (Exception e) {
 			Log.e(TAG, "Unable to kill " + command + " at pid " + pid.toString(), e);
+		}
+	}
+
+	public static void chmod(String modestr, File path) {
+		Log.i(TAG, "chmod " + modestr + " " + path.getAbsolutePath());
+		try {
+			Class<?> fileUtils = Class.forName("android.os.FileUtils");
+			Method setPermissions = fileUtils.getMethod("setPermissions", String.class,
+					int.class, int.class, int.class);
+			int mode = Integer.parseInt(modestr, 8);
+			int a = (Integer) setPermissions.invoke(null, path.getAbsolutePath(), mode,
+					-1, -1);
+			if (a != 0) {
+				Log.i(TAG, "ERROR: android.os.FileUtils.setPermissions() returned " + a
+						+ " for '" + path + "'");
+			}
+		} catch (ClassNotFoundException e) {
+			Log.i(TAG, "android.os.FileUtils.setPermissions() failed:", e);
+		} catch (IllegalAccessException e) {
+			Log.i(TAG, "android.os.FileUtils.setPermissions() failed:", e);
+		} catch (InvocationTargetException e) {
+			Log.i(TAG, "android.os.FileUtils.setPermissions() failed:", e);
+		} catch (NoSuchMethodException e) {
+			Log.i(TAG, "android.os.FileUtils.setPermissions() failed:", e);
+		}
+	}
+
+	public static void chmod(String mode, File path, boolean recursive) {
+		chmod(mode, path);
+		if (recursive) {
+			File[] files = path.listFiles();
+			for (File d : files) {
+				if (d.isDirectory()) {
+					Log.i(TAG, "chmod recurse: " + d.getAbsolutePath());
+					chmod(mode, d, true);
+				} else {
+					chmod(mode, d);
+				}
+			}
 		}
 	}
 
