@@ -199,7 +199,13 @@ public class CreateKeyActivity extends Activity {
 		@Override
 		protected Void doInBackground(String... params) {
 			Log.i(TAG, params[0]);
-			GnuPG.context.genPgpKey(params[0]);
+			try {
+				GnuPG.context.genPgpKey(params[0]);
+			} catch(Exception e) {
+				Log.e(TAG, "genPgpKey failed!");
+				e.printStackTrace();
+				return null;
+			}
 			GnuPGGenkeyResult result = GnuPG.context.getGenkeyResult();
 			String fpr = result.getFpr();
 			String sdcard = Environment.getExternalStorageDirectory()
