@@ -73,6 +73,7 @@
                 <data android:scheme="file" />
                 <data android:scheme="content" />
                 <data android:mimeType="*/*" />
+                <!-- GnuPG ASCII data, mostly key data, but sometimes signatures -->
                 <data android:pathPattern=".*\\.asc" />
                 <data android:pathPattern=".*\\..*\\.asc" />
                 <data android:pathPattern=".*\\..*\\..*\\.asc" />
@@ -83,6 +84,7 @@
                 <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.asc" />
                 <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.asc" />
                 <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.asc" />
+                <!-- GnuPG binary encrypted/signed data -->
                 <data android:pathPattern=".*\\.gpg" />
                 <data android:pathPattern=".*\\..*\\.gpg" />
                 <data android:pathPattern=".*\\..*\\..*\\.gpg" />
@@ -93,6 +95,7 @@
                 <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.gpg" />
                 <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.gpg" />
                 <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.gpg" />
+                <!-- PGP data -->
                 <data android:pathPattern=".*\\.pgp" />
                 <data android:pathPattern=".*\\..*\\.pgp" />
                 <data android:pathPattern=".*\\..*\\..*\\.pgp" />
@@ -103,6 +106,18 @@
                 <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.pgp" />
                 <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.pgp" />
                 <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.pgp" />
+                <!-- PGP Public KeyRing, binary format -->
+                <data android:pathPattern=".*\\.pkr" />
+                <data android:pathPattern=".*\\..*\\.pkr" />
+                <data android:pathPattern=".*\\..*\\..*\\.pkr" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\.pkr" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\.pkr" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\.pkr" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\.pkr" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.pkr" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.pkr" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.pkr" />
+                <!-- GnuPG signatures -->
                 <data android:pathPattern=".*\\.sig" />
                 <data android:pathPattern=".*\\..*\\.sig" />
                 <data android:pathPattern=".*\\..*\\..*\\.sig" />

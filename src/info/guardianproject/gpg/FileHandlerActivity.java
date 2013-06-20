@@ -21,7 +21,7 @@ import com.freiheit.gnupg.GnuPGException;
 public class FileHandlerActivity extends Activity {
 	public static final String TAG = "FileHandlerActivity";
 
-	public static final String[] extensions = { ".asc", ".gpg", ".pgp", ".sig" };
+	public static final String[] extensions = { ".asc", ".gpg", ".pgp", ".pkr", ".sig" };
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
