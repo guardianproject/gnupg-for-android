@@ -31,6 +31,7 @@ public class NativeHelper {
 	public static File app_log; // a place to store logs
 	public static File app_home; // dir for $HOME and ~/.gnupg
 	public static File app_gnupghome; // dir for $GNUPGHOME for other apps like Terminal Emulator
+	public static String ldLibraryPath; // our LD_LIBRARY_PATH for loading all gnupg libs
 	public static File environmentConf; // the various env vars that native processes need
 	public static File versionFile; // version stamp for unpacked assets
 
@@ -66,11 +67,13 @@ public class NativeHelper {
 		dirmngr = new File(bin, "dirmngr").getAbsolutePath();
 
 		sdcard = Environment.getExternalStorageDirectory().getAbsolutePath();
-		String ldLibraryPath = System.getenv("LD_LIBRARY_PATH");
+		ldLibraryPath = NativeHelper.app_opt + "/lib" + ":" +
+				new File(NativeHelper.app_opt, "/../lib").getAbsolutePath() + ":" +
+				System.getenv("LD_LIBRARY_PATH");
 		String path = System.getenv("PATH");
 		envp = new String[] { "HOME=" + NativeHelper.app_home,
 				"GNUPGHOME=" + NativeHelper.app_home,
-				"LD_LIBRARY_PATH=" + NativeHelper.app_opt + "/lib" + ":" + ldLibraryPath,
+				"LD_LIBRARY_PATH=" + ldLibraryPath,
 				"PATH=" + path + ":" + bin.getAbsolutePath(),
 				"app_opt=" + app_opt.getAbsolutePath() };
 
@@ -124,7 +127,7 @@ public class NativeHelper {
 	    String conf = new String();
 
 	    conf += "PACKAGE_NAME=" + GpgApplication.PACKAGE_NAME + "\n";
-	    conf += "LD_LIBRARY_PATH=" + System.getenv("LD_LIBRARY_PATH") + "\n";
+	    conf += "LD_LIBRARY_PATH=" + ldLibraryPath + "\n";
 	    conf += "BOOTCLASSPATH=" + System.getenv("BOOTCLASSPATH") + "\n";
 	    conf += "GNUPGHOME=" + app_home + "\n";
 	    conf += "app_opt=" + app_opt + "\n";
