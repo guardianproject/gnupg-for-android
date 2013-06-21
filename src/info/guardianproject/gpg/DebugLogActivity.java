@@ -71,7 +71,7 @@ public class DebugLogActivity extends FragmentActivity implements OnCreateContex
 	 @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 	    MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.menu.options_menu, menu);
+		inflater.inflate(R.menu.debug_log_activity, menu);
 		return true;
 	}
 

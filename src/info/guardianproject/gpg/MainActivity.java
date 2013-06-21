@@ -98,7 +98,7 @@ public class MainActivity extends SherlockFragmentActivity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        new MenuInflater(this).inflate(R.menu.menu_main, menu);
+        new MenuInflater(this).inflate(R.menu.main_activity, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
