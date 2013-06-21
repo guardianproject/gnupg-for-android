@@ -26,6 +26,9 @@
         android:id="@+id/menu_search_keys"
         android:title="Search Keys..."/>
     <item
+        android:id="@+id/menu_decrypt_file"
+        android:title="Decrypt File..."/>
+    <item
         android:id="@+id/menu_settings_key"
         android:title="Settings"/>
 

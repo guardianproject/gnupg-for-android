@@ -149,6 +149,11 @@ public class DebugLogActivity extends FragmentActivity implements OnCreateContex
 			commandThread.start();
 			Log.i(TAG, "finished " + command);
 			return true;
+		case R.id.menu_decrypt_file:
+			final String decryptFilename = (NativeHelper.app_opt.getAbsolutePath()
+					+ "/tests/icon.png.gpg");
+			showDecryptFile(decryptFilename);
+			return true;
 		case R.id.menu_import_key_from_file:
 			final String defaultFilename = (NativeHelper.app_opt.getAbsolutePath()
 					+ "/tests/secret-keys.gpg");
@@ -167,7 +172,46 @@ public class DebugLogActivity extends FragmentActivity implements OnCreateContex
 	}
 
     /**
-     * Show to dialog from where to import keys
+     * Show dialog to select file to decrypt
+     */
+    public void showDecryptFile(final String defaultFilename) {
+        // Message is received after file is selected
+        Handler returnHandler = new Handler() {
+            @Override
+            public void handleMessage(Message message) {
+                if (message.what == FileDialogFragment.MESSAGE_OKAY) {
+                    Bundle data = message.getData();
+                    File f = new File(data.getString(FileDialogFragment.MESSAGE_DATA_FILENAME));
+                    final String decryptFilename = f.getAbsolutePath();
+                    final int lastPeriodPos = decryptFilename.lastIndexOf('.');
+                    String outputFilename = decryptFilename.substring(0, lastPeriodPos);
+
+                    command = NativeHelper.gpg2 + "--output " + outputFilename
+                    		+ " --decrypt " + decryptFilename;
+                    commandThread = new CommandThread();
+                    commandThread.start();
+                }
+            }
+        };
+
+        // Create a new Messenger for the communication back
+        final Messenger messenger = new Messenger(returnHandler);
+
+        new Runnable() {
+            @Override
+            public void run() {
+                mFileDialog = FileDialogFragment.newInstance(messenger,
+                        getString(R.string.title_decrypt_file),
+                        getString(R.string.dialog_specify_import_file_msg), defaultFilename,
+                        null, GpgApplication.FILENAME);
+
+                mFileDialog.show(getSupportFragmentManager(), "fileDialog");
+            }
+        }.run();
+    }
+
+    /**
+     * Show dialog to choose a file to import keys from
      */
     public void showImportFromFileDialog(final String defaultFilename) {
         // Message is received after file is selected
@@ -207,7 +251,7 @@ public class DebugLogActivity extends FragmentActivity implements OnCreateContex
     }
 
     /**
-     * Show Export Dialog
+     * Show dialog to choose a file to export keys to
      */
     public void showExportToFileDialog(final String defaultFilename) {
      // Message is received after file is selected
