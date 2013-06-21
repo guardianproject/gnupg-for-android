@@ -63,8 +63,10 @@
     <string name="dialog_generating_new_key_msg">This process can currently take up to 15 minutes.</string>
 
     <!-- error messages -->
-    <string name="error_decrypting_file_failed">Decrypting "%s" failed!</string>
-    <string name="error_encrypting_file_failed">Encrypting "%s" failed!</string>
+    <string name="error_cannot_read_incoming_file">Cannot read incoming file:</string>
+    <string name="error_output_file_exists_skipping_format">Output file "%s" exists, skipping decryption.</string>
+    <string name="error_decrypting_file_failed_format">Decrypting "%s" failed!</string>
+    <string name="error_encrypting_file_failed_format">Encrypting "%s" failed!</string>
     <string name="error_decrypting_failed">Decrypting failed!</string>
     <string name="error_encrypting_failed">Encrypting failed!</string>
     <string name="error_key_generation_failed">Key generation failed!</string>
