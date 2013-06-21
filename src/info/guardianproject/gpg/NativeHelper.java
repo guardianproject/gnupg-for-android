@@ -65,11 +65,18 @@ public class NativeHelper {
 		gpg_agent = new File(bin, "gpg-agent").getAbsolutePath();
 		pinentry_android = new File(bin, "pinentry-android").getAbsolutePath();
 		dirmngr = new File(bin, "dirmngr").getAbsolutePath();
-
 		sdcard = Environment.getExternalStorageDirectory().getAbsolutePath();
-		ldLibraryPath = NativeHelper.app_opt + "/lib" + ":" +
-				new File(NativeHelper.app_opt, "/../lib").getAbsolutePath() + ":" +
+
+		String lib = "";
+		try {
+			lib = new File(NativeHelper.app_opt, "/../lib").getCanonicalPath();
+		} catch (Exception e) {
+			e.printStackTrace();
+			lib = new File(NativeHelper.app_opt, "/../lib").getAbsolutePath();
+		}
+		ldLibraryPath = lib + ":" + NativeHelper.app_opt + "/lib" + ":" +
 				System.getenv("LD_LIBRARY_PATH");
+
 		String path = System.getenv("PATH");
 		envp = new String[] { "HOME=" + NativeHelper.app_home,
 				"GNUPGHOME=" + NativeHelper.app_home,
