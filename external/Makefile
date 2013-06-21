@@ -655,8 +655,7 @@ gpgme-clean:
 #------------------------------------------------------------------------------#
 # separate target for building and installing the tests into assets/
 
-assets-tests: assets-tests-gpgme assets-tests-pinentry
-	install -p run-tests.sh $(ASSETS)/tests
+assets-tests: assets-tests-gpgme
 
 assets-tests-gpgme:
 	$(MAKE) -C gpgme/tests
@@ -666,12 +665,6 @@ assets-tests-gpgme:
 		gpgme/tests/*.txt \
 		gpgme/tests/gpg/*.asc \
 		$(ASSETS)/tests/gpgme
-
-assets-tests-pinentry:
-	install -d $(ASSETS)/tests/pinentry
-	install -p \
-		pinentry-tests/*gpg \
-		$(ASSETS)/tests/pinentry
 
 
 #------------------------------------------------------------------------------#
@@ -719,7 +712,7 @@ clean-assets:
 	rm -rf $(ASSETS)/libexec
 	rm -rf $(ASSETS)/sbin
 	rm -rf $(ASSETS)/share
-	rm -rf $(ASSETS)/tests
+	rm -rf $(ASSETS)/tests/gpgme
 	rm -rf $(ASSETS)/var
 
 ASSETS := $(CWD)/../assets
