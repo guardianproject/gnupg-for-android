@@ -16,7 +16,7 @@ import android.widget.Toast;
 public class FileHandlerActivity extends Activity {
 	public static final String TAG = "FileHandlerActivity";
 
-	public static final String[] extensions = { ".asc", ".gpg", ".pgp", ".pkr", ".sig" };
+	public static final String[] extensions = { ".asc", ".gpg", ".pgp", ".pkr", ".skr", ".sig" };
 
 	private MimeTypeMap mMap;
 	
@@ -51,9 +51,11 @@ public class FileHandlerActivity extends Activity {
 			decryptStream();
 		} else 	if (incomingFile.canRead()) {
 			if (extension.equals("gpg") || extension.equals("pgp")) {
-				decryptFile(incomingFile, plainFilename);
-			} else	if (extension.equals("asc") || extension.equals("pkr")) {
+				decryptFile(incomingFile);
+			} else	if (extension.equals("pkr") || extension.equals("skr")) {
 				//TODO pass off to import after prompting the user
+			} else	if (extension.equals("asc")) {
+				//TODO prompt user whether this is keys, sigs, or encrypted data
 			} else	if (extension.equals("sig")) {
 				//TODO verify signature
 			}
