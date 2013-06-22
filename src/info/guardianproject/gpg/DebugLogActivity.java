@@ -156,11 +156,11 @@ public class DebugLogActivity extends FragmentActivity implements OnCreateContex
 			return true;
 		case R.id.menu_import_key_from_file:
 			final String defaultFilename = (NativeHelper.app_opt.getAbsolutePath()
-					+ "/tests/secret-keys.gpg");
+					+ "/tests/secret-keys.skr");
 			showImportFromFileDialog(defaultFilename);
 			return true;
 		case R.id.menu_export_keys_to_file:
-		    final String exportFilename = Environment.getExternalStorageDirectory().getAbsolutePath() + "/gnupg-keyring.asc";
+		    final String exportFilename = Environment.getExternalStorageDirectory().getAbsolutePath() + "/gnupg-keyring.pkr";
 		    showExportToFileDialog(exportFilename);
 		    return true;
 		case R.id.menu_share_log:
@@ -263,6 +263,26 @@ public class DebugLogActivity extends FragmentActivity implements OnCreateContex
                     String exportFilename = new File(data.getString(FileDialogFragment.MESSAGE_DATA_FILENAME)).getAbsolutePath();
                     boolean exportSecretKeys = data.getBoolean(FileDialogFragment.MESSAGE_DATA_CHECKED);
 
+                    Log.d(TAG, "exportFilename: " + exportFilename);
+                    Log.d(TAG, "exportSecretKeys: " + exportSecretKeys);
+                    command = NativeHelper.gpg2 + " --batch ";
+                    String extension = null;
+                    if( exportSecretKeys ) {
+                        command += " --export-secret-keys ";
+                        extension = ".skr";
+                    } else {
+                        command += " --export ";
+                        extension = ".pkr";
+                    }
+                    // force the right file extension
+            		final int lastPeriodPos = exportFilename.lastIndexOf('.');
+            		final int lastSlashPos = exportFilename.lastIndexOf('/');
+            		if (lastPeriodPos == -1 || lastPeriodPos < lastSlashPos)
+            			// if the name has no extension, just tack it on to the end
+            			exportFilename += extension;
+            		else
+            			exportFilename = exportFilename.substring(0, lastPeriodPos) + extension;
+
         			final File exportFile = new File(exportFilename);
         			if (exportFile.exists()) {
         				Calendar now = Calendar.getInstance();
@@ -273,14 +293,6 @@ public class DebugLogActivity extends FragmentActivity implements OnCreateContex
         						Toast.LENGTH_LONG).show();
         			}
 
-                    Log.d(TAG, "exportFilename: " + exportFilename);
-                    Log.d(TAG, "exportSecretKeys: " + exportSecretKeys);
-                    command = NativeHelper.gpg2 + " --batch ";
-                    if( exportSecretKeys ) {
-                        command += " --export-secret-keys ";
-                    } else {
-                        command += " --export ";
-                    }
                     command += " --output " + exportFilename;
                     commandThread = new CommandThread();
                     commandThread.start();
