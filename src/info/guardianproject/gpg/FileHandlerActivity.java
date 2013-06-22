@@ -1,6 +1,7 @@
 package info.guardianproject.gpg;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
 
@@ -12,6 +13,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.webkit.MimeTypeMap;
 import android.widget.Toast;
+
+import com.freiheit.gnupg.GnuPGData;
+import com.freiheit.gnupg.GnuPGKey;
 
 public class FileHandlerActivity extends Activity {
 	public static final String TAG = "FileHandlerActivity";
@@ -40,13 +44,8 @@ public class FileHandlerActivity extends Activity {
 		Log.i(TAG, "action: " + action + "   MIME Type: " + mimeType + "   data: "
 				+ incomingFile);
 
-		String incomingFileName = incomingFile.getAbsolutePath();
-		String extension = MimeTypeMap.getFileExtensionFromUrl(incomingFileName);
-		String mimeTypeFromExtension = mMap.getMimeTypeFromExtension(extension);
-		String plainFilename = incomingFileName.substring(0, incomingFileName.length() - 4);
-		Log.i(TAG, "plain file: " + plainFilename + "  extention: " + extension
-				+ "  MIME: " + mimeTypeFromExtension);
-
+		final String incomingFilename = incomingFile.getAbsolutePath();
+		final String extension = MimeTypeMap.getFileExtensionFromUrl(incomingFilename);
 		if (mimeType.equals("application/octet-stream")) {
 			decryptStream();
 		} else 	if (incomingFile.canRead()) {
@@ -58,6 +57,8 @@ public class FileHandlerActivity extends Activity {
 				//TODO prompt user whether this is keys, sigs, or encrypted data
 			} else	if (extension.equals("sig")) {
 				//TODO verify signature
+			} else { // this is a file type that gpg does not recognize, so encrypt it
+				encryptFile(incomingFile);
 			}
 		} else {
 			Toast.makeText(this, getString(R.string.error_cannot_read_incoming_file),
@@ -65,7 +66,47 @@ public class FileHandlerActivity extends Activity {
 		}
 		finish();
 	}
-	
+
+	private class EncryptTask extends AsyncTask<File, Void, Void> {
+
+		@Override
+		protected Void doInBackground(File... params) {
+			return null;
+		}
+		
+	}
+
+	private void encryptFile(File incomingFile) {
+		try {
+			GnuPGData plain;
+			plain = GnuPG.context.createDataObject(incomingFile);
+			GnuPGData cipher = GnuPG.context.createDataObject();
+			GnuPGKey[] recipients = new GnuPGKey[1];
+			recipients[0] = GnuPG.context.getKeyByFingerprint("9F0FE587374BBE81");
+			GnuPG.context.encrypt(recipients, plain, cipher);
+			plain.destroy();
+
+			String outputFilename = incomingFile.getAbsolutePath() + ".gpg";
+			File outputFile = new File(outputFilename);
+			FileOutputStream out;
+			out = new FileOutputStream(outputFile);
+			cipher.write(out);
+			Intent intent = new Intent(Intent.ACTION_SEND);
+			intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
+			intent.setType("*/*");
+			intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(outputFile));
+			intent.putExtra(Intent.EXTRA_SUBJECT, outputFile.getName());
+			startActivity(Intent.createChooser(intent, getString(R.string.dialog_share_file_using)));
+		} catch (Exception e) {
+			String msg = String.format(getString(R.string.error_encrypting_file_failed_format),
+					incomingFile);
+			Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
+			e.printStackTrace();
+			finish();
+			return;
+		}
+	}
+
 	private class DecryptTask extends AsyncTask<File, Void, Void> {
 
 		@Override
@@ -80,7 +121,7 @@ public class FileHandlerActivity extends Activity {
 		// TODO implement decrypting a stream
 	}
 
-	private void decryptFile(File incomingFile, String outputFilename) {
+	private void decryptFile(File incomingFile) {
 /* this should work, but it doesn't, yet another gpgme issue...
 		GnuPGData cipher;
 		try {
@@ -113,6 +154,10 @@ public class FileHandlerActivity extends Activity {
 			return;
 		}
 */
+		final String incomingFilename = incomingFile.getAbsolutePath();
+		final int lastPeriodPos = incomingFilename.lastIndexOf('.');
+        String outputFilename = incomingFilename.substring(0, lastPeriodPos);
+
 		File outputFile = new File(outputFilename);
 		if (outputFile.exists()) {
 			String format = getString(R.string.error_output_file_exists_skipping_format);

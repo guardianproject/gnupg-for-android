@@ -61,6 +61,7 @@
     <string name="key_make_backup">Backup To SD Card</string>
     <string name="dialog_generating_new_key_title">Generating new key&#8230;</string>
     <string name="dialog_generating_new_key_msg">This process can currently take up to 15 minutes.</string>
+    <string name="dialog_share_file_using">Share file using:</string>
 
     <!-- error messages -->
     <string name="error_cannot_read_incoming_file">Cannot read incoming file:</string>
