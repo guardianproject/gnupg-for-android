@@ -144,13 +144,13 @@ public class ContactOperations {
      * @param the email address we're adding
      * @return instance of ContactOperations
      */
-    public ContactOperations addKeyFingerprint(String keyfpr) {
+    public ContactOperations addEncryptFileTo(String keyfpr) {
         mValues.clear();
         if (!TextUtils.isEmpty(keyfpr)) {
             mValues.put(SyncAdapterColumns.DATA_KEYFINGERPRINT, keyfpr);
             mValues.put(SyncAdapterColumns.DATA_DETAIL, mContext.getString(R.string.contact_encrypt_file));
             mValues.put(SyncAdapterColumns.DATA_SUMMARY, mContext.getString(R.string.contact_encrypt_file));
-            mValues.put(Data.MIMETYPE, SyncAdapterColumns.MIME_PROFILE);
+            mValues.put(Data.MIMETYPE, SyncAdapterColumns.MIME_ENCRYPT_FILE_TO);
             addInsertOp();
         }
         return this;

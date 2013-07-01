@@ -22,7 +22,7 @@
 >
 
     <ContactsDataKind
-        android:mimeType="vnd.android.cursor.item/vnd.openpgp4fpr"
+        android:mimeType="vnd.android.cursor.item/vnd.info.guardianproject.gpg.encryptfileto"
         android:icon="@drawable/icon"
         android:summaryColumn="data2"
         android:detailColumn="data3"

@@ -226,7 +226,7 @@
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
-                <data android:mimeType="vnd.android.cursor.item/vnd.openpgp4fpr" />
+                <data android:mimeType="vnd.android.cursor.item/vnd.info.guardianproject.gpg.encryptfileto" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>

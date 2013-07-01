@@ -190,7 +190,7 @@ public class ContactManager {
 
         contactOp.addName(rawContact.getFullName())
                 .addEmail(rawContact.getEmail())
-                .addKeyFingerprint(rawContact.getFingerprint())
+                .addEncryptFileTo(rawContact.getFingerprint())
                 .addComment(rawContact.getComment())
                 .addGroupMembership(groupId);
 
@@ -310,7 +310,7 @@ public class ContactManager {
                 } else if (mimeType.equals(Email.CONTENT_ITEM_TYPE)) {
                     email = c.getString(DataQuery.COLUMN_EMAIL_ADDRESS);
                     Log.d(TAG, "email:" + email);
-                } else if (mimeType.equals(SyncAdapterColumns.MIME_PROFILE)) {
+                } else if (mimeType.equals(SyncAdapterColumns.MIME_ENCRYPT_FILE_TO)) {
                     keyfingerprint = c.getString(DataQuery.COLUMN_KEYFPR);
                     Log.d(TAG, "fingerprint:" + keyfingerprint);
                 } else {

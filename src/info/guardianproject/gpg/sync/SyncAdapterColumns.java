@@ -13,8 +13,8 @@ public final class SyncAdapterColumns {
      * type you've defined for one of your custom data row types in the
      * ContactsContract.Data table. see: res/xml/contacts.xml
      */
-    public static final String MIME_PROFILE =
-            "vnd.android.cursor.item/vnd.openpgp4fpr";
+    public static final String MIME_ENCRYPT_FILE_TO =
+            "vnd.android.cursor.item/vnd.info.guardianproject.gpg.encryptfileto";
 
     public static final String DATA_KEYFINGERPRINT = Data.DATA1;
     public static final String DATA_SUMMARY = Data.DATA2;

@@ -33,7 +33,7 @@ public class ContactIntentRouter extends Activity {
         Uri data = intent.getData();
 
         if (action.equals(Intent.ACTION_VIEW) && type != null) {
-            if (type.equals(SyncAdapterColumns.MIME_PROFILE) && data != null) {
+            if (type.equals(SyncAdapterColumns.MIME_ENCRYPT_FILE_TO) && data != null) {
                 Log.d(TAG, "got ACTION_VIEW for typ=" + type + " and dat=" + data);
                 // TODO do stuff here
             }
