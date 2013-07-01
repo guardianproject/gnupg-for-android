@@ -19,8 +19,13 @@ package info.guardianproject.gpg;
 
 import android.app.Activity;
 import android.app.SearchManager;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -33,12 +38,13 @@ import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockFragment;
 
-import info.guardianproject.gpg.R;
 import info.guardianproject.gpg.apg_compat.Apg;
 
 import java.util.Vector;
 
 public class KeyListFragment extends SherlockFragment {
+
+    public static final String BROADCAST_ACTION_KEYLIST_CHANGED = "info.guardianproject.gpg.keylist";
     protected ListView mListView;
     protected KeyListAdapter mListAdapter;
     protected View mFilterLayout;
@@ -48,6 +54,9 @@ public class KeyListFragment extends SherlockFragment {
     protected TextView mFilterInfo;
     protected View mKeyListButtonBar;
     protected boolean mShowButtons = true;
+
+    private String mCurrentAction;
+    private Bundle mCurrentExtras;
 
     private OnKeysSelectedListener mCallback;
 
@@ -74,6 +83,7 @@ public class KeyListFragment extends SherlockFragment {
                     + " must implement OnKeysSelectedListener");
         }
     }
+
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -107,7 +117,14 @@ public class KeyListFragment extends SherlockFragment {
 
         mClearFilterButton.setOnClickListener(clearFilterclicked);
         updateButtons();
+        registerReceiver();
         handleIntent(action, getArguments().getBundle("extras"));
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver();
     }
 
     public void toggleButtons(boolean visible) {
@@ -118,6 +135,9 @@ public class KeyListFragment extends SherlockFragment {
     public void handleIntent(String action, Bundle extras) {
         // Why doesn't java have default parameters :(
         if( extras == null ) extras = new Bundle();
+
+        mCurrentAction = action;
+        mCurrentExtras = extras;
 
         String searchString = null;
         if (Intent.ACTION_SEARCH.equals(action)) {
@@ -215,6 +235,28 @@ public class KeyListFragment extends SherlockFragment {
         public void onKeySelected(long id, String userId);
         public void onKeysSelected(long selectedKeyIds[], String selectedUserIds[]);
         public void onKeySelectionCanceled();
+    }
+
+    BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if( intent.getAction().equals(BROADCAST_ACTION_KEYLIST_CHANGED) ) {
+                // refresh keylist
+                Log.d("KeyListFragment", "BROADCAST_ACTION_KEYLIST_CHANGED");
+                handleIntent(mCurrentAction, mCurrentExtras);
+            }
+        }
+    };
+
+    private void registerReceiver() {
+        Log.d("KeyListFragment", "register!");
+        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(mBroadcastReceiver, new IntentFilter(BROADCAST_ACTION_KEYLIST_CHANGED));
+    }
+
+    private void unregisterReceiver() {
+        Log.d("KeyListFragment", "unregister");
+        LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(mBroadcastReceiver);
     }
 
 }

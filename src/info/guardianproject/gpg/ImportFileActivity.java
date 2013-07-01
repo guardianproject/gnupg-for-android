@@ -2,10 +2,6 @@
 package info.guardianproject.gpg;
 
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -13,10 +9,15 @@ import android.os.Handler;
 import android.os.Message;
 import android.os.Messenger;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.freiheit.gnupg.GnuPGException;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
 
 public class ImportFileActivity extends FragmentActivity {
     private static final String TAG = ImportFileActivity.class.getSimpleName();
@@ -145,6 +146,7 @@ public class ImportFileActivity extends FragmentActivity {
                         e.printStackTrace();
                     }
                     setResult(RESULT_OK);
+                    notifyImportComplete();
                     finish();
                 }
             }
@@ -164,6 +166,11 @@ public class ImportFileActivity extends FragmentActivity {
                 mFileDialog.show(getSupportFragmentManager(), "fileDialog");
             }
         }.run();
+    }
+
+    private void notifyImportComplete() {
+        Log.d(TAG, "import complete, sending broadcast");
+        LocalBroadcastManager.getInstance(this).sendBroadcast( new Intent(KeyListFragment.BROADCAST_ACTION_KEYLIST_CHANGED));
     }
 
 }

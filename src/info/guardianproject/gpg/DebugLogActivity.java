@@ -1,10 +1,6 @@
 package info.guardianproject.gpg;
 
 
-import java.io.File;
-import java.io.OutputStream;
-import java.util.Calendar;
-
 import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -20,6 +16,7 @@ import android.os.Message;
 import android.os.Messenger;
 import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -29,6 +26,10 @@ import android.widget.EditText;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.io.File;
+import java.io.OutputStream;
+import java.util.Calendar;
 
 public class DebugLogActivity extends FragmentActivity implements OnCreateContextMenuListener {
 	public static final String TAG = "DebugLogActivity";
@@ -382,6 +383,12 @@ public class DebugLogActivity extends FragmentActivity implements OnCreateContex
 		commandFinishedReceiver = new BroadcastReceiver() {
 			@Override
 			public void onReceive(Context context, Intent intent) {
+			    if( intent.getAction().equals(COMMAND_FINISHED)) {
+			        if(command.contains("--import")) {
+			            Log.d(TAG, "Import complete.");
+			            LocalBroadcastManager.getInstance(DebugLogActivity.this).sendBroadcast( new Intent(KeyListFragment.BROADCAST_ACTION_KEYLIST_CHANGED) );
+			        }
+			    }
 			}
 		};
 		registerReceiver(commandFinishedReceiver, new IntentFilter(
