@@ -61,7 +61,7 @@ public class NativeHelper {
 		File bin = new File(app_opt, "bin");
 		String logging = "--debug-level basic --log-file " + NativeHelper.app_log
 				+ "/gpg2.log ";
-		gpg2 = new File(bin, "gpg2").getAbsolutePath() + " --no-tty " + logging;
+		gpg2 = new File(bin, "gpg2").getAbsolutePath() + " --no-tty --trust-model always " + logging;
 		gpg_agent = new File(bin, "gpg-agent").getAbsolutePath();
 		pinentry_android = new File(bin, "pinentry-android").getAbsolutePath();
 		dirmngr = new File(bin, "dirmngr").getAbsolutePath();
