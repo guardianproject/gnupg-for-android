@@ -427,6 +427,6 @@ public class DebugLogActivity extends FragmentActivity implements OnCreateContex
 						+ "\n\nlog:\n----------------------------------\n"
 						+ consoleText.getText().toString()
 						);
-		startActivity(Intent.createChooser(i, "How do you want to share?"));
+		startActivity(Intent.createChooser(i, getString(R.string.dialog_share_file_using)));
 	}
 }
