@@ -4,12 +4,14 @@ package info.guardianproject.gpg;
 import java.io.File;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.os.Messenger;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
+import android.widget.Toast;
 
 public class EncryptFileActivity extends FragmentActivity {
     private static final String TAG = EncryptFileActivity.class.getSimpleName();
@@ -76,23 +78,48 @@ public class EncryptFileActivity extends FragmentActivity {
                     finish();
                 }
                 else if (message.what == FileDialogFragment.MESSAGE_OKAY) {
-                    try {
-                        Bundle data = message.getData();
-                        File plainFile = new File(
-                                data.getString(FileDialogFragment.MESSAGE_DATA_FILENAME));
-                        String plainFilename = plainFile.getCanonicalPath();
-                        Log.d(TAG, "plainFilename: " + plainFilename);
-                        String encryptedFilename = plainFilename + ".gpg";
-                        String args = "--output " + encryptedFilename
-                                + " --encrypt --recipient " + mFingerprint
-                                + " " + plainFilename;
-                        GnuPG.gpg2(args);
-                        Log.d(TAG, "encrypt complete");
-                    } catch (Exception e) {
-                        Log.e(TAG, "File encrypt failed: ");
-                        e.printStackTrace();
+                    Bundle data = message.getData();
+                    File plainFile = new File(
+                            data.getString(FileDialogFragment.MESSAGE_DATA_FILENAME));
+                    if (!plainFile.exists()) {
+                        String errorMsg = String.format(
+                                getString(R.string.error_file_does_not_exist_format),
+                                plainFile);
+                        Toast.makeText(getBaseContext(), errorMsg, Toast.LENGTH_LONG).show();
+                        setResult(RESULT_CANCELED);
+                    } else {
+                        try {
+                            String plainFilename = plainFile.getCanonicalPath();
+                            Log.d(TAG, "plainFilename: " + plainFilename);
+                            String encryptedFilename = plainFilename + ".gpg";
+                            File encryptedFile = new File(encryptedFilename);
+                            String args = "--output " + encryptedFilename
+                                    + " --encrypt --recipient " + mFingerprint
+                                    + " " + plainFilename;
+                            GnuPG.gpg2(args);
+                            Log.d(TAG, "encrypt complete");
+                            if (mEmail != null && mEmail.length() > 3 && encryptedFile.exists()) {
+                                Intent send = new Intent(Intent.ACTION_SEND);
+                                send.putExtra(Intent.EXTRA_SUBJECT, plainFile.getName());
+                                send.putExtra(Intent.EXTRA_EMAIL, new String[] {
+                                        mEmail
+                                });
+                                send.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(encryptedFile));
+                                send.setType("application/octet-stream");
+                                startActivity(Intent.createChooser(send,
+                                        getString(R.string.dialog_share_file_using)));
+                            }
+                            setResult(RESULT_OK);
+                        } catch (Exception e) {
+                            String msg = String.format(
+                                    getString(R.string.error_encrypting_file_failed_format),
+                                    plainFile);
+                            Toast.makeText(getBaseContext(), msg, Toast.LENGTH_LONG).show();
+                            Log.e(TAG, "File encrypt failed: ");
+                            e.printStackTrace();
+                            setResult(RESULT_CANCELED);
+                        }
                     }
-                    setResult(RESULT_OK);
                     finish();
                 }
             }
@@ -115,5 +142,4 @@ public class EncryptFileActivity extends FragmentActivity {
             }
         }.run();
     }
-
 }

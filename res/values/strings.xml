@@ -73,6 +73,7 @@
     <string name="error_decrypting_failed">Decrypting failed!</string>
     <string name="error_encrypting_failed">Encrypting failed!</string>
     <string name="error_key_generation_failed">Key generation failed!</string>
+    <string name="error_file_does_not_exist_format">"%s" does not exist!</string>
 
     <!-- content descriptions for accessibility -->
     <string name="folder">folder</string>
