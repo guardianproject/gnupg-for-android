@@ -1,9 +1,15 @@
 
 package info.guardianproject.gpg.sync;
 
+import com.freiheit.gnupg.GnuPGKey;
+
+import info.guardianproject.gpg.EncryptFileActivity;
+import info.guardianproject.gpg.GnuPG;
 import android.app.Activity;
 import android.content.Intent;
+import android.database.Cursor;
 import android.net.Uri;
+import android.provider.ContactsContract.CommonDataKinds;
 import android.util.Log;
 
 /**
@@ -30,15 +36,34 @@ public class ContactIntentRouter extends Activity {
         Intent intent = getIntent();
         String action = intent.getAction();
         String type = intent.getType();
-        Uri data = intent.getData();
+        Uri contactUri = intent.getData();
 
-        if (action.equals(Intent.ACTION_VIEW) && type != null) {
-            if (type.equals(SyncAdapterColumns.MIME_ENCRYPT_FILE_TO) && data != null) {
-                Log.d(TAG, "got ACTION_VIEW for typ=" + type + " and dat=" + data);
-                // TODO do stuff here
+        String[] PROJECTION = new String[] {
+                SyncAdapterColumns.DATA_KEYFINGERPRINT,
+        };
+        Cursor c = getContentResolver().query(contactUri, PROJECTION, null, null, null);
+        if (c.moveToFirst()) {
+            int fingerprintIndex = c.getColumnIndex(SyncAdapterColumns.DATA_KEYFINGERPRINT);
+            String fingerprint = c.getString(fingerprintIndex);
+            // in theory, we could get the email from the ContentProvider, but this is far easier
+            GnuPGKey key = GnuPG.context.getKeyByFingerprint(fingerprint);
+            String[] emails = new String[] {
+                    key.getEmail()
+            };
+            key.destroy();
+
+            if (action.equals(Intent.ACTION_VIEW) && type != null) {
+                if (type.equals(SyncAdapterColumns.MIME_ENCRYPT_FILE_TO) && contactUri != null) {
+                    Log.d(TAG, "got ACTION_VIEW for type =" + type + " and data =" + contactUri);
+                    Intent i = new Intent(this, EncryptFileActivity.class);
+                    i.putExtra(Intent.EXTRA_TEXT, fingerprint);
+                    i.putExtra(Intent.EXTRA_EMAIL, emails);
+                    startActivity(i);
+                }
             }
-        }
-        // if we get here that means we didn't handle the activity
+        } else
+            Log.e(TAG, "There should never be multiple results here!");
+
         finish();
     }
 }
