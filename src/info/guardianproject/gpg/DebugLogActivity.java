@@ -384,7 +384,7 @@ public class DebugLogActivity extends FragmentActivity implements OnCreateContex
 			@Override
 			public void onReceive(Context context, Intent intent) {
 			    if( intent.getAction().equals(COMMAND_FINISHED)) {
-			        if(command.contains("--import")) {
+			        if(command.contains("--import") || command.contains("--recv-keys")) {
 			            Log.d(TAG, "Import complete.");
 			            LocalBroadcastManager.getInstance(DebugLogActivity.this).sendBroadcast( new Intent(KeyListFragment.BROADCAST_ACTION_KEYLIST_CHANGED) );
 			        }
