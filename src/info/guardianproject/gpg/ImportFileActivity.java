@@ -2,6 +2,10 @@
 package info.guardianproject.gpg;
 
 
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -9,20 +13,23 @@ import android.os.Handler;
 import android.os.Message;
 import android.os.Messenger;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.freiheit.gnupg.GnuPGException;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-
 public class ImportFileActivity extends FragmentActivity {
     private static final String TAG = ImportFileActivity.class.getSimpleName();
 
+    private FragmentManager mFragmentManager;
     private FileDialogFragment mFileDialog;
+    private Handler mReturnHandler;
+    private Messenger mMessenger;
+
+    // used to find any existing instance of the fragment, in case of rotation,
+    static final String GPG2_TASK_FRAGMENT_TAG = TAG;
 
     final String[] filetypes = {
             ".gpg", ".asc"
@@ -45,6 +52,23 @@ public class ImportFileActivity extends FragmentActivity {
         } else if (Intent.ACTION_SEND_MULTIPLE.equals(action)) {
             handleSendMultipleBinaries(intent);
         } else {
+            mFragmentManager = getSupportFragmentManager();
+            // Message is received after file is selected
+            mReturnHandler = new Handler() {
+                @Override
+                public void handleMessage(Message message) {
+                    if (message.what == FileDialogFragment.MESSAGE_CANCELED) {
+                        cancel();
+                    } else if (message.what == FileDialogFragment.MESSAGE_OK) {
+                        runImport(message);
+                    } else if (message.what == Gpg2TaskFragment.GPG2_TASK_FINISHED) {
+                        notifyImportComplete();
+                    }
+                }
+            };
+            // Create a new Messenger for the communication back
+            mMessenger = new Messenger(mReturnHandler);
+
             // handle the basic case
             showImportFromFileDialog(new String());
         }
@@ -113,30 +137,16 @@ public class ImportFileActivity extends FragmentActivity {
      * Show to dialog from where to import keys
      */
     public void showImportFromFileDialog(final String defaultFilename) {
-        // Message is received after file is selected
-        Handler returnHandler = new Handler() {
-            @Override
-            public void handleMessage(Message message) {
-                if (message.what == FileDialogFragment.MESSAGE_CANCELED) {
-                    cancel();
-                } else if (message.what == FileDialogFragment.MESSAGE_OK) {
-                    runImport(message);
-                }
-            }
-        };
-
-        // Create a new Messenger for the communication back
-        final Messenger messenger = new Messenger(returnHandler);
 
         new Runnable() {
             @Override
             public void run() {
-                mFileDialog = FileDialogFragment.newInstance(messenger,
+                mFileDialog = FileDialogFragment.newInstance(mMessenger,
                         getString(R.string.title_import_keys),
                         getString(R.string.dialog_specify_import_file_msg), defaultFilename,
                         null, GpgApplication.FILENAME);
 
-                mFileDialog.show(getSupportFragmentManager(), "fileDialog");
+                mFileDialog.show(mFragmentManager, "fileDialog");
             }
         }.run();
     }
@@ -159,7 +169,11 @@ public class ImportFileActivity extends FragmentActivity {
 
         File keyFile = new File(importFilename);
         try {
-            GnuPG.context.importKey(keyFile);
+            String keyFilename = keyFile.getCanonicalPath();
+            String args = " --import " + keyFilename;
+            Gpg2TaskFragment gpg2Task = new Gpg2TaskFragment();
+            gpg2Task.configTask(mMessenger, new Gpg2TaskFragment.Gpg2Task(), args);
+            gpg2Task.show(mFragmentManager, GPG2_TASK_FRAGMENT_TAG);
             if (deleteAfterImport)
                 new File(importFilename).delete();
             Log.d(TAG, "import complete");
@@ -171,7 +185,6 @@ public class ImportFileActivity extends FragmentActivity {
             e.printStackTrace();
         }
         setResult(RESULT_OK);
-        notifyImportComplete();
         finish();
 
     }
