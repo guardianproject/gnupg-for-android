@@ -105,7 +105,8 @@ public class EncryptFileActivity extends FragmentActivity {
                         getString(R.string.title_encrypt_file),
                         getString(R.string.dialog_specify_encrypt_file),
                         defaultFilename,
-                        null, GpgApplication.FILENAME);
+                        getString(R.string.sign_file),
+                        GpgApplication.FILENAME);
 
                 mFileDialog.show(mFragmentManager, "fileDialog");
             }
@@ -114,6 +115,7 @@ public class EncryptFileActivity extends FragmentActivity {
 
     private void processFile(Message message) {
         Bundle data = message.getData();
+        boolean signFile = data.getBoolean(FileDialogFragment.MESSAGE_DATA_CHECKED);
         File plainFile = new File(
                 data.getString(FileDialogFragment.MESSAGE_DATA_FILENAME));
         if (!plainFile.exists()) {
@@ -127,9 +129,10 @@ public class EncryptFileActivity extends FragmentActivity {
                 String plainFilename = plainFile.getCanonicalPath();
                 Log.d(TAG, "plainFilename: " + plainFilename);
                 mEncryptedFilename = plainFilename + ".gpg";
-                String args = "--output " + mEncryptedFilename
-                        + " --encrypt --recipient " + mFingerprint
-                        + " " + plainFilename;
+                String args = "--output " + mEncryptedFilename;
+                if (signFile)
+                    args += " --sign ";
+                args += " --encrypt --recipient " + mFingerprint + " " + plainFilename;
                 Gpg2TaskFragment gpg2Task = new Gpg2TaskFragment();
                 gpg2Task.configTask(mMessenger, new Gpg2TaskFragment.Gpg2Task(), args);
                 gpg2Task.show(mFragmentManager, GPG2_TASK_FRAGMENT_TAG);
