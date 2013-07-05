@@ -180,7 +180,7 @@ public class DebugLogActivity extends FragmentActivity implements OnCreateContex
         Handler returnHandler = new Handler() {
             @Override
             public void handleMessage(Message message) {
-                if (message.what == FileDialogFragment.MESSAGE_OKAY) {
+                if (message.what == FileDialogFragment.MESSAGE_OK) {
                     Bundle data = message.getData();
                     File f = new File(data.getString(FileDialogFragment.MESSAGE_DATA_FILENAME));
                     final String decryptFilename = f.getAbsolutePath();
@@ -219,7 +219,7 @@ public class DebugLogActivity extends FragmentActivity implements OnCreateContex
         Handler returnHandler = new Handler() {
             @Override
             public void handleMessage(Message message) {
-                if (message.what == FileDialogFragment.MESSAGE_OKAY) {
+                if (message.what == FileDialogFragment.MESSAGE_OK) {
                     Bundle data = message.getData();
                     String importFilename = new File(data.getString(FileDialogFragment.MESSAGE_DATA_FILENAME)).getAbsolutePath();
                     boolean deleteAfterImport = data.getBoolean(FileDialogFragment.MESSAGE_DATA_CHECKED);
@@ -259,7 +259,7 @@ public class DebugLogActivity extends FragmentActivity implements OnCreateContex
         Handler returnHandler = new Handler() {
             @Override
             public void handleMessage(Message message) {
-                if (message.what == FileDialogFragment.MESSAGE_OKAY) {
+                if (message.what == FileDialogFragment.MESSAGE_OK) {
                     Bundle data = message.getData();
                     String exportFilename = new File(data.getString(FileDialogFragment.MESSAGE_DATA_FILENAME)).getAbsolutePath();
                     boolean exportSecretKeys = data.getBoolean(FileDialogFragment.MESSAGE_DATA_CHECKED);

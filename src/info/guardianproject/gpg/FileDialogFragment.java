@@ -45,7 +45,7 @@ public class FileDialogFragment extends DialogFragment {
     private static final String ARG_CHECKBOX_TEXT = "checkbox_text";
     private static final String ARG_REQUEST_CODE = "request_code";
 
-    public static final int MESSAGE_OKAY = 1;
+    public static final int MESSAGE_OK = 1;
     public static final int MESSAGE_CANCELED = 2;
 
     public static final String MESSAGE_DATA_FILENAME = "filename";
@@ -141,7 +141,7 @@ public class FileDialogFragment extends DialogFragment {
                 data.putString(MESSAGE_DATA_FILENAME, mFilename.getText().toString());
                 data.putBoolean(MESSAGE_DATA_CHECKED, checked);
 
-                sendMessageToHandler(MESSAGE_OKAY, data);
+                sendMessageToHandler(MESSAGE_OK, data);
             }
         });
 

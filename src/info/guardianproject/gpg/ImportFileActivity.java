@@ -121,7 +121,7 @@ public class ImportFileActivity extends FragmentActivity {
                     setResult(RESULT_CANCELED);
                     finish();
                 }
-                else if (message.what == FileDialogFragment.MESSAGE_OKAY) {
+                else if (message.what == FileDialogFragment.MESSAGE_OK) {
                     Bundle data = message.getData();
                     String importFilename = new File(
                             data.getString(FileDialogFragment.MESSAGE_DATA_FILENAME))
