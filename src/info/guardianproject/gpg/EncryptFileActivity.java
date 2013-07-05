@@ -23,6 +23,10 @@ public class EncryptFileActivity extends FragmentActivity {
     private Messenger mMessenger;
     private String mFingerprint;
     private String mEmail;
+    private String mEncryptedFilename;
+
+    // used to find any existing instance of the fragment, in case of rotation,
+    static final String GPG2_TASK_FRAGMENT_TAG = TAG;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +56,8 @@ public class EncryptFileActivity extends FragmentActivity {
                     cancel();
                 } else if (message.what == FileDialogFragment.MESSAGE_OK) {
                     processFile(message);
-                    sendEncryptedFile("");
+                } else if (message.what == Gpg2TaskFragment.GPG2_TASK_FINISHED) {
+                    sendEncryptedFile();
                 }
             }
         };
@@ -65,24 +70,21 @@ public class EncryptFileActivity extends FragmentActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         Log.i(TAG, "Activity Result: " + requestCode + " " + resultCode);
-        if (resultCode == RESULT_CANCELED || data == null)
+        if (resultCode != RESULT_OK || data == null)
             return;
 
         switch (requestCode) {
-            case GpgApplication.FILENAME: { // file picker result returned
-                if (resultCode == RESULT_OK) {
-                    try {
-                        String path = data.getData().getPath();
-                        Log.d(TAG, "path=" + path);
+            case GpgApplication.FILENAME: // file picker result returned
+                try {
+                    String path = data.getData().getPath();
+                    Log.d(TAG, "path=" + path);
 
-                        // set filename used in export/import dialogs
-                        mFileDialog.setFilename(path);
-                    } catch (NullPointerException e) {
-                        Log.e(TAG, "Nullpointer while retrieving path!", e);
-                    }
+                    // set filename used in export/import dialogs
+                    mFileDialog.setFilename(path);
+                } catch (NullPointerException e) {
+                    Log.e(TAG, "Nullpointer while retrieving path!", e);
                 }
                 return;
-            }
         }
     }
 
@@ -124,27 +126,28 @@ public class EncryptFileActivity extends FragmentActivity {
             try {
                 String plainFilename = plainFile.getCanonicalPath();
                 Log.d(TAG, "plainFilename: " + plainFilename);
-                String encryptedFilename = plainFilename + ".gpg";
-                String args = "--output " + encryptedFilename
+                mEncryptedFilename = plainFilename + ".gpg";
+                String args = "--output " + mEncryptedFilename
                         + " --encrypt --recipient " + mFingerprint
                         + " " + plainFilename;
-                GnuPG.gpg2(args);
-                Log.d(TAG, "encrypt complete");
-                sendEncryptedFile(encryptedFilename);
+                Gpg2TaskFragment gpg2Task = new Gpg2TaskFragment();
+                gpg2Task.configTask(mMessenger, new Gpg2TaskFragment.Gpg2Task(), args);
+                gpg2Task.show(mFragmentManager, GPG2_TASK_FRAGMENT_TAG);
             } catch (Exception e) {
                 String msg = String.format(
                         getString(R.string.error_encrypting_file_failed_format),
                         plainFile);
                 Toast.makeText(getBaseContext(), msg, Toast.LENGTH_LONG).show();
-                Log.e(TAG, "File encrypt failed: ");
+                Log.e(TAG, "File encrypt failed: " + plainFile);
                 e.printStackTrace();
                 cancel();
             }
         }
     }
 
-    private void sendEncryptedFile(String encryptedFilename) {
-        File encryptedFile = new File(encryptedFilename);
+    private void sendEncryptedFile() {
+        Log.i(TAG, "sendEncryptedFile");
+        File encryptedFile = new File(mEncryptedFilename);
         if (mEmail != null && mEmail.length() > 3 && encryptedFile.exists()) {
             Intent send = new Intent(Intent.ACTION_SEND);
             send.putExtra(Intent.EXTRA_SUBJECT, encryptedFile.getName());
