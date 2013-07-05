@@ -118,36 +118,9 @@ public class ImportFileActivity extends FragmentActivity {
             @Override
             public void handleMessage(Message message) {
                 if (message.what == FileDialogFragment.MESSAGE_CANCELED) {
-                    setResult(RESULT_CANCELED);
-                    finish();
-                }
-                else if (message.what == FileDialogFragment.MESSAGE_OK) {
-                    Bundle data = message.getData();
-                    String importFilename = new File(
-                            data.getString(FileDialogFragment.MESSAGE_DATA_FILENAME))
-                            .getAbsolutePath();
-                    boolean deleteAfterImport = data
-                            .getBoolean(FileDialogFragment.MESSAGE_DATA_CHECKED);
-
-                    Log.d(TAG, "importFilename: " + importFilename);
-                    Log.d(TAG, "deleteAfterImport: " + deleteAfterImport);
-
-                    File keyFile = new File(importFilename);
-                    try {
-                        GnuPG.context.importKey(keyFile);
-                        if (deleteAfterImport)
-                            new File(importFilename).delete();
-                        Log.d(TAG, "import complete");
-                    } catch (GnuPGException e) {
-                        Log.e(TAG, "File import failed: ");
-                        e.printStackTrace();
-                    } catch (IOException e) {
-                        Log.e(TAG, "File import failed: ");
-                        e.printStackTrace();
-                    }
-                    setResult(RESULT_OK);
-                    notifyImportComplete();
-                    finish();
+                    cancel();
+                } else if (message.what == FileDialogFragment.MESSAGE_OK) {
+                    runImport(message);
                 }
             }
         };
@@ -166,6 +139,41 @@ public class ImportFileActivity extends FragmentActivity {
                 mFileDialog.show(getSupportFragmentManager(), "fileDialog");
             }
         }.run();
+    }
+
+    private void cancel() {
+        setResult(RESULT_CANCELED);
+        finish();
+    }
+
+    private void runImport(Message message) {
+        Bundle data = message.getData();
+        String importFilename = new File(
+                data.getString(FileDialogFragment.MESSAGE_DATA_FILENAME))
+                .getAbsolutePath();
+        boolean deleteAfterImport = data
+                .getBoolean(FileDialogFragment.MESSAGE_DATA_CHECKED);
+
+        Log.d(TAG, "importFilename: " + importFilename);
+        Log.d(TAG, "deleteAfterImport: " + deleteAfterImport);
+
+        File keyFile = new File(importFilename);
+        try {
+            GnuPG.context.importKey(keyFile);
+            if (deleteAfterImport)
+                new File(importFilename).delete();
+            Log.d(TAG, "import complete");
+        } catch (GnuPGException e) {
+            Log.e(TAG, "File import failed: ");
+            e.printStackTrace();
+        } catch (IOException e) {
+            Log.e(TAG, "File import failed: ");
+            e.printStackTrace();
+        }
+        setResult(RESULT_OK);
+        notifyImportComplete();
+        finish();
+
     }
 
     private void notifyImportComplete() {
