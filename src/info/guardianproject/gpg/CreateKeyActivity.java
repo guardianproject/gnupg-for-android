@@ -220,44 +220,41 @@ public class CreateKeyActivity extends Activity {
 
 		@Override
 		protected Void doInBackground(String... params) {
-			Log.i(TAG, params[0]);
-			try {
-				GnuPG.context.genPgpKey(params[0]);
-			} catch(Exception e) {
-				Log.e(TAG, "genPgpKey failed!");
-				e.printStackTrace();
-				return null;
-			}
-			GnuPGGenkeyResult result = GnuPG.context.getGenkeyResult();
-			String fpr = result.getFpr();
-			String sdcard = Environment.getExternalStorageDirectory()
-					.getAbsolutePath();
-			if (((CheckBox) findViewById(R.id.keyRevokeGen)).isChecked()) {
-				// TODO update ProgressDialog to say
-				// "generating revokation certificate"
-				GnuPG.gpg2(" --output " + sdcard + "/revoke-" + fpr
-						+ ".asc --gen-revoke " + fpr);
-			}
-			if (((CheckBox) findViewById(R.id.keyUpload)).isChecked()) {
-				// TODO update ProgressDialog to say
-				// "Uploading to Keyserver"
-				SharedPreferences prefs = PreferenceManager
-						.getDefaultSharedPreferences(context);
-				String ks = prefs.getString(
-						GPGPreferenceActivity.PREF_KEYSERVER, "200.144.121.45");
-				GnuPG.gpg2(" --keyserver " + ks + " --send-keys " + fpr);
-			}
-			if (((CheckBox) findViewById(R.id.keyMakeBackup)).isChecked()) {
-				// TODO update ProgressDialog to say
-				// "Backing up to SDCard"
-				GnuPG.gpg2(" --output " + sdcard + "/gpgSecretKey-" + fpr
-				        + ".skr --export-secret-keys " + fpr);
-			}
-			return null;
+		    Log.i(TAG, "doInBackground: " + params[0]);
+		    try {
+		        GnuPG.context.genPgpKey(params[0]);
+		        GnuPGGenkeyResult result = GnuPG.context.getGenkeyResult();
+		        String fpr = result.getFpr();
+		        String sdcard = Environment.getExternalStorageDirectory().getCanonicalPath();
+		        if (((CheckBox) findViewById(R.id.keyRevokeGen)).isChecked()) {
+		            // TODO update ProgressDialog to say
+		            // "generating revokation certificate"
+		            GnuPG.gpg2(" --output " + sdcard + "/revoke-" + fpr
+		                    + ".asc --gen-revoke " + fpr);
+		        }
+		        if (((CheckBox) findViewById(R.id.keyUpload)).isChecked()) {
+		            // TODO update ProgressDialog to say
+		            // "Uploading to Keyserver"
+		            SharedPreferences p = PreferenceManager.getDefaultSharedPreferences(context);
+		            String ks = p.getString(GPGPreferenceActivity.PREF_KEYSERVER,"200.144.121.45");
+		            GnuPG.gpg2(" --keyserver " + ks + " --send-keys " + fpr);
+		        }
+		        if (((CheckBox) findViewById(R.id.keyMakeBackup)).isChecked()) {
+		            // TODO update ProgressDialog to say
+		            // "Backing up to SDCard"
+		            GnuPG.gpg2(" --output " + sdcard + "/gpgSecretKey-" + fpr
+		                    + ".skr --export-secret-keys " + fpr);
+		        }
+		    } catch(Exception e) {
+		        Log.e(TAG, "genPgpKey failed!");
+		        e.printStackTrace();
+		    }
+		    return null;
 		}
 
 		@Override
 		protected void onPostExecute(Void r) {
+		    Log.i(TAG, "onPostExecute");
 			if (dialog.isShowing())
 				dialog.dismiss();
 			if (getCallingActivity() != null) {
