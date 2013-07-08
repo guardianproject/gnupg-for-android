@@ -70,6 +70,12 @@
     <string name="backing_up_to_sdcard">Backing up new key to SD Card&#8230;</string>
     <string name="dialog_share_file_using">Share file using:</string>
 
+    <!-- sending and receiving dialogs -->
+    <string name="receive_key">Receive key&#8230;</string>
+    <string name="receive_key_message">Specify the key ID to receive from the keyserver:</string>
+    <string name="send_key">Send key&#8230;</string>
+    <string name="send_key_message">Specify the key ID to send to the keyserver:</string>
+
     <!-- error messages -->
     <string name="error_cannot_read_incoming_file">Cannot read incoming file:</string>
     <string name="error_output_file_exists_skipping_format">Output file "%s" exists, skipping decryption.</string>

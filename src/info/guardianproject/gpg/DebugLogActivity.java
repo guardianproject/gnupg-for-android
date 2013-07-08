@@ -101,6 +101,7 @@ public class DebugLogActivity extends FragmentActivity implements OnCreateContex
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
+        final Context context = getApplicationContext();
 		// Set a popup EditText view to get user input
 		AlertDialog.Builder alert = new AlertDialog.Builder(this);
 		final EditText input = new EditText(this);
@@ -113,9 +114,6 @@ public class DebugLogActivity extends FragmentActivity implements OnCreateContex
 	    case R.id.menu_create_key:
 	        startActivity(new Intent(this, CreateKeyActivity.class));
 	        return true;
-		case R.id.menu_list_keys:
-			startActivity(new Intent(this, KeyListActivity.class));
-			return true;
 		case R.id.menu_search_keys:
 			alert.setTitle("Search Keys");
 			alert.setPositiveButton("Search", new DialogInterface.OnClickListener() {
@@ -129,12 +127,12 @@ public class DebugLogActivity extends FragmentActivity implements OnCreateContex
 			alert.show();
 			return true;
 		case R.id.menu_receive_key:
-			final Context c = getApplicationContext();
-			alert.setTitle("Receive Key");
+			alert.setTitle(R.string.receive_key);
+            alert.setMessage(R.string.receive_key_message);
 			alert.setPositiveButton("Receive", new DialogInterface.OnClickListener() {
 				@Override
                 public void onClick(DialogInterface dialog, int whichButton) {
-			        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(c);
+			        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
 			        String ks = prefs.getString(GPGPreferenceActivity.PREF_KEYSERVER, "200.144.121.45");
 					command = NativeHelper.gpg2
 							+ " --keyserver " + ks + " --recv-keys " + input.getText().toString();
@@ -144,6 +142,22 @@ public class DebugLogActivity extends FragmentActivity implements OnCreateContex
 			});
 			alert.show();
 			return true;
+        case R.id.menu_send_key:
+            alert.setTitle(R.string.send_key);
+            alert.setMessage(R.string.send_key_message);
+            alert.setPositiveButton("Send", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int whichButton) {
+                    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+                    String ks = prefs.getString(GPGPreferenceActivity.PREF_KEYSERVER, "200.144.121.45");
+                    command = NativeHelper.gpg2
+                            + " --keyserver " + ks + " --send-keys " + input.getText().toString();
+                    commandThread = new CommandThread();
+                    commandThread.start();
+                }
+            });
+            alert.show();
+            return true;
 		case R.id.menu_run_test:
 			command = NativeHelper.app_opt + "/tests/run-tests.sh";
 			commandThread = new CommandThread();

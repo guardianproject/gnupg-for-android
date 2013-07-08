@@ -20,8 +20,8 @@
         android:id="@+id/menu_receive_key"
         android:title="Receive Key..."/>
     <item
-        android:id="@+id/menu_list_keys"
-        android:title="List Keys"/>
+        android:id="@+id/menu_send_key"
+        android:title="Send Key..."/>
     <item
         android:id="@+id/menu_search_keys"
         android:title="Search Keys..."/>
