@@ -228,9 +228,8 @@ public class CreateKeyActivity extends Activity {
 			if (((CheckBox) findViewById(R.id.keyMakeBackup)).isChecked()) {
 				// TODO update ProgressDialog to say
 				// "Backing up to SDCard"
-				GnuPG.gpg2(" --output " + sdcard + NativeHelper.app_home
-						+ "/gpgSecreyKey-" + fpr + ".asc --export-secret-keys "
-						+ fpr);
+				GnuPG.gpg2(" --output " + sdcard + "/gpgSecretKey-" + fpr
+				        + ".skr --export-secret-keys " + fpr);
 			}
 			return null;
 		}
