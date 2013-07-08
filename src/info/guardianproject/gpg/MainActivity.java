@@ -104,9 +104,13 @@ public class MainActivity extends SherlockFragmentActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if( item.getItemId() == R.id.debugMode) {
+        int id = item.getItemId();
+        if (id == R.id.debugMode) {
             Intent intent = new Intent(this, DebugLogActivity.class);
             startActivity(intent);
+            return true;
+        } else if (id == R.id.settings) {
+            startActivity(new Intent(this, GPGPreferenceActivity.class));
             return true;
         }
         return super.onOptionsItemSelected(item);

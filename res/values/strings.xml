@@ -93,6 +93,7 @@
 
     <!-- menu item names -->
     <string name="menu_about">About</string>
+    <string name="menu_debug_mode">Debug Mode</string>
     <string name="menu_search">Search</string>
     <string name="menu_settings">Settings</string>
 
