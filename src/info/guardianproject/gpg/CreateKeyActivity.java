@@ -5,6 +5,7 @@ import android.accounts.AccountManager;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.AsyncTask;
@@ -13,6 +14,7 @@ import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.provider.ContactsContract.CommonDataKinds;
 import android.provider.ContactsContract.Contacts;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -20,11 +22,11 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.Window;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.freiheit.gnupg.GnuPGGenkeyResult;
 
@@ -207,7 +209,16 @@ public class CreateKeyActivity extends Activity {
 		return super.onContextItemSelected(item);
 	}
 
-	public class CreateKeyTask extends AsyncTask<String, String, Void> {
+	private void createKeyComplete(Integer result) {
+	    Log.d(TAG, "gen-key complete, sending broadcast");
+	    LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(KeyListFragment.BROADCAST_ACTION_KEYLIST_CHANGED));
+	    setResult(result);
+	    if (result != RESULT_OK)
+	        Toast.makeText(this, getString(R.string.error_gen_key_failed), Toast.LENGTH_LONG).show();
+	    finish();
+	}
+
+	public class CreateKeyTask extends AsyncTask<String, String, Integer> {
 		private ProgressDialog dialog;
 		private Context context;
 
@@ -228,7 +239,7 @@ public class CreateKeyActivity extends Activity {
 		}
 
 		@Override
-		protected Void doInBackground(String... params) {
+		protected Integer doInBackground(String... params) {
 		    Log.i(TAG, "doInBackground: " + params[0]);
 		    try {
 		        GnuPG.context.genPgpKey(params[0]);
@@ -254,8 +265,9 @@ public class CreateKeyActivity extends Activity {
 		    } catch(Exception e) {
 		        Log.e(TAG, "genPgpKey failed!");
 		        e.printStackTrace();
+		        return RESULT_CANCELED;
 		    }
-		    return null;
+		    return RESULT_OK;
 		}
 
 		@Override
@@ -265,16 +277,11 @@ public class CreateKeyActivity extends Activity {
 		}
 
 		@Override
-		protected void onPostExecute(Void r) {
+		protected void onPostExecute(Integer result) {
 		    Log.i(TAG, "onPostExecute");
 			if (dialog.isShowing())
 				dialog.dismiss();
-			if (getCallingActivity() != null) {
-				// we were called by another activity, so lets give
-				// control back to them.
-				setResult(RESULT_OK);
-				finish();
-			}
+			createKeyComplete(result);
 		}
 	}
 }
