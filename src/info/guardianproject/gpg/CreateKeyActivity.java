@@ -44,49 +44,71 @@ public class CreateKeyActivity extends Activity {
 		Button createKeyButton = (Button) findViewById(R.id.createKeyButton);
 		createKeyButton.setOnClickListener(new OnClickListener() {
 
-			@Override
-			public void onClick(View v) {
-				String params = "<GnupgKeyParms format=\"internal\">\n";
-				String keyName = ((EditText) findViewById(R.id.keyName))
-						.getText().toString();
-				params += "Name-Real: " + keyName + "\n";
-				String keyEmail = ((EditText) findViewById(R.id.keyEmail))
-						.getText().toString();
-				params += "Name-Email: " + keyEmail + "\n";
-				String keyComment = ((EditText) findViewById(R.id.keyComment))
-						.getText().toString();
-				params += "Name-Comment: " + keyComment + "\n";
-				// TODO figure out key/subkey, for now default to RSA+RSA
-				params += "Key-Type: RSA\n";
-				String keySize = ((TextView) findViewById(R.id.keySize))
-						.getText().toString();
-				params += "Key-Length: " + keySize + "\n";
-				// TODO the subkeys should be configurable
-				params += "Subkey-Type: RSA\n";
-				params += "Subkey-Length: " + keySize + "\n";
-				String keyExpire = ((TextView) findViewById(R.id.keyExpire))
-						.getText().toString();
-				if (keyExpire.equals(getString(R.string.key_expire_one_month)))
-					keyExpire = "1m";
-				else if (keyExpire
-						.equals(getString(R.string.key_expire_one_year)))
-					keyExpire = "1y";
-				else if (keyExpire
-						.equals(getString(R.string.key_expire_two_years)))
-					keyExpire = "2y";
-				else if (keyExpire
-						.equals(getString(R.string.key_expire_five_years)))
-					keyExpire = "5y";
-				else if (keyExpire
-						.equals(getString(R.string.key_expire_ten_years)))
-					keyExpire = "10y";
-				else if (keyExpire.equals(getString(R.string.key_expire_never)))
-					keyExpire = "0";
-				params += "Expire-Date: " + keyExpire + "\n";
-				params += "</GnupgKeyParms>\n";
-				new CreateKeyTask(v.getContext()).execute(params);
-			}
+		    @Override
+		    public void onClick(View v) {
+		        String params = "<GnupgKeyParms format=\"internal\">\n"; // gpgme format
+		        //String params = "%echo Generating basic OpenPGP key\n"; // "gpg2 --batch --gen-key" format
+		        // TODO figure out key/subkey, for now default to RSA+RSA
+		        params += "Key-Type: RSA\n";
+		        params += getKeyLength();
+		        // TODO the subkeys should be configurable
+		        params += "Subkey-Type: RSA\n";
+		        params += getSubkeyLength();
+		        params += getNameReal();
+		        params += getNameEmail();
+		        params += getNameComment();
+		        params += getExpireDate();
+		        params += "</GnupgKeyParms>\n"; // gpgme format
+		        //params += "%commit\n%echo done\n"; // "gpg2 --batch --gen-key" format
+		        new CreateKeyTask(v.getContext()).execute(params);
+		    }
 		});
+	}
+
+	private String getKeyLength() {
+	    String keySize = ((TextView) findViewById(R.id.keySize)).getText().toString();
+	    return "Key-Length: " + keySize + "\n";
+	}
+
+	private String getSubkeyLength() {
+	    String keySize = ((TextView) findViewById(R.id.keySize)).getText().toString();
+	    return "Subkey-Length: " + keySize + "\n";
+	}
+
+	private String getNameReal() {
+	    String keyName = ((EditText) findViewById(R.id.keyName)).getText().toString();
+	    return "Name-Real: " + keyName + "\n";
+	}
+
+	private String getNameEmail() {
+	    String keyEmail = ((EditText) findViewById(R.id.keyEmail)).getText().toString();
+	    return "Name-Email: " + keyEmail + "\n";
+	}
+
+	private String getNameComment() {
+	    String keyComment = ((EditText) findViewById(R.id.keyComment)).getText().toString();
+	    // gpg2 --gen-key barfs on a blank Name-Comment, so omit if blank
+	    if (keyComment == null || keyComment.equals(""))
+	        return "";
+	    else
+	        return "Name-Comment: " + keyComment + "\n";
+	}
+
+	private String getExpireDate() {
+	    String keyExpire = ((TextView) findViewById(R.id.keyExpire)).getText().toString();
+	    if (keyExpire.equals(getString(R.string.key_expire_one_month)))
+	        keyExpire = "1m";
+	    else if (keyExpire.equals(getString(R.string.key_expire_one_year)))
+	        keyExpire = "1y";
+	    else if (keyExpire.equals(getString(R.string.key_expire_two_years)))
+	        keyExpire = "2y";
+	    else if (keyExpire.equals(getString(R.string.key_expire_five_years)))
+	        keyExpire = "5y";
+	    else if (keyExpire.equals(getString(R.string.key_expire_ten_years)))
+	        keyExpire = "10y";
+	    else if (keyExpire.equals(getString(R.string.key_expire_never)))
+	        keyExpire = "0";
+	    return "Expire-Date: " + keyExpire + "\n";
 	}
 
 	private void setNameAndEmail() {
