@@ -20,6 +20,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -206,16 +207,24 @@ public class CreateKeyActivity extends Activity {
 		return super.onContextItemSelected(item);
 	}
 
-	public class CreateKeyTask extends AsyncTask<String, Void, Void> {
+	public class CreateKeyTask extends AsyncTask<String, String, Void> {
 		private ProgressDialog dialog;
 		private Context context;
 
 		public CreateKeyTask(Context c) {
 			context = c;
 			dialog = new ProgressDialog(context);
+            dialog.setCancelable(false);
+            dialog.setIndeterminate(true);
 			dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
 			dialog.setTitle(R.string.dialog_generating_new_key_title);
-			dialog.setMessage(getString(R.string.dialog_generating_new_key_msg));
+			dialog.setMessage(getString(R.string.generating_new_key_message));
+		}
+
+		@Override
+		protected void onPreExecute() {
+		    super.onPreExecute();
+		    dialog.show();
 		}
 
 		@Override
@@ -227,21 +236,18 @@ public class CreateKeyActivity extends Activity {
 		        String fpr = result.getFpr();
 		        String sdcard = Environment.getExternalStorageDirectory().getCanonicalPath();
 		        if (((CheckBox) findViewById(R.id.keyRevokeGen)).isChecked()) {
-		            // TODO update ProgressDialog to say
-		            // "generating revokation certificate"
+		            publishProgress(getString(R.string.generating_revoke_cert));
 		            GnuPG.gpg2(" --output " + sdcard + "/revoke-" + fpr
 		                    + ".asc --gen-revoke " + fpr);
 		        }
 		        if (((CheckBox) findViewById(R.id.keyUpload)).isChecked()) {
-		            // TODO update ProgressDialog to say
-		            // "Uploading to Keyserver"
+		            publishProgress(getString(R.string.uploading_to_keyserver));
 		            SharedPreferences p = PreferenceManager.getDefaultSharedPreferences(context);
 		            String ks = p.getString(GPGPreferenceActivity.PREF_KEYSERVER,"200.144.121.45");
 		            GnuPG.gpg2(" --keyserver " + ks + " --send-keys " + fpr);
 		        }
 		        if (((CheckBox) findViewById(R.id.keyMakeBackup)).isChecked()) {
-		            // TODO update ProgressDialog to say
-		            // "Backing up to SDCard"
+		            publishProgress(getString(R.string.backing_up_to_sdcard));
 		            GnuPG.gpg2(" --output " + sdcard + "/gpgSecretKey-" + fpr
 		                    + ".skr --export-secret-keys " + fpr);
 		        }
@@ -250,6 +256,12 @@ public class CreateKeyActivity extends Activity {
 		        e.printStackTrace();
 		    }
 		    return null;
+		}
+
+		@Override
+		protected void onProgressUpdate(String... messages) {
+		    super.onProgressUpdate(messages);
+		    dialog.setMessage(messages[0]);
 		}
 
 		@Override
