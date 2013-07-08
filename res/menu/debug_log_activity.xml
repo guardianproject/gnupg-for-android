@@ -2,34 +2,51 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <item
+        android:id="@+id/menu_decrypt_file"
+        android:showAsAction="ifRoom|withText"
+        android:title="Decrypt File"/>
+    <item
+        android:id="@+id/menu_import_key_from_file"
+        android:icon="@android:drawable/ic_input_add"
+        android:showAsAction="ifRoom|withText"
+        android:title="Import Keys"/>
+    <item
+        android:id="@+id/menu_export_keys_to_file"
+        android:icon="@android:drawable/ic_menu_save"
+        android:showAsAction="ifRoom|withText"
+        android:title="Export Keys"/>
+    <item
+        android:id="@+id/menu_receive_key"
+        android:icon="@android:drawable/arrow_down_float"
+        android:showAsAction="ifRoom|withText"
+        android:title="Receive Key"/>
+    <item
+        android:id="@+id/menu_send_key"
+        android:icon="@android:drawable/arrow_up_float"
+        android:showAsAction="ifRoom|withText"
+        android:title="Send Key"/>
+    <item
         android:id="@+id/menu_create_key"
+        android:showAsAction="ifRoom|withText"
         android:title="Create Key"/>
     <item
+        android:id="@+id/menu_search_keys"
+        android:icon="@android:drawable/ic_menu_search"
+        android:showAsAction="ifRoom|withText"
+        android:title="Search Keys"/>
+    <item
         android:id="@+id/menu_run_test"
+        android:showAsAction="ifRoom|withText"
         android:title="Run Tests"/>
     <item
         android:id="@+id/menu_share_log"
-        android:title="Share Test Log..."/>
-    <item
-        android:id="@+id/menu_import_key_from_file"
-        android:title="Import Key from File..."/>
-    <item
-        android:id="@+id/menu_export_keys_to_file"
-        android:title="Export Keys to File..."/>
-    <item
-        android:id="@+id/menu_receive_key"
-        android:title="Receive Key..."/>
-    <item
-        android:id="@+id/menu_send_key"
-        android:title="Send Key..."/>
-    <item
-        android:id="@+id/menu_search_keys"
-        android:title="Search Keys..."/>
-    <item
-        android:id="@+id/menu_decrypt_file"
-        android:title="Decrypt File..."/>
+        android:icon="@android:drawable/ic_menu_send"
+        android:showAsAction="ifRoom|withText"
+        android:title="Share Test Log"/>
     <item
         android:id="@+id/menu_settings_key"
+        android:icon="@android:drawable/ic_menu_preferences"
+        android:showAsAction="ifRoom|withText"
         android:title="Settings"/>
 
 </menu>
