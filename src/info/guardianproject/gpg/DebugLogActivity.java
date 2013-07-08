@@ -217,7 +217,7 @@ public class DebugLogActivity extends FragmentActivity implements OnCreateContex
             public void run() {
                 mFileDialog = FileDialogFragment.newInstance(messenger,
                         getString(R.string.title_decrypt_file),
-                        getString(R.string.dialog_specify_import_file_msg), defaultFilename,
+                        getString(R.string.dialog_specify_decrypt_file), defaultFilename,
                         null, GpgApplication.FILENAME);
 
                 mFileDialog.show(getSupportFragmentManager(), "fileDialog");
