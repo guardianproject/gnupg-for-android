@@ -31,9 +31,7 @@ public class ImportFileActivity extends FragmentActivity {
     // used to find any existing instance of the fragment, in case of rotation,
     static final String GPG2_TASK_FRAGMENT_TAG = TAG;
 
-    final String[] filetypes = {
-            ".gpg", ".asc"
-    };
+    public static final String[] filetypes = { ".asc", ".gpg", ".pkr", ".skr" };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +58,15 @@ public class ImportFileActivity extends FragmentActivity {
                     if (message.what == FileDialogFragment.MESSAGE_CANCELED) {
                         cancel();
                     } else if (message.what == FileDialogFragment.MESSAGE_OK) {
-                        runImport(message);
+                        Bundle data = message.getData();
+                        String importFilename = new File(
+                                data.getString(FileDialogFragment.MESSAGE_DATA_FILENAME))
+                                .getAbsolutePath();
+                        boolean deleteAfterImport = data
+                                .getBoolean(FileDialogFragment.MESSAGE_DATA_CHECKED);
+                        Log.d(TAG, "importFilename: " + importFilename);
+                        Log.d(TAG, "deleteAfterImport: " + deleteAfterImport);
+                        runImport(importFilename, deleteAfterImport);
                     } else if (message.what == Gpg2TaskFragment.GPG2_TASK_FINISHED) {
                         notifyImportComplete();
                     }
@@ -69,8 +75,11 @@ public class ImportFileActivity extends FragmentActivity {
             // Create a new Messenger for the communication back
             mMessenger = new Messenger(mReturnHandler);
 
-            // handle the basic case
-            showImportFromFileDialog(new String());
+            Uri uri = (Uri) intent.getParcelableExtra(Intent.EXTRA_STREAM);
+            if (uri == null)
+                showImportFromFileDialog("");
+            else
+                showImportFromFileDialog(uri.getPath());
         }
     }
 
@@ -156,18 +165,15 @@ public class ImportFileActivity extends FragmentActivity {
         finish();
     }
 
-    private void runImport(Message message) {
-        Bundle data = message.getData();
-        String importFilename = new File(
-                data.getString(FileDialogFragment.MESSAGE_DATA_FILENAME))
-                .getAbsolutePath();
-        boolean deleteAfterImport = data
-                .getBoolean(FileDialogFragment.MESSAGE_DATA_CHECKED);
-
-        Log.d(TAG, "importFilename: " + importFilename);
-        Log.d(TAG, "deleteAfterImport: " + deleteAfterImport);
-
+    private void runImport(String importFilename, boolean deleteAfterImport) {
         File keyFile = new File(importFilename);
+        if (!keyFile.exists()) {
+            String errorMsg = String.format(
+                    getString(R.string.error_file_does_not_exist_format),
+                    keyFile);
+            Toast.makeText(getBaseContext(), errorMsg, Toast.LENGTH_LONG).show();
+            return;
+        }
         try {
             String keyFilename = keyFile.getCanonicalPath();
             String args = " --import " + keyFilename;

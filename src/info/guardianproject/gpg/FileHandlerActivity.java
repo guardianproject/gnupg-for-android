@@ -52,7 +52,10 @@ public class FileHandlerActivity extends Activity {
 			if (extension.equals("gpg") || extension.equals("pgp")) {
 				decryptFile(incomingFile);
 			} else	if (extension.equals("pkr") || extension.equals("skr")) {
-				//TODO pass off to import after prompting the user
+			    Intent importIntent = new Intent(this, ImportFileActivity.class);
+			    importIntent.setType(mimeType);
+			    importIntent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(incomingFile));
+			    startActivity(importIntent);
 			} else	if (extension.equals("asc")) {
 				//TODO prompt user whether this is keys, sigs, or encrypted data
 			} else	if (extension.equals("sig")) {
