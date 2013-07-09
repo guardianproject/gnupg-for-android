@@ -171,7 +171,7 @@ public class DebugLogActivity extends FragmentActivity implements OnCreateContex
 			return true;
 		case R.id.menu_import_key_from_file:
 			final String defaultFilename = (NativeHelper.app_opt.getAbsolutePath()
-					+ "/tests/secret-keys.skr");
+					+ "/tests/public-keys.pkr");
 			showImportFromFileDialog(defaultFilename);
 			return true;
 		case R.id.menu_export_keys_to_file:
