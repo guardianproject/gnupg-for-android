@@ -16,6 +16,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
+import android.webkit.MimeTypeMap;
 import android.widget.Toast;
 
 import com.freiheit.gnupg.GnuPGException;
@@ -28,14 +29,20 @@ public class ImportFileActivity extends FragmentActivity {
     private Handler mReturnHandler;
     private Messenger mMessenger;
 
+    private MimeTypeMap mMimeTypeMap;
+
     // used to find any existing instance of the fragment, in case of rotation,
     static final String GPG2_TASK_FRAGMENT_TAG = TAG;
 
-    public static final String[] filetypes = { ".asc", ".gpg", ".pkr", ".skr" };
+    public static final String[] supportedFileTypes = { ".asc", ".gpg", ".pkr", ".skr" };
+    public static final String[] supportedMimeTypes = { "application/pgp-keys" };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        mMimeTypeMap = MimeTypeMap.getSingleton();
+
         // Get intent, action and MIME type
         Intent intent = getIntent();
         String action = intent.getAction();
@@ -109,8 +116,12 @@ public class ImportFileActivity extends FragmentActivity {
     private boolean isSupportedFileType(Uri uri) {
         String path = uri.getLastPathSegment();
         String extension = path.substring(path.lastIndexOf('.'), path.length()).toLowerCase();
-        for (String filetype : filetypes)
+        for (String filetype : supportedFileTypes)
             if (extension.equals(filetype))
+                return true;
+        String mimeType = mMimeTypeMap.getMimeTypeFromExtension(extension);
+        for (String supported : supportedFileTypes)
+            if (mimeType.equals(supported))
                 return true;
         return false;
     }
