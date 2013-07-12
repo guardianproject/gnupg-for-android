@@ -14,10 +14,9 @@
 
 package com.freiheit.gnupg;
 
-import org.apache.commons.io.FileUtils;
-
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -31,8 +30,7 @@ import java.io.OutputStream;
 public class GnuPGData extends GnuPGPeer{
 
     /**
-       Use the factory methods from GnuPGContext to
-       generate GnuPGData-Objects.
+       Use the factory methods from GnuPGContext to create GnuPGData instances.
        Generates an empty data object. Use this, if you want
        to create a data object to hold a result from a crypto
        operation.
@@ -41,22 +39,38 @@ public class GnuPGData extends GnuPGPeer{
         setInternalRepresentation(gpgmeDataNew());
     }
 
+    /**
+     * Use the factory methods in GnuPGContext to create GnuPGData instances.
+     * Generates a new data object based on read/write stream access to a file.
+     * 
+     * @param file your file
+     * @throws IOException
+     */
+    protected GnuPGData(File file) throws IOException, GnuPGException {
+        this(file, "r+");
+    }
 
     /**
-    Use the factory methods from GnuPGContext to
-    generate GnuPGData-Objects.
-    Generates a new data object containing the contents of the given File.
-
-    @param f your file
-    @throws IOException
-  */
-     public GnuPGData(File f) throws IOException {
-         this(FileUtils.readFileToByteArray(f));
-     }
+     * Use the factory methods in GnuPGContext to create GnuPGData instances.
+     * Generates a new data object based on stream access to a file, with
+     * settable open mode.
+     * 
+     * @param file your file
+     * @param mode the POSIX mode to open the file, e.g "r" or "w+"
+     * @throws IOException
+     */
+    protected GnuPGData(File file, String mode) throws IOException, GnuPGException {
+        if (file == null || !file.exists())
+            throw new FileNotFoundException();
+        if (!file.canRead())
+            throw new IOException("Cannot read: " + file);
+        if (!file.canRead())
+            throw new IOException("Is a directory: " + file);
+        setInternalRepresentation(gpgmeDataNewFromFilename(file.getCanonicalPath(), mode));
+    }
 
     /**
-       Use the factory methods from GnuPGContext to
-       generate GnuPGData-Objects.
+       Use the factory methods from GnuPGContext to create GnuPGData instances.
        Generates a new data object containing the given String.
 
        @param str your string
@@ -66,8 +80,7 @@ public class GnuPGData extends GnuPGPeer{
     }
 
     /**
-       Use the factory methods from GnuPGContext to
-       generate GnuPGData-Objects.
+       Use the factory methods from GnuPGContext to create GnuPGData instances.
        Generates a new Data-Object containing the given byte array.
 
        @param data your data
@@ -146,6 +159,7 @@ public class GnuPGData extends GnuPGPeer{
 
     private native int gpgmeSize(long l);
     private native long gpgmeDataNewFromMem(byte[] plain);
+    private native long gpgmeDataNewFromFilename(String filename, String mode);
     private native long gpgmeDataNew();
     private native void gpgmeDataWrite(long l, OutputStream out) throws IOException;
     private native void gpgmeDataRelease(long l);

@@ -45,6 +45,33 @@ Java_com_freiheit_gnupg_GnuPGData_gpgmeDataNewFromMem(JNIEnv * env,
 }
 
 JNIEXPORT jlong JNICALL
+Java_com_freiheit_gnupg_GnuPGData_gpgmeDataNewFromFilename(JNIEnv * env,
+                                                           jobject self,
+                                                           jstring filename,
+                                                           jstring mode)
+{
+    const char *mode_str = (*env)->GetStringUTFChars(env, mode, NULL);
+    const char *filename_str = (*env)->GetStringUTFChars(env, filename, NULL);
+    if (filename_str == NULL) {
+        fprintf(stderr, "could not allocate memory.\n");
+        return 0;
+    }
+
+    gpgme_data_t data;
+    FILE* stream = fopen(filename_str, mode_str);
+    gpgme_error_t err = gpgme_data_new_from_stream(&data, stream);
+    if (UTILS_onErrorThrowException(env, err)) {
+        return LNG(NULL);
+    }
+
+    (*env)->ReleaseStringUTFChars(env, filename, filename_str);
+    (*env)->ReleaseStringUTFChars(env, mode, mode_str);
+
+    jlong result = LNG(data);
+    return result;
+}
+
+JNIEXPORT jlong JNICALL
 Java_com_freiheit_gnupg_GnuPGData_gpgmeDataNew(JNIEnv * env, jobject self)
 {
     gpgme_data_t data;
@@ -110,7 +137,10 @@ JNIEXPORT void JNICALL
 Java_com_freiheit_gnupg_GnuPGData_gpgmeDataRelease(JNIEnv * env, jobject self,
 						   jlong data)
 {
-    gpgme_data_release(DATA(data));
+    gpgme_data_t dh = DATA(data);
+    if (dh->data.stream != NULL)
+        fclose(dh->data.stream);
+    gpgme_data_release(dh);
 }
 
 JNIEXPORT void JNICALL
