@@ -21,14 +21,14 @@
     <string name="title_export_keys">Export Keys</string>
     <string name="verify_signature">Verify Signature</string>
     <string name="signature_verified">Signature Verified</string>
-    <string name="verifying_file_format">Verifying "%s"</string>
+    <string name="verifying_file_format">Verifying \"%s\"</string>
     <string name="error_no_file_manager_installed">No compatible file manager app installed!</string>
     <string name="error_files_not_supported">File URIs are not supported via this Intent!</string>
     <string name="dialog_specify_decrypt_file">Choose the file to decrypt:</string>
     <string name="dialog_specify_encrypt_file">Choose the file to encrypt:</string>
     <string name="dialog_specify_import_file_msg">Choose the file to import:</string>
     <string name="dialog_specify_export_file_msg">Please specify which file to export to.\nWARNING! File will be overwritten if it exists.</string>
-    <string name="dialog_verify_succeeded_view_file_format">"%s" verified properly, view the file?</string>
+    <string name="dialog_verify_succeeded_view_file_format">\"%s\" verified properly, view the file?</string>
     <string name="label_delete_after_import">Delete after import</string>
     <string name="label_export_secret_keys">Export secret keys only</string>
     <string name="renamed_existing_file">Renamed existing file to %s!</string>
@@ -83,15 +83,15 @@
 
     <!-- error messages -->
     <string name="error_cannot_read_incoming_file">Cannot read incoming file:</string>
-    <string name="error_output_file_exists_skipping_format">Output file "%s" exists, skipping decryption.</string>
-    <string name="error_decrypting_file_failed_format">Decrypting "%s" failed!</string>
-    <string name="error_encrypting_file_failed_format">Encrypting "%s" failed!</string>
+    <string name="error_output_file_exists_skipping_format">Output file \"%s\" exists, skipping decryption.</string>
+    <string name="error_decrypting_file_failed_format">Decrypting \"%s\" failed!</string>
+    <string name="error_encrypting_file_failed_format">Encrypting \"%s\" failed!</string>
     <string name="error_decrypting_failed">Decrypting failed!</string>
     <string name="error_encrypting_failed">Encrypting failed!</string>
     <string name="error_gen_key_failed">Failed to generate a new key!</string>
-    <string name="error_file_does_not_exist_format">"%s" does not exist!</string>
+    <string name="error_file_does_not_exist_format">\"%s\" does not exist!</string>
     <string name="error_verify_failed">Verify Failed!</string>
-    <string name="error_file_verify_failed_format">"%s" failed to verify!</string>
+    <string name="error_file_verify_failed_format">\"%s\" failed to verify!</string>
 
     <!-- content descriptions for accessibility -->
     <string name="folder">folder</string>
