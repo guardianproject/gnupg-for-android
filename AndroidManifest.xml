@@ -128,6 +128,26 @@
                 <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.pgp" />
                 <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.pgp" />
                 <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.pgp" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".VerifyActivity"
+            android:excludeFromRecents="true"
+            android:label="@string/verify_signature"
+            android:noHistory="true" >
+            <intent-filter>
+                <data android:mimeType="@string/pgp_signature" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:host="*" />
+                <data android:scheme="file" />
+                <data android:scheme="content" />
+                <data android:mimeType="*/*" />
                 <!-- GnuPG signatures, binary format -->
                 <data android:pathPattern=".*\\.sig" />
                 <data android:pathPattern=".*\\..*\\.sig" />

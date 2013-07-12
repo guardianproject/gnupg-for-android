@@ -19,6 +19,8 @@
     <string name="title_encrypt_file">Encrypt File</string>
     <string name="title_import_keys">Import Keys</string>
     <string name="title_export_keys">Export Keys</string>
+    <string name="verify_signature">Verify Signature</string>
+    <string name="verifying_file_format">Verifying "%s"</string>
     <string name="error_no_file_manager_installed">No compatible file manager app installed!</string>
     <string name="error_files_not_supported">File URIs are not supported via this Intent!</string>
     <string name="dialog_specify_decrypt_file">Choose the file to decrypt:</string>
