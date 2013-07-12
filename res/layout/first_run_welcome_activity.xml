@@ -15,7 +15,7 @@
 
         <LinearLayout
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+            android:layout_height="wrap_content"
             android:gravity="center"
             android:orientation="vertical" >
 
@@ -45,26 +45,14 @@
         </LinearLayout>
     </ScrollView>
 
-    <TableLayout
-        android:id="@+id/TableLayout1"
+    <Button
+        android:id="@+id/nextButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true" >
-
-        <TableRow
-            android:id="@+id/TableRow01"
-            android:layout_width="fill_parent"
-            android:layout_marginBottom="15dip"
-            android:paddingTop="10dip">
-
-            <Button
-                android:id="@+id/nextButton"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/wizard_button_backups" >
-            </Button>
-        </TableRow>
-    </TableLayout>
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="15dip"
+        android:paddingTop="10dip"
+        android:text="@string/wizard_button_backups" >
+    </Button>
 
 </RelativeLayout>
