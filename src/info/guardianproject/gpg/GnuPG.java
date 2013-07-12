@@ -18,7 +18,7 @@ public class GnuPG {
 				NativeHelper.app_home.getAbsolutePath());
 	}
 
-	public static void gpg2(String args) {
+	public static int gpg2(String args) {
 		final String TAG = "gpg2";
 		String command = NativeHelper.gpg2 + " " + args;
 		Log.i(TAG, command);
@@ -34,10 +34,12 @@ public class GnuPG {
 
             Log.i("stdout", readResult(stdout));
             Log.w("stderr", readResult(stderr));
-			Log.i(TAG, "finished: " + command);
+			Log.i(TAG, "finished: " + command + "  exit value: " + sh.exitValue());
+			return sh.exitValue();
 		} catch (Exception e) {
 			Log.e(TAG, "FAILED: " + command, e);
 		}
+		return 1;
 	}
 
     private static String readResult(InputStream i) {
