@@ -1,8 +1,6 @@
 
 package info.guardianproject.gpg;
 
-import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -81,7 +79,7 @@ public class Gpg2TaskFragment extends DialogFragment {
     }
 
     // This is also called by the AsyncTask.
-    public void taskFinished() {
+    public void taskFinished(Integer exitvalue) {
         // check if resumed because it will crash if trying to dismiss the dialog
         // after the user has switched to another app.
         if (isResumed())
@@ -91,17 +89,19 @@ public class Gpg2TaskFragment extends DialogFragment {
         // dimiss ourselves in onResume().
         mGpg2Task = null;
 
-        sendMessageToHandler(GPG2_TASK_FINISHED);
+        sendMessageToHandler(GPG2_TASK_FINISHED, exitvalue);
     }
 
     /**
      * Send message back to handler which is initialized in a activity
      * 
      * @param what Message integer you want to send
+     * @param exitvalue the POSIX exit value of the gpg2 process
      */
-    private void sendMessageToHandler(Integer what) {
+    private void sendMessageToHandler(Integer what, Integer exitvalue) {
         Message msg = Message.obtain();
         msg.what = what;
+        msg.arg1 = exitvalue;
         try {
             mMessenger.send(msg);
         } catch (RemoteException e) {
@@ -111,7 +111,7 @@ public class Gpg2TaskFragment extends DialogFragment {
         }
     }
 
-    public static class Gpg2Task extends AsyncTask<String, Void, Void> {
+    public static class Gpg2Task extends AsyncTask<String, Void, Integer> {
         public static final String TAG = "Gpg2Task";
         Gpg2TaskFragment mFragment;
         int mProgress = 0;
@@ -121,17 +121,15 @@ public class Gpg2TaskFragment extends DialogFragment {
         }
 
         @Override
-        protected Void doInBackground(String... params) {
-            GnuPG.gpg2(params[0]);
-            Log.d(TAG, "encrypt complete");
-            return null;
+        protected Integer doInBackground(String... params) {
+            return GnuPG.gpg2(params[0]);
         }
 
         @Override
-        protected void onPostExecute(Void unused) {
+        protected void onPostExecute(Integer exitvalue) {
             if (mFragment == null)
                 return;
-            mFragment.taskFinished();
+            mFragment.taskFinished(exitvalue);
         }
     }
 }
