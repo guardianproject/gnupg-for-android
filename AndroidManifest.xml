@@ -71,7 +71,20 @@
             <intent-filter>
             </intent-filter>
         </activity>
-        <activity android:name=".FileHandlerActivity" >
+        <activity
+            android:name=".FileHandlerActivity"
+            android:excludeFromRecents="true"
+            android:noHistory="true" >
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <action android:name="android.intent.action.SEND" />
+                <action android:name="android.intent.action.SENDTO" />
+                <action android:name="android.intent.action.SEND_MULTIPLE" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:mimeType="*/*" />
+            </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -115,17 +128,6 @@
                 <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.pgp" />
                 <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.pgp" />
                 <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.pgp" />
-                <!-- PGP Public KeyRing, text format -->
-                <data android:pathPattern=".*\\.pkr" />
-                <data android:pathPattern=".*\\..*\\.pkr" />
-                <data android:pathPattern=".*\\..*\\..*\\.pkr" />
-                <data android:pathPattern=".*\\..*\\..*\\..*\\.pkr" />
-                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\.pkr" />
-                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\.pkr" />
-                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\.pkr" />
-                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.pkr" />
-                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.pkr" />
-                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.pkr" />
                 <!-- GnuPG signatures, binary format -->
                 <data android:pathPattern=".*\\.sig" />
                 <data android:pathPattern=".*\\..*\\.sig" />
@@ -137,6 +139,37 @@
                 <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.sig" />
                 <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.sig" />
                 <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.sig" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".ImportFileActivity"
+            android:excludeFromRecents="true"
+            android:label="@string/title_import_keys"
+            android:noHistory="true" >
+            <intent-filter>
+                <data android:mimeType="@string/pgp_keys" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:host="*" />
+                <data android:scheme="file" />
+                <data android:scheme="content" />
+                <data android:mimeType="*/*" />
+                <!-- PGP Public KeyRing, text format -->
+                <data android:pathPattern=".*\\.pkr" />
+                <data android:pathPattern=".*\\..*\\.pkr" />
+                <data android:pathPattern=".*\\..*\\..*\\.pkr" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\.pkr" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\.pkr" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\.pkr" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\.pkr" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.pkr" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.pkr" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.pkr" />
                 <!-- PGP Secret KeyRing, text format -->
                 <data android:pathPattern=".*\\.skr" />
                 <data android:pathPattern=".*\\..*\\.skr" />
@@ -148,39 +181,6 @@
                 <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.skr" />
                 <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.skr" />
                 <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.skr" />
-            </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-                <action android:name="android.intent.action.SEND" />
-                <action android:name="android.intent.action.SENDTO" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-
-                <data android:mimeType="text/*" />
-                <data android:mimeType="application/octet-stream" />
-            </intent-filter>
-        </activity>
-        <activity android:name=".ImportFileActivity" >
-            <intent-filter>
-                <action android:name="android.intent.action.SEND" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-
-                <data android:mimeType="text/*" />
-            </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.SEND" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-
-                <data android:mimeType="*/*" />
-            </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.SEND_MULTIPLE" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-
-                <data android:mimeType="*/*" />
             </intent-filter>
         </activity>
         <activity
