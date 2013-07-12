@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <resources>
 
-    <string name="app_name">gpgcli</string>
+    <string name="app_name">Gnu Privacy Guard</string>
     <string name="label_debug_header">Debug log for tests</string>
-    <string name="pinentry_service_label">gnupg pinentry daemon</string>
-    <string name="pinentry_service_started">gnupg pinentry daemon running</string>
+    <string name="pinentry_service_label">Gnu Privacy Guard pinentry daemon</string>
+    <string name="pinentry_service_started">Gnu Privacy Guard pinentry daemon running</string>
     <string name="enter_pin">Enter your PIN</string>
     <string name="title_activity_pinentry">PIN Entry</string>
     <string name="title_activity_encrypt">Encrypt</string>
     <string name="title_activity_decrypt">Decrypt</string>
-    <string name="dialog_installing_msg">Setting up GnuPG for Android</string>
+    <string name="dialog_installing_msg">Setting up Gnu Privacy Guard</string>
     <string name="dialog_installing_title">Installing&#8230; (wait for it to finish!)</string>
     <string name="pref_keyserver_title">Keyserver</string>
     <string name="pref_keyserver_summary">Which keyserver to download and publish keys to (default: hkp://keys.gnupg.net)</string>
     <string name="pref_start_boot_title">Start Daemons on Boot</string>
-    <string name="pref_start_boot_summary">Starts the pinentry and gnupg daemons when your device boots</string>
+    <string name="pref_start_boot_summary">Starts the pinentry and dirmngr daemons when your device boots</string>
     <string name="title_decrypt_file">Decrypt File</string>
     <string name="title_encrypt_file">Encrypt File</string>
     <string name="title_import_keys">Import Keys</string>
@@ -36,19 +36,19 @@
     <string name="sign_file">Sign file?</string>
 
     <!-- first run wizard -->
-    <string name="wizard_welcome_title">Welcome to gpgcli</string>
+    <string name="wizard_welcome_title">Welcome to Gnu Privacy Guard</string>
     <string name="wizard_welcome_subtitle">The Beta Version of GnuPG for Android</string>
     <string name="wizard_warning">WARNING! Make and keep backups of all your keys. This application still under heavy development.</string>
     <string name="wizard_button_backups">I will keep backups</string>
-    <string name="wizard_integration_msg">gpgcli can sync your keyring with your Address Book for tighter integration. These changes are not permanent and are easily undone.</string>
-    <string name="wizard_integration_checkbox_label">Integrate GPG Keyring with Contacts</string>
+    <string name="wizard_integration_msg">Gnu Privacy Guard can sync your keyring with your Contacts for tighter integration. These changes are not permanent and are easily undone.</string>
+    <string name="wizard_integration_checkbox_label">Integrate Keyring with Contacts</string>
     <string name="wizard_button_create_key">Create Key</string>
     <string name="wizard_button_import_keys">Import Keys</string>
     <string name="wizard_button_skip">Skip</string>
 
     <!-- account, contacts, and contact syncing -->
-    <string name="account_label">GnuPG</string>
-    <string name="contact_group">GnuPG Keyring</string>
+    <string name="account_label">Gnu Privacy Guard</string>
+    <string name="contact_group">Gnu Privacy Guard Keyring</string>
     <string name="contact_encrypt_file">Encrypt file to</string>
     <string name="contact_view_key">View key</string>
     <string name="create_key">Create Key</string>
