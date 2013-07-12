@@ -38,11 +38,17 @@
         <activity android:name=".CreateKeyActivity" />
         <activity android:name=".DebugLogActivity" />
         <activity android:name=".EncryptFileActivity" />
-        <activity android:name=".FirstRunWelcomeActivity" />
-        <activity android:name=".FirstRunSetupActivity" />
         <activity android:name=".GPGPreferenceActivity" />
-        <activity android:name=".InstallActivity" />
         <activity android:name=".SearchKeysActivity" />
+        <activity
+            android:name=".FirstRunSetupActivity"
+            android:noHistory="true" />
+        <activity
+            android:name=".FirstRunWelcomeActivity"
+            android:noHistory="true" />
+        <activity
+            android:name=".InstallActivity"
+            android:noHistory="true" />
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name" >
