@@ -1,6 +1,5 @@
 package info.guardianproject.gpg;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -11,13 +10,6 @@ import com.freiheit.gnupg.GnuPGContext;
 
 public class GnuPG {
 	public static GnuPGContext context = null;
-
-	public static final String MIME_TYPE_ASC = "application/pgp-keys";
-	public static final String MIME_TYPE_GPG = "application/pgp-encrypted";
-	public static final String MIME_TYPE_PGP = "application/pgp-encrypted";
-	public static final String MIME_TYPE_PKR = "application/pgp-keys";
-	public static final String MIME_TYPE_SKR = "application/pgp-keys";
-	public static final String MIME_TYPE_SIG = "application/pgp-signature";
 
 	public static void createContext() {
 		context = new GnuPGContext();

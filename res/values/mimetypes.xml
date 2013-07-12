@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="pgp_keys">application/pgp-keys</string>
+    <string name="pgp_encrypted">application/pgp-encrypted</string>
+    <string name="pgp_signature">application/pgp-signature</string>
+
+</resources>
