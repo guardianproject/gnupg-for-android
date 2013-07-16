@@ -37,9 +37,13 @@
         android:theme="@style/Theme.Sherlock" >
         <activity android:name=".CreateKeyActivity" />
         <activity android:name=".DebugLogActivity" />
-        <activity android:name=".EncryptFileActivity" />
         <activity android:name=".GPGPreferenceActivity" />
         <activity android:name=".SearchKeysActivity" />
+        <activity
+            android:name=".EncryptFileActivity"
+            android:excludeFromRecents="true"
+            android:label="@string/title_encrypt_file"
+            android:noHistory="true" />
         <activity
             android:name=".FirstRunSetupActivity"
             android:noHistory="true" />

@@ -33,7 +33,11 @@ public class EncryptFileActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         mFragmentManager = getSupportFragmentManager();
 
-        Bundle extras = getIntent().getExtras();
+        Intent intent = getIntent();
+        Uri uri = intent.getData();
+        Log.v(TAG, "onCreate: " + uri);
+        String scheme = uri.getScheme();
+        Bundle extras = intent.getExtras();
         mFingerprint = extras.getString(Intent.EXTRA_TEXT);
         // this currently only supports sending to a single email/fingerprint
         String[] recipients = (String[]) extras.get(Intent.EXTRA_EMAIL);
@@ -64,7 +68,10 @@ public class EncryptFileActivity extends FragmentActivity {
 
         // Create a new Messenger for the communication back
         mMessenger = new Messenger(mReturnHandler);
-        showEncryptToFileDialog();
+        if (scheme.equals("file") && new File(uri.getPath()).canRead())
+            showEncryptToFileDialog(uri.getPath());
+        else
+            showEncryptToFileDialog(null);
     }
 
     @Override
@@ -96,11 +103,10 @@ public class EncryptFileActivity extends FragmentActivity {
     /**
      * Show to dialog from where to import keys
      */
-    public void showEncryptToFileDialog() {
+    public void showEncryptToFileDialog(final String defaultFilename) {
         new Runnable() {
             @Override
             public void run() {
-                String defaultFilename = null;
                 mFileDialog = FileDialogFragment.newInstance(mMessenger,
                         getString(R.string.title_encrypt_file),
                         getString(R.string.dialog_specify_encrypt_file),
