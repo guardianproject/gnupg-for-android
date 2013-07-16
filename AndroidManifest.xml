@@ -40,6 +40,11 @@
         <activity android:name=".GPGPreferenceActivity" />
         <activity android:name=".SearchKeysActivity" />
         <activity
+            android:name=".DecryptActivity"
+            android:excludeFromRecents="true"
+            android:label="@string/title_decrypt_file"
+            android:noHistory="true" />
+        <activity
             android:name=".EncryptFileActivity"
             android:excludeFromRecents="true"
             android:label="@string/title_encrypt_file"

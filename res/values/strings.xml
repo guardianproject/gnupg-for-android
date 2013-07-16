@@ -16,6 +16,7 @@
     <string name="pref_start_boot_title">Start Daemons on Boot</string>
     <string name="pref_start_boot_summary">Starts the pinentry and dirmngr daemons when your device boots</string>
     <string name="title_decrypt_file">Decrypt File</string>
+    <string name="decrypting_file_format">Decrypting \"%s\"&#8230;</string>
     <string name="title_encrypt_file">Encrypt File</string>
     <string name="title_import_keys">Import Keys</string>
     <string name="title_export_keys">Export Keys</string>
@@ -25,6 +26,8 @@
     <string name="error_no_file_manager_installed">No compatible file manager app installed!</string>
     <string name="error_files_not_supported">File URIs are not supported via this Intent!</string>
     <string name="dialog_specify_decrypt_file">Choose the file to decrypt:</string>
+    <string name="dialog_specify_file_to_decrypt_to">Choose the file to save the decrypted data to:</string>
+    <string name="dialog_decrypt_succeeded_view_file_format">\"%s\" decrypted and verified properly, view the file?</string>
     <string name="dialog_specify_encrypt_file">Choose the file to encrypt:</string>
     <string name="dialog_specify_import_file_msg">Choose the file to import:</string>
     <string name="dialog_specify_export_file_msg">All keys will be exported to the file that you specify below. WARNING! File will be overwritten if it exists.</string>
@@ -82,7 +85,7 @@
     <string name="send_key_message">Specify the key ID to send to the keyserver:</string>
 
     <!-- error messages -->
-    <string name="error_cannot_read_incoming_file">Cannot read incoming file:</string>
+    <string name="error_cannot_read_incoming_file_format">Cannot read incoming file \"%s\"!</string>
     <string name="error_output_file_exists_skipping_format">Output file \"%s\" exists, skipping decryption.</string>
     <string name="error_decrypting_file_failed_format">Decrypting \"%s\" failed!</string>
     <string name="error_encrypting_file_failed_format">Encrypting \"%s\" failed!</string>
