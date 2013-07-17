@@ -9,8 +9,8 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="3sp"
         android:background="@color/abs__background_holo_light"
-        android:textColor="@color/abs__primary_text_disable_only_holo_light"
-        android:text="@string/label_debug_header" />
+        android:text="@string/label_debug_header"
+        android:textColor="@color/abs__primary_text_disable_only_holo_light" />
 
     <ScrollView
         android:id="@+id/consoleScroll"
@@ -21,7 +21,8 @@
         <TextView
             android:id="@+id/consoleText"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:typeface="monospace" />
     </ScrollView>
 
 </LinearLayout>
