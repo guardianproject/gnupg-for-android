@@ -80,7 +80,10 @@ public class FileHandlerActivity extends Activity {
             } else if (extension.equals("pkr") || extension.equals("skr") || extension.equals("pgp")) {
                 importFile(incomingFilename, mimeType);
             } else if (extension.equals("asc")) {
-                detectAsciiFileType(incomingFilename);
+                if (incomingFilename.equals("encrypted.asc")) // K-9 turns PGP/MIME into this file
+                    decryptFile(incomingFilename, getString(R.string.pgp_encrypted));
+                else
+                    detectAsciiFileType(incomingFilename);
             } else if (extension.equals("sig")) {
                 verifyFile(incomingFilename, getString(R.string.pgp_signature));
             } else {
@@ -132,8 +135,12 @@ public class FileHandlerActivity extends Activity {
             // - binary encrypted and/or signed data (application/pgp-encrypted)
             // - a binary detached signature (application/pgp-signature)
             // - a public/secret keyring (application/pgp-keys)
+            // - K-9 turns PGP/MIME into noname.pgp file
         } else if (mimeType.equals("text/plain")) {
-            detectAsciiFileType(incomingFilename);
+            if (incomingFilename.equals("encrypted.asc")) // K-9 turns PGP/MIME into this file
+                decryptFile(incomingFilename, getString(R.string.pgp_encrypted));
+            else
+                detectAsciiFileType(incomingFilename);
         } else {
             /*
              * TODO this is a file type that we don't handle, so assume the user
