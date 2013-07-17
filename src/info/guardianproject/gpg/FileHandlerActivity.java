@@ -113,7 +113,9 @@ public class FileHandlerActivity extends Activity {
         in.close();
 
         // now add the full path to the filename
-        incomingFilename = new File(getFilesDir(), incomingFilename).getCanonicalPath();
+        final File incomingFile = new File(getFilesDir(), incomingFilename);
+        incomingFilename = incomingFile.getCanonicalPath();
+        final String extension = MimeTypeMap.getFileExtensionFromUrl(incomingFilename);
         if (mimeType.equals(getString(R.string.pgp_keys))) {
             importFile(incomingFilename, mimeType);
         } else if (mimeType.equals(getString(R.string.pgp_signature))) {
@@ -121,11 +123,15 @@ public class FileHandlerActivity extends Activity {
         } else if (mimeType.equals(getString(R.string.pgp_encrypted))) {
             decryptFile(incomingFilename, mimeType);
         } else if (mimeType.equals("application/octet-stream")) {
-            // TODO this could be binary crypto data, including:
+            String filename = incomingFile.getName();
+            if (filename.equals("pubring.gpg") || filename.equals("secring.gpg") || extension.equals("pgp"))
+                importFile(incomingFilename, getString(R.string.pgp_keys));
+            else
+                decryptFile(incomingFilename, getString(R.string.pgp_encrypted));
+            // TODO how else to detect binary crypto data? this could be:
             // - binary encrypted and/or signed data (application/pgp-encrypted)
             // - a binary detached signature (application/pgp-signature)
             // - a public/secret keyring (application/pgp-keys)
-            decryptFile(incomingFilename, getString(R.string.pgp_encrypted));
         } else if (mimeType.equals("text/plain")) {
             detectAsciiFileType(incomingFilename);
         } else {
