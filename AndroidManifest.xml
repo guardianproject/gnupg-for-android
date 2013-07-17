@@ -85,6 +85,9 @@
             android:excludeFromRecents="true"
             android:noHistory="true" >
             <intent-filter>
+                <data android:mimeType="@string/pgp_encrypted" />
+            </intent-filter>
+            <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <action android:name="android.intent.action.SEND" />
                 <action android:name="android.intent.action.SENDTO" />
