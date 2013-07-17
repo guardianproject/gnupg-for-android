@@ -82,7 +82,7 @@ public class ImportFileActivity extends FragmentActivity {
             // Create a new Messenger for the communication back
             mMessenger = new Messenger(mReturnHandler);
 
-            Uri uri = (Uri) intent.getParcelableExtra(Intent.EXTRA_STREAM);
+            Uri uri = intent.getData();
             if (uri == null)
                 showImportFromFileDialog("");
             else

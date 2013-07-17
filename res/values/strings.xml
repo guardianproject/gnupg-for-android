@@ -86,6 +86,7 @@
 
     <!-- error messages -->
     <string name="error_cannot_read_incoming_file_format">Cannot read incoming file \"%s\"!</string>
+    <string name="error_cannot_detect_file_type_format">Cannot detect what kind of file \"%s\" is!</string>
     <string name="error_output_file_exists_skipping_format">Output file \"%s\" exists, skipping decryption.</string>
     <string name="error_decrypting_file_failed_format">Decrypting \"%s\" failed!</string>
     <string name="error_encrypting_file_failed_format">Encrypting \"%s\" failed!</string>
@@ -95,6 +96,7 @@
     <string name="error_file_does_not_exist_format">\"%s\" does not exist!</string>
     <string name="error_verify_failed">Verify Failed!</string>
     <string name="error_file_verify_failed_format">\"%s\" failed to verify!</string>
+    <string name="error_no_pgp_content_found_format">No PGP content found in \"%s\"!</string>
 
     <!-- content descriptions for accessibility -->
     <string name="folder">folder</string>
