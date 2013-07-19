@@ -16,13 +16,13 @@ import android.util.Log;
 import android.webkit.MimeTypeMap;
 import android.widget.Toast;
 
-import com.freiheit.gnupg.GnuPGData;
-
 public class DecryptActivity extends Activity {
     private static final String TAG = "DecryptActivity";
 
-    private String mEncryptedFilename;
-    private String mPlainFilename;
+    private File mEncryptedFile;
+    private File mPlainFile;
+
+    private static int DECRYPTED_DATA_VIEWED = 12345;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,21 +44,33 @@ public class DecryptActivity extends Activity {
         if (!scheme.equals("file"))
             showError("Only file:// URIs are currently supported!");
 
-        mEncryptedFilename = uri.getPath();
-        final String extension = MimeTypeMap.getFileExtensionFromUrl(mEncryptedFilename);
+        String encryptedFilename = uri.getPath();
+        mEncryptedFile = new File(encryptedFilename);
+        final String extension = MimeTypeMap.getFileExtensionFromUrl(encryptedFilename);
         if (extension.equals("asc") || extension.equals("gpg") || extension.equals("pgp")) {
-            mPlainFilename = mEncryptedFilename.replaceAll("\\.(asc|gpg|pgp)$", "");
-            if (new File(mEncryptedFilename).exists())
-                new DecryptFileTask(this).execute(mEncryptedFilename);
+            mPlainFile = new File(getFilesDir(),
+                    Uri.encode(encryptedFilename.replaceAll("\\.(asc|gpg|pgp)$", "")));
+            if (mEncryptedFile.exists())
+                new DecryptFileTask(this).execute();
             else {
                 String msg = String.format(getString(R.string.error_file_does_not_exist_format),
-                        mEncryptedFilename);
+                        mEncryptedFile);
                 showError(msg);
             }
         } else {
-            showError(extension + " not handled yet: " + mEncryptedFilename);
+            showError(extension + " not handled yet: " + mEncryptedFile);
         }
         // TODO verify content:// and streams by using GnuPG.context.verify()
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == DECRYPTED_DATA_VIEWED) {
+            Log.v(TAG, "Deleting " + mEncryptedFile + " and " + mPlainFile
+                    + " from the files cache");
+            mPlainFile.delete();
+            mEncryptedFile.delete();
+        }
     }
 
     private void decryptComplete(Integer result) {
@@ -68,14 +80,14 @@ public class DecryptActivity extends Activity {
             showSuccess();
         } else {
             String msg = String.format(getString(R.string.error_decrypting_file_failed_format),
-                    mEncryptedFilename);
+                    mEncryptedFile);
             showError(msg);
         }
     }
 
     private void showSuccess() {
         String msg = String.format(getString(R.string.dialog_decrypt_succeeded_view_file_format),
-                mPlainFilename);
+                mEncryptedFile);
         Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(R.string.signature_verified)
@@ -83,10 +95,11 @@ public class DecryptActivity extends Activity {
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         Intent view = new Intent(Intent.ACTION_VIEW);
-                        Uri uri = Uri.fromFile(new File(mPlainFilename));
+                        Uri uri = Uri.fromFile(mPlainFile);
                         view.setData(uri);
-                        startActivity(Intent.createChooser(view,
-                                getString(R.string.dialog_view_file_using)));
+                        Intent intent = Intent.createChooser(view,
+                                getString(R.string.dialog_view_file_using));
+                        startActivityForResult(intent, DECRYPTED_DATA_VIEWED);
                         finish();
                     }
                 })
@@ -111,7 +124,7 @@ public class DecryptActivity extends Activity {
         builder.show();
     }
 
-    public class DecryptFileTask extends AsyncTask<String, String, Integer> {
+    public class DecryptFileTask extends AsyncTask<Void, String, Integer> {
         private ProgressDialog dialog;
         private Context context;
 
@@ -130,21 +143,23 @@ public class DecryptActivity extends Activity {
         }
 
         @Override
-        protected Integer doInBackground(String... params) {
+        protected Integer doInBackground(Void... params) {
             Log.i(TAG, "doInBackground: " + params[0]);
-            String encryptedFilename = params[0];
             String msg = String.format(getString(R.string.decrypting_file_format),
-                    encryptedFilename);
+                    mEncryptedFile);
             publishProgress(msg);
             try {
-                File encryptedFile = new File(mEncryptedFilename);
-                GnuPGData encryptedData = GnuPG.context.createDataObject(encryptedFile);
-                File plainFile = new File(mPlainFilename);
-                GnuPGData plainData = GnuPG.context.createDataObject(plainFile);
-                GnuPG.context.decryptVerify(encryptedData, plainData);
-                return RESULT_OK;
+                mPlainFile.delete();
+                String args = "--output " + mPlainFile + " --decrypt " + mEncryptedFile;
+                int exitvalue = GnuPG.gpg2(args);
+                if (exitvalue != 0) {
+                    // TODO does the POSIX exit value match the GPGME decrypt error codes?
+                    Log.e(TAG, "gpg2 exited with " + exitvalue);
+                }
+                if (mPlainFile.exists())
+                    return RESULT_OK;
             } catch (Exception e) {
-                Log.e(TAG, "decrypting " + encryptedFilename + " failed!");
+                Log.e(TAG, "decrypting " + mEncryptedFile + " failed!");
                 e.printStackTrace();
             }
             return RESULT_CANCELED;
