@@ -290,6 +290,13 @@
             android:authorities="info.guardianproject.gpg"
             android:exported="true"
             android:readPermission="info.guardianproject.gpg.permission.READ_KEY_DETAILS" />
+        <provider
+            android:name=".PrivateFilesProvider"
+            android:authorities="info.guardianproject.gpg.PrivateFilesProvider"
+            android:exported="false"
+            android:grantUriPermissions="true" >
+            <grant-uri-permission android:pathPrefix="/" />
+        </provider>
 
         <service
             android:name=".GpgAgentService"

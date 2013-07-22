@@ -49,7 +49,7 @@ public class DecryptActivity extends Activity {
         final String extension = MimeTypeMap.getFileExtensionFromUrl(encryptedFilename);
         if (extension.equals("asc") || extension.equals("gpg") || extension.equals("pgp")) {
             mPlainFile = new File(getFilesDir(),
-                    Uri.encode(encryptedFilename.replaceAll("\\.(asc|gpg|pgp)$", "")));
+                    mEncryptedFile.getName().replaceAll("\\.(asc|gpg|pgp)$", ""));
             if (mEncryptedFile.exists())
                 new DecryptFileTask(this).execute();
             else {
@@ -95,8 +95,9 @@ public class DecryptActivity extends Activity {
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         Intent view = new Intent(Intent.ACTION_VIEW);
-                        Uri uri = Uri.fromFile(mPlainFile);
+                        Uri uri = Uri.parse(PrivateFilesProvider.FILES_URI + mPlainFile.getName());
                         view.setData(uri);
+                        view.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                         Intent intent = Intent.createChooser(view,
                                 getString(R.string.dialog_view_file_using));
                         startActivityForResult(intent, DECRYPTED_DATA_VIEWED);
@@ -144,9 +145,8 @@ public class DecryptActivity extends Activity {
 
         @Override
         protected Integer doInBackground(Void... params) {
-            Log.i(TAG, "doInBackground: " + params[0]);
-            String msg = String.format(getString(R.string.decrypting_file_format),
-                    mEncryptedFile);
+            Log.i(TAG, "doInBackground: " + mEncryptedFile);
+            String msg = String.format(getString(R.string.decrypting_file_format), mEncryptedFile);
             publishProgress(msg);
             try {
                 mPlainFile.delete();
