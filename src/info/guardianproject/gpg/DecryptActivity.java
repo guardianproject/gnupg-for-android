@@ -65,12 +65,16 @@ public class DecryptActivity extends Activity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Log.i(TAG, "onActivityResult(" + requestCode + ", " + resultCode);
         if (requestCode == DECRYPTED_DATA_VIEWED) {
-            Log.v(TAG, "Deleting " + mEncryptedFile + " and " + mPlainFile
-                    + " from the files cache");
+            Log.v(TAG, "Deleting " + mPlainFile + " from the files cache");
             mPlainFile.delete();
-            mEncryptedFile.delete();
+            if (mEncryptedFile.getParentFile().equals(getFilesDir())) {
+                Log.v(TAG, "Deleting " + mEncryptedFile + " from the files cache");
+                mEncryptedFile.delete();
+            }
         }
+        finish();
     }
 
     private void decryptComplete(Integer result) {
@@ -101,7 +105,6 @@ public class DecryptActivity extends Activity {
                         Intent intent = Intent.createChooser(view,
                                 getString(R.string.dialog_view_file_using));
                         startActivityForResult(intent, DECRYPTED_DATA_VIEWED);
-                        finish();
                     }
                 })
                 .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
