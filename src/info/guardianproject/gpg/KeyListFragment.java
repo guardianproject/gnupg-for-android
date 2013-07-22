@@ -167,7 +167,7 @@ public class KeyListFragment extends SherlockFragment {
             mFilterLayout.setVisibility(View.GONE);
         } else {
             mFilterLayout.setVisibility(View.VISIBLE);
-            mFilterInfo.setText(getString(R.string.filterInfo, searchString));
+            mFilterInfo.setText(getString(R.string.filterInfo_format, searchString));
         }
 
         mListAdapter = new KeyListAdapter(mListView, action,

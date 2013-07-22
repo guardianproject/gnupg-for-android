@@ -304,7 +304,7 @@ public class DebugLogActivity extends FragmentActivity implements OnCreateContex
         				File newPath = new File(exportFile + "." + String.valueOf(now.getTimeInMillis()));
         				exportFile.renameTo(newPath);
         				Toast.makeText(getBaseContext(),
-        						String.format(getString(R.string.renamed_existing_file), newPath),
+        						String.format(getString(R.string.renamed_existing_file_format), newPath),
         						Toast.LENGTH_LONG).show();
         			}
 

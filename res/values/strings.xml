@@ -36,7 +36,7 @@
     <string name="dialog_specific_keys_to_receive">Specify the key IDs or fingerprints of the keys you want to receive from the keyservers:</string>
     <string name="label_delete_after_import">Delete after import</string>
     <string name="label_export_secret_keys">Export secret keys only</string>
-    <string name="renamed_existing_file">Renamed existing file to %s!</string>
+    <string name="renamed_existing_file_format">Renamed existing file to %s!</string>
     <string name="dialog_encrypting_title">Encrypting&#8230;</string>
     <string name="sign_file">Sign file?</string>
 
@@ -127,7 +127,7 @@
     <!-- APG messages -->
     <string name="unknownStatus"></string>
     <string name="hint_publicKeys">Search Public Keys</string>
-    <string name="filterInfo">Filter: \"%s\"</string>
+    <string name="filterInfo_format">Filter: \"%s\"</string>
     <string name="btn_clearFilter">Clear Filter</string>
     <string name="title_selectRecipients">Select Recipients</string>
     <string name="progress_done">done.</string>
