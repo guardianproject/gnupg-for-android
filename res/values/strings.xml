@@ -34,6 +34,7 @@
     <string name="dialog_specify_export_file_msg">All keys will be exported to the file that you specify below. WARNING! File will be overwritten if it exists.</string>
     <string name="dialog_verify_succeeded_view_file_format">\"%s\" verified properly, view the file?</string>
     <string name="dialog_specific_keys_to_receive">Specify the key IDs or fingerprints of the keys you want to receive from the keyservers:</string>
+    <string name="key_already_exists_format">%s key already exists in your keyring:</string>
     <string name="label_delete_after_import">Delete after import</string>
     <string name="label_export_secret_keys">Export secret keys only</string>
     <string name="renamed_existing_file_format">Renamed existing file to %s!</string>
@@ -99,6 +100,7 @@
     <string name="error_verify_failed">Verify Failed!</string>
     <string name="error_file_verify_failed_format">\"%s\" failed to verify!</string>
     <string name="error_no_pgp_content_found_format">No PGP content found in \"%s\"!</string>
+    <string name="error_fingerprint_too_short_format">The fingerprint %s is too short! It must be at least 16 digits.</string>
 
     <!-- content descriptions for accessibility -->
     <string name="folder">folder</string>

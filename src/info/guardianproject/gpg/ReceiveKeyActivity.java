@@ -13,8 +13,10 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.freiheit.gnupg.GnuPGException;
+import com.freiheit.gnupg.GnuPGKey;
 
 public class ReceiveKeyActivity extends FragmentActivity {
     private static final String TAG = "ReceiveKeyActivity";
@@ -61,7 +63,26 @@ public class ReceiveKeyActivity extends FragmentActivity {
         }
         if (scheme.equals("openpgp4fpr")) {
             String fingerprint = uri.toString().split(":")[1];
-            showReceiveKeyByFingerprintDialog(fingerprint);
+            GnuPGKey key = null;
+            // if the fingerprint is too short, show a warning but prompt them
+            // to download if they want
+            if (fingerprint.length() < 16) {
+                String msg = String.format(getString(R.string.error_fingerprint_too_short_format),
+                        fingerprint);
+                Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
+            } else {
+                key = GnuPG.context.getKeyByFingerprint(fingerprint);
+            }
+            if (key == null)
+                showReceiveKeyByFingerprintDialog(fingerprint);
+            else {
+                String msg = String.format(getString(R.string.key_already_exists_format),
+                        fingerprint);
+                msg += String.format(" %s <%s> (%s)",
+                        key.getName(), key.getEmail(), key.getComment());
+                Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
+                showKeyAfterRecvKey();
+            }
         }
     }
 
@@ -83,6 +104,14 @@ public class ReceiveKeyActivity extends FragmentActivity {
                 mFileDialog.show(mFragmentManager, "fileDialog");
             }
         }.run();
+    }
+
+    private void showKeyAfterRecvKey() {
+        setResult(RESULT_OK);
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+        finish();
     }
 
     private void cancel() {
@@ -112,6 +141,7 @@ public class ReceiveKeyActivity extends FragmentActivity {
         Log.d(TAG, "recv-key complete, sending broadcast");
         LocalBroadcastManager.getInstance(this).sendBroadcast(
                 new Intent(KeyListFragment.BROADCAST_ACTION_KEYLIST_CHANGED));
+        showKeyAfterRecvKey();
     }
 
 }
