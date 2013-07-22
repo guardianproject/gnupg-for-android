@@ -68,6 +68,20 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".ReceiveKeyActivity"
+            android:excludeFromRecents="true"
+            android:label="@string/title_receive_keys"
+            android:noHistory="true" >
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.BROWSABLE" />
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:scheme="openpgp4fpr" />
+            </intent-filter>
+        </activity>
+        <activity
             android:name=".pinentry.PinEntryActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
             android:excludeFromRecents="true"

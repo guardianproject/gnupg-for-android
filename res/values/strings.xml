@@ -20,6 +20,7 @@
     <string name="title_encrypt_file">Encrypt File</string>
     <string name="title_import_keys">Import Keys</string>
     <string name="title_export_keys">Export Keys</string>
+    <string name="title_receive_keys">Receive Keys</string>
     <string name="verify_signature">Verify Signature</string>
     <string name="signature_verified">Signature Verified</string>
     <string name="verifying_file_format">Verifying \"%s\"</string>
@@ -32,6 +33,7 @@
     <string name="dialog_specify_import_file_msg">Choose the file to import:</string>
     <string name="dialog_specify_export_file_msg">All keys will be exported to the file that you specify below. WARNING! File will be overwritten if it exists.</string>
     <string name="dialog_verify_succeeded_view_file_format">\"%s\" verified properly, view the file?</string>
+    <string name="dialog_specific_keys_to_receive">Specify the key IDs or fingerprints of the keys you want to receive from the keyservers:</string>
     <string name="label_delete_after_import">Delete after import</string>
     <string name="label_export_secret_keys">Export secret keys only</string>
     <string name="renamed_existing_file">Renamed existing file to %s!</string>

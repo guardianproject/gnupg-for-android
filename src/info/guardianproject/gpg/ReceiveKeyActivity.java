@@ -1,0 +1,117 @@
+
+package info.guardianproject.gpg;
+
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.net.Uri;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.os.Messenger;
+import android.preference.PreferenceManager;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.content.LocalBroadcastManager;
+import android.util.Log;
+
+import com.freiheit.gnupg.GnuPGException;
+
+public class ReceiveKeyActivity extends FragmentActivity {
+    private static final String TAG = "ReceiveKeyActivity";
+
+    private FragmentManager mFragmentManager;
+    private FileDialogFragment mFileDialog;
+    private Handler mReturnHandler;
+    private Messenger mMessenger;
+
+    // used to find any existing instance of the fragment, in case of rotation,
+    static final String GPG2_TASK_FRAGMENT_TAG = TAG;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        Intent intent = getIntent();
+        String scheme = intent.getScheme();
+        Uri uri = intent.getData();
+
+        mFragmentManager = getSupportFragmentManager();
+        // Message is received after the fingerprints are selected
+        mReturnHandler = new Handler() {
+            @Override
+            public void handleMessage(Message message) {
+                if (message.what == FileDialogFragment.MESSAGE_CANCELED) {
+                    cancel();
+                } else if (message.what == FileDialogFragment.MESSAGE_OK) {
+                    Bundle data = message.getData();
+                    String fingerprints = data.getString(FileDialogFragment.MESSAGE_DATA_FILENAME);
+                    Log.d(TAG, "fingerprints: " + fingerprints);
+                    runRecvKey(fingerprints, false);
+                } else if (message.what == Gpg2TaskFragment.GPG2_TASK_FINISHED) {
+                    notifyRecvKeyComplete();
+                }
+            }
+        };
+        // Create a new Messenger for the communication back
+        mMessenger = new Messenger(mReturnHandler);
+
+        if (uri == null) {
+            finish();
+            return;
+        }
+        if (scheme.equals("openpgp4fpr")) {
+            String fingerprint = uri.toString().split(":")[1];
+            showReceiveKeyByFingerprintDialog(fingerprint);
+        }
+    }
+
+    /**
+     * Show dialog with the key fingerprints to receive from the keyservers
+     */
+    public void showReceiveKeyByFingerprintDialog(final String fingerprints) {
+
+        new Runnable() {
+            @Override
+            public void run() {
+                mFileDialog = FileDialogFragment.newInstance(mMessenger,
+                        getString(R.string.title_receive_keys),
+                        getString(R.string.dialog_specific_keys_to_receive),
+                        fingerprints,
+                        null,
+                        0);
+
+                mFileDialog.show(mFragmentManager, "fileDialog");
+            }
+        }.run();
+    }
+
+    private void cancel() {
+        setResult(RESULT_CANCELED);
+        finish();
+    }
+
+    private void runRecvKey(String fingerprint, boolean ignored) {
+        try {
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+            String ks = prefs.getString(GPGPreferenceActivity.PREF_KEYSERVER, "200.144.121.45");
+            String args = " --keyserver " + ks + " --recv-key " + fingerprint;
+            Gpg2TaskFragment gpg2Task = new Gpg2TaskFragment();
+            gpg2Task.configTask(mMessenger, new Gpg2TaskFragment.Gpg2Task(), args);
+            gpg2Task.show(mFragmentManager, GPG2_TASK_FRAGMENT_TAG);
+            Log.d(TAG, "recv-key complete");
+        } catch (GnuPGException e) {
+            Log.e(TAG, "recv-key failed: " + fingerprint);
+            e.printStackTrace();
+        }
+        setResult(RESULT_OK);
+        finish();
+
+    }
+
+    private void notifyRecvKeyComplete() {
+        Log.d(TAG, "recv-key complete, sending broadcast");
+        LocalBroadcastManager.getInstance(this).sendBroadcast(
+                new Intent(KeyListFragment.BROADCAST_ACTION_KEYLIST_CHANGED));
+    }
+
+}
