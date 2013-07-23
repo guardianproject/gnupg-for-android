@@ -77,8 +77,8 @@ public class FileHandlerActivity extends Activity {
                     importFile(incomingFilename, getString(R.string.pgp_keys));
                 else
                     decryptFile(incomingFilename, getString(R.string.pgp_encrypted));
-            } else if (extension.equals("pkr") || extension.equals("skr") || extension.equals("pgp")) {
-                importFile(incomingFilename, mimeType);
+            } else if (extension.equals("pkr") || extension.equals("skr") || extension.equals("pgp") || extension.equals("key")) {
+                importFile(incomingFilename, getString(R.string.pgp_keys));
             } else if (extension.equals("asc")) {
                 if (incomingFilename.equals("encrypted.asc")) // K-9 turns PGP/MIME into this file
                     decryptFile(incomingFilename, getString(R.string.pgp_encrypted));

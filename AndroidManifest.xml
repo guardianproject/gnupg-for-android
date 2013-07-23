@@ -200,6 +200,17 @@
                 <data android:scheme="file" />
                 <data android:scheme="content" />
                 <data android:mimeType="*/*" />
+                <!-- PGP Public KeyRing -->
+                <data android:pathPattern=".*\\.key" />
+                <data android:pathPattern=".*\\..*\\.key" />
+                <data android:pathPattern=".*\\..*\\..*\\.key" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\.key" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\.key" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\.key" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\.key" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.key" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.key" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.key" />
                 <!-- PGP Public KeyRing, text format -->
                 <data android:pathPattern=".*\\.pkr" />
                 <data android:pathPattern=".*\\..*\\.pkr" />

@@ -33,7 +33,7 @@ public class ImportFileActivity extends FragmentActivity {
     // used to find any existing instance of the fragment, in case of rotation,
     static final String GPG2_TASK_FRAGMENT_TAG = TAG;
 
-    public static final String[] supportedFileTypes = { ".asc", ".gpg", ".pkr", ".skr" };
+    public static final String[] supportedFileTypes = { ".asc", ".gpg", ".key", ".pkr", ".skr" };
     public static final String[] supportedMimeTypes = { "application/pgp-keys" };
 
     @Override
