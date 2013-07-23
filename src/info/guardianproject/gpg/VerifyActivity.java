@@ -158,8 +158,13 @@ public class VerifyActivity extends Activity {
         @Override
         protected void onPostExecute(Integer result) {
             Log.i(TAG, "onPostExecute");
-            if (dialog.isShowing())
-                dialog.dismiss();
+            try {
+                // if the view changes too quickly, this seems to happen sometimes
+                if (dialog.isShowing())
+                    dialog.dismiss();
+            } catch (IllegalArgumentException e) {
+                e.printStackTrace();
+            }
             verifyComplete(result);
         }
     }
