@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
 public class GpgApplication extends Application {
@@ -98,5 +99,10 @@ public class GpgApplication extends Application {
 			context.startService(service);
 		}
 	}
+
+    protected static void sendKeylistChangedBroadcast(Context c) {
+        LocalBroadcastManager.getInstance(c).sendBroadcast(
+                new Intent(KeyListFragment.BROADCAST_ACTION_KEYLIST_CHANGED));
+    }
 
 }

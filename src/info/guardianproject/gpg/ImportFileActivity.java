@@ -14,7 +14,6 @@ import android.os.Message;
 import android.os.Messenger;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.webkit.MimeTypeMap;
 import android.widget.Toast;
@@ -208,7 +207,7 @@ public class ImportFileActivity extends FragmentActivity {
 
     private void notifyImportComplete() {
         Log.d(TAG, "import complete, sending broadcast");
-        LocalBroadcastManager.getInstance(this).sendBroadcast( new Intent(KeyListFragment.BROADCAST_ACTION_KEYLIST_CHANGED));
+        GpgApplication.sendKeylistChangedBroadcast(this);
     }
 
 }

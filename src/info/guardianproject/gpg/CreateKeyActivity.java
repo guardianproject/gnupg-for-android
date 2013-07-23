@@ -5,7 +5,6 @@ import android.accounts.AccountManager;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.AsyncTask;
@@ -14,7 +13,6 @@ import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.provider.ContactsContract.CommonDataKinds;
 import android.provider.ContactsContract.Contacts;
-import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -211,7 +209,7 @@ public class CreateKeyActivity extends Activity {
 
 	private void createKeyComplete(Integer result) {
 	    Log.d(TAG, "gen-key complete, sending broadcast");
-	    LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(KeyListFragment.BROADCAST_ACTION_KEYLIST_CHANGED));
+	    GpgApplication.sendKeylistChangedBroadcast(this);
 	    setResult(result);
 	    if (result != RESULT_OK)
 	        Toast.makeText(this, getString(R.string.error_gen_key_failed), Toast.LENGTH_LONG).show();

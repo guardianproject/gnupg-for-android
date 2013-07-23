@@ -251,7 +251,8 @@ public class KeyListFragment extends SherlockFragment {
 
     private void registerReceiver() {
         Log.d("KeyListFragment", "register!");
-        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(mBroadcastReceiver, new IntentFilter(BROADCAST_ACTION_KEYLIST_CHANGED));
+        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(mBroadcastReceiver,
+                new IntentFilter(BROADCAST_ACTION_KEYLIST_CHANGED));
     }
 
     private void unregisterReceiver() {
