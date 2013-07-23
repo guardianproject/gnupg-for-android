@@ -39,6 +39,7 @@
     <string name="label_export_secret_keys">Export secret keys only</string>
     <string name="renamed_existing_file_format">Renamed existing file to %s!</string>
     <string name="dialog_encrypting_title">Encrypting&#8230;</string>
+    <string name="no_key_specified_using_this_key">No one was specified as the recipient, so using the default:</string>
     <string name="sign_file">Sign file?</string>
 
     <!-- first run wizard -->

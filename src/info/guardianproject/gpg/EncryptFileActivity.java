@@ -14,6 +14,8 @@ import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.freiheit.gnupg.GnuPGKey;
+
 public class EncryptFileActivity extends FragmentActivity {
     private static final String TAG = EncryptFileActivity.class.getSimpleName();
 
@@ -48,6 +50,19 @@ public class EncryptFileActivity extends FragmentActivity {
             mEmail = recipients[0];
         else
             Log.w(TAG, "receive no email address in Intent!");
+
+        if (mFingerprint == null) { // didn't receive one, so set to default key on device
+            GnuPGKey key = GnuPG.context.listSecretKeys()[0];
+            if (key == null)
+                key = GnuPG.context.listKeys()[0];
+            if (key != null) {
+                mFingerprint = key.getFingerprint();
+                String text = getString(R.string.no_key_specified_using_this_key);
+                text += String.format(" %s <%s> (%s) %s",
+                        key.getName(), key.getEmail(), key.getComment(), key.getFingerprint());
+                Toast.makeText(this, text, Toast.LENGTH_LONG).show();
+            }
+        }
 
         if (mFingerprint == null || mFingerprint.length() < 16) {
             String msg = String.format(getString(R.string.error_fingerprint_too_short_format),
