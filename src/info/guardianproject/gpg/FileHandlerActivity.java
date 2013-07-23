@@ -35,6 +35,13 @@ public class FileHandlerActivity extends Activity {
 
         // Get intent, action and MIME type
         Intent intent = getIntent();
+
+        if (intent.hasExtra(Intent.EXTRA_TEXT)) {
+            handleExtraText(intent);
+            finish();
+            return;
+        }
+
         Uri uri = intent.getData();
         Log.v(TAG, "onCreate: " + uri);
         String scheme = uri.getScheme();
@@ -48,6 +55,18 @@ public class FileHandlerActivity extends Activity {
             showError(R.string.app_name, e.getMessage());
         }
         finish();
+    }
+
+    private void handleExtraText(Intent intent) {
+        try {
+            String data = intent.getStringExtra(Intent.EXTRA_TEXT);
+            File file = File.createTempFile("extra_text", ".txt", getFilesDir());
+            FileUtils.writeStringToFile(file, data);
+            encryptFile(file.getCanonicalPath());
+        } catch (IOException e) {
+            e.printStackTrace();
+            showError(R.string.app_name, e.getMessage());
+        }
     }
 
     private void handleFileScheme(Intent intent) throws IOException {
