@@ -38,16 +38,22 @@ public class EncryptFileActivity extends FragmentActivity {
         Log.v(TAG, "onCreate: " + uri);
         String scheme = uri.getScheme();
         Bundle extras = intent.getExtras();
-        mFingerprint = extras.getString(Intent.EXTRA_TEXT);
-        // this currently only supports sending to a single email/fingerprint
-        String[] recipients = (String[]) extras.get(Intent.EXTRA_EMAIL);
+        String[] recipients = null;
+        if (extras != null) {
+            mFingerprint = extras.getString(Intent.EXTRA_TEXT);
+            // this currently only supports sending to a single email/fingerprint
+            recipients = (String[]) extras.get(Intent.EXTRA_EMAIL);
+        }
         if (recipients != null && recipients.length > 0)
             mEmail = recipients[0];
         else
             Log.w(TAG, "receive no email address in Intent!");
 
         if (mFingerprint == null || mFingerprint.length() < 16) {
-            Log.e(TAG, "received bunk fingerprint: " + mFingerprint);
+            String msg = String.format(getString(R.string.error_fingerprint_too_short_format),
+                    mFingerprint);
+            Log.d(TAG, msg);
+            Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
             cancel();
             return;
         }
