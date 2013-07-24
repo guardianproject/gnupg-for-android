@@ -10,11 +10,13 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.ParcelFileDescriptor;
+import android.util.Log;
 import android.webkit.MimeTypeMap;
 
 public class PrivateFilesProvider extends ContentProvider {
     public static final String TAG = "PrivateFilesProvider";
-    public static final Uri FILES_URI = Uri.parse("content://info.guardianproject.gpg.PrivateFilesProvider/");
+    public static final Uri FILES_URI = Uri
+            .parse("content://info.guardianproject.gpg.PrivateFilesProvider/");
     private MimeTypeMap mimeTypeMap;
 
     @Override
@@ -39,22 +41,47 @@ public class PrivateFilesProvider extends ContentProvider {
 
     @Override
     public int delete(Uri arg0, String arg1, String[] arg2) {
-        throw new RuntimeException("Operation not supported");
+        Log.v(TAG, String.format("delete(%s, %s, %s)",
+                arg0.toString(), arg1, arrayToString(arg2)));
+        return 0;
     }
 
     @Override
     public Uri insert(Uri arg0, ContentValues arg1) {
-        throw new RuntimeException("Operation not supported");
+        Log.v(TAG, String.format("insert(%s, %s)", arg0.toString(), arg1.toString()));
+        return null;
     }
 
     @Override
     public Cursor query(Uri arg0, String[] arg1, String arg2, String[] arg3, String arg4) {
-        throw new RuntimeException("Operation not supported");
+        Log.v(TAG, String.format("query(%s, %s, %s, %s, %s)",
+                arg0.toString(), arrayToString(arg1), arg2, arrayToString(arg3), arg4));
+        return null;
     }
 
     @Override
     public int update(Uri arg0, ContentValues arg1, String arg2, String[] arg3) {
-        throw new RuntimeException("Operation not supported");
+        Log.v(TAG, String.format("update(%s, %s, %s, %s, %s)",
+                arg0.toString(), arg1.toString(), arg2, arrayToString(arg3)));
+        return 0;
+    }
+
+    private String arrayToString(String[] a) {
+        String separator = ", ";
+        StringBuffer result = new StringBuffer("{ ");
+        if (a == null)
+            return "{ null }";
+        else if (a.length == 0)
+            return "";
+        else {
+            result.append(a[0]);
+            for (int i = 1; i < a.length; i++) {
+                result.append(separator);
+                result.append(a[i]);
+            }
+        }
+        result.append(" }");
+        return result.toString();
     }
 
 }
