@@ -18,7 +18,8 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
+import android.provider.MediaStore.Images;
+import android.provider.MediaStore.MediaColumns;
 import android.util.Log;
 import android.webkit.MimeTypeMap;
 import android.widget.Toast;
@@ -33,7 +34,6 @@ public class FileHandlerActivity extends Activity {
 
         // TODO rename to IncomingContentHandlerActivity
 
-        // Get intent, action and MIME type
         Intent intent = getIntent();
 
         if (intent.hasExtra(Intent.EXTRA_TEXT)) {
@@ -44,12 +44,27 @@ public class FileHandlerActivity extends Activity {
 
         Uri uri = intent.getData();
         Log.v(TAG, "onCreate: " + uri);
+        if (uri == null) {
+            Bundle extras = intent.getExtras();
+            if (extras == null) {
+                String msg = String.format(getString(R.string.error_cannot_read_incoming_file_format),
+                        "null");
+                showError(R.string.app_name, msg);
+                return;
+            }
+            uri = (Uri) intent.getParcelableExtra(Intent.EXTRA_STREAM);
+        }
+        Log.i(TAG, "uri: " + uri);
+        if (uri == null) {
+            showError(R.string.app_name, "Incoming URI is null!");
+            return;
+        }
         String scheme = uri.getScheme();
         try {
             if (scheme.equals("file"))
-                handleFileScheme(intent);
+                handleFileScheme(intent, uri);
             else if (scheme.equals("content"))
-                handleContentScheme(intent);
+                handleContentScheme(intent, uri);
         } catch (Exception e) {
             e.printStackTrace();
             showError(R.string.app_name, e.getMessage());
@@ -69,10 +84,9 @@ public class FileHandlerActivity extends Activity {
         }
     }
 
-    private void handleFileScheme(Intent intent) throws IOException {
+    private void handleFileScheme(Intent intent, Uri uri) throws IOException {
         String action = intent.getAction();
         String mimeType = intent.getType();
-        Uri uri = intent.getData();
         File incomingFile = null;
         try {
             incomingFile = new File(uri.getPath());
@@ -115,12 +129,11 @@ public class FileHandlerActivity extends Activity {
         }
     }
 
-    private void handleContentScheme(Intent intent) throws IOException {
+    private void handleContentScheme(Intent intent, Uri uri) throws IOException {
         String action = intent.getAction();
         String mimeType = intent.getType();
-        Uri uri = intent.getData();
-        Bundle extras = intent.getExtras();
         String incomingFilename = getContentName(getContentResolver(), uri);
+        // TODO get mimeType from incoming URI
         Log.i(TAG, "handleContentScheme: " + uri + "  MIME:" + mimeType + "  ACTION: " + action);
         Log.i(TAG, "incomingFilename: " + incomingFilename);
         // this was hacked together to support attachments to email programs
@@ -179,6 +192,7 @@ public class FileHandlerActivity extends Activity {
                 .setMessage(msg)
                 .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
+                        setResult(RESULT_CANCELED);
                         finish();
                     }
                 });
@@ -187,16 +201,39 @@ public class FileHandlerActivity extends Activity {
 
     /* this works for standard apps, like Gmail. but not apps like K-9 */
     private String getContentName(ContentResolver resolver, Uri uri) {
-        final String[] projection = { MediaStore.MediaColumns.DISPLAY_NAME };
-        Cursor cursor = resolver.query(uri, projection, null, null, null);
-        cursor.moveToFirst();
         // Gmail and K-9's attachment providers give the filename in this column
-        int nameIndex = cursor.getColumnIndex(MediaStore.MediaColumns.DISPLAY_NAME);
-        if (nameIndex > -1) {
-            return cursor.getString(nameIndex);
-        } else {
-            return null;
+        String displayName = getContentColumn(resolver, uri, MediaColumns.DISPLAY_NAME);
+        String data = getContentColumn(resolver, uri, MediaColumns.DATA);
+        String mimeType = getContentColumn(resolver, uri, MediaColumns.MIME_TYPE);
+        Log.i(TAG, "DISPLAY_NAME: " + displayName + "   DATA: " + data + "  MIME_TYPE: " + mimeType);
+        if (displayName != null)
+            return displayName;
+        if (data != null)
+            return data;
+        try {
+            return File.createTempFile("incoming", "-tmp").getName();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+        return "all-else-failed-lets-use-this-name-lol";
+    }
+
+    private String getContentColumn(ContentResolver resolver, Uri uri, String columnName) {
+        try {
+            Cursor cursor = resolver.query(uri, new String[]{columnName}, null, null, null);
+            if (cursor == null)
+                return null;
+            Log.i(TAG, uri.toString() + " columns: " + cursor.getColumnNames());
+            cursor.moveToFirst();
+            int nameIndex = cursor.getColumnIndex(columnName);
+            if (nameIndex > -1) {
+                Log.i(TAG, "Column " + columnName + " (" + nameIndex + ") is '" + cursor.getString(nameIndex) + "'");
+                return cursor.getString(nameIndex);
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
     }
 
     private void detectAsciiFileType(String incomingFilename) throws IOException {
