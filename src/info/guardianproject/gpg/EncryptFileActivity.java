@@ -38,7 +38,9 @@ public class EncryptFileActivity extends FragmentActivity {
         Intent intent = getIntent();
         Uri uri = intent.getData();
         Log.v(TAG, "onCreate: " + uri);
-        String scheme = uri.getScheme();
+        String scheme = null;
+        if (uri != null)
+            scheme = uri.getScheme();
         Bundle extras = intent.getExtras();
         String[] recipients = null;
         if (extras != null) {
@@ -89,7 +91,7 @@ public class EncryptFileActivity extends FragmentActivity {
 
         // Create a new Messenger for the communication back
         mMessenger = new Messenger(mReturnHandler);
-        if (scheme.equals("file") && new File(uri.getPath()).canRead())
+        if (scheme != null && scheme.equals("file") && new File(uri.getPath()).canRead())
             showEncryptToFileDialog(uri.getPath());
         else
             showEncryptToFileDialog(null);
