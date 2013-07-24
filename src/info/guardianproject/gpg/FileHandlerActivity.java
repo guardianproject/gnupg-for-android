@@ -90,7 +90,7 @@ public class FileHandlerActivity extends Activity {
         final String incomingFilename = incomingFile.getAbsolutePath();
         final String extension = MimeTypeMap.getFileExtensionFromUrl(incomingFilename);
         if (incomingFile.canRead()) {
-            if (extension.equals("gpg")) {
+            if (extension.equals("gpg") || extension.equals("bin")) {
                 String filename = incomingFile.getName();
                 if (filename.equals("pubring.gpg") || filename.equals("secring.gpg"))
                     importFile(incomingFilename, getString(R.string.pgp_keys));

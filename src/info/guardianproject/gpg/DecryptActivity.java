@@ -47,9 +47,9 @@ public class DecryptActivity extends Activity {
         String encryptedFilename = uri.getPath();
         mEncryptedFile = new File(encryptedFilename);
         final String extension = MimeTypeMap.getFileExtensionFromUrl(encryptedFilename);
-        if (extension.equals("asc") || extension.equals("gpg") || extension.equals("pgp")) {
+        if (extension.equals("asc") || extension.equals("gpg") || extension.equals("pgp") || extension.equals("bin")) {
             mPlainFile = new File(getFilesDir(),
-                    mEncryptedFile.getName().replaceAll("\\.(asc|gpg|pgp)$", ""));
+                    mEncryptedFile.getName().replaceAll("\\.(asc|bin|gpg|pgp)$", ""));
             if (mEncryptedFile.exists())
                 new DecryptFileTask(this).execute();
             else {
