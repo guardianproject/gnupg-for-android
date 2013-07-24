@@ -132,7 +132,7 @@
     <string name="hint_publicKeys">Search Public Keys</string>
     <string name="filterInfo_format">Filter: \"%s\"</string>
     <string name="btn_clearFilter">Clear Filter</string>
-    <string name="title_selectRecipients">Select Recipients</string>
+    <string name="title_select_recipients">Select Recipients</string>
     <string name="progress_done">done.</string>
     <string name="progress_initializing">Initializing&#8230;</string>
     <string name="progress_saving">Saving&#8230;</string>

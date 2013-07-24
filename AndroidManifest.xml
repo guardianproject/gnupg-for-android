@@ -269,7 +269,7 @@
         <activity
             android:name=".KeyListActivity"
             android:configChanges="keyboardHidden|orientation|keyboard"
-            android:label="@string/title_selectRecipients"
+            android:label="@string/title_select_recipients"
             android:launchMode="singleTop" >
             <intent-filter>
                 <action android:name="org.thialfihar.android.apg.intent.SELECT_PUBLIC_KEYS" />
@@ -291,6 +291,7 @@
         </activity>
         <activity
             android:name=".sync.ContactIntentRouter"
+            android:label="@string/app_name"
             android:configChanges="touchscreen|keyboard|keyboardHidden|orientation|screenLayout|screenSize"
             android:launchMode="singleTask" >
             <intent-filter>
