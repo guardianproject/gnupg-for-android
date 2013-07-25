@@ -59,7 +59,40 @@ public class FileHandlerActivity extends Activity {
             showError(R.string.app_name, "Incoming URI is null!");
             return;
         }
+
+        /*
+         * handle receiving images from various galleries, it comes in as
+         * content://, but you can't get a InputStream from them, so you have to
+         * query for the MediaColumns.DATA column to get the file path. Picasa
+         * gallery needs its own special hack, because it shows images that are
+         * only online, but then doesn't treat them like normal files, and other
+         * apps can't open them.
+         */
         String scheme = uri.getScheme();
+        String host = uri.getHost();
+        if (scheme.equals("content")) {
+            if (host.equals("media")) {
+                String path = getContentColumn(getContentResolver(), uri, MediaColumns.DATA);
+                scheme = "file";
+                uri = Uri.parse("file://" + path);
+                Log.i(TAG, "constructed a path from a content://media/ URI: " + uri);
+            } else if (host.equals("com.google.android.gallery3d.provider")
+                    || host.equals("com.android.gallery3d.provider")) {
+                String path = getContentColumn(getContentResolver(), uri, MediaColumns.DATA);
+                scheme = "file";
+                if (path == null || !(new File(path).canRead())) {
+                    String msg = String.format(
+                            getString(R.string.error_cannot_read_incoming_file_format),
+                            uri);
+                    showError(R.string.title_activity_encrypt, msg);
+                    return;
+                } else {
+                    uri = Uri.parse("file://" + path);
+                    Log.i(TAG, "constructed a path from online Picasa content:// URI: " + uri);
+                }
+            }
+        }
+
         try {
             if (scheme.equals("file"))
                 handleFileScheme(intent, uri);
