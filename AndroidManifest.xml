@@ -99,6 +99,44 @@
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <!-- we want all application/* but application/pgp-*, that's handled elsewhere -->
+                <data android:mimeType="application/a*" />
+                <data android:mimeType="application/b*" />
+                <data android:mimeType="application/c*" />
+                <data android:mimeType="application/d*" />
+                <data android:mimeType="application/e*" />
+                <data android:mimeType="application/f*" />
+                <data android:mimeType="application/g*" />
+                <data android:mimeType="application/h*" />
+                <data android:mimeType="application/i*" />
+                <data android:mimeType="application/j*" />
+                <data android:mimeType="application/k*" />
+                <data android:mimeType="application/l*" />
+                <data android:mimeType="application/m*" />
+                <data android:mimeType="application/n*" />
+                <data android:mimeType="application/o*" />
+                <!-- no application/p* ! see note above -->
+                <data android:mimeType="application/q*" />
+                <data android:mimeType="application/r*" />
+                <data android:mimeType="application/s*" />
+                <data android:mimeType="application/t*" />
+                <data android:mimeType="application/u*" />
+                <data android:mimeType="application/v*" />
+                <data android:mimeType="application/w*" />
+                <data android:mimeType="application/x*" />
+                <data android:mimeType="application/y*" />
+                <data android:mimeType="application/z*" />
+                <data android:mimeType="audio/*" />
+                <data android:mimeType="image/*" />
+                <data android:mimeType="media/*" />
+                <data android:mimeType="text/*" />
+                <data android:mimeType="video/*" />
+                <data android:mimeType="x*/*" />
+            </intent-filter>
+            <intent-filter>
                 <action android:name="android.intent.action.SEND" />
                 <action android:name="android.intent.action.SENDTO" />
                 <action android:name="android.intent.action.SEND_MULTIPLE" />
@@ -291,8 +329,8 @@
         </activity>
         <activity
             android:name=".sync.ContactIntentRouter"
-            android:label="@string/app_name"
             android:configChanges="touchscreen|keyboard|keyboardHidden|orientation|screenLayout|screenSize"
+            android:label="@string/app_name"
             android:launchMode="singleTask" >
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
