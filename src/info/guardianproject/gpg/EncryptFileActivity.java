@@ -25,10 +25,13 @@ public class EncryptFileActivity extends FragmentActivity {
     private Messenger mMessenger;
     private String mFingerprint;
     private String mEmail;
-    private String mEncryptedFilename;
+    private File mEncryptedFile;
+    private File mPlainFile;
 
     // used to find any existing instance of the fragment, in case of rotation,
     static final String GPG2_TASK_FRAGMENT_TAG = TAG;
+
+    private static final int ENCRYPTED_DATA_SENT = 4321;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +62,7 @@ public class EncryptFileActivity extends FragmentActivity {
                 key = GnuPG.context.listKeys()[0];
             if (key != null) {
                 mFingerprint = key.getFingerprint();
+                mEmail = key.getEmail();
                 String text = getString(R.string.no_key_specified_using_this_key);
                 text += String.format(" %s <%s> (%s) %s",
                         key.getName(), key.getEmail(), key.getComment(), key.getFingerprint());
@@ -100,11 +104,12 @@ public class EncryptFileActivity extends FragmentActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         Log.i(TAG, "Activity Result: " + requestCode + " " + resultCode);
-        if (resultCode != RESULT_OK || data == null)
-            return;
 
         switch (requestCode) {
             case GpgApplication.FILENAME: // file picker result returned
+                Log.i(TAG, "GpgApplication.FILENAME " + GpgApplication.FILENAME);
+                if (resultCode != RESULT_OK || data == null)
+                    return;
                 try {
                     String path = data.getData().getPath();
                     Log.d(TAG, "path=" + path);
@@ -115,12 +120,30 @@ public class EncryptFileActivity extends FragmentActivity {
                     Log.e(TAG, "Nullpointer while retrieving path!", e);
                 }
                 return;
+            case ENCRYPTED_DATA_SENT:
+                Log.i(TAG, "ENCRYPTED_DATA_SENT");
+                deleteFilesFromCache();
+                setResult(RESULT_OK);
+                finish();
+                return;
         }
     }
 
     private void cancel() {
+        deleteFilesFromCache();
         setResult(RESULT_CANCELED);
         finish();
+    }
+
+    private void deleteFilesFromCache() {
+        if (mPlainFile != null && mPlainFile.getParentFile().equals(getFilesDir())) {
+            Log.v(TAG, "Deleting " + mPlainFile + " from the files cache");
+            mPlainFile.delete();
+        }
+        if (mEncryptedFile != null && mEncryptedFile.getParentFile().equals(getFilesDir())) {
+            Log.v(TAG, "Deleting " + mEncryptedFile + " from the files cache");
+            mEncryptedFile.delete();
+        }
     }
 
     /**
@@ -145,20 +168,19 @@ public class EncryptFileActivity extends FragmentActivity {
     private void processFile(Message message) {
         Bundle data = message.getData();
         boolean signFile = data.getBoolean(FileDialogFragment.MESSAGE_DATA_CHECKED);
-        File plainFile = new File(
-                data.getString(FileDialogFragment.MESSAGE_DATA_FILENAME));
-        if (!plainFile.exists()) {
+        mPlainFile = new File(data.getString(FileDialogFragment.MESSAGE_DATA_FILENAME));
+        if (!mPlainFile.exists()) {
             String errorMsg = String.format(
                     getString(R.string.error_file_does_not_exist_format),
-                    plainFile);
+                    mPlainFile);
             Toast.makeText(getBaseContext(), errorMsg, Toast.LENGTH_LONG).show();
             cancel();
         } else {
             try {
-                String plainFilename = plainFile.getCanonicalPath();
+                String plainFilename = mPlainFile.getCanonicalPath();
                 Log.d(TAG, "plainFilename: " + plainFilename);
-                mEncryptedFilename = plainFilename + ".gpg";
-                String args = "--output " + mEncryptedFilename;
+                mEncryptedFile = new File(plainFilename + ".gpg");
+                String args = "--output " + mEncryptedFile;
                 if (signFile)
                     args += " --sign ";
                 args += " --encrypt --recipient " + mFingerprint + " " + plainFilename;
@@ -168,9 +190,9 @@ public class EncryptFileActivity extends FragmentActivity {
             } catch (Exception e) {
                 String msg = String.format(
                         getString(R.string.error_encrypting_file_failed_format),
-                        plainFile);
+                        mPlainFile);
                 Toast.makeText(getBaseContext(), msg, Toast.LENGTH_LONG).show();
-                Log.e(TAG, "File encrypt failed: " + plainFile);
+                Log.e(TAG, "File encrypt failed: " + mPlainFile);
                 e.printStackTrace();
                 cancel();
             }
@@ -179,19 +201,27 @@ public class EncryptFileActivity extends FragmentActivity {
 
     private void sendEncryptedFile() {
         Log.i(TAG, "sendEncryptedFile");
-        File encryptedFile = new File(mEncryptedFilename);
-        if (mEmail != null && mEmail.length() > 3 && encryptedFile.exists()) {
+        if (mEncryptedFile.exists()) {
+            Posix.chmod("644", mEncryptedFile);
             Intent send = new Intent(Intent.ACTION_SEND);
-            send.putExtra(Intent.EXTRA_SUBJECT, encryptedFile.getName());
-            send.putExtra(Intent.EXTRA_EMAIL, new String[] {
-                    mEmail
-            });
-            send.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(encryptedFile));
-            send.setType("application/octet-stream");
-            startActivity(Intent.createChooser(send,
-                    getString(R.string.dialog_share_file_using)));
+            send.putExtra(Intent.EXTRA_SUBJECT, mEncryptedFile.getName());
+            if (mEmail != null && mEmail.length() > 3)
+                send.putExtra(Intent.EXTRA_EMAIL, new String[] {
+                        mEmail
+                });
+            Uri uri = Uri.fromFile(mEncryptedFile);
+            send.putExtra(Intent.EXTRA_STREAM, uri);
+            send.setType(getString(R.string.pgp_encrypted));
+            send.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            Intent intent = Intent.createChooser(send,
+                    getString(R.string.dialog_share_file_using));
+            startActivityForResult(intent, ENCRYPTED_DATA_SENT);
+        } else {
+            String msg = String.format(getString(R.string.error_file_does_not_exist_format),
+                    mEncryptedFile);
+            Log.i(TAG, msg);
+            Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
+            cancel();
         }
-        setResult(RESULT_OK);
-        finish();
     }
 }
