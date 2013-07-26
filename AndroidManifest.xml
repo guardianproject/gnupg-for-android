@@ -74,7 +74,12 @@
                 <category android:name="android.intent.category.BROWSABLE" />
                 <category android:name="android.intent.category.DEFAULT" />
 
+                <!-- Android's scheme matcher is case-sensitive, so include most likely variations -->
                 <data android:scheme="openpgp4fpr" />
+                <data android:scheme="OPENPGP4FPR" />
+                <data android:scheme="OpenPGP4FPR" />
+                <data android:scheme="OpenPGP4Fpr" />
+                <data android:scheme="OpenPGP4fpr" />
             </intent-filter>
         </activity>
         <activity

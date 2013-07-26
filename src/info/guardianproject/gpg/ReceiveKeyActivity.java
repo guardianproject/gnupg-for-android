@@ -1,6 +1,8 @@
 
 package info.guardianproject.gpg;
 
+import java.util.Locale;
+
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -33,7 +35,7 @@ public class ReceiveKeyActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
 
         Intent intent = getIntent();
-        String scheme = intent.getScheme();
+        String scheme = intent.getScheme().toLowerCase(Locale.ENGLISH); // scheme should be ASCII
         Uri uri = intent.getData();
 
         mFragmentManager = getSupportFragmentManager();
