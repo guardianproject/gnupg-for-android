@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.commons.io.FileUtils;
 
@@ -18,7 +19,6 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore.Images;
 import android.provider.MediaStore.MediaColumns;
 import android.util.Log;
 import android.webkit.MimeTypeMap;
@@ -108,9 +108,14 @@ public class FileHandlerActivity extends Activity {
     private void handleExtraText(Intent intent) {
         try {
             String data = intent.getStringExtra(Intent.EXTRA_TEXT);
-            File file = File.createTempFile("extra_text", ".txt", getFilesDir());
-            FileUtils.writeStringToFile(file, data);
-            encryptFile(file.getCanonicalPath());
+            String fingerprint = findFingerprint(data);
+            if (fingerprint != null)
+                receiveKeyByFingerprint(fingerprint);
+            else {
+                File file = File.createTempFile("extra_text", ".txt", getFilesDir());
+                FileUtils.writeStringToFile(file, data);
+                encryptFile(file.getCanonicalPath());
+            }
         } catch (IOException e) {
             e.printStackTrace();
             showError(R.string.app_name, e.getMessage());
@@ -232,6 +237,27 @@ public class FileHandlerActivity extends Activity {
         builder.show();
     }
 
+    private String findFingerprint(String text) {
+        if (text.length() > 200) {
+            Log.w(TAG, "Text too long, not looking for a fingerprint.");
+            return null;
+        }
+        Pattern fpr = Pattern.compile(".*?([a-fA-F0-9: ]*[a-fA-F0-9]{4} {0,3}:?[a-fA-F0-9]{4} {0,3}:?[a-fA-F0-9]{4} {0,3}:?[a-fA-F0-9]{4} {0,3}:?).*",
+                        Pattern.MULTILINE | Pattern.DOTALL);
+        Matcher matcher = fpr.matcher(text);
+        if (matcher.matches()) {
+            Log.i(TAG, "matches: " + matcher.groupCount());
+            // group(0) is entire match, group(1) is first match of parens
+            String match = matcher.group(1);
+            Log.i(TAG, "found: " + match);
+            match = match.replaceAll("[ :]", "");
+            if (match.length() > 40)
+                match = match.substring(match.length() - 40);
+            return match;
+        }
+        return null;
+    }
+
     /* this works for standard apps, like Gmail. but not apps like K-9 */
     private String getContentName(ContentResolver resolver, Uri uri) {
         // Gmail and K-9's attachment providers give the filename in this column
@@ -348,6 +374,13 @@ public class FileHandlerActivity extends Activity {
         Intent intent = new Intent(this, ImportFileActivity.class);
         intent.setType(mimeType);
         intent.setData(Uri.fromFile(new File(incomingFilename)));
+        startActivity(intent);
+    }
+
+    private void receiveKeyByFingerprint(String fingerprint) {
+        Log.v(TAG, "receiveKeyByFingerprint(" + fingerprint + ")");
+        Intent intent = new Intent(this, ReceiveKeyActivity.class);
+        intent.setData(Uri.parse("openpgp4fpr:" + fingerprint));
         startActivity(intent);
     }
 }
