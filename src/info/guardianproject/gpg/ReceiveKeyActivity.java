@@ -72,7 +72,11 @@ public class ReceiveKeyActivity extends FragmentActivity {
                         fingerprint);
                 Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
             } else {
-                key = GnuPG.context.getKeyByFingerprint(fingerprint);
+                try {
+                    key = GnuPG.context.getKeyByFingerprint(fingerprint);
+                } catch (GnuPGException e) {
+                    e.printStackTrace();  // this gets thrown if the key doesn't exist
+                }
             }
             if (key == null)
                 showReceiveKeyByFingerprintDialog(fingerprint);
