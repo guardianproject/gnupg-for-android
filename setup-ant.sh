@@ -6,5 +6,7 @@ if ! type -P android &> /dev/null; then
     exit 1
 fi
 
-android update project --path . --name GnuPrivacyGuard --subprojects
+projectname=`sed -n 's,.*name="app_name">\(.*\)<.*,\1,p' res/values/strings.xml`
+
 android update lib-project --path external/ActionBarSherlock/actionbarsherlock
+android update project --path . --name $projectname

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <resources>
 
-    <string name="app_name">Gnu Privacy Guard</string>
+    <string name="app_name">GnuPrivacyGuard</string>
     <string name="label_debug_header">Debug log for tests</string>
     <string name="pinentry_service_label">Gnu Privacy Guard pinentry daemon</string>
     <string name="pinentry_service_started">Gnu Privacy Guard pinentry daemon running</string>

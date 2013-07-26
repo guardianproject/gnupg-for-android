@@ -120,8 +120,7 @@ NDK: http://developer.android.com/sdk/ndk/
 First the get all of the source code from git:
 
 	git clone https://github.com/guardianproject/gnupg-for-android
-	git submodule init
-	git submodule update
+	git submodule update --init --recursive
 
 
 ### How to build the whole app
@@ -130,7 +129,7 @@ First the get all of the source code from git:
 	make -C external/
 	ndk-build clean
 	ndk-build
-	android update project --path . --name GnuPrivacyGuard
+	./setup-ant.sh
 	ant clean debug
 
 
