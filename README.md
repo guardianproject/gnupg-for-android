@@ -1,23 +1,43 @@
-# GNUPG for Android
+# Gnu Privacy Guard for Android
 
-**A port of the whole gnupg 2.1 suite to Android.**
+**A port of the whole GnuPG 2.1 suite to Android.**
 
-If you are using these tools in your own apps, we'd love to hear about it. Email us
-at root@guardianproject.info.
+If you are using these tools in your own apps, we'd love to hear about
+it. Email us at support@guardianproject.info.
 
-GNU Privacy Guard gives you access to the entire GnuPG suite of encryption
-software. GPG is GNU’s tool for end-to-end secure communication and encrypted
-data storage. This trusted protocol is the free software alternative to
-PGP. GnuPG 2.1 is the new modularized version of GnuPG that now supports
-OpenPGP and S/MIME.
+Gnu Privacy Guard (GPG) gives you access to the entire GnuPG suite of
+encryption software. GnuPG is GNU’s tool for end-to-end secure communication
+and encrypted data storage. This trusted protocol is the free software
+alternative to PGP. GnuPG 2.1 is the new modularized version of GnuPG that now
+supports OpenPGP and S/MIME.
+
+## Using Gnu Privacy Guard's Android Integration
+
+One of the core goals of Gnu Privacy Guard is to provide integrated encryption
+support in a way that feels natural on Android. That means it tries to be as
+transparent as possible, and only pop up with there is no other way:
+
+* if you want to send someone an encrypted file, find them in your
+  Contacts/People app, and click on "Encrypt File To"
+* if you want encrypt something, then share it to Gnu Privacy Guard
+* if you want to view an encrypted file, share it with Gnu Privacy Guard and
+  it'll prompt you for your password and the app to view it with
+* if you want to import keys into your keyring, there are a few ways to do it:
+  * click on a .pkr, .skr, .key, or pubring.gpg file in your email, dropbox,
+    SD card, etc.
+  * click on a fingerprint URL, for example: openpgp4fpr:9F0FE587374BBE81
+  * scan a fingerprint QRCode
+
+Look for more features in the Android integration, and please post your ideas
+in our issues tracker:
+https://dev.guardianproject.info/projects/gpgandroid/issues
 
 
+## Using Gnu Privacy Guard from the Terminal
 
-## Using GnuPG from the Terminal
-
-Before using gpgcli, be sure to launch the app and let it finish its
+Before using Gnu Privacy Guard, be sure to launch the app and let it finish its
 installation process. Once it has completed, then you're ready to use it. The
-easiest way to get started with gpgcli is to install Android Terminal
+easiest way to get started with Gnu Privacy Guard is to install Android Terminal
 Emulator. gpgcli will automatically configure Android Terminal Emulator as
 long as you have the "Allow PATH extensions" settings enabled. Get the Android
 Terminal Emulator at
@@ -28,10 +48,12 @@ When you run the GnuPG tools in an app, a GNUPGHOME folder will be created for
 that specific app.  Because of the Android permissions model, its not possible
 to create a shared GNUPGHOME without having it world-writable.
 
+
 ### Use in Android Terminal Emulator
 
 The app automatically configures Android Terminal Emulator to use the GnuPG
 tools, as long as you have the *Allow PATH extensions* preference set.
+
 
 ### Manual configuration and using it with other apps
 
@@ -45,11 +67,11 @@ Or you can call the aliases using the full path:
 
     /data/data/info.guardianproject.gpg/app_opt/aliases/gpg --encrypt secretfile.txt
 
-**WARNING**: The above method will store key material inside the data dir of gpgcli
+**WARNING**: The above method stores key material inside the data dir of Gnu Privacy Guard
 
-gpgcli is not able to read your key material, only root or your app can, but the
-material will remain after the app is uninstalled. If this is not desirable
-for you then you should set the environment variables managed in
+Gnu Privacy Guard is not able to read your key material, only root or your app
+can, but the material will remain after the app is uninstalled. If this is not
+desirable for you then you should set the environment variables managed in
 
     /data/data/info.guardianproject.gpg/app_opt/aliases/common
 
@@ -61,6 +83,7 @@ GNUPGHOME, and PATH.
 
 GNUPGHOME should be set to a secure path inside your app's data directory, for
 example you could call `getDir("gnupghome")` from your Activity.
+
 
 ### Setting up all of the tools
 
