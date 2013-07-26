@@ -34,5 +34,5 @@
 	ignore = dirty
 [submodule "external/ActionBarSherlock"]
 	path = external/ActionBarSherlock
-	url = git@github.com:JakeWharton/ActionBarSherlock.git
+	url = https://github.com/JakeWharton/ActionBarSherlock.git
 	ignore = dirty
