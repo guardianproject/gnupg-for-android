@@ -158,7 +158,7 @@ public class DebugLogActivity extends FragmentActivity implements OnCreateContex
             alert.show();
             return true;
 		case R.id.menu_run_test:
-			command = NativeHelper.app_opt + "/tests/run-tests.sh";
+			command = NativeHelper.app_opt + "/tests/run-tests-with-password.sh";
 			commandThread = new CommandThread();
 			commandThread.start();
 			Log.i(TAG, "finished " + command);

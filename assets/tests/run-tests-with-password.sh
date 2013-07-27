@@ -10,13 +10,8 @@ set -e
 
 echo "------------------------------"
 echo "gpgme tests:"
-export USER=`findusername`
 cd $app_opt/tests/
-runtest gpgme t-version
-runtest gpgme t-engine-info
-runtest gpgme t-data
-runtest gpgme run-import --verbose pubkey-1.asc
-runtest gpgme run-import --verbose pubdemo.asc
-runtest gpgme run-import --verbose pubkey-1.asc
+./run-tests.sh
+runtest gpgme run-import --verbose seckey-1.asc
+runtest gpgme run-import --verbose secdemo.asc
 runtest gpgme run-keylist --verbose
-
