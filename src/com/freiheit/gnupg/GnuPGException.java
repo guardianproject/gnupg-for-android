@@ -15,20 +15,20 @@
 package com.freiheit.gnupg;
 
 /**
-   If the underlying gpgme library reports an error, this exception is thrown.
-   Wraps all errors messages from inside gpgme.
-
-   @author Stefan Richter, stefan@freiheit.com
-*/
-public class GnuPGException extends RuntimeException{    
+ * If the underlying gpgme library reports an error, this exception is thrown.
+ * Wraps all errors messages from inside gpgme.
+ * 
+ * @author Stefan Richter, stefan@freiheit.com
+ */
+public class GnuPGException extends RuntimeException {
 
     private static final long serialVersionUID = -775599686124698560L;
 
     /**
-       This Exception is normally only thrown from 
-       within the native part of this library. 
-
-       @param msg is an error message text from gpgme
+     * This Exception is normally only thrown from within the native part of
+     * this library.
+     * 
+     * @param msg is an error message text from gpgme
      */
     GnuPGException(String msg) {
         super(msg);

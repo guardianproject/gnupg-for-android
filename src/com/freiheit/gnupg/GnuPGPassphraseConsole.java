@@ -11,44 +11,43 @@
  *
  * Please see COPYING for the complete licence.
  */
+
 package com.freiheit.gnupg;
 
 import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 
 /**
-   Requests a passphrase for a crypto operation from the command line.
-   This is triggered by gpgme. You must register this as a listener
-   to the GnuPGContext. <b>It stills echoes the passphrase on the console.
-   Remember, this is an alpha release...</b>
-
-   @see com.freiheit.gnupg.GnuPGContext
-
-   @author Stefan Richter, stefan@freiheit.com
+ * Requests a passphrase for a crypto operation from the command line. This is
+ * triggered by gpgme. You must register this as a listener to the GnuPGContext.
+ * <b>It stills echoes the passphrase on the console. Remember, this is an alpha
+ * release...</b>
+ * 
+ * @see com.freiheit.gnupg.GnuPGContext
+ * @author Stefan Richter, stefan@freiheit.com
  */
-public class GnuPGPassphraseConsole implements GnuPGPassphraseListener{
+public class GnuPGPassphraseConsole implements GnuPGPassphraseListener {
     private BufferedReader _reader;
 
     /**
-       Default-Constructor.
+     * Default-Constructor.
      */
-    public GnuPGPassphraseConsole(){
+    public GnuPGPassphraseConsole() {
         _reader = new BufferedReader(new InputStreamReader(System.in));
     }
 
     /**
-       Prints to the console, asks for the passphrase and returns it to gpgme.
+     * Prints to the console, asks for the passphrase and returns it to gpgme.
      */
-    public String getPassphrase(String hint, String passphraseInfo, long wasBad){
+    public String getPassphrase(String hint, String passphraseInfo, long wasBad) {
         StringBuffer prompt = new StringBuffer("Enter GnuPG Passphrase (");
         prompt.append(hint).append("): ");
         System.out.print(prompt.toString());
         String line = null;
-        try{
+        try {
             line = _reader.readLine();
-        }
-        catch(IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
             return null;
         }

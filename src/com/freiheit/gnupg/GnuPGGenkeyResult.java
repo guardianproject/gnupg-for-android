@@ -14,6 +14,7 @@
 /**
  * 
  */
+
 package com.freiheit.gnupg;
 
 /**
@@ -37,41 +38,44 @@ package com.freiheit.gnupg;
  * @author <a href="mailto:stefan.neumann@freiheit.com">Stefan Neumann</a>
  * @version $Id$
  */
-public class GnuPGGenkeyResult{
-	
-	private String _fpr;
-	private boolean _primary;
-	private boolean _sub;
-		
-	protected GnuPGGenkeyResult(){
-	}
-	
+public class GnuPGGenkeyResult {
+
+    private String _fpr;
+    private boolean _primary;
+    private boolean _sub;
+
+    protected GnuPGGenkeyResult() {
+    }
+
     /**
-     * This is the fingerprint of the key that was created.  If both 
-     * a primary and a sub key were generated, the fingerprint of 
-     * the primary key will be returned.  If the crypto engine does 
-     * not provide the fingerprint, `it will return a null pointer.
-     * @return fingerprint of the created key 
+     * This is the fingerprint of the key that was created. If both a primary
+     * and a sub key were generated, the fingerprint of the primary key will be
+     * returned. If the crypto engine does not provide the fingerprint, `it will
+     * return a null pointer.
+     * 
+     * @return fingerprint of the created key
      */
-    public String getFpr(){
+    public String getFpr() {
         return _fpr;
     }
 
     /**
-     * This is a flag that is set to true if a primary key was created 
-     * and to false if not.
+     * This is a flag that is set to true if a primary key was created and to
+     * false if not.
+     * 
      * @return flag, if a primary key was created
      */
-    public boolean isPrimary(){
-    	return _primary;
+    public boolean isPrimary() {
+        return _primary;
     }
-    
+
     /**
-     * This is a flag that is set to true if a subkey was created and
-     *  to false if not.
+     * This is a flag that is set to true if a subkey was created and to false
+     * if not.
+     * 
      * @return flag, if a subkey was created
      */
-    public boolean isSub(){
-    	return _sub;
+    public boolean isSub() {
+        return _sub;
     }
 }

@@ -22,20 +22,19 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 /**
-   Holds the data that you want to work on and stores the results
-   of crypto operations.
-
-   @author Stefan Richter, stefan@freiheit.com
+ * Holds the data that you want to work on and stores the results of crypto
+ * operations.
+ * 
+ * @author Stefan Richter, stefan@freiheit.com
  */
-public class GnuPGData extends GnuPGPeer{
+public class GnuPGData extends GnuPGPeer {
 
     /**
-       Use the factory methods from GnuPGContext to create GnuPGData instances.
-       Generates an empty data object. Use this, if you want
-       to create a data object to hold a result from a crypto
-       operation.
+     * Use the factory methods from GnuPGContext to create GnuPGData instances.
+     * Generates an empty data object. Use this, if you want to create a data
+     * object to hold a result from a crypto operation.
      */
-    protected GnuPGData(){
+    protected GnuPGData() {
         setInternalRepresentation(gpgmeDataNew());
     }
 
@@ -70,86 +69,85 @@ public class GnuPGData extends GnuPGPeer{
     }
 
     /**
-       Use the factory methods from GnuPGContext to create GnuPGData instances.
-       Generates a new data object containing the given String.
-
-       @param str your string
+     * Use the factory methods from GnuPGContext to create GnuPGData instances.
+     * Generates a new data object containing the given String.
+     * 
+     * @param str your string
      */
-    protected GnuPGData(String str){
+    protected GnuPGData(String str) {
         this(str.getBytes());
     }
 
     /**
-       Use the factory methods from GnuPGContext to create GnuPGData instances.
-       Generates a new Data-Object containing the given byte array.
-
-       @param data your data
+     * Use the factory methods from GnuPGContext to create GnuPGData instances.
+     * Generates a new Data-Object containing the given byte array.
+     * 
+     * @param data your data
      */
-    protected GnuPGData(byte[] data){
+    protected GnuPGData(byte[] data) {
         long gpgmeDataNewFromMem = gpgmeDataNewFromMem(data);
         setInternalRepresentation(gpgmeDataNewFromMem);
     }
 
-
     /*
-       FIXME: This is not working! Use it, and it will crash the JVM.
-    */
-     public void read(InputStream in) throws IOException{
-         if(in != null){
-             gpgmeDataRead(getInternalRepresentation(), in);
-         }
-     }
+     * FIXME: This is not working! Use it, and it will crash the JVM.
+     */
+    public void read(InputStream in) throws IOException {
+        if (in != null) {
+            gpgmeDataRead(getInternalRepresentation(), in);
+        }
+    }
 
     /**
-       Writes the data/string contained in this data object
-       to the given Java OutputStream.
-
-       @param out OutputStream, where the data/string should be written
+     * Writes the data/string contained in this data object to the given Java
+     * OutputStream.
+     * 
+     * @param out OutputStream, where the data/string should be written
      */
-    public void write(OutputStream out) throws IOException{
+    public void write(OutputStream out) throws IOException {
         if (out != null) {
             gpgmeDataWrite(getInternalRepresentation(), out);
         }
     }
 
     /**
-       Helper method to print out the data/string from this data object.
-
-       @return String representation of the data contained in this data object (expect weird results with binary data)
+     * Helper method to print out the data/string from this data object.
+     * 
+     * @return String representation of the data contained in this data object
+     *         (expect weird results with binary data)
      */
     @Override
-    public String toString(){
+    public String toString() {
         String result = null;
         ByteArrayOutputStream baos = new ByteArrayOutputStream(this.size());
-        try{
+        try {
             this.write(baos);
             result = baos.toString();
-        }
-        catch(IOException ioe){
+        } catch (IOException ioe) {
             result = ioe.getMessage();
         }
         return result;
     }
 
     /**
-       This calls immediately the release method for the datastructure
-       in the underlying gpgme library. This method is called by
-       the finalizer of the class anyway, but you can call it yourself
-       if you want to get rid of this datastructure at once and don't want to
-       wait for the non-deterministic garbage-collector of the JVM.
-    */
-    public void destroy(){
-        if(getInternalRepresentation() != 0){
+     * This calls immediately the release method for the datastructure in the
+     * underlying gpgme library. This method is called by the finalizer of the
+     * class anyway, but you can call it yourself if you want to get rid of this
+     * datastructure at once and don't want to wait for the non-deterministic
+     * garbage-collector of the JVM.
+     */
+    public void destroy() {
+        if (getInternalRepresentation() != 0) {
             gpgmeDataRelease(getInternalRepresentation());
             setInternalRepresentation(0);
         }
     }
 
     /**
-       Releases underlying datastructures. Simple calls the destroy() method.
+     * Releases underlying datastructures. Simple calls the destroy() method.
      */
     @Override
-    protected void finalize(){
+    protected void finalize() {
         destroy();
     }
 
@@ -158,10 +156,16 @@ public class GnuPGData extends GnuPGPeer{
     }
 
     private native int gpgmeSize(long l);
+
     private native long gpgmeDataNewFromMem(byte[] plain);
+
     private native long gpgmeDataNewFromFilename(String filename, String mode);
+
     private native long gpgmeDataNew();
+
     private native void gpgmeDataWrite(long l, OutputStream out) throws IOException;
+
     private native void gpgmeDataRelease(long l);
+
     private native void gpgmeDataRead(long data, InputStream in) throws IOException;
 }

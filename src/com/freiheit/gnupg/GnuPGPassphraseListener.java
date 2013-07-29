@@ -11,35 +11,31 @@
  *
  * Please see COPYING for the complete licence.
  */
+
 package com.freiheit.gnupg;
 
 /**
-   This is the listener interface you need to implement, if you want
-   to react to the passphrase callbacks of the gpgme library for
-   yourself.  In this way, you can for example lookup passphrases from a
-   database or so and return them to gpgme.
-
-   There are also two pre-fabricated listener.
-   @see com.freiheit.gnupg.GnuPGPassphraseWindow
-   @see com.freiheit.gnupg.GnuPGPassphraseConsole
-
-   @author Stefan Richter, stefan@freiheit.com
+ * This is the listener interface you need to implement, if you want to react to
+ * the passphrase callbacks of the gpgme library for yourself. In this way, you
+ * can for example lookup passphrases from a database or so and return them to
+ * gpgme. There are also two pre-fabricated listener.
+ * 
+ * @see com.freiheit.gnupg.GnuPGPassphraseWindow
+ * @see com.freiheit.gnupg.GnuPGPassphraseConsole
+ * @author Stefan Richter, stefan@freiheit.com
  */
-public interface GnuPGPassphraseListener{
+public interface GnuPGPassphraseListener {
     /**
-       This method will be called by gpgme, if a passphrase is necessary
-       to complete a crypto operation.
-
-       Implement this interface and register it with the GnuPGContext
-       on which you are operating.
-
-       @param hint TODO
-       @param passphraseInfo TODO
-       @param wasBad TODO
-
-       @return passphrase to be supplied to gpgme callback (MUST include a \n at the end of the string)
-
-       @see com.freiheit.gnupg.GnuPGContext
+     * This method will be called by gpgme, if a passphrase is necessary to
+     * complete a crypto operation. Implement this interface and register it
+     * with the GnuPGContext on which you are operating.
+     * 
+     * @param hint TODO
+     * @param passphraseInfo TODO
+     * @param wasBad TODO
+     * @return passphrase to be supplied to gpgme callback (MUST include a \n at
+     *         the end of the string)
+     * @see com.freiheit.gnupg.GnuPGContext
      */
     public String getPassphrase(String hint, String passphraseInfo, long wasBad);
 }
