@@ -62,8 +62,6 @@ public class Apg {
     public static final String EXTRA_BINARY = "binary";
     public static final String EXTRA_KEY_SERVERS = "keyServers";
 
-    private static String VERSION = null;
-
     public static Pattern PGP_MESSAGE =
             Pattern.compile(".*?(-----BEGIN PGP MESSAGE-----.*?-----END PGP MESSAGE-----).*",
                     Pattern.DOTALL);
