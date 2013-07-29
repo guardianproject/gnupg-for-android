@@ -3,6 +3,7 @@ package info.guardianproject.gpg;
 
 import java.util.Locale;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -31,6 +32,7 @@ public class ReceiveKeyActivity extends FragmentActivity {
     static final String GPG2_TASK_FRAGMENT_TAG = TAG;
 
     @Override
+    @SuppressLint("DefaultLocale")
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 

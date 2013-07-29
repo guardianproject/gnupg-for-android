@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -116,6 +117,7 @@ public class ImportFileActivity extends FragmentActivity {
         }
     }
 
+    @SuppressLint("DefaultLocale")
     private boolean isSupportedFileType(Uri uri) {
         String path = uri.getLastPathSegment();
         String extension = path.substring(path.lastIndexOf('.'), path.length()).toLowerCase();
