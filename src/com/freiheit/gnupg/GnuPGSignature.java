@@ -187,11 +187,3 @@ public class GnuPGSignature extends GnuPGPeer{
     private native long gpgmeGetNextSignature(long l);
 
 }
-
-/*
- * Local variables:
- * c-basic-offset: 4
- * indent-tabs-mode: nil
- * compile-command: "ant -emacs -find build.xml"
- * End:
- */

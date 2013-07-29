@@ -864,11 +864,3 @@ public class GnuPGContext extends GnuPGPeer{
     private native void gpgmeSetTextmode(long l, boolean state);
 
 }
-
-/*
- * Local variables:
- * c-basic-offset: 4
- * indent-tabs-mode: nil
- * compile-command: "ant -emacs -find build.xml"
- * End:
- */

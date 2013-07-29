@@ -271,10 +271,3 @@ public class GnuPGKey extends GnuPGPeer{
     private native boolean gpgmeHasSecretKey(long keyptr);
 
 }
-/*
- * Local variables:
- * c-basic-offset: 4
- * indent-tabs-mode: nil
- * compile-command: "ant -emacs -find build.xml"
- * End:
- */

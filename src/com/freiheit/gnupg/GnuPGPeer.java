@@ -40,10 +40,3 @@ public class GnuPGPeer{
         return _internalRepresentation;
     }
 }
-/*
- * Local variables:
- * c-basic-offset: 4
- * indent-tabs-mode: nil
- * compile-command: "ant -emacs -find build.xml"
- * End:
- */

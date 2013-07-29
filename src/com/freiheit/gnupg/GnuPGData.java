@@ -165,10 +165,3 @@ public class GnuPGData extends GnuPGPeer{
     private native void gpgmeDataRelease(long l);
     private native void gpgmeDataRead(long data, InputStream in) throws IOException;
 }
-/*
- * Local variables:
- * c-basic-offset: 4
- * indent-tabs-mode: nil
- * compile-command: "ant -emacs -find build.xml"
- * End:
- */
