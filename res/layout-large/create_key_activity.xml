@@ -179,7 +179,7 @@
         android:layout_alignParentBottom="true"
         android:layout_margin="10sp"
         android:padding="20sp"
-        android:text="@string/create_key"
+        android:text="@string/title_create_key"
         android:textSize="20sp" />
 
 </RelativeLayout>

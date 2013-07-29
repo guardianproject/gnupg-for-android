@@ -5,11 +5,11 @@
         android:id="@+id/settings"
         android:icon="@android:drawable/ic_menu_preferences"
         android:showAsAction="ifRoom|withText"
-        android:title="@string/menu_settings"/>
+        android:title="@string/title_settings"/>
     <item
         android:id="@+id/debugMode"
         android:icon="@drawable/ic_action_debug_dark"
         android:showAsAction="ifRoom|withText"
-        android:title="@string/menu_debug_mode"/>
+        android:title="@string/title_debug_mode"/>
 
 </menu>

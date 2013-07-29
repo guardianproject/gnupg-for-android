@@ -28,7 +28,7 @@
     <item
         android:id="@+id/menu_create_key"
         android:showAsAction="ifRoom|withText"
-        android:title="@string/create_key"/>
+        android:title="@string/title_create_key"/>
     <item
         android:id="@+id/menu_search_keys"
         android:icon="@android:drawable/ic_menu_search"
@@ -47,6 +47,6 @@
         android:id="@+id/menu_settings_key"
         android:icon="@android:drawable/ic_menu_preferences"
         android:showAsAction="ifRoom|withText"
-        android:title="@string/settings"/>
+        android:title="@string/title_settings"/>
 
 </menu>
