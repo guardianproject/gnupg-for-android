@@ -54,6 +54,8 @@ public class DecryptActivity extends Activity {
                     plain.write(out);
                 } catch (IOException e) {
                     e.printStackTrace();
+                    finishWithError(getString(R.string.error_decrypting_failed));
+                    return;
                 }
                 data.putByteArray(Apg.EXTRA_DECRYPTED_DATA, baos.toByteArray());
             }
