@@ -4,36 +4,36 @@
     <item
         android:id="@+id/menu_decrypt_file"
         android:showAsAction="ifRoom|withText"
-        android:title="Decrypt File"/>
+        android:title="@string/title_decrypt_file"/>
     <item
         android:id="@+id/menu_import_key_from_file"
         android:icon="@android:drawable/ic_input_add"
         android:showAsAction="ifRoom|withText"
-        android:title="Import Keys"/>
+        android:title="@string/title_import_keys"/>
     <item
         android:id="@+id/menu_export_keys_to_file"
         android:icon="@android:drawable/ic_menu_save"
         android:showAsAction="ifRoom|withText"
-        android:title="Export Keys"/>
+        android:title="@string/title_export_keys"/>
     <item
         android:id="@+id/menu_receive_key"
         android:icon="@android:drawable/arrow_down_float"
         android:showAsAction="ifRoom|withText"
-        android:title="Receive Key"/>
+        android:title="@string/receive_key"/>
     <item
         android:id="@+id/menu_send_key"
         android:icon="@android:drawable/arrow_up_float"
         android:showAsAction="ifRoom|withText"
-        android:title="Send Key"/>
+        android:title="@string/send_key"/>
     <item
         android:id="@+id/menu_create_key"
         android:showAsAction="ifRoom|withText"
-        android:title="Create Key"/>
+        android:title="@string/create_key"/>
     <item
         android:id="@+id/menu_search_keys"
         android:icon="@android:drawable/ic_menu_search"
         android:showAsAction="ifRoom|withText"
-        android:title="Search Keys"/>
+        android:title="@string/title_search_keys"/>
     <item
         android:id="@+id/menu_run_test"
         android:showAsAction="ifRoom|withText"
@@ -47,6 +47,6 @@
         android:id="@+id/menu_settings_key"
         android:icon="@android:drawable/ic_menu_preferences"
         android:showAsAction="ifRoom|withText"
-        android:title="Settings"/>
+        android:title="@string/settings"/>
 
 </menu>

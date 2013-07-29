@@ -21,6 +21,9 @@
     <string name="title_import_keys">Import Keys</string>
     <string name="title_export_keys">Export Keys</string>
     <string name="title_receive_keys">Receive Keys</string>
+    <string name="title_search_keys">Search Keys</string>
+    <string name="title_error">Error</string>
+    <string name="settings">Settings</string>
     <string name="verify_signature">Verify Signature</string>
     <string name="signature_verified">Signature Verified</string>
     <string name="verifying_file_format">Verifying \"%s\"</string>

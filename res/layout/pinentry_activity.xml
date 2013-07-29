@@ -29,7 +29,7 @@
         android:layout_below="@+id/description"
         android:layout_centerHorizontal="true"
         android:gravity="center"
-        android:text="Error" />
+        android:text="@string/error" />
 
     <EditText
         android:id="@+id/pinEdit"
