@@ -12,7 +12,7 @@ import android.os.Bundle;
 /**
  * @author abel
  */
-public class GPGBroadcastReceiver extends BroadcastReceiver {
+public class GpgBroadcastReceiver extends BroadcastReceiver {
 
     /**
      * We launch SharedDaemonsService at boot and register the PATH var in

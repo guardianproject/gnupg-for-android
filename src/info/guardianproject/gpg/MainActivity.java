@@ -112,7 +112,7 @@ public class MainActivity extends SherlockFragmentActivity
             startActivity(intent);
             return true;
         } else if (id == R.id.settings) {
-            startActivity(new Intent(this, GPGPreferenceActivity.class));
+            startActivity(new Intent(this, GpgPreferenceActivity.class));
             return true;
         }
         return super.onOptionsItemSelected(item);

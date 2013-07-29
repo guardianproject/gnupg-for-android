@@ -4,7 +4,7 @@ package info.guardianproject.gpg;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
 
-public class GPGPreferenceActivity extends PreferenceActivity {
+public class GpgPreferenceActivity extends PreferenceActivity {
 
     public final static String PREF_START_BOOT = "pref_start_boot";
     public final static String PREF_KEYSERVER = "pref_keyserver";

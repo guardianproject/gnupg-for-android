@@ -109,7 +109,7 @@ public class DebugLogActivity extends FragmentActivity implements OnCreateContex
 
         switch (item.getItemId()) {
             case R.id.menu_settings_key:
-                startActivity(new Intent(this, GPGPreferenceActivity.class));
+                startActivity(new Intent(this, GpgPreferenceActivity.class));
                 return true;
             case R.id.menu_create_key:
                 startActivity(new Intent(this, CreateKeyActivity.class));
@@ -135,7 +135,7 @@ public class DebugLogActivity extends FragmentActivity implements OnCreateContex
                     public void onClick(DialogInterface dialog, int whichButton) {
                         SharedPreferences prefs = PreferenceManager
                                 .getDefaultSharedPreferences(context);
-                        String ks = prefs.getString(GPGPreferenceActivity.PREF_KEYSERVER,
+                        String ks = prefs.getString(GpgPreferenceActivity.PREF_KEYSERVER,
                                 "200.144.121.45");
                         command = NativeHelper.gpg2
                                 + " --keyserver " + ks + " --recv-keys "
@@ -154,7 +154,7 @@ public class DebugLogActivity extends FragmentActivity implements OnCreateContex
                     public void onClick(DialogInterface dialog, int whichButton) {
                         SharedPreferences prefs = PreferenceManager
                                 .getDefaultSharedPreferences(context);
-                        String ks = prefs.getString(GPGPreferenceActivity.PREF_KEYSERVER,
+                        String ks = prefs.getString(GpgPreferenceActivity.PREF_KEYSERVER,
                                 "200.144.121.45");
                         command = NativeHelper.gpg2
                                 + " --keyserver " + ks + " --send-keys "

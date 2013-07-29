@@ -23,7 +23,7 @@ public class SearchKeysActivity extends ListActivity {
 
         String query = getIntent().getStringExtra(Intent.EXTRA_TEXT);
         if (GnuPG.context == null)
-            Log.e(TAG, "GPG context is null!");
+            Log.e(TAG, "GnuPG.context is null!");
         String[] keys = new String[0];
         GnuPGKey[] keyArray = GnuPG.context.searchKeys(query);
         if (keyArray == null) {

@@ -9,7 +9,7 @@ public class Preferences {
 
     public static boolean startOnBoot(Context c) {
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(c);
-        return sharedPref.getBoolean(GPGPreferenceActivity.PREF_START_BOOT, true);
+        return sharedPref.getBoolean(GpgPreferenceActivity.PREF_START_BOOT, true);
     }
 
 }

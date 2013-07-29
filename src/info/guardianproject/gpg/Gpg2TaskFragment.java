@@ -73,7 +73,7 @@ public class Gpg2TaskFragment extends DialogFragment {
     @Override
     public void onResume() {
         super.onResume();
-        // if the GPG2Task finished while the user was away, dismiss this
+        // if the Gpg2Task finished while the user was away, dismiss this
         if (mGpg2Task == null)
             dismiss();
     }
