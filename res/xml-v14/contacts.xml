@@ -17,10 +17,9 @@
  */
 -->
 
-<ContactsAccountType
-    xmlns:android="http://schemas.android.com/apk/res/android"
->
-<!--
+<ContactsAccountType xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <!--
     inviteContactActivity="com.example.android.samplesync.activities.InviteContactActivity"
     inviteContactActionLabel="@string/invite_action_label"
     viewContactNotifyService="com.example.android.samplesync.notifier.NotifierService"
@@ -28,12 +27,12 @@
     viewGroupActionLabel="@string/view_group_action_label"
     viewStreamItemActivity="com.example.android.samplesync.activities.ViewStreamItemActivity"
     viewStreamItemPhotoActivity="com.example.android.samplesync.activities.ViewStreamItemPhotoActivity"
--->
+    -->
     <ContactsDataKind
-        android:mimeType="vnd.android.cursor.item/vnd.info.guardianproject.gpg.encryptfileto"
-        android:icon="@drawable/icon"
-        android:summaryColumn="data3"
         android:detailColumn="data2"
-        android:detailSocialSummary="false" />
+        android:detailSocialSummary="false"
+        android:icon="@drawable/icon"
+        android:mimeType="vnd.android.cursor.item/vnd.info.guardianproject.gpg.encryptfileto"
+        android:summaryColumn="data3" />
 
 </ContactsAccountType>

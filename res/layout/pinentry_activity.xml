@@ -18,18 +18,18 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/title"
-         android:text="Desc"
         android:layout_centerHorizontal="true"
-        android:gravity="center" />
+        android:gravity="center"
+        android:text="Desc" />
 
     <TextView
         android:id="@+id/error"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/description"
-         android:text="Error"
         android:layout_centerHorizontal="true"
-        android:gravity="center" />
+        android:gravity="center"
+        android:text="Error" />
 
     <EditText
         android:id="@+id/pinEdit"
@@ -60,6 +60,7 @@
             android:height="50sp"
             android:text="@android:string/ok"
             android:textAppearance="@android:style/TextAppearance.Large" />
+
         <Button
             android:id="@+id/notOkButton"
             android:layout_width="wrap_content"
@@ -68,6 +69,7 @@
             android:height="50sp"
             android:text="Not Ok"
             android:textAppearance="@android:style/TextAppearance.Large" />
+
         <Button
             android:id="@+id/cancelButton"
             android:layout_width="wrap_content"

@@ -17,12 +17,12 @@
  */
 -->
 
+
 <!-- The attributes in this XML file provide configuration information -->
 <!-- for the Account Manager. -->
 
 <account-authenticator xmlns:android="http://schemas.android.com/apk/res/android"
     android:accountType="info.guardianproject.gpg.sync"
     android:icon="@drawable/icon"
-    android:smallIcon="@drawable/icon"
     android:label="@string/account_label"
-/>
+    android:smallIcon="@drawable/icon" />

@@ -17,6 +17,7 @@
  */
 -->
 
+
 <!--
   The attributes in this XML file provide configuration information
   for the SampleSyncAdapter.
@@ -30,8 +31,7 @@
 -->
 
 <sync-adapter xmlns:android="http://schemas.android.com/apk/res/android"
-    android:contentAuthority="com.android.contacts"
     android:accountType="info.guardianproject.gpg.sync"
+    android:contentAuthority="com.android.contacts"
     android:supportsUploading="false"
-    android:userVisible="true"
-/>
+    android:userVisible="true" />

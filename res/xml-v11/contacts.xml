@@ -17,15 +17,13 @@
  */
 -->
 
-<ContactsAccountType
-    xmlns:android="http://schemas.android.com/apk/res/android"
->
+<ContactsAccountType xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <ContactsDataKind
-        android:mimeType="vnd.android.cursor.item/vnd.info.guardianproject.gpg.encryptfileto"
-        android:icon="@drawable/icon"
-        android:summaryColumn="data2"
         android:detailColumn="data3"
-        android:detailSocialSummary="false" />
+        android:detailSocialSummary="false"
+        android:icon="@drawable/icon"
+        android:mimeType="vnd.android.cursor.item/vnd.info.guardianproject.gpg.encryptfileto"
+        android:summaryColumn="data2" />
 
 </ContactsAccountType>

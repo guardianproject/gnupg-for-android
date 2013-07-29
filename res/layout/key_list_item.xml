@@ -89,7 +89,6 @@
                 android:text="cdef"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:typeface="monospace" />
-
         </LinearLayout>
 
         <TextView

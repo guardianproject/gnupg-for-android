@@ -170,7 +170,7 @@
             android:layout_height="wrap_content"
             android:checked="true"
             android:text="@string/key_make_backup" />
-        </LinearLayout>
+    </LinearLayout>
 
     <Button
         android:id="@+id/createKeyButton"
