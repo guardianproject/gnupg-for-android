@@ -18,6 +18,8 @@ package info.guardianproject.gpg.apg_compat;
 
 public interface ProgressDialogUpdater {
     void setProgress(String message, int current, int total);
+
     void setProgress(int resourceId, int current, int total);
+
     void setProgress(int current, int total);
 }

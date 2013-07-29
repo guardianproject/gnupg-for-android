@@ -35,7 +35,8 @@ public class ReceiveKeyActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
 
         Intent intent = getIntent();
-        String scheme = intent.getScheme().toLowerCase(Locale.ENGLISH); // scheme should be ASCII
+        // scheme should only ever be pure ASCII:
+        String scheme = intent.getScheme().toLowerCase(Locale.ENGLISH);
         Uri uri = intent.getData();
 
         mFragmentManager = getSupportFragmentManager();
@@ -75,7 +76,8 @@ public class ReceiveKeyActivity extends FragmentActivity {
                 try {
                     key = GnuPG.context.getKeyByFingerprint(fingerprint);
                 } catch (GnuPGException e) {
-                    e.printStackTrace();  // this gets thrown if the key doesn't exist
+                    e.printStackTrace(); // this gets thrown if the key doesn't
+                                         // exist
                 }
             }
             if (key == null)

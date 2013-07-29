@@ -1,5 +1,8 @@
+
 package info.guardianproject.gpg.pinentry;
 
+import info.guardianproject.gpg.NativeHelper;
+import info.guardianproject.gpg.R;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.util.Log;
@@ -10,9 +13,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-
-import info.guardianproject.gpg.NativeHelper;
-import info.guardianproject.gpg.R;
 
 public class PinentryDialog extends DialogFragment {
     private final static String TAG = PinentryDialog.class.getSimpleName();
@@ -68,8 +68,6 @@ public class PinentryDialog extends DialogFragment {
         }
     };
 
-
-
     private native void connectToGpgAgent(int uid);
 
     /** Called when the activity is first created. */
@@ -82,7 +80,7 @@ public class PinentryDialog extends DialogFragment {
         Bundle params = getArguments();
         final int uid = params.getInt("uid", -1);
 
-        if( uid < 0 ) {
+        if (uid < 0) {
             Log.e(TAG, "missing uid. aborting");
             return null;
         }
@@ -138,22 +136,27 @@ public class PinentryDialog extends DialogFragment {
     }
 
     private synchronized void setPin() {
-        if (pinentry == null) return;
-        pinentry.pin    = pinEdit.getText().toString();
+        if (pinentry == null)
+            return;
+        pinentry.pin = pinEdit.getText().toString();
         pinentry.result = pinEdit.getText().length();
     }
 
-    private synchronized void setNotOked( boolean notoked ) {
-        if (pinentry == null) return;
+    private synchronized void setNotOked(boolean notoked) {
+        if (pinentry == null)
+            return;
         pinentry.canceled = notoked ? 0 : 1;
     }
-    private synchronized void setCanceled( boolean canceled ) {
-        if (pinentry == null) return;
-        if(canceled)          pinentry.result = -1;
+
+    private synchronized void setCanceled(boolean canceled) {
+        if (pinentry == null)
+            return;
+        if (canceled)
+            pinentry.result = -1;
     }
 
     private synchronized void updateTitle() {
-        if (pinentry.title.length() != 0 ) {
+        if (pinentry.title.length() != 0) {
             title.setText(pinentry.title);
             title.setVisibility(View.VISIBLE);
         } else {
@@ -163,14 +166,14 @@ public class PinentryDialog extends DialogFragment {
     }
 
     private synchronized void updateDesc() {
-        if (pinentry.description.length() != 0 ) {
+        if (pinentry.description.length() != 0) {
             description.setText(pinentry.description);
             description.setVisibility(View.VISIBLE);
         } else {
             description.setText("");
             description.setVisibility(View.GONE);
         }
-        if (pinentry.error.length() != 0 ) {
+        if (pinentry.error.length() != 0) {
             error.setText(pinentry.error);
             error.setVisibility(View.VISIBLE);
         } else {
@@ -180,12 +183,12 @@ public class PinentryDialog extends DialogFragment {
     }
 
     private synchronized void setButton(boolean pinPrompt, boolean oneButton) {
-        if( pinentry.ok.length() != 0 ) {
+        if (pinentry.ok.length() != 0) {
             okButton.setText(pinentry.ok);
         } else {
             okButton.setText(pinentry.default_ok);
         }
-        if( pinentry.cancel.length() != 0 ) {
+        if (pinentry.cancel.length() != 0) {
             cancelButton.setText(pinentry.cancel);
         } else {
             cancelButton.setText(pinentry.default_cancel);
@@ -193,18 +196,18 @@ public class PinentryDialog extends DialogFragment {
     }
 
     private synchronized void updateOkButton() {
-        if( this.promptingPin ) {
+        if (this.promptingPin) {
             okButton.setOnClickListener(pinEnterClickListener);
         } else {
             okButton.setOnClickListener(okClickListener);
         }
-        if( this.oneButton ) {
+        if (this.oneButton) {
             okButton.setVisibility(View.GONE);
         } else {
             okButton.setVisibility(View.VISIBLE);
         }
 
-        if( pinentry.ok.length() != 0 ) {
+        if (pinentry.ok.length() != 0) {
             okButton.setText(fix(pinentry.ok));
         } else {
             okButton.setText(fix(pinentry.default_ok));
@@ -214,7 +217,7 @@ public class PinentryDialog extends DialogFragment {
     private synchronized void updateCancelButton() {
         cancelButton.setOnClickListener(cancelClickListener);
         okButton.setVisibility(View.VISIBLE);
-        if( pinentry.cancel.length() != 0 ) {
+        if (pinentry.cancel.length() != 0) {
             cancelButton.setText(fix(pinentry.cancel));
         } else {
             cancelButton.setText(fix(pinentry.default_cancel));
@@ -223,16 +226,16 @@ public class PinentryDialog extends DialogFragment {
 
     private synchronized void updateNotOkButton() {
         notOkButton.setOnClickListener(notOkClickListener);
-        if( this.promptingPin ) {
+        if (this.promptingPin) {
             notOkButton.setVisibility(View.GONE);
             return;
         }
-        if( this.oneButton ) {
+        if (this.oneButton) {
             notOkButton.setVisibility(View.GONE);
             return;
         }
 
-        if( pinentry.notok.length() != 0 ) {
+        if (pinentry.notok.length() != 0) {
             notOkButton.setText(fix(pinentry.notok));
             notOkButton.setVisibility(View.VISIBLE);
         } else {
@@ -241,7 +244,7 @@ public class PinentryDialog extends DialogFragment {
     }
 
     private synchronized void updatePinEdit() {
-        if( this.promptingPin ) {
+        if (this.promptingPin) {
             pinEdit.setVisibility(View.VISIBLE);
             return;
         } else {
@@ -250,11 +253,11 @@ public class PinentryDialog extends DialogFragment {
     }
 
     /*
-     * The strings gpg-agent sends us include accelerator markers
-     * these are underscores and on the desktop they enable the
-     * ALT+X shortcuts actions. We remove them.
+     * The strings gpg-agent sends us include accelerator markers these are
+     * underscores and on the desktop they enable the ALT+X shortcuts actions.
+     * We remove them.
      */
-    private String fix( String str ) {
+    private String fix(String str) {
         // double underscores are escaped underscores
         return str.replace("__", "ILoveHotSauce").replace("_", "").replace("ILoveHotSauce", "_");
     }

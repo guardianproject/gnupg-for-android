@@ -1,11 +1,12 @@
-package info.guardianproject.gpg.sync;
 
-import com.freiheit.gnupg.GnuPGKey;
+package info.guardianproject.gpg.sync;
 
 import info.guardianproject.gpg.GnuPG;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import com.freiheit.gnupg.GnuPGKey;
 
 public class RawContact {
 
@@ -19,26 +20,28 @@ public class RawContact {
 
     public static List<RawContact> fromPublicKeys() {
         GnuPGKey[] keys = GnuPG.context.listKeys();
-        if( keys == null ) return new ArrayList<RawContact>();
+        if (keys == null)
+            return new ArrayList<RawContact>();
         ArrayList<RawContact> list = new ArrayList<RawContact>(keys.length);
-        for( GnuPGKey key : keys ) {
-            list.add( RawContact.fromKey(key) );
+        for (GnuPGKey key : keys) {
+            list.add(RawContact.fromKey(key));
         }
         return list;
     }
 
     public static RawContact fromKey(GnuPGKey key) {
         return new RawContact(key.getName(),
-                                      key.getEmail(),
-                                      key.getComment(),
-                                      key.getFingerprint(),
-                                      key.getFingerprint(),
-                                      0,
-                                      false);
+                key.getEmail(),
+                key.getComment(),
+                key.getFingerprint(),
+                key.getFingerprint(),
+                0,
+                false);
 
     }
 
-    public RawContact(String name, String email, String comment, String readableFpr, String fingerprint, long rawContactId, boolean deleted) {
+    public RawContact(String name, String email, String comment, String readableFpr,
+            String fingerprint, long rawContactId, boolean deleted) {
         super();
         this.mFullName = name;
         this.mEmail = email;
@@ -49,16 +52,13 @@ public class RawContact {
         this.mDeleted = deleted;
     }
 
-
     public String getFullName() {
         return mFullName;
     }
 
-
     public String getEmail() {
         return mEmail;
     }
-
 
     public String getComment() {
         return mComment;
@@ -79,6 +79,5 @@ public class RawContact {
     public boolean isDeleted() {
         return mDeleted;
     }
-
 
 }

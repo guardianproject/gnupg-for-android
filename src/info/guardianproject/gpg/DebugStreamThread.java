@@ -1,3 +1,4 @@
+
 package info.guardianproject.gpg;
 
 import java.io.IOException;
@@ -6,56 +7,56 @@ import java.io.InputStream;
 import android.util.Log;
 
 public class DebugStreamThread extends Thread {
-	public static final String TAG = "DebugStreamThread";
+    public static final String TAG = "DebugStreamThread";
 
-	InputStream i;
-	StreamUpdate update;
+    InputStream i;
+    StreamUpdate update;
 
-	DebugStreamThread(InputStream i) {
-		this.i = i;
-	}
+    DebugStreamThread(InputStream i) {
+        this.i = i;
+    }
 
-	DebugStreamThread(InputStream i, StreamUpdate update) {
-		this.i = i;
-		this.update = update;
-	}
+    DebugStreamThread(InputStream i, StreamUpdate update) {
+        this.i = i;
+        this.update = update;
+    }
 
-	@Override
-	public void run() {
-		try {
-			byte[] readBuffer = new byte[512];
-			int readCount = -1;
-			while ((readCount = i.read(readBuffer)) > 0) {
-				String readString = new String(readBuffer, 0, readCount);
-				update.update(readString);
-			}
-		} catch (IOException e) {
-			Log.e(TAG, "", e);
-		}
-	}
+    @Override
+    public void run() {
+        try {
+            byte[] readBuffer = new byte[512];
+            int readCount = -1;
+            while ((readCount = i.read(readBuffer)) > 0) {
+                String readString = new String(readBuffer, 0, readCount);
+                update.update(readString);
+            }
+        } catch (IOException e) {
+            Log.e(TAG, "", e);
+        }
+    }
 
-	public String dump() {
-		if (update instanceof StringBufferStreamUpdate) {
-			return ((StringBufferStreamUpdate) update).dump();
-		}
+    public String dump() {
+        if (update instanceof StringBufferStreamUpdate) {
+            return ((StringBufferStreamUpdate) update).dump();
+        }
 
-		return null;
-	}
+        return null;
+    }
 
-	public static abstract class StreamUpdate {
-		public abstract void update(String val);
-	}
+    public static abstract class StreamUpdate {
+        public abstract void update(String val);
+    }
 
-	public class StringBufferStreamUpdate extends StreamUpdate {
-		StringBuilder sb = new StringBuilder();
+    public class StringBufferStreamUpdate extends StreamUpdate {
+        StringBuilder sb = new StringBuilder();
 
-		@Override
-		public void update(String val) {
-			sb.append(val);
-		}
+        @Override
+        public void update(String val) {
+            sb.append(val);
+        }
 
-		public String dump() {
-			return sb.toString();
-		}
-	}
+        public String dump() {
+            return sb.toString();
+        }
+    }
 }

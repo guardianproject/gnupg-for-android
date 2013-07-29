@@ -15,7 +15,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package info.guardianproject.gpg;
+
+import info.guardianproject.gpg.apg_compat.Apg;
+
+import java.util.Vector;
 
 import android.app.Activity;
 import android.app.SearchManager;
@@ -38,10 +43,6 @@ import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockFragment;
 
-import info.guardianproject.gpg.apg_compat.Apg;
-
-import java.util.Vector;
-
 public class KeyListFragment extends SherlockFragment {
 
     public static final String BROADCAST_ACTION_KEYLIST_CHANGED = "info.guardianproject.gpg.keylist";
@@ -62,8 +63,8 @@ public class KeyListFragment extends SherlockFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater,
-                             ViewGroup container,
-                             Bundle savedInstanceState) {
+            ViewGroup container,
+            Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         View result = inflater.inflate(R.layout.key_list_fragment, container, false);
         return result;
@@ -71,7 +72,8 @@ public class KeyListFragment extends SherlockFragment {
 
     /**
      * Fragment -> Activity communication
-     * https://developer.android.com/training/basics/fragments/communicating.html
+     * https://developer.android.com/training/
+     * basics/fragments/communicating.html
      */
     @Override
     public void onAttach(Activity activity) {
@@ -99,7 +101,7 @@ public class KeyListFragment extends SherlockFragment {
             mListView.setOnItemClickListener(new OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-                    String[] userId = (String[])mListView.getItemAtPosition(position);
+                    String[] userId = (String[]) mListView.getItemAtPosition(position);
                     mCallback.onKeySelected(id, Apg.userId(userId));
                 }
             });
@@ -134,7 +136,8 @@ public class KeyListFragment extends SherlockFragment {
 
     public void handleIntent(String action, Bundle extras) {
         // Why doesn't java have default parameters :(
-        if( extras == null ) extras = new Bundle();
+        if (extras == null)
+            extras = new Bundle();
 
         mCurrentAction = action;
         mCurrentExtras = extras;
@@ -188,7 +191,7 @@ public class KeyListFragment extends SherlockFragment {
     }
 
     private void updateButtons() {
-        if( mOkButton != null && mCancelButton != null){
+        if (mOkButton != null && mCancelButton != null) {
             mOkButton.setVisibility(mShowButtons ? View.VISIBLE : View.INVISIBLE);
             mCancelButton.setVisibility(mShowButtons ? View.VISIBLE : View.INVISIBLE);
             mKeyListButtonBar.setVisibility(mShowButtons ? View.VISIBLE : View.INVISIBLE);
@@ -233,7 +236,9 @@ public class KeyListFragment extends SherlockFragment {
 
     public interface OnKeysSelectedListener {
         public void onKeySelected(long id, String userId);
+
         public void onKeysSelected(long selectedKeyIds[], String selectedUserIds[]);
+
         public void onKeySelectionCanceled();
     }
 
@@ -241,7 +246,7 @@ public class KeyListFragment extends SherlockFragment {
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            if( intent.getAction().equals(BROADCAST_ACTION_KEYLIST_CHANGED) ) {
+            if (intent.getAction().equals(BROADCAST_ACTION_KEYLIST_CHANGED)) {
                 // refresh keylist
                 Log.d("KeyListFragment", "BROADCAST_ACTION_KEYLIST_CHANGED");
                 handleIntent(mCurrentAction, mCurrentExtras);

@@ -66,18 +66,21 @@ public class Apg {
 
     public static Pattern PGP_MESSAGE =
             Pattern.compile(".*?(-----BEGIN PGP MESSAGE-----.*?-----END PGP MESSAGE-----).*",
-                            Pattern.DOTALL);
+                    Pattern.DOTALL);
 
     public static Pattern PGP_SIGNED_MESSAGE =
-            Pattern.compile(".*?(-----BEGIN PGP SIGNED MESSAGE-----.*?-----BEGIN PGP SIGNATURE-----.*?-----END PGP SIGNATURE-----).*",
-                            Pattern.DOTALL);
+            Pattern.compile(
+                    ".*?(-----BEGIN PGP SIGNED MESSAGE-----.*?-----BEGIN PGP SIGNATURE-----.*?-----END PGP SIGNATURE-----).*",
+                    Pattern.DOTALL);
 
     public static Pattern PGP_PUBLIC_KEY =
-            Pattern.compile(".*?(-----BEGIN PGP PUBLIC KEY BLOCK-----.*?-----END PGP PUBLIC KEY BLOCK-----).*",
-                            Pattern.DOTALL);
+            Pattern.compile(
+                    ".*?(-----BEGIN PGP PUBLIC KEY BLOCK-----.*?-----END PGP PUBLIC KEY BLOCK-----).*",
+                    Pattern.DOTALL);
 
     /**
      * Convert the GPG user ID format to the APG userID format.
+     * 
      * @param userId as String[3] of Name, Email, Comment
      * @return userId as single String
      */

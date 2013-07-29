@@ -1,5 +1,7 @@
+
 package info.guardianproject.gpg.sync;
 
+import info.guardianproject.gpg.R;
 import android.content.ContentProviderOperation;
 import android.content.ContentValues;
 import android.content.Context;
@@ -13,8 +15,6 @@ import android.provider.ContactsContract.CommonDataKinds.StructuredName;
 import android.provider.ContactsContract.Data;
 import android.provider.ContactsContract.RawContacts;
 import android.text.TextUtils;
-
-import info.guardianproject.gpg.R;
 
 /**
  * Helper class for storing data in the platform content providers.
@@ -30,22 +30,21 @@ public class ContactOperations {
 
     /**
      * Since we're sending a lot of contact provider operations in a single
-     * batched operation, we want to make sure that we "yield" periodically
-     * so that the Contact Provider can write changes to the DB, and can
-     * open a new transaction.  This prevents ANR (application not responding)
-     * errors.  The recommended time to specify that a yield is permitted is
-     * with the first operation on a particular contact.  So if we're updating
-     * multiple fields for a single contact, we make sure that we call
-     * withYieldAllowed(true) on the first field that we update. We use
-     * mIsYieldAllowed to keep track of what value we should pass to
-     * withYieldAllowed().
+     * batched operation, we want to make sure that we "yield" periodically so
+     * that the Contact Provider can write changes to the DB, and can open a new
+     * transaction. This prevents ANR (application not responding) errors. The
+     * recommended time to specify that a yield is permitted is with the first
+     * operation on a particular contact. So if we're updating multiple fields
+     * for a single contact, we make sure that we call withYieldAllowed(true) on
+     * the first field that we update. We use mIsYieldAllowed to keep track of
+     * what value we should pass to withYieldAllowed().
      */
     private boolean mIsYieldAllowed;
 
     /**
      * Returns an instance of ContactOperations instance for adding new contact
      * to the platform contacts provider.
-     *
+     * 
      * @param context the Authenticator Activity context
      * @param userId the userId of the sample SyncAdapter user object
      * @param accountName the username for the SyncAdapter account
@@ -60,7 +59,7 @@ public class ContactOperations {
     /**
      * Returns an instance of ContactOperations for updating existing contact in
      * the platform contacts provider.
-     *
+     * 
      * @param context the Authenticator Activity context
      * @param rawContactId the unique Id of the existing rawContact
      * @param isSyncOperation are we executing this as part of a sync operation?
@@ -101,11 +100,11 @@ public class ContactOperations {
     }
 
     /**
-     * Adds a contact name. We can take either a full name ("Bob Smith") or separated
-     * first-name and last-name ("Bob" and "Smith").
-     *
-     * @param fullName The full name of the contact - typically from an edit form
-     *      Can be null if firstName/lastName are specified.
+     * Adds a contact name. We can take either a full name ("Bob Smith") or
+     * separated first-name and last-name ("Bob" and "Smith").
+     * 
+     * @param fullName The full name of the contact - typically from an edit
+     *            form Can be null if firstName/lastName are specified.
      * @return instance of ContactOperations
      */
     public ContactOperations addName(String fullName) {
@@ -123,7 +122,7 @@ public class ContactOperations {
 
     /**
      * Adds an email
-     *
+     * 
      * @param the email address we're adding
      * @return instance of ContactOperations
      */
@@ -140,7 +139,7 @@ public class ContactOperations {
 
     /**
      * Adds the key id
-     *
+     * 
      * @param the email address we're adding
      * @return instance of ContactOperations
      */
@@ -148,8 +147,10 @@ public class ContactOperations {
         mValues.clear();
         if (!TextUtils.isEmpty(keyfpr)) {
             mValues.put(SyncAdapterColumns.DATA_KEYFINGERPRINT, keyfpr);
-            mValues.put(SyncAdapterColumns.DATA_DETAIL, mContext.getString(R.string.contact_encrypt_file));
-            mValues.put(SyncAdapterColumns.DATA_SUMMARY, mContext.getString(R.string.contact_encrypt_file));
+            mValues.put(SyncAdapterColumns.DATA_DETAIL,
+                    mContext.getString(R.string.contact_encrypt_file));
+            mValues.put(SyncAdapterColumns.DATA_SUMMARY,
+                    mContext.getString(R.string.contact_encrypt_file));
             mValues.put(Data.MIMETYPE, SyncAdapterColumns.MIME_ENCRYPT_FILE_TO);
             addInsertOp();
         }
@@ -158,7 +159,7 @@ public class ContactOperations {
 
     /**
      * Adds the comment
-     *
+     * 
      * @param the email address we're adding
      * @return instance of ContactOperations
      */
@@ -174,7 +175,7 @@ public class ContactOperations {
 
     /**
      * Adds a group membership
-     *
+     * 
      * @param id The id of the group to assign
      * @return instance of ContactOperations
      */
@@ -193,28 +194,28 @@ public class ContactOperations {
 
     /**
      * Adds a profile action
-     *
+     * 
      * @param userId the userId of the sample SyncAdapter user object
      * @return instance of ContactOperations
      */
     public ContactOperations addProfileAction(long userId) {
         // TODO
-//        mValues.clear();
-//        if (userId != 0) {
-//            mValues.put(SampleSyncAdapterColumns.DATA_PID, userId);
-//            mValues.put(SampleSyncAdapterColumns.DATA_SUMMARY, mContext
-//                .getString(R.string.profile_action));
-//            mValues.put(SampleSyncAdapterColumns.DATA_DETAIL, mContext
-//                .getString(R.string.view_profile));
-//            mValues.put(Data.MIMETYPE, SampleSyncAdapterColumns.MIME_PROFILE);
-//            addInsertOp();
-//        }
+        // mValues.clear();
+        // if (userId != 0) {
+        // mValues.put(SampleSyncAdapterColumns.DATA_PID, userId);
+        // mValues.put(SampleSyncAdapterColumns.DATA_SUMMARY, mContext
+        // .getString(R.string.profile_action));
+        // mValues.put(SampleSyncAdapterColumns.DATA_DETAIL, mContext
+        // .getString(R.string.view_profile));
+        // mValues.put(Data.MIMETYPE, SampleSyncAdapterColumns.MIME_PROFILE);
+        // addInsertOp();
+        // }
         return this;
     }
 
     /**
      * Updates contact's serverId
-     *
+     * 
      * @param serverId the serverId for this contact
      * @param uri Uri for the existing raw contact to be updated
      * @return instance of ContactOperations
@@ -228,7 +229,7 @@ public class ContactOperations {
 
     /**
      * Updates contact's email
-     *
+     * 
      * @param email email id of the sample SyncAdapter user
      * @param uri Uri for the existing raw contact to be updated
      * @return instance of ContactOperations
@@ -244,7 +245,7 @@ public class ContactOperations {
 
     /**
      * Updates contact's keyfingerprint
-     *
+     * 
      * @param keyfpr
      * @param uri Uri for the existing raw contact to be updated
      * @return instance of ContactOperations
@@ -260,7 +261,7 @@ public class ContactOperations {
 
     /**
      * Updates contact's comment
-     *
+     * 
      * @param comment
      * @param uri Uri for the existing raw contact to be updated
      * @return instance of ContactOperations
@@ -276,15 +277,15 @@ public class ContactOperations {
 
     /**
      * Updates contact's name.
-     *
+     * 
      * @param uri Uri for the existing raw contact to be updated
      * @param existingFullName the full name stored in provider
      * @param fullName the new full name to store
      * @return instance of ContactOperations
      */
     public ContactOperations updateName(Uri uri,
-        String existingFullName,
-        String fullName) {
+            String existingFullName,
+            String fullName) {
 
         mValues.clear();
         if (!TextUtils.equals(existingFullName, fullName)) {
@@ -311,16 +312,16 @@ public class ContactOperations {
 
     /**
      * Updates contact's profile action
-     *
+     * 
      * @param userId sample SyncAdapter user id
      * @param uri Uri for the existing raw contact to be updated
      * @return instance of ContactOperations
      */
     public ContactOperations updateProfileAction(Integer userId, Uri uri) {
-        //TODO
-//        mValues.clear();
-//        mValues.put(SyncAdapterColumns.DATA_PID, userId);
-//        addUpdateOp(uri);
+        // TODO
+        // mValues.clear();
+        // mValues.put(SyncAdapterColumns.DATA_PID, userId);
+        // addUpdateOp(uri);
         return this;
     }
 
@@ -375,15 +376,17 @@ public class ContactOperations {
 
     private static Uri addCallerIsSyncAdapterParameter(Uri uri, boolean isSyncOperation) {
         if (isSyncOperation) {
-            // If we're in the middle of a real sync-adapter operation, then go ahead
-            // and tell the Contacts provider that we're the sync adapter.  That
-            // gives us some special permissions - like the ability to really
-            // delete a contact, and the ability to clear the dirty flag.
-            //
-            // If we're not in the middle of a sync operation (for example, we just
-            // locally created/edited a new contact), then we don't want to use
-            // the special permissions, and the system will automagically mark
-            // the contact as 'dirty' for us!
+            /**
+             * If we're in the middle of a real sync-adapter operation, then go
+             * ahead and tell the Contacts provider that we're the sync adapter.
+             * That gives us some special permissions - like the ability to
+             * really delete a contact, and the ability to clear the dirty flag.
+             * <p>
+             * /* If we're not in the middle of a sync operation (for example,
+             * we just locally created/edited a new contact), then we don't want
+             * to use the special permissions, and the system will automagically
+             * mark the contact as 'dirty' for us!
+             */
             return uri.buildUpon()
                     .appendQueryParameter(ContactsContract.CALLER_IS_SYNCADAPTER, "true")
                     .build();

@@ -1,3 +1,4 @@
+
 package info.guardianproject.gpg.sync;
 
 import android.app.Service;

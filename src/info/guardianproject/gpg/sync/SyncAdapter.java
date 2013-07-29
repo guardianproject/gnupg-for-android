@@ -1,4 +1,9 @@
+
 package info.guardianproject.gpg.sync;
+
+import java.util.List;
+
+import org.apache.http.ParseException;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
@@ -9,10 +14,6 @@ import android.content.SyncResult;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
-
-import org.apache.http.ParseException;
-
-import java.util.List;
 
 public class SyncAdapter extends AbstractThreadedSyncAdapter {
     private static final String TAG = SyncAdapter.class.getSimpleName();
@@ -31,16 +32,18 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
     @Override
     public void onPerformSync(Account account, Bundle extras, String authority,
-        ContentProviderClient provider, SyncResult syncResult) {
+            ContentProviderClient provider, SyncResult syncResult) {
 
         try {
             long lastSyncMarker = getServerSyncMarker(account);
             // first pass at naive "sync
-            // all keys from gnupg are written into Contacts
 
-            // By default, contacts from a 3rd party provider are hidden in the contacts
-            // list. So let's set the flag that causes them to be visible, so that users
-            // can actually see these contacts.
+            /*
+             * All keys from gnupg are written into Contacts By default,
+             * contacts from a 3rd party provider are hidden in the contacts
+             * list. So let's set the flag that causes them to be visible, so
+             * that users can actually see these contacts.
+             */
             if (lastSyncMarker == 0) {
                 ContactManager.setAccountContactsVisibility(getContext(), account, true);
             }
@@ -50,8 +53,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
             // Make sure that our group exists
             final long groupId = ContactManager.ensureGroupExists(mContext, account);
 
-            Log.d(TAG, "Before update contacts, scyncing : " + updatedContacts.size() );
-
+            Log.d(TAG, "Before update contacts, scyncing : " + updatedContacts.size());
 
             ContactManager.deleteContacts(mContext,
                     account.name,
@@ -64,13 +66,15 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
                     groupId,
                     lastSyncMarker);
 
-            // Save off the new sync marker. On our next sync, we only want to receive
-            // contacts that have changed since this sync...
+            /*
+             * Save off the new sync marker. On our next sync, we only want to
+             * receive contacts that have changed since this sync...
+             */
             setServerSyncMarker(account, newSyncState);
 
-//            if (dirtyContacts.size() > 0) {
-//                ContactManager.clearSyncFlags(mContext, dirtyContacts);
-//            }
+            // if (dirtyContacts.size() > 0) {
+            // ContactManager.clearSyncFlags(mContext, dirtyContacts);
+            // }
 
         } catch (final ParseException e) {
             Log.e(TAG, "ParseException", e);
@@ -79,8 +83,9 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     }
 
     /**
-     * This helper function fetches the last known high-water-mark
-     * we received from the server - or 0 if we've never synced.
+     * This helper function fetches the last known high-water-mark we received
+     * from the server - or 0 if we've never synced.
+     * 
      * @param account the account we're syncing
      * @return the change high-water-mark
      */
@@ -94,6 +99,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
     /**
      * Save off the high-water-mark we receive back from the server.
+     * 
      * @param account The account we're syncing
      * @param marker The high-water-mark we want to save.
      */

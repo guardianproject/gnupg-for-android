@@ -16,6 +16,11 @@
 
 package info.guardianproject.gpg;
 
+import info.guardianproject.gpg.apg_compat.Apg;
+
+import java.math.BigInteger;
+import java.util.Locale;
+
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -26,11 +31,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.freiheit.gnupg.GnuPGKey;
-
-import info.guardianproject.gpg.apg_compat.Apg;
-
-import java.math.BigInteger;
-import java.util.Locale;
 
 public class KeyListAdapter extends BaseAdapter {
     public static final String TAG = "KeyListAdapter";
@@ -43,12 +43,13 @@ public class KeyListAdapter extends BaseAdapter {
     private GnuPGKey[] mKeyArray;
 
     public KeyListAdapter(ListView parent, String action,
-                                      String searchString, long selectedKeyIds[]) {
+            String searchString, long selectedKeyIds[]) {
         mParent = parent;
         mSearchString = searchString;
         mSelectedKeyIds = selectedKeyIds;
 
-        mInflater = (LayoutInflater) parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        mInflater = (LayoutInflater) parent.getContext().getSystemService(
+                Context.LAYOUT_INFLATER_SERVICE);
 
         if (action == null || !action.equals(Apg.Intent.SELECT_SECRET_KEY))
             mKeyArray = GnuPG.context.listKeys();
@@ -75,10 +76,10 @@ public class KeyListAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-    	if (mKeyArray == null)
-    		return 0;
-    	else
-    		return mKeyArray.length;
+        if (mKeyArray == null)
+            return 0;
+        else
+            return mKeyArray.length;
     }
 
     @Override
@@ -98,13 +99,14 @@ public class KeyListAdapter extends BaseAdapter {
     }
 
     private int[] genFingerprintColor(String fingerprint) {
-    	char[] fp = fingerprint.toCharArray();
-    	int[] ret = new int[4];
-    	ret[0] = (int)Long.parseLong("ff"+fp[0]+fp[0]+fp[1]+fp[2]+fp[3]+fp[3], 16);
-    	ret[1] = (int)Long.parseLong("ff"+fp[4]+fp[4]+fp[5]+fp[6]+fp[7]+fp[7], 16);
-    	ret[2] = (int)Long.parseLong("ff"+fp[8]+fp[8]+fp[9]+fp[10]+fp[11]+fp[11], 16);
-    	ret[3] = (int)Long.parseLong("ff"+fp[12]+fp[12]+fp[13]+fp[14]+fp[15]+fp[15], 16);
-    	return ret;
+        char[] fp = fingerprint.toCharArray();
+        int[] ret = new int[4];
+        ret[0] = (int) Long.parseLong("ff" + fp[0] + fp[0] + fp[1] + fp[2] + fp[3] + fp[3], 16);
+        ret[1] = (int) Long.parseLong("ff" + fp[4] + fp[4] + fp[5] + fp[6] + fp[7] + fp[7], 16);
+        ret[2] = (int) Long.parseLong("ff" + fp[8] + fp[8] + fp[9] + fp[10] + fp[11] + fp[11], 16);
+        ret[3] = (int) Long.parseLong("ff" + fp[12] + fp[12] + fp[13] + fp[14] + fp[15] + fp[15],
+                16);
+        return ret;
     }
 
     @Override
@@ -122,13 +124,13 @@ public class KeyListAdapter extends BaseAdapter {
         TextView keyId2 = (TextView) view.findViewById(R.id.keyId2);
         TextView keyId3 = (TextView) view.findViewById(R.id.keyId3);
 
-        // set the text color based on the web colors generate from the fingerprint
+        // set text color based on the web colors generate from fingerprint
         String keyId = key.getKeyID().toLowerCase(Locale.ENGLISH);
         int[] keyIdColors = genFingerprintColor(keyId);
 
-        keyId0.setText(keyId.substring(0,4));
-        keyId1.setText(keyId.substring(4,8));
-        keyId2.setText(keyId.substring(8,12));
+        keyId0.setText(keyId.substring(0, 4));
+        keyId1.setText(keyId.substring(4, 8));
+        keyId2.setText(keyId.substring(8, 12));
         keyId3.setText(keyId.substring(12));
 
         keyId0.setTextColor(keyIdColors[0]);

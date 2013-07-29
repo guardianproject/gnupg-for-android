@@ -1,3 +1,4 @@
+
 package info.guardianproject.gpg;
 
 import android.app.Activity;
@@ -26,7 +27,8 @@ public class FirstRunWelcomeActivity extends Activity {
             public void onClick(View v) {
                 // since they clicked a button, we know for sure
                 // this wizard was run and at least seen
-                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(FirstRunWelcomeActivity.this);
+                SharedPreferences prefs = PreferenceManager
+                        .getDefaultSharedPreferences(FirstRunWelcomeActivity.this);
                 Editor prefsEditor = prefs.edit();
                 prefsEditor.putBoolean(FirstRunWelcomeActivity.PREFS_SHOW_WIZARD, false);
                 prefsEditor.commit();

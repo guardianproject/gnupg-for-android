@@ -1,3 +1,4 @@
+
 package info.guardianproject.gpg.sync;
 
 public class SyncConstants {

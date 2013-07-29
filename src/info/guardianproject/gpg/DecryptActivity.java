@@ -47,7 +47,8 @@ public class DecryptActivity extends Activity {
         String encryptedFilename = uri.getPath();
         mEncryptedFile = new File(encryptedFilename);
         final String extension = MimeTypeMap.getFileExtensionFromUrl(encryptedFilename);
-        if (extension.equals("asc") || extension.equals("gpg") || extension.equals("pgp") || extension.equals("bin")) {
+        if (extension.equals("asc") || extension.equals("gpg") || extension.equals("pgp")
+                || extension.equals("bin")) {
             mPlainFile = new File(getFilesDir(),
                     mEncryptedFile.getName().replaceAll("\\.(asc|bin|gpg|pgp)$", ""));
             if (mEncryptedFile.exists())
@@ -156,7 +157,8 @@ public class DecryptActivity extends Activity {
                 String args = "--output " + mPlainFile + " --decrypt " + mEncryptedFile;
                 int exitvalue = GnuPG.gpg2(args);
                 if (exitvalue != 0) {
-                    // TODO does the POSIX exit value match the GPGME decrypt error codes?
+                    // TODO does the POSIX exit value match the GPGME decrypt
+                    // error codes?
                     Log.e(TAG, "gpg2 exited with " + exitvalue);
                 }
                 if (mPlainFile.exists())
@@ -177,8 +179,8 @@ public class DecryptActivity extends Activity {
         @Override
         protected void onPostExecute(Integer result) {
             Log.i(TAG, "onPostExecute");
+            // if the view changes too quickly, this seems to happen sometimes
             try {
-                // if the view changes too quickly, this seems to happen sometimes
                 if (dialog.isShowing())
                     dialog.dismiss();
             } catch (IllegalArgumentException e) {

@@ -80,8 +80,8 @@ public class Gpg2TaskFragment extends DialogFragment {
 
     // This is also called by the AsyncTask.
     public void taskFinished(Integer exitvalue) {
-        // check if resumed because it will crash if trying to dismiss the dialog
-        // after the user has switched to another app.
+        // check if resumed because it will crash if trying to dismiss the
+        // dialog after the user has switched to another app.
         if (isResumed())
             dismiss();
 

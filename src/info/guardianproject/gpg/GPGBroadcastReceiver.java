@@ -1,3 +1,4 @@
+
 package info.guardianproject.gpg;
 
 import java.io.File;
@@ -9,14 +10,13 @@ import android.content.Intent;
 import android.os.Bundle;
 
 /**
- *
  * @author abel
- *
  */
 public class GPGBroadcastReceiver extends BroadcastReceiver {
 
     /**
-     * We launch SharedDaemonsService at boot and register the PATH var in android terminal emulator
+     * We launch SharedDaemonsService at boot and register the PATH var in
+     * android terminal emulator
      */
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -33,9 +33,9 @@ public class GPGBroadcastReceiver extends BroadcastReceiver {
 
             /**
              * By convention, entries are indexed by package name.
-             *
-             * If you need to impose an ordering constraint for some reason,
-             * you may prepend a number to your package name -- for example,
+             * <p>
+             * If you need to impose an ordering constraint for some reason, you
+             * may prepend a number to your package name -- for example,
              * 50-com.example.awesomebin or 00-net.busybox.android.
              */
             File aliases = new File(NativeHelper.app_opt.getAbsolutePath(), "aliases");
@@ -43,10 +43,10 @@ public class GPGBroadcastReceiver extends BroadcastReceiver {
             result.putString(packageName, pathToAppend);
 
             setResultCode(Activity.RESULT_OK);
-        } else if( action.equals("android.intent.action.BOOT_COMPLETED") ) {
-            if(Preferences.startOnBoot(context)) {
-            	GpgApplication.startGpgAgent(context);
-            	GpgApplication.startSharedDaemons(context);
+        } else if (action.equals("android.intent.action.BOOT_COMPLETED")) {
+            if (Preferences.startOnBoot(context)) {
+                GpgApplication.startGpgAgent(context);
+                GpgApplication.startSharedDaemons(context);
             }
         }
     }

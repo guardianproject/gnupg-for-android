@@ -1,16 +1,15 @@
 
 package info.guardianproject.gpg.sync;
 
-import com.freiheit.gnupg.GnuPGKey;
-
 import info.guardianproject.gpg.EncryptFileActivity;
 import info.guardianproject.gpg.GnuPG;
 import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
-import android.provider.ContactsContract.CommonDataKinds;
 import android.util.Log;
+
+import com.freiheit.gnupg.GnuPGKey;
 
 /**
  * This class catches intents from our contact integration. It then forwards
@@ -45,7 +44,8 @@ public class ContactIntentRouter extends Activity {
         if (c.moveToFirst()) {
             int fingerprintIndex = c.getColumnIndex(SyncAdapterColumns.DATA_KEYFINGERPRINT);
             String fingerprint = c.getString(fingerprintIndex);
-            // in theory, we could get the email from the ContentProvider, but this is far easier
+            // in theory, we could get the email from the ContentProvider, but
+            // this is far easier
             GnuPGKey key = GnuPG.context.getKeyByFingerprint(fingerprint);
             String[] emails = new String[] {
                     key.getEmail()

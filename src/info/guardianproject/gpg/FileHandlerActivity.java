@@ -47,7 +47,8 @@ public class FileHandlerActivity extends Activity {
         if (uri == null) {
             Bundle extras = intent.getExtras();
             if (extras == null) {
-                String msg = String.format(getString(R.string.error_cannot_read_incoming_file_format),
+                String msg = String.format(
+                        getString(R.string.error_cannot_read_incoming_file_format),
                         "null");
                 showError(R.string.app_name, msg);
                 return;
@@ -148,17 +149,23 @@ public class FileHandlerActivity extends Activity {
                     importFile(incomingFilename, getString(R.string.pgp_keys));
                 else
                     decryptFile(incomingFilename, getString(R.string.pgp_encrypted));
-            } else if (extension.equals("pkr") || extension.equals("skr") || extension.equals("pgp") || extension.equals("key")) {
+            } else if (extension.equals("pkr") || extension.equals("skr")
+                    || extension.equals("pgp") || extension.equals("key")) {
                 importFile(incomingFilename, getString(R.string.pgp_keys));
             } else if (extension.equals("asc")) {
-                if (incomingFilename.equals("encrypted.asc")) // K-9 turns PGP/MIME into this file
+                // K-9 turns PGP/MIME into a file called "encrypted.asc"
+                if (incomingFilename.equals("encrypted.asc"))
                     decryptFile(incomingFilename, getString(R.string.pgp_encrypted));
                 else
                     detectAsciiFileType(incomingFilename);
             } else if (extension.equals("sig")) {
                 verifyFile(incomingFilename, getString(R.string.pgp_signature));
             } else {
-                // this is a file type that gpg does not recognize, so encrypt and send
+                /*
+                 * This is a file type that gpg does not recognize or support,
+                 * so it must be a file that is intended to be encrypted and
+                 * sent
+                 */
                 encryptFile(incomingFilename);
             }
         } else {
@@ -197,7 +204,8 @@ public class FileHandlerActivity extends Activity {
             decryptFile(incomingFilename, mimeType);
         } else if (mimeType.equals("application/octet-stream")) {
             String filename = incomingFile.getName();
-            if (filename.equals("pubring.gpg") || filename.equals("secring.gpg") || extension.equals("pgp"))
+            if (filename.equals("pubring.gpg") || filename.equals("secring.gpg")
+                    || extension.equals("pgp"))
                 importFile(incomingFilename, getString(R.string.pgp_keys));
             else
                 decryptFile(incomingFilename, getString(R.string.pgp_encrypted));
@@ -207,7 +215,8 @@ public class FileHandlerActivity extends Activity {
             // - a public/secret keyring (application/pgp-keys)
             // - K-9 turns PGP/MIME into noname.pgp file
         } else if (mimeType.equals("text/plain")) {
-            if (incomingFilename.equals("encrypted.asc")) // K-9 turns PGP/MIME into this file
+            if (incomingFilename.equals("encrypted.asc")) // K-9 turns PGP/MIME
+                                                          // into this file
                 decryptFile(incomingFilename, getString(R.string.pgp_encrypted));
             else
                 detectAsciiFileType(incomingFilename);
@@ -242,7 +251,9 @@ public class FileHandlerActivity extends Activity {
             Log.w(TAG, "Text too long, not looking for a fingerprint.");
             return null;
         }
-        Pattern fpr = Pattern.compile(".*?([a-fA-F0-9: ]*[a-fA-F0-9]{4} {0,3}:?[a-fA-F0-9]{4} {0,3}:?[a-fA-F0-9]{4} {0,3}:?[a-fA-F0-9]{4} {0,3}:?).*",
+        Pattern fpr = Pattern
+                .compile(
+                        ".*?([a-fA-F0-9: ]*[a-fA-F0-9]{4} {0,3}:?[a-fA-F0-9]{4} {0,3}:?[a-fA-F0-9]{4} {0,3}:?[a-fA-F0-9]{4} {0,3}:?).*",
                         Pattern.MULTILINE | Pattern.DOTALL);
         Matcher matcher = fpr.matcher(text);
         if (matcher.matches()) {
@@ -279,17 +290,21 @@ public class FileHandlerActivity extends Activity {
 
     private String getContentColumn(ContentResolver resolver, Uri uri, String columnName) {
         try {
-            Cursor cursor = resolver.query(uri, new String[]{columnName}, null, null, null);
+            Cursor cursor = resolver.query(uri, new String[] {
+                    columnName
+            }, null, null, null);
             if (cursor == null)
                 return null;
             Log.i(TAG, uri.toString() + " columns: " + cursor.getColumnNames());
             cursor.moveToFirst();
             int nameIndex = cursor.getColumnIndex(columnName);
             if (nameIndex > -1) {
-                Log.i(TAG, "Column " + columnName + " (" + nameIndex + ") is '" + cursor.getString(nameIndex) + "'");
+                Log.i(TAG,
+                        "Column " + columnName + " (" + nameIndex + ") is '"
+                                + cursor.getString(nameIndex) + "'");
                 return cursor.getString(nameIndex);
             }
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;

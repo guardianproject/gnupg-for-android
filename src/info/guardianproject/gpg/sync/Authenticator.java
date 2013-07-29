@@ -10,13 +10,12 @@ import android.os.Bundle;
 import android.util.Log;
 
 /**
- * We don't do traditional authentication like a web service would.
- * So this class is very bare bones, but still required.
- *
- * Conceivably the "properties" methods could be used to invoke
- * an Activity whereby the user is able to configure his primary
- * PGP identity.
- *
+ * We don't do traditional authentication like a web service would. So this
+ * class is very bare bones, but still required.
+ * <p>
+ * Conceivably the "properties" methods could be used to invoke an Activity
+ * whereby the user is able to configure his primary PGP identity.
+ * <p>
  * Account creation is handled by calling AccountManager.addAccountExplicitly()
  */
 public class Authenticator extends AbstractAccountAuthenticator {

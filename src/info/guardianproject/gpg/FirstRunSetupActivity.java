@@ -1,3 +1,4 @@
+
 package info.guardianproject.gpg;
 
 import info.guardianproject.gpg.sync.SyncConstants;
@@ -13,11 +14,11 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.CheckBox;
 
-public class FirstRunSetupActivity extends Activity  {
+public class FirstRunSetupActivity extends Activity {
 
     private final static String TAG = FirstRunSetupActivity.class.getSimpleName();
 
-    private static final int REQUEST_GENKEY    = 0x501;
+    private static final int REQUEST_GENKEY = 0x501;
     private static final int REQUEST_IMPORTKEY = 0x502;
 
     private CheckBox integrateBox;
@@ -39,21 +40,21 @@ public class FirstRunSetupActivity extends Activity  {
     }
 
     @Override
-    protected void onActivityResult (int requestCode, int resultCode, Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         Log.i(TAG, "Activity Result: " + requestCode + " " + resultCode);
 
-        switch( requestCode ) {
+        switch (requestCode) {
             case REQUEST_GENKEY: {
                 Log.d(TAG, "REQUEST_GENKEY");
                 if (resultCode == RESULT_OK) {
-                    startActivity( new Intent(this, MainActivity.class) );
+                    startActivity(new Intent(this, MainActivity.class));
                 }
                 return;
             }
             case REQUEST_IMPORTKEY: {
                 Log.d(TAG, "REQUEST_IMPORTKEY");
                 if (resultCode == RESULT_OK) {
-                    startActivity( new Intent(this, MainActivity.class) );
+                    startActivity(new Intent(this, MainActivity.class));
                 }
                 return;
             }
@@ -65,7 +66,8 @@ public class FirstRunSetupActivity extends Activity  {
         @Override
         public void onClick(View v) {
             setIntegratePrefs();
-            startActivityForResult(new Intent(FirstRunSetupActivity.this, CreateKeyActivity.class), REQUEST_GENKEY );
+            startActivityForResult(new Intent(FirstRunSetupActivity.this, CreateKeyActivity.class),
+                    REQUEST_GENKEY);
         }
     };
 
@@ -74,7 +76,9 @@ public class FirstRunSetupActivity extends Activity  {
         @Override
         public void onClick(View v) {
             setIntegratePrefs();
-            startActivityForResult(new Intent(FirstRunSetupActivity.this, ImportFileActivity.class), REQUEST_IMPORTKEY);
+            startActivityForResult(
+                    new Intent(FirstRunSetupActivity.this, ImportFileActivity.class),
+                    REQUEST_IMPORTKEY);
         }
     };
 
@@ -88,7 +92,7 @@ public class FirstRunSetupActivity extends Activity  {
     };
 
     private void setIntegratePrefs() {
-        SharedPreferences prefs =  PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         Editor prefsEditor = prefs.edit();
         prefsEditor.putBoolean(SyncConstants.PREFS_INTEGRATE_CONTACTS, integrateBox.isChecked());
         prefsEditor.commit();

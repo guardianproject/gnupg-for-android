@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package info.guardianproject.gpg;
 
 import android.app.Activity;
@@ -157,9 +158,9 @@ public class FileDialogFragment extends DialogFragment {
     }
 
     /**
-     * Updates filename in dialog, normally called in onActivityResult in activity using the
-     * FileDialog
-     *
+     * Updates filename in dialog, normally called in onActivityResult in
+     * activity using the FileDialog
+     * 
      * @param messageId
      * @param progress
      * @param max
@@ -175,9 +176,8 @@ public class FileDialogFragment extends DialogFragment {
 
     /**
      * Send message back to handler which is initialized in a activity
-     *
-     * @param what
-     *            Message integer you want to send
+     * 
+     * @param what Message integer you want to send
      */
     private void sendMessageToHandler(Integer what, Bundle data) {
         Message msg = Message.obtain();
@@ -196,17 +196,14 @@ public class FileDialogFragment extends DialogFragment {
     }
 
     /**
-     * Opens the preferred installed file manager on Android and shows a toast if no manager is
-     * installed.
-     *
+     * Opens the preferred installed file manager on Android and shows a toast
+     * if no manager is installed.
+     * 
      * @param activity
-     * @param filename
-     *            default selected file, not supported by all file managers
-     * @param type
-     *            can be text/plain for example
-     * @param requestCode
-     *            requestCode used to identify the result coming back from file manager to
-     *            onActivityResult() in your activity
+     * @param filename default selected file, not supported by all file managers
+     * @param type can be text/plain for example
+     * @param requestCode requestCode used to identify the result coming back
+     *            from file manager to onActivityResult() in your activity
      */
     public static void openFile(Activity activity, String filename, String type, int requestCode) {
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
@@ -219,8 +216,8 @@ public class FileDialogFragment extends DialogFragment {
             activity.startActivityForResult(intent, requestCode);
         } catch (ActivityNotFoundException e) {
             // No compatible file manager was found.
-            Toast.makeText(activity, R.string.error_no_file_manager_installed, Toast.LENGTH_SHORT).show();
+            Toast.makeText(activity, R.string.error_no_file_manager_installed, Toast.LENGTH_SHORT)
+                    .show();
         }
     }
 }
-

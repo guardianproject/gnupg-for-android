@@ -48,7 +48,7 @@ public class EncryptFileActivity extends FragmentActivity {
         String[] recipients = null;
         if (extras != null) {
             mFingerprint = extras.getString(Intent.EXTRA_TEXT);
-            // this currently only supports sending to a single email/fingerprint
+            // currently only supports sending to a single email/fingerprint
             recipients = (String[]) extras.get(Intent.EXTRA_EMAIL);
         }
         if (recipients != null && recipients.length > 0)
@@ -56,7 +56,8 @@ public class EncryptFileActivity extends FragmentActivity {
         else
             Log.w(TAG, "receive no email address in Intent!");
 
-        if (mFingerprint == null) { // didn't receive one, so set to default key on device
+        if (mFingerprint == null) {
+            // didn't receive one in intent, set to default key on device
             GnuPGKey key = GnuPG.context.listSecretKeys()[0];
             if (key == null)
                 key = GnuPG.context.listKeys()[0];

@@ -1,7 +1,6 @@
 
 package info.guardianproject.gpg;
 
-
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -33,8 +32,12 @@ public class ImportFileActivity extends FragmentActivity {
     // used to find any existing instance of the fragment, in case of rotation,
     static final String GPG2_TASK_FRAGMENT_TAG = TAG;
 
-    public static final String[] supportedFileTypes = { ".asc", ".gpg", ".key", ".pkr", ".skr" };
-    public static final String[] supportedMimeTypes = { "application/pgp-keys" };
+    public static final String[] supportedFileTypes = {
+            ".asc", ".gpg", ".key", ".pkr", ".skr"
+    };
+    public static final String[] supportedMimeTypes = {
+        "application/pgp-keys"
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,11 +93,12 @@ public class ImportFileActivity extends FragmentActivity {
     }
 
     @Override
-    protected void onActivityResult (int requestCode, int resultCode, Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         Log.i(TAG, "Activity Result: " + requestCode + " " + resultCode);
-        if (resultCode == RESULT_CANCELED || data == null) return;
+        if (resultCode == RESULT_CANCELED || data == null)
+            return;
 
-        switch( requestCode ) {
+        switch (requestCode) {
             case GpgApplication.FILENAME: { // file picker result returned
                 if (resultCode == RESULT_OK) {
                     try {

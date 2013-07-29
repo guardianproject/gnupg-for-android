@@ -1,6 +1,11 @@
 
 package info.guardianproject.gpg.sync;
 
+import info.guardianproject.gpg.R;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import android.accounts.Account;
 import android.content.ContentResolver;
 import android.content.ContentUris;
@@ -19,11 +24,6 @@ import android.provider.ContactsContract.Settings;
 import android.text.TextUtils;
 import android.util.Log;
 
-import info.guardianproject.gpg.R;
-
-import java.util.ArrayList;
-import java.util.List;
-
 public class ContactManager {
     public static final String TAG = ContactManager.class.getSimpleName();
 
@@ -32,7 +32,7 @@ public class ContactManager {
      * sync adapter will be hidden unless they're merged/grouped with an
      * existing contact. But typically we want to actually show those contacts,
      * so we need to mess with the Settings table to get them to show up.
-     *
+     * 
      * @param context the Authenticator Activity context
      * @param account the Account who's visibility we're changing
      * @param visible true if we want the contacts visible, false for hidden
@@ -49,7 +49,7 @@ public class ContactManager {
 
     /**
      * We have to have a group in which our Contacts exist.
-     *
+     * 
      * @param context
      * @param account
      * @return the group id
@@ -61,7 +61,7 @@ public class ContactManager {
         // Lookup the group
         long groupId = 0;
         final Cursor cursor = resolver.query(Groups.CONTENT_URI, new String[] {
-            Groups._ID
+                Groups._ID
         },
                 Groups.ACCOUNT_NAME + "=? AND " + Groups.ACCOUNT_TYPE + "=? AND " +
                         Groups.TITLE + "=?",
@@ -85,7 +85,7 @@ public class ContactManager {
             contentValues.put(Groups.ACCOUNT_TYPE, account.type);
             contentValues.put(Groups.TITLE, groupName);
             // GROUP_IS_READ_ONLY was added in API 11
-            if( android.os.Build.VERSION.SDK_INT >= 11 )
+            if (android.os.Build.VERSION.SDK_INT >= 11)
                 contentValues.put(Groups.GROUP_IS_READ_ONLY, true);
 
             final Uri newGroupUri = resolver.insert(Groups.CONTENT_URI, contentValues);
@@ -98,7 +98,7 @@ public class ContactManager {
      * Take a list of updated contacts and apply those changes to the contacts
      * database. Typically this list of contacts would have been returned from
      * the server, and we want to apply those changes locally.
-     *
+     * 
      * @param context The context of Authenticator Activity
      * @param account The username for the account
      * @param rawContacts The list of contacts to update
@@ -146,7 +146,6 @@ public class ContactManager {
         return currentSyncMarker;
     }
 
-
     public static synchronized long deleteContacts(Context context, String account,
             List<RawContact> rawContacts, long groupId, long lastSyncMarker) {
 
@@ -157,7 +156,7 @@ public class ContactManager {
         Log.d(TAG, "deleteContacts: " + rawContacts.size());
         for (final RawContact rawContact : rawContacts) {
             if (rawContact.getRawContactId() != 0) {
-                 deleteContact(context, rawContact.getRawContactId(), batchOperation);
+                deleteContact(context, rawContact.getRawContactId(), batchOperation);
             }
             if (batchOperation.size() >= 50) {
                 batchOperation.execute();
@@ -172,7 +171,7 @@ public class ContactManager {
      * Adds a single contact to the platform contacts provider. This can be used
      * to respond to a new contact found as part of sync information returned
      * from the server, or because a user added a new contact.
-     *
+     * 
      * @param context the Authenticator Activity context
      * @param accountName the account the contact belongs to
      * @param rawContact the sample SyncAdapter User object
@@ -256,7 +255,7 @@ public class ContactManager {
      * used both for contacts that were deleted locally and then that deletion
      * was synced to the server, and for contacts that were deleted on the
      * server and the deletion was synced to the client.
-     *
+     * 
      * @param context the Authenticator Activity context
      * @param rawContactId the unique Id for this rawContact in contacts
      *            provider
@@ -275,7 +274,7 @@ public class ContactManager {
      * several rows in the database, our query will return those multiple rows
      * of information. We then iterate over the rows and build the User
      * structure from what we find.
-     *
+     * 
      * @param context the Authenticator Activity context
      * @param rawContactId the unique ID for the local contact
      * @return a User object containing info on that contact
@@ -323,7 +322,8 @@ public class ContactManager {
 
         // Now that we've extracted all the information we care about,
         // create the actual User object.
-        RawContact rawContact = new RawContact(fullName, email, comment, keyfingerprint, keyfingerprint,
+        RawContact rawContact = new RawContact(fullName, email, comment, keyfingerprint,
+                keyfingerprint,
                 rawContactId, false);
 
         return rawContact;
@@ -358,7 +358,7 @@ public class ContactManager {
                 .build();
 
         public static final String SELECTION =
-                /*RawContacts.DIRTY + "=1 AND "*/ ""
+                /* RawContacts.DIRTY + "=1 AND " */""
                         + RawContacts.ACCOUNT_TYPE + "='" + SyncConstants.ACCOUNT_TYPE + "' AND "
                         + RawContacts.ACCOUNT_NAME + "=?";
     }
