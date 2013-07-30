@@ -1,9 +1,11 @@
-This alpha release of our command-line developer tool brings GnuPG to Android for the first time!
+This release of our developer tool extends the gpgcli command line tool to bring an integrated privacy engine to your Android! GnuPrivacyGuard (GPG) gives you command line access to the entire GnuPG suite of encryption software. It also serves as the test bed for complete Android integration for all of GnuPG's crypto services, including OpenPGP, symmetric encryption, and more.
 
-GNU Privacy Guard Command-Line (gpgcli) gives you command line access to the entire GnuPG suite of encryption software. GPG is GNU’s tool for end-to-end secure communication and encrypted data storage. This trusted protocol is the free software alternative to PGP. GnuPG 2.1 is the new modularized version of GnuPG that now supports OpenPGP and S/MIME.
+GPG is GNU’s tool for end-to-end secure communication and encrypted data storage. This trusted protocol is the free software alternative to PGP. This app is built upon GnuPG 2.1, the new modularized version of GnuPG that now supports S/MIME.
+
+GPG aims to provide an integrated experience, so clicking on PGP files should "just work".  You can also share files to GPG to encrypt them.  GPG will also respond when you click on a PGP fingerprint URL (one that starts with openpgp4fpr:).
 
 ***Setup***
-Before using gpgcli, be sure to launch the app and let it finish its installation process.  Once it has completed, then you're ready to use it. The easiest way to get started with gpgcli is to install Android Terminal Emulator. gpgcli will automatically configure Android Terminal Emulator as long as you have the "Allow PATH extensions" settings enabled. Get the Android Terminal Emulator at https://play.google.com/store/apps/details?id=jackpal.androidterm
+Before using GPG, be sure to launch the app and let it finish its installation process.  Once it has completed, then you're ready to use it. The easiest way to get started with GPG is to install Android Terminal Emulator. GPG will automatically configure Android Terminal Emulator as long as you have the "Allow PATH extensions" settings enabled. Get the Android Terminal Emulator at https://play.google.com/store/apps/details?id=jackpal.androidterm
 
 ***Features***
 ★ TRUSTED SECURITY: This technology already seamlessly integrates into Linux on Debian, Ubuntu, Fedora, Mac OSX (GPGtools), Windows (gpg4win)
@@ -11,20 +13,18 @@ Before using gpgcli, be sure to launch the app and let it finish its installatio
 ★ BROAD ALGORITHM LANDSCAPE: Supports 3DES, AES, Blowfish, CAST5, DSA, ElGamal, MD5, RSA, RIPDE-MD-160, SHA-1, TIGER, and Twofish.
 ★ VERIFIABLE INTEGRITY AND AUTHENTICITY: Digital signatures create a trusted trail of ownership.
 ★ CONFIRMED SECURITY: Italian Police, the FBI, and British police have been unable to crack its security and have resorted to demanding private keys. It’s been likened as “the closest you’re likely to get to military-grade encryption” by cryptographer Bruce Schneier.
-★ HELP SYSTEM: A quick help tool is built in.
 ★ KEYSERVER SUPPORT: Integrated support for HKP and LDAP keyservers (keys.gnupg.net).
-★ OPEN STANDARD COMPLIANT: Full OpenPGP implementation. Learn more about standards RFC2440 at http://tools.ietf.org/html/rfc2440 & RFC4880 at http://tools.ietf.org/html/rfc4880
+★ OPEN STANDARD COMPLIANT: Full OpenPGP implementation following RFC2440 and RFC4880
 
 ***Please Report Bugs***
 This is an early release of a big project, so there will inevitable be bugs.  Help us improve this software by filing bug reports about any problem that you encounter. Feature requests are also  welcome!
 https://dev.guardianproject.info/projects/gpgandroid/issues
 
-
 ***Coming Soon***
+★ WE WANT TO SPEAK YOUR LANGUAGE: GPG is fully translatable, contribute a translation in your language!  https://www.transifex.com/projects/p/gpgcli/
 ★ SECURITY FOR APPS: We have an API in the works so that developers can easily embed this into any app to give it state of the art security features.
 ★ GUI: We’re building a graphical user interface for easy key management.
-★ STAY UP TO DATE: Sign up for our low-traffic Guardian-Dev mailing list to be notified when the API and GUI are released: https://lists.mayfirst.org/mailman/listinfo/guardian-dev.
-
+★ STAY UP TO DATE: Sign up for our low-traffic Guardian-Dev mailing list to be notified when the API and GUI are released: https://lists.mayfirst.org/mailman/listinfo/guardian-dev
 
 ***Learn More***
 ★ ABOUT US: Guardian Project is a group of developers that make secure mobile apps and open-source code for a better tomorrow.
