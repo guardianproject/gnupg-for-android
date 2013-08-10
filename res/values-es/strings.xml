@@ -1,0 +1,131 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources>
+  <string name="app_name">GnuPrivacyGuard</string>
+  <string name="label_debug_header">Log de depuración</string>
+  <string name="pinentry_service_label">Demonio de lectura de claves de Gnu Privacy Guard</string>
+  <string name="pinentry_service_started">El demonio de lectura de claves de Gnu Privacy Guard se encuentra corriendo</string>
+  <string name="enter_pin">Introduzca su PIN</string>
+  <string name="title_activity_pinentry">Entrada de PIN</string>
+  <string name="title_activity_encrypt">Cifrar</string>
+  <string name="title_activity_decrypt">Descifrar</string>
+  <string name="dialog_installing_msg">Configurando Gnu Privacy Guard</string>
+  <string name="dialog_installing_title">Instalando... (¡espere a que termine!)</string>
+  <string name="pref_keyserver_title">Servidor de claves</string>
+  <string name="pref_keyserver_summary">Servidor de claves de donde descargar y publicar claves (por defecto: hkp://keys.gnupg.net)</string>
+  <string name="pref_start_boot_title">Iniciar servicio durante el arranque</string>
+  <string name="pref_start_boot_summary">Arrancar los demonios de lectura de claves y manejo de listas de certificados de revocación al inicio</string>
+  <string name="title_decrypt_file">Descifrar archivo</string>
+  <string name="title_about">Acerca de</string>
+  <string name="title_debug_mode">Modo de depuración</string>
+  <string name="title_encrypt_file">Cifrar archivo</string>
+  <string name="title_import_keys">Importar claves</string>
+  <string name="title_export_keys">Exportar claves</string>
+  <string name="title_receive_keys">Recibir claves</string>
+  <string name="title_search_keys">Buscar claves</string>
+  <string name="title_error">Error</string>
+  <string name="title_settings">Configuración</string>
+  <string name="verify_signature">Verificar firmas</string>
+  <string name="signature_verified">Firma verificada</string>
+  <string name="verifying_file_format">Verificando \"%s\"</string>
+  <string name="decrypting_file_format">Descifrando \"%s\"…</string>
+  <string name="error_no_file_manager_installed">¡No se ha encontrado un gestor de ficheros compatible instalado!</string>
+  <string name="error_files_not_supported">¡Las URIs de archivo no se soportan a través de este intento¡</string>
+  <string name="dialog_specify_decrypt_file">Seleccionar el fichero a descifrar:</string>
+  <string name="dialog_specify_file_to_decrypt_to">Elija el archivo donde guardar los datos descifrados:</string>
+  <string name="dialog_decrypt_succeeded_view_file_format">El archivo \"%s\" se ha descifrado y verificado apropiadamente, ¿desea verlo?</string>
+  <string name="dialog_specify_encrypt_file">Seleccionar el archivo a cifrar:</string>
+  <string name="dialog_specify_import_file_msg">Elegir fichero a importar:</string>
+  <string name="dialog_specify_export_file_msg">Todas las claves serán exportadas al fichero que ha especificado más abajo. ATENCIÓN: el archivo será sobrescrito si ya existe.</string>
+  <string name="dialog_verify_succeeded_view_file_format">\"%s\" ha sido verificado apropiadamente, ¿desea verlo?</string>
+  <string name="dialog_specific_keys_to_receive">Introduzca los identificadores de clave o huellas digitales que quiere recibir desde los servidores de clave:</string>
+  <string name="key_already_exists_format">La clave %s ya existe en su anillo:</string>
+  <string name="label_delete_after_import">Eliminar tras importar</string>
+  <string name="label_export_secret_keys">Solo exportar claves secretas</string>
+  <string name="renamed_existing_file_format">¡El archivo ha sido renombrado a %s!</string>
+  <string name="dialog_encrypting_title">Cifrando...</string>
+  <string name="no_key_specified_using_this_key">No ha especificado el destinatario, se usará uno por defecto:</string>
+  <string name="sign_file">¿Firmar archivo?</string>
+  <!--first run wizard-->
+  <string name="wizard_welcome_title">Bienvenido a Gnu Privacy Guard</string>
+  <string name="wizard_welcome_subtitle">La versión beta de GnuPG para Android</string>
+  <string name="wizard_warning">ATENCIÓN: Haga y mantenga copias de seguridad de todas sus claves. Esta aplicación se encuentra aún en desarrollo.</string>
+  <string name="wizard_button_backups">Mantendré copias de seguridad</string>
+  <string name="wizard_integration_msg">Gnu Privacy Guard puede sincronizar su anillo de claves con sus contactos para una mayor integración. Estos cambios no son permanentes y pueden deshacerse fácilmente.</string>
+  <string name="wizard_integration_checkbox_label">Integrar el anillo de claves con sus contactos</string>
+  <string name="wizard_button_create_key">Crear clave</string>
+  <string name="wizard_button_import_keys">Importar claves</string>
+  <string name="wizard_button_skip">Omitir</string>
+  <!--account, contacts, and contact syncing-->
+  <string name="account_label">Gnu Privacy Guard</string>
+  <string name="contact_group">Anillo de claves de Gnu Privacy Guard</string>
+  <string name="contact_encrypt_file">Cifrar archivo a</string>
+  <string name="contact_view_key">Ver clave</string>
+  <string name="title_create_key">Generar clave</string>
+  <string name="key_name_label">Nombre:</string>
+  <string name="key_email_label">Correo electrónico:</string>
+  <string name="key_comment_label">Comentario:</string>
+  <string name="key_type_label">Tipo de clave:</string>
+  <string name="key_size_label">Bits:</string>
+  <string name="key_expire_label">Fecha de caducidad:</string>
+  <string name="key_expire_one_month">Un mes</string>
+  <string name="key_expire_one_year">Un año</string>
+  <string name="key_expire_two_years">Dos años</string>
+  <string name="key_expire_five_years">Cinco años</string>
+  <string name="key_expire_ten_years">Diez años</string>
+  <string name="key_expire_never">Nunca</string>
+  <string name="key_revoke_gen">Generar certificado de revocación</string>
+  <string name="key_upload">Subir a un servidor de claves</string>
+  <string name="key_make_backup">Hacer una copia de seguridad en la tarjeta SD</string>
+  <string name="dialog_generating_new_key_title">Generando nueva clave...</string>
+  <string name="generating_new_key_message">Este proceso puede tomar hasta 15 minutos.</string>
+  <string name="generating_revoke_cert">Generando certificado de revocación...</string>
+  <string name="uploading_to_keyserver">Subiendo al servidor de claves...</string>
+  <string name="backing_up_to_sdcard">Haciendo una copia de seguridad de la nueva clave en la tarjeta SD...</string>
+  <string name="dialog_share_file_using">Compartir fichero utilizando:</string>
+  <string name="dialog_view_file_using">Ver archivo utilizando:</string>
+  <!--sending and receiving dialogs-->
+  <string name="receive_key">Recibir clave...</string>
+  <string name="receive_key_message">Especificar el ID de clave para recibirla desde el servidor:</string>
+  <string name="send_key">Enviar clave...</string>
+  <string name="send_key_message">Especificar el ID de clave a mandar al servidor:</string>
+  <!--error messages-->
+  <string name="error_cannot_read_incoming_file_format">¡El archivo de entrada \"%s\" no puede leerse!</string>
+  <string name="error_cannot_detect_file_type_format">¡No puede detectarse qué tipo de archivo es \"%s\"!</string>
+  <string name="error_output_file_exists_skipping_format">El fichero de salida \"%s\" existe, omitiendo descifrado.</string>
+  <string name="error_decrypting_file_failed_format">¡El descifrado de \"%s\" ha fallado!</string>
+  <string name="error_encrypting_file_failed_format">¡El cifrado de \"%s\" ha fallado!</string>
+  <string name="error_decrypting_failed">¡Descifrado fallido!</string>
+  <string name="error_encrypting_failed">¡Cifrado fallido!</string>
+  <string name="error_gen_key_failed">¡Error generando la nueva clave!</string>
+  <string name="error_file_does_not_exist_format">¡\"%s\" no existe!</string>
+  <string name="error_verify_failed">¡Verificación fallida!</string>
+  <string name="error_file_verify_failed_format">¡La verificación de \"%s\" ha fallado!</string>
+  <string name="error_no_pgp_content_found_format">¡No se ha encontrado contenido PGP en \"%s\"!</string>
+  <string name="error_fingerprint_too_short_format">¡La huella digital %s es demasiado corta! Al menos debe contar con 16 dígitos.</string>
+  <!--content descriptions for accessibility-->
+  <string name="folder">Directorio</string>
+  <!--key status terms-->
+  <string name="usable">usable</string>
+  <string name="disabled">desactivado</string>
+  <string name="expired">caducado</string>
+  <string name="invalid">inválido</string>
+  <string name="revoked">revocado</string>
+  <string name="noKey">&lt;no hay clave&gt;</string>
+  <!--permission info-->
+  <string name="perm_read_key_details_label">Leer atributos de clave según APG</string>
+  <string name="perm_read_key_details_description">Leer el ID de clave de 16 bytes asociado a una dirección de correo electrónico a través de un ContentProvider según APG</string>
+  <!--APG-related messages-->
+  <string name="error_activity_not_found">No se ha encontrado ninguna aplicación para ejecutar esta acción.</string>
+  <!--APG messages-->
+  <string name="unknownStatus"></string>
+  <string name="hint_publicKeys">Buscar claves públicas</string>
+  <string name="filterInfo_format">Filtro: \"%s\"</string>
+  <string name="btn_clearFilter">Borrar filtro</string>
+  <string name="title_select_recipients">Seleccionar destinatarios</string>
+  <string name="progress_done">terminado.</string>
+  <string name="progress_initializing">Inicializando...</string>
+  <string name="progress_saving">Guardando...</string>
+  <string name="progress_importing">Importando...</string>
+  <string name="progress_exporting">Exportando...</string>
+  <string name="progress_querying">Consultando...</string>
+</resources>
