@@ -161,6 +161,7 @@ public class NativeHelper {
 
         try {
             FileUtils.writeStringToFile(environmentConf, conf);
+            Posix.chmod("644", environmentConf);
         } catch (IOException e) {
             Log.e(TAG, "Failed to write native environment config: " + environmentConf);
             e.printStackTrace();
