@@ -62,6 +62,15 @@ public class NativeHelper {
         environmentConf = new File(app_opt, "etc/environment.conf");
         versionFile = new File(app_opt, "VERSION");
 
+        /*
+         * MODE_WORLD_READABLE and MODE_WORLD_WRITEABLE were removed in Android
+         * 4.3 (android-18) so force it that way. Yes, we really want this stuff
+         * to be world read/write accessible since any app should be able to use
+         * the command line tools
+         */
+        Posix.chmod("755", app_opt); // 755 is MODE_WORLD_READABLE
+        Posix.chmod("773", app_gnupghome); // 773 is MODE_WORLD_WRITEABLE
+
         File bin = new File(app_opt, "bin");
         String logging = "--debug-level basic --log-file " + NativeHelper.app_log
                 + "/gpg2.log ";
