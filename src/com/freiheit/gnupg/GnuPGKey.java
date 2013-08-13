@@ -170,7 +170,10 @@ public class GnuPGKey extends GnuPGPeer {
             siglist.add(sig);
             sig = sig.getNextSignature();
         }
-        return siglist.listIterator();
+        if (siglist == null)
+            return null;
+        else
+            return siglist.listIterator();
     }
 
     /**
