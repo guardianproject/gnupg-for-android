@@ -58,9 +58,15 @@ public class EncryptFileActivity extends FragmentActivity {
 
         if (mFingerprint == null) {
             // didn't receive one in intent, set to default key on device
-            GnuPGKey key = GnuPG.context.listSecretKeys()[0];
-            if (key == null)
-                key = GnuPG.context.listKeys()[0];
+            GnuPGKey key = null;
+            GnuPGKey keys[] = GnuPG.context.listSecretKeys();
+            if (keys != null && keys.length > 0)
+                key = keys[0];
+            if (key == null) {
+                keys = GnuPG.context.listKeys();
+                if (keys != null && keys.length > 0)
+                    key = keys[0];
+            }
             if (key != null) {
                 mFingerprint = key.getFingerprint();
                 mEmail = key.getEmail();
