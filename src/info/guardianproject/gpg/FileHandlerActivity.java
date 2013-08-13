@@ -10,6 +10,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.FilenameUtils;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -21,7 +22,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore.MediaColumns;
 import android.util.Log;
-import android.webkit.MimeTypeMap;
 import android.widget.Toast;
 
 public class FileHandlerActivity extends Activity {
@@ -141,7 +141,7 @@ public class FileHandlerActivity extends Activity {
         Log.i(TAG, "action: " + action + "   MIME Type: " + mimeType + "   data: " + incomingFile);
 
         final String incomingFilename = incomingFile.getAbsolutePath();
-        final String extension = MimeTypeMap.getFileExtensionFromUrl(incomingFilename);
+        final String extension = FilenameUtils.getExtension(incomingFilename);
         if (incomingFile.canRead()) {
             if (extension.equals("gpg") || extension.equals("bin")) {
                 String filename = incomingFile.getName();
@@ -195,7 +195,7 @@ public class FileHandlerActivity extends Activity {
         // now add the full path to the filename
         final File incomingFile = new File(getFilesDir(), incomingFilename);
         incomingFilename = incomingFile.getCanonicalPath();
-        final String extension = MimeTypeMap.getFileExtensionFromUrl(incomingFilename);
+        final String extension = FilenameUtils.getExtension(incomingFilename);
         if (mimeType.equals(getString(R.string.pgp_keys))) {
             importFile(incomingFilename, mimeType);
         } else if (mimeType.equals(getString(R.string.pgp_signature))) {

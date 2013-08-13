@@ -3,6 +3,8 @@ package info.guardianproject.gpg;
 
 import java.io.File;
 
+import org.apache.commons.io.FilenameUtils;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -13,7 +15,6 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
-import android.webkit.MimeTypeMap;
 import android.widget.Toast;
 
 public class DecryptActivity extends Activity {
@@ -46,7 +47,7 @@ public class DecryptActivity extends Activity {
 
         String encryptedFilename = uri.getPath();
         mEncryptedFile = new File(encryptedFilename);
-        final String extension = MimeTypeMap.getFileExtensionFromUrl(encryptedFilename);
+        final String extension = FilenameUtils.getExtension(encryptedFilename);
         if (extension.equals("asc") || extension.equals("gpg") || extension.equals("pgp")
                 || extension.equals("bin")) {
             mPlainFile = new File(getFilesDir(),

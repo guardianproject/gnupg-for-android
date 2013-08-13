@@ -34,7 +34,7 @@ public class VerifyActivity extends Activity {
         Log.i(TAG, "action: " + action + "   MIME Type: " + mimeType + "   uri: " + uri);
 
         mSignatureFilename = uri.getPath();
-        mExtension = MimeTypeMap.getFileExtensionFromUrl(mSignatureFilename);
+        mExtension = MimeTypeMap.getFileExtensionFromUrl(uri.toString());
         /*
          * though a .asc file could contain data, we currently assume its a
          * detached sig from "gpg2 --armor --detach-sign". that will need to
