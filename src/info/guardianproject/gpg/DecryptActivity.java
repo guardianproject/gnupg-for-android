@@ -154,7 +154,7 @@ public class DecryptActivity extends Activity {
             publishProgress(msg);
             try {
                 mPlainFile.delete();
-                String args = "--output " + mPlainFile + " --decrypt " + mEncryptedFile;
+                String args = "--output '" + mPlainFile + "' --decrypt '" + mEncryptedFile + "'";
                 int exitvalue = GnuPG.gpg2(args);
                 if (exitvalue != 0) {
                     // TODO does the POSIX exit value match the GPGME decrypt

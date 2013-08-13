@@ -192,7 +192,7 @@ public class ImportFileActivity extends FragmentActivity {
         }
         try {
             String keyFilename = keyFile.getCanonicalPath();
-            String args = " --import " + keyFilename;
+            String args = " --import '" + keyFilename + "'";
             Gpg2TaskFragment gpg2Task = new Gpg2TaskFragment();
             gpg2Task.configTask(mMessenger, new Gpg2TaskFragment.Gpg2Task(), args);
             gpg2Task.show(mFragmentManager, GPG2_TASK_FRAGMENT_TAG);

@@ -246,8 +246,8 @@ public class CreateKeyActivity extends Activity {
 		        String sdcard = Environment.getExternalStorageDirectory().getCanonicalPath();
 		        if (((CheckBox) findViewById(R.id.keyRevokeGen)).isChecked()) {
 		            publishProgress(getString(R.string.generating_revoke_cert));
-		            GnuPG.gpg2(" --output " + sdcard + "/revoke-" + fpr
-		                    + ".asc --gen-revoke " + fpr);
+		            GnuPG.gpg2(" --output '" + sdcard + "/revoke-" + fpr
+		                    + ".asc' --gen-revoke " + fpr);
 		        }
 		        if (((CheckBox) findViewById(R.id.keyUpload)).isChecked()) {
 		            publishProgress(getString(R.string.uploading_to_keyserver));
@@ -257,8 +257,8 @@ public class CreateKeyActivity extends Activity {
 		        }
 		        if (((CheckBox) findViewById(R.id.keyMakeBackup)).isChecked()) {
 		            publishProgress(getString(R.string.backing_up_to_sdcard));
-		            GnuPG.gpg2(" --output " + sdcard + "/gpgSecretKey-" + fpr
-		                    + ".skr --export-secret-keys " + fpr);
+		            GnuPG.gpg2(" --output '" + sdcard + "/gpgSecretKey-" + fpr
+		                    + ".skr' --export-secret-keys " + fpr);
 		        }
 		    } catch(Exception e) {
 		        Log.e(TAG, "genPgpKey failed!");

@@ -181,10 +181,10 @@ public class EncryptFileActivity extends FragmentActivity {
                 String plainFilename = mPlainFile.getCanonicalPath();
                 Log.d(TAG, "plainFilename: " + plainFilename);
                 mEncryptedFile = new File(plainFilename + ".gpg");
-                String args = "--output " + mEncryptedFile;
+                String args = "--output '" + mEncryptedFile + "'";
                 if (signFile)
                     args += " --sign ";
-                args += " --encrypt --recipient " + mFingerprint + " " + plainFilename;
+                args += " --encrypt --recipient " + mFingerprint + " '" + plainFilename + "'";
                 Gpg2TaskFragment gpg2Task = new Gpg2TaskFragment();
                 gpg2Task.configTask(mMessenger, new Gpg2TaskFragment.Gpg2Task(), args);
                 gpg2Task.show(mFragmentManager, GPG2_TASK_FRAGMENT_TAG);

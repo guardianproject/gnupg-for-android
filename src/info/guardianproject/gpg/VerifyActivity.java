@@ -132,7 +132,7 @@ public class VerifyActivity extends Activity {
                     signatureFilename);
             publishProgress(msg);
             try {
-                String args = "--verify " + signatureFilename;
+                String args = "--verify '" + signatureFilename + "'";
                 // check the POSIX exit value to see if it verified properly
                 int exitvalue = GnuPG.gpg2(args);
                 if (exitvalue == 0) {
