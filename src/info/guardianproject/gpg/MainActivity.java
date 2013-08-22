@@ -39,6 +39,15 @@ public class MainActivity extends SherlockFragmentActivity
     private final int INSTALL_COMPLETE = 0x00000000;
     private final int SHOW_WIZARD = 0x00000001;
 
+    // for sync timing
+    public static final long MILLISECONDS_PER_SECOND = 1000L;
+    public static final long SECONDS_PER_MINUTE = 60L;
+    public static final long SYNC_INTERVAL_IN_MINUTES = 120L;
+    public static final long SYNC_INTERVAL =
+            SYNC_INTERVAL_IN_MINUTES *
+            SECONDS_PER_MINUTE *
+            MILLISECONDS_PER_SECOND;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         Log.i(TAG, "onCreate");
@@ -184,8 +193,8 @@ public class MainActivity extends SherlockFragmentActivity
             } else {
                 Log.e(TAG, "Account Add failed");
             }
-            ContentResolver.setSyncAutomatically(account, ContactsContract.AUTHORITY, true);
-            ContentResolver.requestSync(account, ContactsContract.AUTHORITY, new Bundle());
+            ContentResolver.setSyncAutomatically(account, ContactsContract.AUTHORITY, false);
+            ContentResolver.addPeriodicSync(account, ContactsContract.AUTHORITY, new Bundle(), SYNC_INTERVAL);
         }
     }
 
