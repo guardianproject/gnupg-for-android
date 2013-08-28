@@ -443,7 +443,7 @@ public class DebugLogActivity extends FragmentActivity implements OnCreateContex
         i.putExtra(Intent.EXTRA_TEXT,
                 "Attached is an log sent by " + getString(R.string.app_name)
                         + ".  For more info, see:\n"
-                        + "https://github.com/guardianproject/gnupg-for-android\n\n"
+                        + "https://guardianproject.info/code/gnupg\n\n"
                         + "manufacturer: " + Build.MANUFACTURER + "\n"
                         + "model: " + Build.MODEL + "\n"
                         + "product: " + Build.PRODUCT + "\n"
