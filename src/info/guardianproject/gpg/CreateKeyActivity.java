@@ -168,9 +168,6 @@ public class CreateKeyActivity extends Activity {
 		if (groupId == R.id.groupKeySize) {
 			TextView keySize = ((TextView) findViewById(R.id.keySize));
 			switch (item.getItemId()) {
-			case R.id.keySize1024:
-				keySize.setText(R.string.key_size_1024);
-				return true;
 			case R.id.keySize2048:
 				keySize.setText(R.string.key_size_2048);
 				return true;
