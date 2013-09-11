@@ -37,7 +37,7 @@
   <string name="dialog_specify_import_file_msg">Elegir fichero a importar:</string>
   <string name="dialog_specify_export_file_msg">Todas las claves serán exportadas al fichero que ha especificado más abajo. ATENCIÓN: el archivo será sobrescrito si ya existe.</string>
   <string name="dialog_verify_succeeded_view_file_format">\"%s\" ha sido verificado apropiadamente, ¿desea verlo?</string>
-  <string name="dialog_specific_keys_to_receive">Introduzca los identificadores de clave o huellas digitales que quiere recibir desde los servidores de clave:</string>
+  <string name="dialog_specific_keys_to_receive">Introduzca los identificadores o huellas digitales de las claves que quiere recibir desde los servidores de claves:</string>
   <string name="key_already_exists_format">La clave %s ya existe en su anillo:</string>
   <string name="label_delete_after_import">Eliminar tras importar</string>
   <string name="label_export_secret_keys">Solo exportar claves secretas</string>
@@ -81,7 +81,7 @@
   <string name="generating_revoke_cert">Generando certificado de revocación...</string>
   <string name="uploading_to_keyserver">Subiendo al servidor de claves...</string>
   <string name="backing_up_to_sdcard">Haciendo una copia de seguridad de la nueva clave en la tarjeta SD...</string>
-  <string name="dialog_share_file_using">Compartir fichero utilizando:</string>
+  <string name="dialog_share_file_using">Compartir archivo utilizando:</string>
   <string name="dialog_view_file_using">Ver archivo utilizando:</string>
   <!--sending and receiving dialogs-->
   <string name="receive_key">Recibir clave...</string>
