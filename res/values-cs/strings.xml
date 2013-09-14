@@ -1,0 +1,131 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources>
+  <string name="app_name">GnuPrivacyGuard</string>
+  <string name="label_debug_header">Ladící hlášky pro testy</string>
+  <string name="pinentry_service_label">Gnu Privacy Guard pinentry démon</string>
+  <string name="pinentry_service_started">Gnu Privacy Guard pinentry démon běží</string>
+  <string name="enter_pin">Zadejte svůj PIN</string>
+  <string name="title_activity_pinentry">Zadání PIN</string>
+  <string name="title_activity_encrypt">Zašifrovat</string>
+  <string name="title_activity_decrypt">Dešifrovat</string>
+  <string name="dialog_installing_msg">Nastavuji Gnu Privacy Guard</string>
+  <string name="dialog_installing_title">Instaluji... (prosím počkejte na dokočení!)</string>
+  <string name="pref_keyserver_title">Keyserver</string>
+  <string name="pref_keyserver_summary">Který keyserver použít pro stažení a zveřejnění klíčů (výchozí: hkp://keys.gnupg.net)</string>
+  <string name="pref_start_boot_title">Spustit démony během bootu</string>
+  <string name="pref_start_boot_summary">Spustí pinentry a dirmngr démony při bootu zařízení</string>
+  <string name="title_decrypt_file">Dešifrovat soubor</string>
+  <string name="title_about">O aplikaci</string>
+  <string name="title_debug_mode">Ladicí mód</string>
+  <string name="title_encrypt_file">Zašifrovat soubor</string>
+  <string name="title_import_keys">Import klíčů</string>
+  <string name="title_export_keys">Export klíčů</string>
+  <string name="title_receive_keys">Přijmout klíče</string>
+  <string name="title_search_keys">Vyhledat klíče</string>
+  <string name="title_error">Chyba</string>
+  <string name="title_settings">Nastavení</string>
+  <string name="verify_signature">Ověřit podpis</string>
+  <string name="signature_verified">Podpis ověřen</string>
+  <string name="verifying_file_format">Ověřuji \"%s\"</string>
+  <string name="decrypting_file_format">Dešifruji \"%s\"...</string>
+  <string name="error_no_file_manager_installed">Nainstalován nekompatibilní správce souborů!</string>
+  <string name="error_files_not_supported">URI souborů nejsou pro tento \"Intent\" podporovány!</string>
+  <string name="dialog_specify_decrypt_file">Zvolte soubor pro dešifrování:</string>
+  <string name="dialog_specify_file_to_decrypt_to">Zvolte soubor do kterého uložit zašifrovaná data:</string>
+  <string name="dialog_decrypt_succeeded_view_file_format">\"%s\" dešifrován a úspěšně ověřen, zobrazit soubor?</string>
+  <string name="dialog_specify_encrypt_file">Zvolte soubor pro zašifrování:</string>
+  <string name="dialog_specify_import_file_msg">Zvolte soubor pro import:</string>
+  <string name="dialog_specify_export_file_msg">Všechny klíče budou vyexportovány do souboru zadaného níže. POZOR! Pokud soubor existuje bude přepsán.</string>
+  <string name="dialog_verify_succeeded_view_file_format">\"%s\" úspěšně ověřen, zobrazit soubor?</string>
+  <string name="dialog_specific_keys_to_receive">Zadat ID nebo fingerprinty klíčů které chcete získat z keyserverů:</string>
+  <string name="key_already_exists_format">%s klíč ve vašem svazku klíčů již existuje:</string>
+  <string name="label_delete_after_import">Smazat po importu</string>
+  <string name="label_export_secret_keys">Export jen tajných klíčů</string>
+  <string name="renamed_existing_file_format">Existující soubor přejmenován na %s!</string>
+  <string name="dialog_encrypting_title">Šifruji...</string>
+  <string name="no_key_specified_using_this_key">Nebyl zadán nikdo jako příjemce, takže používám výchozího:</string>
+  <string name="sign_file">Podepsat soubor?</string>
+  <!--first run wizard-->
+  <string name="wizard_welcome_title">Vítejte do Gnu Privacy Guard</string>
+  <string name="wizard_welcome_subtitle">Beta verze GnuPG pro Android</string>
+  <string name="wizard_warning">POZOR! Zálohujte a uchovávejte si zálohy všech svých klíčů. Tato aplikace je stále ve vývoji.</string>
+  <string name="wizard_button_backups">Uložím si zálohu</string>
+  <string name="wizard_integration_msg">Gnu Privacy Guard umí synchronizovat váš svazek klíčů s vašimi Kontakty pro těsnější integraci. Tyto změny nejsou trvalé a je lehké je vrátit.</string>
+  <string name="wizard_integration_checkbox_label">Integrovat Keyring s Kontakty.</string>
+  <string name="wizard_button_create_key">Vytvořit klíče</string>
+  <string name="wizard_button_import_keys">Import klíčů</string>
+  <string name="wizard_button_skip">Přeskočit</string>
+  <!--account, contacts, and contact syncing-->
+  <string name="account_label">Gnu Privacy Guard</string>
+  <string name="contact_group">Gnu Privacy Guard Keyring</string>
+  <string name="contact_encrypt_file">Zašifrovat soubor do</string>
+  <string name="contact_view_key">Zobrazit klíč</string>
+  <string name="title_create_key">Vytvořit klíč</string>
+  <string name="key_name_label">Jméno:</string>
+  <string name="key_email_label">Email:</string>
+  <string name="key_comment_label">Komentář:</string>
+  <string name="key_type_label">Typ klíče:</string>
+  <string name="key_size_label">Bitů:</string>
+  <string name="key_expire_label">Expirace:</string>
+  <string name="key_expire_one_month">1 měsíc</string>
+  <string name="key_expire_one_year">1 rok</string>
+  <string name="key_expire_two_years">2 roky</string>
+  <string name="key_expire_five_years">5 let</string>
+  <string name="key_expire_ten_years">10 let</string>
+  <string name="key_expire_never">nikdy</string>
+  <string name="key_revoke_gen">Vygeneruj revokační certifikát</string>
+  <string name="key_upload">Nahrát na keyservery</string>
+  <string name="key_make_backup">Zálohovat na SD kartu</string>
+  <string name="dialog_generating_new_key_title">Generuji nový klíč...</string>
+  <string name="generating_new_key_message">Tento proces může aktuálně zabrat až 15 minut.</string>
+  <string name="generating_revoke_cert">Generuji revokační certifikát...</string>
+  <string name="uploading_to_keyserver">Nahrávám na keyserver...</string>
+  <string name="backing_up_to_sdcard">Zálohuji nový klíč na SD kartu...</string>
+  <string name="dialog_share_file_using">Sdílet soubor pomocí:</string>
+  <string name="dialog_view_file_using">Zobrazit soubor pomocí:</string>
+  <!--sending and receiving dialogs-->
+  <string name="receive_key">Přijímám klíč...</string>
+  <string name="receive_key_message">Zadejte ID klíče pro získání z keyserveru:</string>
+  <string name="send_key">Zaslat klíč...</string>
+  <string name="send_key_message">Zadejte ID klíče pro zaslání na keyserver:</string>
+  <!--error messages-->
+  <string name="error_cannot_read_incoming_file_format">Nelze načíst příchozí soubor \"%s\"!</string>
+  <string name="error_cannot_detect_file_type_format">Nelze určit typ souboru \"%s\"!</string>
+  <string name="error_output_file_exists_skipping_format">Výstupní soubor \"%s\" existuje, přeskakuji dešifrování.</string>
+  <string name="error_decrypting_file_failed_format">Dešifrování \"%s\" selhalo!</string>
+  <string name="error_encrypting_file_failed_format">Šifrování \"%s\" selhalo!</string>
+  <string name="error_decrypting_failed">Dešifrování selhalo!</string>
+  <string name="error_encrypting_failed">Šifrování selhalo!</string>
+  <string name="error_gen_key_failed">Generování nového klíče selhalo!</string>
+  <string name="error_file_does_not_exist_format">\"%s\" neexistuje!</string>
+  <string name="error_verify_failed">Ověření selhalo!</string>
+  <string name="error_file_verify_failed_format">\"%s\" se nepodařilo ověřit!</string>
+  <string name="error_no_pgp_content_found_format">V \"%s\" nenalezen žádný PGP obsah.</string>
+  <string name="error_fingerprint_too_short_format">Fingerprint \"%s\" je příliš krátký! Musí mít alespoň 16 číslic.</string>
+  <!--content descriptions for accessibility-->
+  <string name="folder">složka</string>
+  <!--key status terms-->
+  <string name="usable">použitelný</string>
+  <string name="disabled">vypnutý</string>
+  <string name="expired">vyexpirovaný</string>
+  <string name="invalid">neplatný</string>
+  <string name="revoked">revokovaný</string>
+  <string name="noKey">&lt;žádný klíč&gt;</string>
+  <!--permission info-->
+  <string name="perm_read_key_details_label">Načti detaily klíče ve stylu APG</string>
+  <string name="perm_read_key_details_description">Načti 16 znakové ID klíče a související e-mailovou adresu přes ContentProvider jako APG</string>
+  <!--APG-related messages-->
+  <string name="error_activity_not_found">Pro tuto akci nebyla nalezena žádná vhodná aplikace.</string>
+  <!--APG messages-->
+  <string name="unknownStatus"></string>
+  <string name="hint_publicKeys">Vyhledat veřejné klíče</string>
+  <string name="filterInfo_format">Filtr: \"%s\"</string>
+  <string name="btn_clearFilter">Vymazat filtr</string>
+  <string name="title_select_recipients">Zvolit příjemce</string>
+  <string name="progress_done">hotovo.</string>
+  <string name="progress_initializing">Inicializuji...</string>
+  <string name="progress_saving">Ukládám...</string>
+  <string name="progress_importing">Importuji...</string>
+  <string name="progress_exporting">Exportuji...</string>
+  <string name="progress_querying">Dotazuji...</string>
+</resources>
