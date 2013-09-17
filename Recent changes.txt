@@ -1,3 +1,11 @@
+* Android 4.3 fixes
+* fixed crashes
+* fixed "environment.conf: Permission denied" (#1744)
+* don't run Contacts sync every minute (#1763)
+* new translations: Czech, German, Polish, Spanish
+
+v0.2
+
 Gnu Privacy Guard now provides encryption integrated into the Android experience:
 
 * send encrypted files via the Contacts/People app  "Encrypt File To"
