@@ -1,13 +1,6 @@
 
 package info.guardianproject.gpg.apg_compat;
 
-import info.guardianproject.gpg.GnuPG;
-import info.guardianproject.gpg.R;
-
-import java.io.BufferedOutputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,6 +8,13 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.freiheit.gnupg.GnuPGData;
+
+import info.guardianproject.gpg.GnuPG;
+import info.guardianproject.gpg.R;
+
+import java.io.BufferedOutputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 
 public class DecryptActivity extends Activity {
     public static final String TAG = "DecryptActivity";

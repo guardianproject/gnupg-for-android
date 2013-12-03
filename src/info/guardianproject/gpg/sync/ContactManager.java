@@ -1,11 +1,6 @@
 
 package info.guardianproject.gpg.sync;
 
-import info.guardianproject.gpg.R;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import android.accounts.Account;
 import android.content.ContentResolver;
 import android.content.ContentUris;
@@ -23,6 +18,11 @@ import android.provider.ContactsContract.RawContacts;
 import android.provider.ContactsContract.Settings;
 import android.text.TextUtils;
 import android.util.Log;
+
+import info.guardianproject.gpg.R;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ContactManager {
     public static final String TAG = ContactManager.class.getSimpleName();

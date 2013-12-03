@@ -1,10 +1,6 @@
 
 package info.guardianproject.gpg.sync;
 
-import java.util.List;
-
-import org.apache.http.ParseException;
-
 import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.content.AbstractThreadedSyncAdapter;
@@ -14,6 +10,10 @@ import android.content.SyncResult;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+
+import org.apache.http.ParseException;
+
+import java.util.List;
 
 public class SyncAdapter extends AbstractThreadedSyncAdapter {
     private static final String TAG = SyncAdapter.class.getSimpleName();

@@ -1,7 +1,6 @@
 
 package info.guardianproject.gpg.sync;
 
-import info.guardianproject.gpg.R;
 import android.content.ContentProviderOperation;
 import android.content.ContentValues;
 import android.content.Context;
@@ -15,6 +14,8 @@ import android.provider.ContactsContract.CommonDataKinds.StructuredName;
 import android.provider.ContactsContract.Data;
 import android.provider.ContactsContract.RawContacts;
 import android.text.TextUtils;
+
+import info.guardianproject.gpg.R;
 
 /**
  * Helper class for storing data in the platform content providers.

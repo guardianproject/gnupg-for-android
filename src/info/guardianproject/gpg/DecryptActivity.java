@@ -1,10 +1,6 @@
 
 package info.guardianproject.gpg;
 
-import java.io.File;
-
-import org.apache.commons.io.FilenameUtils;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -16,6 +12,10 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
+
+import org.apache.commons.io.FilenameUtils;
+
+import java.io.File;
 
 public class DecryptActivity extends Activity {
     private static final String TAG = "DecryptActivity";

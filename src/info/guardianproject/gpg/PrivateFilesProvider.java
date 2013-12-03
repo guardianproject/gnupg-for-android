@@ -1,10 +1,6 @@
 
 package info.guardianproject.gpg;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.List;
-
 import android.content.ContentProvider;
 import android.content.ContentValues;
 import android.database.Cursor;
@@ -12,6 +8,10 @@ import android.net.Uri;
 import android.os.ParcelFileDescriptor;
 import android.util.Log;
 import android.webkit.MimeTypeMap;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.List;
 
 public class PrivateFilesProvider extends ContentProvider {
     public static final String TAG = "PrivateFilesProvider";

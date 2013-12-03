@@ -1,10 +1,6 @@
 
 package info.guardianproject.gpg;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
@@ -19,6 +15,10 @@ import android.webkit.MimeTypeMap;
 import android.widget.Toast;
 
 import com.freiheit.gnupg.GnuPGException;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
 
 public class ImportFileActivity extends FragmentActivity {
     private static final String TAG = ImportFileActivity.class.getSimpleName();
@@ -37,7 +37,7 @@ public class ImportFileActivity extends FragmentActivity {
             ".asc", ".gpg", ".key", ".pkr", ".skr"
     };
     public static final String[] supportedMimeTypes = {
-        "application/pgp-keys"
+            "application/pgp-keys"
     };
 
     @Override

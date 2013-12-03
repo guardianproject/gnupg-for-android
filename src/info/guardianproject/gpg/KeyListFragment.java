@@ -18,10 +18,6 @@
 
 package info.guardianproject.gpg;
 
-import info.guardianproject.gpg.apg_compat.Apg;
-
-import java.util.Vector;
-
 import android.app.Activity;
 import android.app.SearchManager;
 import android.content.BroadcastReceiver;
@@ -42,6 +38,10 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockFragment;
+
+import info.guardianproject.gpg.apg_compat.Apg;
+
+import java.util.Vector;
 
 public class KeyListFragment extends SherlockFragment {
 

@@ -16,11 +16,6 @@
 
 package info.guardianproject.gpg;
 
-import info.guardianproject.gpg.apg_compat.Apg;
-
-import java.math.BigInteger;
-import java.util.Locale;
-
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -31,6 +26,11 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.freiheit.gnupg.GnuPGKey;
+
+import info.guardianproject.gpg.apg_compat.Apg;
+
+import java.math.BigInteger;
+import java.util.Locale;
 
 public class KeyListAdapter extends BaseAdapter {
     public static final String TAG = "KeyListAdapter";

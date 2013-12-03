@@ -14,12 +14,12 @@
 
 package com.freiheit.gnupg;
 
+import android.util.Log;
+
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
-
-import android.util.Log;
 
 /**
  * Start here, because for all operations, you first need to create a

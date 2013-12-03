@@ -1,10 +1,6 @@
 
 package info.guardianproject.gpg;
 
-import java.io.File;
-import java.io.OutputStream;
-import java.util.Calendar;
-
 import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -29,6 +25,10 @@ import android.widget.EditText;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.io.File;
+import java.io.OutputStream;
+import java.util.Calendar;
 
 public class DebugLogActivity extends FragmentActivity implements OnCreateContextMenuListener {
     public static final String TAG = "DebugLogActivity";

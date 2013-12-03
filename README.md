@@ -178,5 +178,9 @@ The results will be in `external/data/data/info.guardianproject.gpg`
 
 ## Hacking Notes
 
-Please conform to our code format standard. For C files use format-code.sh.
+Please conform to our code format standard.
+
+For C files use format-code.sh.
+
+For Java, please apply the official [Android formatter profile](https://android.googlesource.com/platform/development/+/master/ide/eclipse/)
 

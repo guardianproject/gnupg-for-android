@@ -1,19 +1,6 @@
 
 package info.guardianproject.gpg;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
-import java.util.Scanner;
-
-import org.apache.commons.io.FileUtils;
-
 import android.content.Context;
 import android.content.res.AssetManager;
 import android.os.Bundle;
@@ -24,6 +11,19 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.freiheit.gnupg.GnuPGContext;
+
+import org.apache.commons.io.FileUtils;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.util.Scanner;
 
 public class NativeHelper {
     public static final String TAG = "NativeHelper";

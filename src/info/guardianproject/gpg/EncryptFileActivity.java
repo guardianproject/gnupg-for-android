@@ -1,8 +1,6 @@
 
 package info.guardianproject.gpg;
 
-import java.io.File;
-
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -15,6 +13,8 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.freiheit.gnupg.GnuPGKey;
+
+import java.io.File;
 
 public class EncryptFileActivity extends FragmentActivity {
     private static final String TAG = EncryptFileActivity.class.getSimpleName();

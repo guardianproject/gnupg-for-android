@@ -1,12 +1,13 @@
 
 package info.guardianproject.gpg.pinentry;
 
-import info.guardianproject.gpg.pinentry.PinentryDialog.PinentryCallback;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.WindowManager;
+
+import info.guardianproject.gpg.pinentry.PinentryDialog.PinentryCallback;
 
 /**
  * Activity for communicating with the native pinentry. To achieve the nice

@@ -1,11 +1,6 @@
 
 package info.guardianproject.gpg.apg_compat;
 
-import info.guardianproject.gpg.GnuPG;
-import info.guardianproject.gpg.R;
-
-import java.util.ArrayList;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,6 +8,11 @@ import android.widget.Toast;
 
 import com.freiheit.gnupg.GnuPGException;
 import com.freiheit.gnupg.GnuPGKey;
+
+import info.guardianproject.gpg.GnuPG;
+import info.guardianproject.gpg.R;
+
+import java.util.ArrayList;
 
 public class EncryptActivity extends Activity {
     public static final String TAG = "EncryptActivity";

@@ -1,8 +1,6 @@
 
 package info.guardianproject.gpg;
 
-import java.util.Locale;
-
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -19,6 +17,8 @@ import android.widget.Toast;
 
 import com.freiheit.gnupg.GnuPGException;
 import com.freiheit.gnupg.GnuPGKey;
+
+import java.util.Locale;
 
 public class ReceiveKeyActivity extends FragmentActivity {
     private static final String TAG = "ReceiveKeyActivity";

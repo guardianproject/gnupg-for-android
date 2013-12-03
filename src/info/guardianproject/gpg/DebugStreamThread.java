@@ -1,10 +1,10 @@
 
 package info.guardianproject.gpg;
 
+import android.util.Log;
+
 import java.io.IOException;
 import java.io.InputStream;
-
-import android.util.Log;
 
 public class DebugStreamThread extends Thread {
     public static final String TAG = "DebugStreamThread";

@@ -1,8 +1,6 @@
 
 package info.guardianproject.gpg.pinentry;
 
-import info.guardianproject.gpg.NativeHelper;
-import info.guardianproject.gpg.R;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.util.Log;
@@ -13,6 +11,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import info.guardianproject.gpg.NativeHelper;
+import info.guardianproject.gpg.R;
 
 public class PinentryDialog extends DialogFragment {
     private final static String TAG = PinentryDialog.class.getSimpleName();

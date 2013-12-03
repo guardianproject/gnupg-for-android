@@ -1,12 +1,12 @@
 
 package info.guardianproject.gpg.sync;
 
+import com.freiheit.gnupg.GnuPGKey;
+
 import info.guardianproject.gpg.GnuPG;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import com.freiheit.gnupg.GnuPGKey;
 
 public class RawContact {
 

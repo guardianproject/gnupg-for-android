@@ -1,8 +1,6 @@
 
 package info.guardianproject.gpg;
 
-import info.guardianproject.gpg.apg_compat.Apg;
-import info.guardianproject.gpg.sync.SyncConstants;
 import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.content.ContentResolver;
@@ -27,6 +25,9 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 
+import info.guardianproject.gpg.apg_compat.Apg;
+import info.guardianproject.gpg.sync.SyncConstants;
+
 public class MainActivity extends SherlockFragmentActivity
         implements TabListener,
         OnPageChangeListener,
@@ -45,8 +46,8 @@ public class MainActivity extends SherlockFragmentActivity
     public static final long SYNC_INTERVAL_IN_MINUTES = 120L;
     public static final long SYNC_INTERVAL =
             SYNC_INTERVAL_IN_MINUTES *
-            SECONDS_PER_MINUTE *
-            MILLISECONDS_PER_SECOND;
+                    SECONDS_PER_MINUTE *
+                    MILLISECONDS_PER_SECOND;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -194,7 +195,8 @@ public class MainActivity extends SherlockFragmentActivity
                 Log.e(TAG, "Account Add failed");
             }
             ContentResolver.setSyncAutomatically(account, ContactsContract.AUTHORITY, false);
-            ContentResolver.addPeriodicSync(account, ContactsContract.AUTHORITY, new Bundle(), SYNC_INTERVAL);
+            ContentResolver.addPeriodicSync(account, ContactsContract.AUTHORITY, new Bundle(),
+                    SYNC_INTERVAL);
         }
     }
 

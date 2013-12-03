@@ -1,12 +1,13 @@
 
 package info.guardianproject.gpg;
 
-import info.guardianproject.gpg.apg_compat.Apg;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
+
+import info.guardianproject.gpg.apg_compat.Apg;
 
 public class KeyListActivity extends SherlockFragmentActivity implements
         KeyListFragment.OnKeysSelectedListener {

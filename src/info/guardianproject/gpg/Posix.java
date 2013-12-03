@@ -1,14 +1,14 @@
 
 package info.guardianproject.gpg;
 
+import android.util.Log;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStreamReader;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.StringTokenizer;
-
-import android.util.Log;
 
 public class Posix {
     public static final String TAG = "Posix";
