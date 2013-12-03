@@ -25,11 +25,12 @@
 #define LOGD(...) __android_log_print(ANDROID_LOG_DEBUG , "PINENTRY", __VA_ARGS__)
 #define LOGE(...) __android_log_print(ANDROID_LOG_ERROR , "PINENTRY", __VA_ARGS__)
 
-int recv_fd ( int socket ) {
+int recv_fd ( int socket )
+{
     int sent_fd, available_ancillary_element_buffer_space;
     struct msghdr socket_message;
     struct iovec io_vector[1];
-    struct cmsghdr *control_message = NULL;
+    struct cmsghdr* control_message = NULL;
     char message_buffer[1];
     char ancillary_element_buffer[CMSG_SPACE ( sizeof ( int ) )];
 
@@ -66,7 +67,7 @@ int recv_fd ( int socket ) {
             control_message = CMSG_NXTHDR ( &socket_message, control_message ) ) {
         if ( ( control_message->cmsg_level == SOL_SOCKET ) &&
                 ( control_message->cmsg_type == SCM_RIGHTS ) ) {
-            sent_fd = * ( ( int * ) CMSG_DATA ( control_message ) );
+            sent_fd = * ( ( int* ) CMSG_DATA ( control_message ) );
             return sent_fd;
         }
     }
@@ -94,13 +95,14 @@ struct pe_context {
     jobject pe_struct;
 
     // "info.guardianproject.gpg.pinentry.PinentryDialog"
-    jclass  pe_activity_class; 
+    jclass  pe_activity_class;
     jobject pe_activity;
 
     char internal_gnupghome[UNIX_PATH_MAX];
 };
 
-int pe_get_internal_gnupghome( struct pe_context* ctx ) {
+int pe_get_internal_gnupghome( struct pe_context* ctx )
+{
     jclass NativeHelperCls = ( *ctx->env )->FindClass ( ctx->env, "info/guardianproject/gpg/NativeHelper" );
     if ( !NativeHelperCls ) {
         LOGE ( "pe_get_internal_gnupghome: failed to retrieve NativeHelperCls\n" );
@@ -108,7 +110,7 @@ int pe_get_internal_gnupghome( struct pe_context* ctx ) {
     }
 
     jfieldID fid_app_home = (*ctx->env)->GetStaticFieldID( ctx->env, NativeHelperCls, "app_home", "Ljava/io/File;");
-    if( fid_app_home == 0 ) {
+    if ( fid_app_home == 0 ) {
         LOGE( "pe_get_internal_gnupghome: failed to get fid_app_home" );
         return -1;
     }
@@ -120,27 +122,27 @@ int pe_get_internal_gnupghome( struct pe_context* ctx ) {
     }
 
     jobject obj_File_app_home = (*ctx->env)->GetStaticObjectField( ctx->env, NativeHelperCls, fid_app_home );
-    if( obj_File_app_home == 0 ) {
+    if ( obj_File_app_home == 0 ) {
         LOGE( "pe_get_internal_gnupghome: failed to get obj_File_app_home" );
         return -1;
     }
 
     jmethodID method_File_getAbsolutePath = ( *ctx->env )->GetMethodID ( ctx->env, FileCls, "getAbsolutePath", "()Ljava/lang/String;" );
-    if( method_File_getAbsolutePath == 0 ) {
+    if ( method_File_getAbsolutePath == 0 ) {
         LOGE( "pe_get_internal_gnupghome: failed to get method_File_getAbsolutePath" );
         return -1;
     }
 
     jstring absolutePath = ( *ctx->env )->CallObjectMethod ( ctx->env, obj_File_app_home, method_File_getAbsolutePath );
-    if( method_File_getAbsolutePath == 0 ) {
+    if ( method_File_getAbsolutePath == 0 ) {
         LOGE( "pe_get_internal_gnupghome: failed to CallObjectMethod(method_File_getAbsolutePath)" );
         return -1;
     }
 
     jsize gnupghome_len = ( *ctx->env )->GetStringUTFLength ( ctx->env, absolutePath );
-    const jbyte *gnupghome = ( *ctx->env )->GetStringUTFChars ( ctx->env, absolutePath, 0 );
+    const jbyte* gnupghome = ( *ctx->env )->GetStringUTFChars ( ctx->env, absolutePath, 0 );
 
-    if( gnupghome_len > UNIX_PATH_MAX ) {
+    if ( gnupghome_len > UNIX_PATH_MAX ) {
         LOGE("pe_get_internal_gnupghome: gnupghome_len > UNIX_PATH_MAX (%d > %d)", gnupghome_len, UNIX_PATH_MAX);
         return -1;
     }
@@ -149,7 +151,8 @@ int pe_get_internal_gnupghome( struct pe_context* ctx ) {
     ( *ctx->env )->ReleaseStringUTFChars ( ctx->env, absolutePath, gnupghome );
     return 0;
 }
-int pe_context_init( struct pe_context* ctx, JavaVM *vm ) {
+int pe_context_init( struct pe_context* ctx, JavaVM* vm )
+{
     ctx->jvm = vm;
     if ( ctx->jvm == 0 ) {
         LOGE ( "pe_context_init: JVM is null\n" );
@@ -157,7 +160,7 @@ int pe_context_init( struct pe_context* ctx, JavaVM *vm ) {
     }
 
     // attach to JVM
-    if( JNI_OK != ( *ctx->jvm )->AttachCurrentThread ( ctx->jvm, &ctx->env, 0 ) ) {
+    if ( JNI_OK != ( *ctx->jvm )->AttachCurrentThread ( ctx->jvm, &ctx->env, 0 ) ) {
         LOGE( "pe_context_init: AttachCurrentThread failed");
         return -1;
     }
@@ -170,7 +173,8 @@ int pe_context_init( struct pe_context* ctx, JavaVM *vm ) {
     return 0;
 }
 
-int pe_struct_init( struct pe_context* ctx ) {
+int pe_struct_init( struct pe_context* ctx )
+{
 
     ctx->pe_struct_class = ( *ctx->env )->FindClass ( ctx->env, "info/guardianproject/gpg/pinentry/PinentryStruct" );
 
@@ -188,7 +192,8 @@ int pe_struct_init( struct pe_context* ctx ) {
     return 0;
 }
 
-jstring pe_new_string ( const struct pe_context* ctx, const char* field, const char* value ) {
+jstring pe_new_string ( const struct pe_context* ctx, const char* field, const char* value )
+{
     jstring jString = (*ctx->env)->NewStringUTF(ctx->env, value);
     if (jString == 0) {
         LOGE( "pe_new_string: failed to create str %s with %s\n", field, value );
@@ -197,11 +202,12 @@ jstring pe_new_string ( const struct pe_context* ctx, const char* field, const c
     return jString;
 }
 
-int pe_set_str(const struct pe_context* ctx,  const char* field, jstring value) {
+int pe_set_str(const struct pe_context* ctx,  const char* field, jstring value)
+{
     jfieldID fid;
 
     fid = (*ctx->env)->GetFieldID( ctx->env, ctx->pe_struct_class, field, "Ljava/lang/String;");
-    if( fid == 0 ) {
+    if ( fid == 0 ) {
         LOGE( "pe_set_str: failed to get fid %s", field );
         return -1;
     }
@@ -209,11 +215,12 @@ int pe_set_str(const struct pe_context* ctx,  const char* field, jstring value) 
     return 0;
 }
 
-int pe_set_int(const struct pe_context* ctx,  const char* field, int value) {
+int pe_set_int(const struct pe_context* ctx,  const char* field, int value)
+{
     jfieldID fid;
 
     fid = (*ctx->env)->GetFieldID( ctx->env, ctx->pe_struct_class, field, "I");
-    if( fid == 0 ) {
+    if ( fid == 0 ) {
         LOGE( "pe_set_int: failed to get fid %s", field );
         return -1;
     }
@@ -221,10 +228,11 @@ int pe_set_int(const struct pe_context* ctx,  const char* field, int value) {
     return 0;
 }
 
-int pe_add_string( const struct pe_context* ctx, const char* field, const char* value ) {
-    if( value ) {
+int pe_add_string( const struct pe_context* ctx, const char* field, const char* value )
+{
+    if ( value ) {
         jstring jField = pe_new_string( ctx, field, value );
-        if( !jField ) {
+        if ( !jField ) {
             LOGE("pe_add_string: no such field, %s", field);
             return -1;
         }
@@ -233,7 +241,8 @@ int pe_add_string( const struct pe_context* ctx, const char* field, const char* 
     return 0;
 }
 
-int pe_activity_init( struct pe_context* ctx, jobject pe_activity ) {
+int pe_activity_init( struct pe_context* ctx, jobject pe_activity )
+{
     ctx->pe_activity_class = ( *ctx->env )->FindClass ( ctx->env, "info/guardianproject/gpg/pinentry/PinentryDialog" );
     if ( !ctx->pe_activity_class ) {
         LOGE ( "pe_activity_init: failed to retrieve PinentryDialog.class\n" );
@@ -248,7 +257,8 @@ int pe_activity_init( struct pe_context* ctx, jobject pe_activity ) {
     return 0;
 }
 
-int pe_set_pe_struct( struct pe_context* ctx ) {
+int pe_set_pe_struct( struct pe_context* ctx )
+{
     jobject result;
     jmethodID setPinentryStructMethod;
     setPinentryStructMethod = ( *ctx->env )->GetMethodID ( ctx->env, ctx->pe_activity_class, "setPinentryStruct", "(Linfo/guardianproject/gpg/pinentry/PinentryStruct;)Linfo/guardianproject/gpg/pinentry/PinentryStruct;" );
@@ -268,7 +278,8 @@ int pe_set_pe_struct( struct pe_context* ctx ) {
 /*
  * returns the pin length, or -1 on error
  */
-int pe_get_pin( const struct pe_context* ctx ) {
+int pe_get_pin( const struct pe_context* ctx )
+{
     jfieldID fid;
     fid = ( *ctx->env )->GetFieldID ( ctx->env, ctx->pe_struct_class , "pin", "Ljava/lang/String;" );
     if ( !fid ) {
@@ -283,7 +294,7 @@ int pe_get_pin( const struct pe_context* ctx ) {
     }
 
     jsize pin_len = ( *ctx->env )->GetStringUTFLength ( ctx->env, jpin );
-    const jbyte *pin = ( *ctx->env )->GetStringUTFChars ( ctx->env, jpin, 0 );
+    const jbyte* pin = ( *ctx->env )->GetStringUTFChars ( ctx->env, jpin, 0 );
 
     if ( pin_len <= 0 ) {
         LOGE( "pe_get_pin: pin_len <=0 " );
@@ -306,7 +317,8 @@ pin_error:
     return -1;
 }
 
-int pe_get_result( const struct pe_context* ctx ) {
+int pe_get_result( const struct pe_context* ctx )
+{
     jfieldID fid;
     fid = ( *ctx->env )->GetFieldID ( ctx->env, ctx->pe_struct_class , "result", "I" );
     if ( !fid ) {
@@ -319,7 +331,8 @@ int pe_get_result( const struct pe_context* ctx ) {
     return 0;
 }
 
-int pe_get_canceled( const struct pe_context* ctx ) {
+int pe_get_canceled( const struct pe_context* ctx )
+{
     jfieldID fid;
     fid = ( *ctx->env )->GetFieldID ( ctx->env, ctx->pe_struct_class , "canceled", "I" );
     if ( !fid ) {
@@ -332,36 +345,37 @@ int pe_get_canceled( const struct pe_context* ctx ) {
     return 0;
 }
 
-int pe_fill_data( struct pe_context* ctx ) {
+int pe_fill_data( struct pe_context* ctx )
+{
     int rc = 0;
     // populate the PinentryStruct with values from pinentry_t pe
     rc = pe_add_string( ctx, "title", ctx->pe->title );
-    if( rc < 0 ) return -1;
+    if ( rc < 0 ) return -1;
     rc = pe_add_string( ctx, "description", ctx->pe->description );
-    if( rc < 0 ) return -1;
+    if ( rc < 0 ) return -1;
     rc = pe_add_string( ctx, "prompt", ctx->pe->prompt );
-    if( rc < 0 ) return -1;
+    if ( rc < 0 ) return -1;
     rc = pe_add_string( ctx, "error", ctx->pe->error );
-    if( rc < 0 ) return -1;
+    if ( rc < 0 ) return -1;
     rc = pe_add_string( ctx, "ok", ctx->pe->ok );
-    if( rc < 0 ) return -1;
+    if ( rc < 0 ) return -1;
     rc = pe_add_string( ctx, "default_ok", ctx->pe->default_ok );
-    if( rc < 0 ) return -1;
+    if ( rc < 0 ) return -1;
     rc = pe_add_string( ctx, "cancel", ctx->pe->cancel );
-    if( rc < 0 ) return -1;
+    if ( rc < 0 ) return -1;
     rc = pe_add_string( ctx, "default_cancel", ctx->pe->default_cancel );
-    if( rc < 0 ) return -1;
+    if ( rc < 0 ) return -1;
     rc = pe_add_string( ctx, "quality_bar", ctx->pe->quality_bar );
-    if( rc < 0 ) return -1;
+    if ( rc < 0 ) return -1;
     rc = pe_add_string( ctx, "quality_bar_tt", ctx->pe->quality_bar_tt );
-    if( rc < 0 ) return -1;
+    if ( rc < 0 ) return -1;
     rc = pe_add_string( ctx, "notok", ctx->pe->notok );
-    if( rc < 0 ) return -1;
+    if ( rc < 0 ) return -1;
 
     rc = pe_set_int( ctx, "one_button", ctx->pe->one_button );
-    if( rc < 0 ) return -1;
+    if ( rc < 0 ) return -1;
     rc = pe_set_int( ctx, "timeout", ctx->pe->timeout );
-    if( rc < 0 ) return -1;
+    if ( rc < 0 ) return -1;
 
     return 0;
 }
@@ -371,20 +385,21 @@ int pe_fill_data( struct pe_context* ctx ) {
  * create the pin prompt and fetch back the user's input
  * blocks until user enters pin or it is canceled
  */
-int pe_prompt_pin ( void ) {
+int pe_prompt_pin ( void )
+{
     int rc = 0;
 
     // instantiates the Java PinentryStruct object
     rc = pe_struct_init( &_ctx );
-    if( rc < 0 ) return -1;
+    if ( rc < 0 ) return -1;
 
     rc = pe_fill_data( &_ctx );
-    if( rc < 0 ) return -1;
+    if ( rc < 0 ) return -1;
 
     // call PinentryDialog.setPinentryStruct() to set PinentryStruct we made
     //    note â this function blocks until the users enters a pin, cancels, or the PinentryDialog is closed
     rc = pe_set_pe_struct( &_ctx );
-    if( rc < 0 ) return -1;
+    if ( rc < 0 ) return -1;
 
     pe_get_result( &_ctx );
     pe_get_canceled( &_ctx );
@@ -393,22 +408,23 @@ int pe_prompt_pin ( void ) {
     return pe_get_pin( &_ctx );
 }
 
-int pe_prompt_buttons ( void ) {
+int pe_prompt_buttons ( void )
+{
     int rc = 0;
     // instantiates the Java PinentryStruct object
     rc = pe_struct_init( &_ctx );
-    if( rc < 0 ) return -1;
+    if ( rc < 0 ) return -1;
 
     rc = pe_fill_data( &_ctx );
-    if( rc < 0 ) return -1;
+    if ( rc < 0 ) return -1;
 
     rc = pe_set_int( &_ctx, "isButtonBox", 0 ); // true
-    if( rc < 0 ) return -1;
+    if ( rc < 0 ) return -1;
 
     // call PinentryDialog.setPinentryStruct() to set PinentryStruct we made
     //    note â this function blocks until the user clicks a button or the PinentryDialog is closed
     rc = pe_set_pe_struct( &_ctx );
-    if( rc < 0 ) return -1;
+    if ( rc < 0 ) return -1;
 
     pe_get_result( &_ctx );
     pe_get_canceled( &_ctx );
@@ -417,7 +433,8 @@ int pe_prompt_buttons ( void ) {
 }
 
 static int
-android_cmd_handler ( pinentry_t pe ) {
+android_cmd_handler ( pinentry_t pe )
+{
     int want_pass = !!pe->pin;
 
     pinentry = pe;
@@ -445,7 +462,8 @@ pinentry_cmd_handler_t pinentry_cmd_handler = android_cmd_handler;
 /*
  * connect to the pinetry helper over a unix domain socket
  */
-int connect_helper( int app_uid ) {
+int connect_helper( int app_uid )
+{
     struct sockaddr_un addr;
     char path[UNIX_PATH_MAX];
     int path_len = 0;
@@ -456,7 +474,7 @@ int connect_helper( int app_uid ) {
         return -1;
     }
 
-    if( app_uid == getuid() ) {
+    if ( app_uid == getuid() ) {
         // we're an internal pinentry, so use a file-backed socket
         path_len = snprintf( path, sizeof( path ), "%s/S.pinentry", _ctx.internal_gnupghome );
     } else {
@@ -476,7 +494,7 @@ int connect_helper( int app_uid ) {
         return -1;
     }
 
-    if( fd < 0 ) {
+    if ( fd < 0 ) {
         LOGE( " connect_helper: socket error" );
         return -1;
     }
@@ -485,7 +503,8 @@ int connect_helper( int app_uid ) {
 }
 
 JNIEXPORT void JNICALL
-Java_info_guardianproject_gpg_pinentry_PinentryDialog_connectToGpgAgent ( JNIEnv * env, jobject self, jint app_uid ) {
+Java_info_guardianproject_gpg_pinentry_PinentryDialog_connectToGpgAgent ( JNIEnv* env, jobject self, jint app_uid )
+{
     int in, out, sock;
 
     _ctx.env = env;
@@ -493,7 +512,7 @@ Java_info_guardianproject_gpg_pinentry_PinentryDialog_connectToGpgAgent ( JNIEnv
     pe_get_internal_gnupghome(&_ctx);
 
     sock = connect_helper( app_uid );
-    if( sock < 0 ) {
+    if ( sock < 0 ) {
         LOGE("connectToGpgAgent aborting");
         return;
     }
@@ -507,13 +526,13 @@ Java_info_guardianproject_gpg_pinentry_PinentryDialog_connectToGpgAgent ( JNIEnv
      */
     struct ucred credentials;
     int ucred_length = sizeof( struct ucred );
-    if( getsockopt( sock, SOL_SOCKET, SO_PEERCRED, &credentials, &ucred_length ) ) {
+    if ( getsockopt( sock, SOL_SOCKET, SO_PEERCRED, &credentials, &ucred_length ) ) {
         LOGE("connectToGpgAgent: couldn't obtain peer's credentials");
         close( sock );
         return;
     }
 
-    if( app_uid != credentials.uid ) {
+    if ( app_uid != credentials.uid ) {
         LOGE( "connectToGpgAgent: authentication error. Something JANKY is going on!" );
         LOGE( "                   expected uid %d, but found %d", app_uid, credentials.uid );
         close( sock );
@@ -559,11 +578,12 @@ Java_info_guardianproject_gpg_pinentry_PinentryDialog_connectToGpgAgent ( JNIEnv
 }
 
 static JNINativeMethod sMethods[] = {
-    {"connectToGpgAgent", "(I)V", ( void * ) Java_info_guardianproject_gpg_pinentry_PinentryDialog_connectToGpgAgent}
+    {"connectToGpgAgent", "(I)V", ( void* ) Java_info_guardianproject_gpg_pinentry_PinentryDialog_connectToGpgAgent}
 };
 
 JNIEXPORT jint JNICALL
-JNI_OnLoad ( JavaVM *vm, void *reserved ) {
+JNI_OnLoad ( JavaVM* vm, void* reserved )
+{
     // TODO set locale from the JavaVM's config
     // setlocale(LC_ALL, "");
 

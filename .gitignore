@@ -45,3 +45,6 @@ local.properties
 
 #kdevelop project files
 *.kdev4
+
+# backed up astyle files
+jni/*.orig

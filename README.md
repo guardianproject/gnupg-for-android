@@ -176,3 +176,7 @@ The results will be in `external/data/data/info.guardianproject.gpg`
 	android update project --path . --name GnuPrivacyGuard
 	ant clean debug
 
+## Hacking Notes
+
+Please conform to our code format standard. For C files use format-code.sh.
+

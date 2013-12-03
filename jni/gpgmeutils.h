@@ -5,18 +5,18 @@
 #include <gpg-error.h>
 #include <gpgme.h>
 
-jboolean UTILS_setStringMember(JNIEnv * env, jobject self, jclass selfclass,
-			       const char *fieldname, const char *fieldvalue);
+jboolean UTILS_setStringMember(JNIEnv* env, jobject self, jclass selfclass,
+                               const char* fieldname, const char* fieldvalue);
 
-jboolean UTILS_setIntMember(JNIEnv * env, jobject self, jclass selfclass,
-			    const char *fieldname, int fieldvalue);
+jboolean UTILS_setIntMember(JNIEnv* env, jobject self, jclass selfclass,
+                            const char* fieldname, int fieldvalue);
 
-void UTILS_setBooleanMember(JNIEnv * env, jobject self, jclass selfclass,
-			    const char *fieldname, unsigned int fieldvalue);
+void UTILS_setBooleanMember(JNIEnv* env, jobject self, jclass selfclass,
+                            const char* fieldname, unsigned int fieldvalue);
 
-jboolean UTILS_onErrorThrowException(JNIEnv * env, gpgme_error_t err);
+jboolean UTILS_onErrorThrowException(JNIEnv* env, gpgme_error_t err);
 
-int UTILS_copyRecipientsFromJvm(JNIEnv * env, jlongArray recipients, gpgme_key_t keys[]);
+int UTILS_copyRecipientsFromJvm(JNIEnv* env, jlongArray recipients, gpgme_key_t keys[]);
 
 /* use this macro to convert a jlong variable to a pointer to a gpgme context in a safe and portable way */
 #define CONTEXT(c) ((gpgme_ctx_t)_ptrFromJLong(c))
@@ -33,13 +33,13 @@ int UTILS_copyRecipientsFromJvm(JNIEnv * env, jlongArray recipients, gpgme_key_t
 #define LNG(a) (_jlongFromPtr(a))
 
 // don't use this directly, it is wrapped by the PTR() macro
-inline static void *_ptrFromJLong(jlong l)
+inline static void* _ptrFromJLong(jlong l)
 {
-    return (void *) (unsigned long) l;
+    return (void*) (unsigned long) l;
 }
 
 // don't use this directly, it is wrapped by the PTR() macro
-inline static jlong _jlongFromPtr(void *p)
+inline static jlong _jlongFromPtr(void* p)
 {
     return (jlong) (unsigned long) p;
 }
