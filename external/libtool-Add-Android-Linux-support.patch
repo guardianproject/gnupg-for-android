@@ -1,0 +1,48 @@
+commit 8eeeb00daef8c4f720c9b79a0cdb89225d9909b6
+Author: David 'Digit' Turner <digit@google.com>
+Date:   Tue Oct 8 14:37:32 2013 -0700
+
+    libtool: Add Android/Linux support.
+    
+    This patch adds proper Android support to libtool. The main
+    issues are the following:
+    
+      - Versioned libraries are not supported by the platform and
+        its build/packaging tools.
+    
+      - The dynamic linker is not GNU ld, there is no support for
+        DT_RUNPATH.
+    
+      - Similarly, there is no ldconfig.
+
+diff --git a/m4/libtool.m4 b/m4/libtool.m4
+index 80d7e44..080272c 100644
+--- a/m4/libtool.m4
++++ b/m4/libtool.m4
+@@ -2683,6 +2683,26 @@ linux*oldld* | linux*aout* | linux*coff*)
+   dynamic_linker=no
+   ;;
+ 
++linux*android*)
++  version_type=none # Android doesn't support versioned libraries.
++  need_lib_prefix=no
++  need_version=no
++  library_names_spec='$libname$release$shared_ext'
++  soname_spec='$libname$release$shared_ext'
++  finish_cmds=
++  shlibpath_var=LD_LIBRARY_PATH
++  shlibpath_overrides_runpath=yes
++
++  # This implies no fast_install, which is unacceptable.
++  # Some rework will be needed to allow for fast_install
++  # before this can be enabled.
++  hardcode_into_libs=yes
++
++  dynamic_linker='Android linker'
++  # Don't embed -rpath directories since the linker doesn't support them.
++  _LT_TAGVAR(hardcode_libdir_flag_spec, $1)='-L$libdir'
++  ;;
++
+ # This must be glibc/ELF.
+ linux* | k*bsd*-gnu | kopensolaris*-gnu | gnu*)
+   version_type=linux # correct to gnu/linux during the next big refactor

@@ -98,6 +98,7 @@ showsetup:
 	@echo "NDK_SYSROOT: $(NDK_SYSROOT)"
 	@echo "APP_PLATFORM: $(APP_PLATFORM)"
 	@echo "APP_ABI: $(APP_ABI)"
+	@echo "HOST: $(HOST)"
 	@echo "CC: $(CC)"
 	@echo "LD: $(LD)"
 	@echo "CFLAGS: $(CFLAGS)"
@@ -114,9 +115,10 @@ libgpg-error/config.guess: config.guess
 	cp config.guess libgpg-error/config.guess
 
 libgpg-error/configure: libgpg-error/configure.ac
-	cd libgpg-error && ./autogen.sh
+	cd libgpg-error && ./autogen.sh && autoreconf --install --force --verbose
 
 libgpg-error/Makefile: libgpg-error/config.sub libgpg-error/config.guess libgpg-error/configure
+	-patch -N -p1 --reject-file=- libgpg-error/m4/libtool.m4 libtool-Add-Android-Linux-support.patch
 	cd libgpg-error && \
 		./configure \
 			CC="$(CC)" \
@@ -129,7 +131,6 @@ libgpg-error/Makefile: libgpg-error/config.sub libgpg-error/config.guess libgpg-
 			--host=$(HOST) \
 			--prefix=$(LOCAL)
 
-
 libgpg-error-build-stamp: libgpg-error/Makefile
 	$(MAKE) -C libgpg-error
 	touch libgpg-error-build-stamp
@@ -138,6 +139,7 @@ libgpg-error-build: libgpg-error-build-stamp
 
 $(LOCAL)/lib/libgpg-error.a: libgpg-error-build
 	$(MAKE) -C libgpg-error prefix=$(LOCAL) install
+	ls -l $(LOCAL)/lib/libgpg-error.so*
 
 libgpg-error-install: $(LOCAL)/lib/libgpg-error.a
 
@@ -158,6 +160,7 @@ libgcrypt/configure: libgcrypt/configure.ac
 	cd libgcrypt && ./autogen.sh
 
 libgcrypt/Makefile: libgcrypt/config.sub libgcrypt/config.guess libgcrypt/configure
+	-patch -N -p1 --reject-file=- libgcrypt/m4/libtool.m4 libtool-Add-Android-Linux-support.patch
 	cd libgcrypt && \
 		CC="$(CC)" AR="$(AR)" RANLIB=$(RANLIB) CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS)" \
 			./configure \
@@ -191,9 +194,10 @@ libassuan/config.guess: config.guess
 	cp config.guess libassuan/config.guess
 
 libassuan/configure: libassuan/configure.ac
-	cd libassuan && ./autogen.sh
+	cd libassuan && ./autogen.sh && autoreconf --install --force --verbose
 
 libassuan/Makefile: libassuan/config.sub libassuan/config.guess libassuan/configure
+	-patch -N -p1 --reject-file=- libassuan/m4/libtool.m4 libtool-Add-Android-Linux-support.patch
 	cd libassuan && \
 		CC="$(CC)" AR="$(AR)" RANLIB=$(RANLIB) CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS)" \
 			./configure \
@@ -211,7 +215,7 @@ libassuan-build: libassuan-build-stamp
 
 $(LOCAL)/lib/libassuan.a: libassuan-build
 	$(MAKE) -C libassuan prefix=$(LOCAL) install
-	ls -l $(LOCAL)/lib/libassuan.a
+	ls -l $(LOCAL)/lib/libassuan.so*
 
 libassuan-install: $(LOCAL)/lib/libassuan.a
 
@@ -229,9 +233,10 @@ npth/config.guess: config.guess
 	cp config.guess npth/config.guess
 
 npth/configure: npth/configure.ac
-	cd npth && ./autogen.sh
+	cd npth && ./autogen.sh && autoreconf --install --force --verbose
 
 npth/Makefile: npth/config.sub npth/config.guess npth/configure
+	-patch -N -p1 --reject-file=- npth/m4/libtool.m4 libtool-Add-Android-Linux-support.patch
 	cd npth && \
 		CC="$(CC)" AR="$(AR)" RANLIB=$(RANLIB) CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS)" \
 			./configure \
@@ -249,7 +254,7 @@ npth-build: npth-build-stamp
 
 $(LOCAL)/lib/libnpth.a: npth-build
 	$(MAKE) -C npth prefix=$(LOCAL) install
-	ls -l $(LOCAL)/lib/libnpth.a
+	ls -l $(LOCAL)/lib/libnpth.so*
 
 npth-install: $(LOCAL)/lib/libnpth.a
 
@@ -270,6 +275,7 @@ libksba/configure: libksba/configure.ac
 	cd libksba && ./autogen.sh
 
 libksba/Makefile: $(LOCAL)/lib/libgpg-error.a libksba/config.sub libksba/config.guess libksba/configure
+	-patch -N -p1 --reject-file=- libksba/m4/libtool.m4 libtool-Add-Android-Linux-support.patch
 	cd libksba && \
 		CC="$(CC)" AR="$(AR)" RANLIB=$(RANLIB) CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS)" \
 			./configure \
@@ -335,7 +341,7 @@ openldap-build: openldap-build-stamp
 $(LOCAL)/lib/libldap.a: openldap-build
 	$(MAKE) -C openldap/include DESTDIR=$(DESTDIR) prefix=$(prefix) install
 	$(MAKE) -C openldap/libraries DESTDIR=$(DESTDIR) prefix=$(prefix) install
-	ls -l $(LOCAL)/lib/libldap.a
+	ls -l $(LOCAL)/lib/libldap.so
 
 openldap-install: $(LOCAL)/lib/libldap.a
 
@@ -595,6 +601,7 @@ gpgme/configure: gpgme/configure.ac
 	cd gpgme && ./autogen.sh
 
 gpgme/Makefile: gpgme/configure
+	-patch -N -p1 --reject-file=- gpgme/m4/libtool.m4 libtool-Add-Android-Linux-support.patch
 	cd gpgme && \
 		CC="$(CC)" AR="$(AR)" RANLIB=$(RANLIB) CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS)" \
 			./configure \
@@ -701,8 +708,11 @@ assets: clean-assets assets-tests
 	rm -f $(ASSETS)/bin/*-static
 	rm -f $(ASSETS)/lib/*.a $(ASSETS)/lib/*.la
 # remove lib symlinks since Android AssetManager copies them as files
-	rm -rf $(ASSETS)/lib/*.so
-	for f in $(ASSETS)/lib/*.so.*; do \
+	for f in $(ASSETS)/lib/*.so; do \
+		test ! -L $$f || (rm $$f; echo rm $$f) \
+	done
+# remove .so.0 symlink and rename the .so.0.12.0 file to it
+	for f in $(ASSETS)/lib/*.so.[0-9]*; do \
 		echo $$f; \
 		test ! -L $$f || \
 			(rm $$f && mv $$f.[0-9]* $$f); \
@@ -740,7 +750,7 @@ distclean: clean install-clean
 	-$(MAKE) -C libgpg-error distclean
 
 # watch out, this is dangerous!
-gitclean: distclean
+gitclean:
 	rm -rf $(ASSETS)/bin
 	rm -rf $(ASSETS)/etc
 	rm -rf $(ASSETS)/lib
