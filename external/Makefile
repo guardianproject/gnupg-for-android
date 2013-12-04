@@ -89,7 +89,6 @@ endif
 	curl-build curl-clean curl-install \
 	openldap-build openldap-clean openldap-install \
 	npth-build npth-clean npth-install \
-	pth-build pth-clean pth-install \
 	libiconv-build libiconv-clean libiconv-install \
 	showsetup
 
@@ -378,60 +377,6 @@ curl-install: $(LOCAL)/lib/libcurl.a
 
 curl-clean:
 	-rm -f curl-build-stamp
-
-
-#------------------------------------------------------------------------------#
-# pth
-
-pth-2.0.7.tar.gz.sig: pth-2.0.7.tar.gz
-	wget http://ftp.gnu.org/gnu/pth/pth-2.0.7.tar.gz.sig
-	gpg --recv-key  4E23E878D41A0A88EDFCFA5A6E744ACBA9C09E30
-	gpg --verify pth-2.0.7.tar.gz.sig
-
-pth-2.0.7.tar.gz:
-	wget -c http://ftp.gnu.org/gnu/pth/pth-2.0.7.tar.gz
-	sha1sum -c pth-2.0.7.tar.gz.sha1
-
-pth-2.0.7: pth-2.0.7.tar.gz.sig
-	tar xzf pth-2.0.7.tar.gz
-
-pth-2.0.7/config.sub: pth-2.0.7 config.sub
-	cp config.sub pth-2.0.7/config.sub
-
-pth-2.0.7/config.guess: pth-2.0.7 config.guess
-	cp config.guess pth-2.0.7/config.guess
-
-pth-2.0.7/aclocal.m4: /usr/share/libtool/libltdl/aclocal.m4
-	cp /usr/share/libtool/libltdl/aclocal.m4 pth-2.0.7/aclocal.m4
-#	cd pth-2.0.7 && libtoolize --install --force
-#	mkdir pth-2.0.7/m4
-#	cp -a /usr/share/aclocal/*.m4 pth-2.0.7/m4
-
-pth-2.0.7/Makefile: pth-2.0.7 pth-2.0.7/aclocal.m4 pth-2.0.7/config.guess pth-2.0.7/config.sub
-	patch -N -p0 --reject-file=- < pth-fix-include.patch || true
-	cd pth-2.0.7 && \
-		CC="$(CC)" AR="$(AR)" RANLIB=$(RANLIB) CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS)" \
-			./configure \
-				--prefix=$(prefix) \
-				--host=$(HOST) \
-				--enable-static \
-				--disable-shared \
-				--with-mctx-mth=sjlj \
-				--with-mctx-dsp=ssjlj \
-				--with-mctx-stk=sas
-
-pth-build: pth-2.0.7/Makefile
-	$(MAKE) -C pth-2.0.7
-
-$(LOCAL)/lib/libpth.a: pth-build
-	$(MAKE) -C pth-2.0.7 DESTDIR=$(DESTDIR) prefix=$(prefix) install
-
-pth-install: $(LOCAL)/lib/libpth.a
-
-pth-clean:
-	-rm -rf pth-2.0.7
-	-rm -f pth-2.0.7.tar.gz
-	-rm -f pth-2.0.7.tar.gz.sig*
 
 
 #------------------------------------------------------------------------------#
@@ -764,7 +709,7 @@ assets: clean-assets assets-tests
 install-clean:
 	rm -rf -- $(LOCAL)
 
-clean: install-clean pinentry-clean gnupg-clean curl-clean openldap-clean libksba-clean libassuan-clean npth-clean libgcrypt-clean libgpg-error-clean pth-clean adns-clean libiconv-clean
+clean: install-clean pinentry-clean gnupg-clean curl-clean openldap-clean libksba-clean libassuan-clean npth-clean libgcrypt-clean libgpg-error-clean adns-clean libiconv-clean
 	-$(MAKE) -C gnupg clean
 	-$(MAKE) -C pinentry clean
 	-$(MAKE) -C curl clean
