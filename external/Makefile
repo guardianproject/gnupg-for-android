@@ -212,7 +212,9 @@ libassuan-build-stamp: $(LOCAL)/lib/libgpg-error.a libassuan/Makefile
 	$(MAKE) -C libassuan
 	touch libassuan-build-stamp
 
-$(LOCAL)/lib/libassuan.a: libassuan-build-stamp
+libassuan-build: libassuan-build-stamp
+
+$(LOCAL)/lib/libassuan.a: libassuan-build
 	$(MAKE) -C libassuan prefix=$(LOCAL) install
 	ls -l $(LOCAL)/lib/libassuan.a
 
@@ -248,7 +250,9 @@ npth-build-stamp: $(LOCAL)/lib/libgpg-error.a npth/Makefile
 	$(MAKE) -C npth
 	touch npth-build-stamp
 
-$(LOCAL)/lib/libnpth.a: npth-build-stamp
+npth-build: npth-build-stamp
+
+$(LOCAL)/lib/libnpth.a: npth-build
 	$(MAKE) -C npth prefix=$(LOCAL) install
 	ls -l $(LOCAL)/lib/libnpth.a
 
@@ -270,7 +274,7 @@ libksba/config.guess: config.guess
 libksba/configure: libksba/configure.ac
 	cd libksba && ./autogen.sh
 
-libksba-build: $(LOCAL)/lib/libgpg-error.a libksba/config.sub libksba/config.guess libksba/configure
+libksba/Makefile: $(LOCAL)/lib/libgpg-error.a libksba/config.sub libksba/config.guess libksba/configure
 	cd libksba && \
 		CC="$(CC)" AR="$(AR)" RANLIB=$(RANLIB) CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS)" \
 			./configure \
@@ -279,7 +283,12 @@ libksba-build: $(LOCAL)/lib/libgpg-error.a libksba/config.sub libksba/config.gue
 				--host=$(HOST) \
 				--with-gpg-error-prefix=$(LOCAL) \
 				--prefix=$(LOCAL)
+
+libksba-build-stamp: libksba/Makefile
 	$(MAKE) -C libksba
+	touch libksba-build-stamp
+
+libksba-build: libksba-build-stamp
 
 $(LOCAL)/lib/libksba.a: libksba-build
 	$(MAKE) -C libksba prefix=$(LOCAL) install
@@ -408,8 +417,11 @@ adns-1.4/Makefile: adns-1.4 adns-1.4/Makefile.in adns-1.4/config.guess adns-1.4/
 				--host=$(HOST) \
 				--disable-dynamic
 
-adns-build: adns-1.4/Makefile
+adns-build-stamp: adns-1.4/Makefile
 	$(MAKE) -C adns-1.4
+	touch adns-build-stamp
+
+adns-build: adns-build-stamp
 
 $(LOCAL)/lib/libadns.a: adns-build
 	$(MAKE) -C adns-1.4 DESTDIR=$(DESTDIR) prefix=$(prefix) install
@@ -420,6 +432,7 @@ adns-clean:
 	-rm -rf adns-1.4
 	-rm -f adns-1.4.tar.gz
 	-rm -f adns-1.4.tar.gz.sig*
+	-rm -f adns-build-stamp
 
 
 #------------------------------------------------------------------------------#
@@ -457,7 +470,7 @@ libiconv-build-stamp: libiconv-1.14/Makefile
 
 libiconv-build: libiconv-build-stamp
 
-$(LOCAL)/lib/libiconv.a: libiconv-build-stamp
+$(LOCAL)/lib/libiconv.a: libiconv-build
 	$(MAKE) -C libiconv-1.14 DESTDIR=$(DESTDIR) prefix=$(prefix) install
 
 libiconv-install: $(LOCAL)/lib/libiconv.a

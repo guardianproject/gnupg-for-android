@@ -28,6 +28,7 @@ external/libiconv-1.14
 external/libiconv-1.14.tar.gz
 external/libiconv-1.14.tar.gz.sig*
 # build stamps
+external/libksba-build-stamp
 external/libgpg-error-build-stamp
 external/libgcrypt-build-stamp
 external/libassuan-build-stamp
