@@ -18,7 +18,7 @@
 	url = git://git.openldap.org/openldap.git
 [submodule "external/curl"]
 	path = external/curl
-	url = https://github.com/bagder/curl.git
+	url = https://github.com/bagder/curl
 [submodule "external/npth"]
 	path = external/npth
 	url = git://git.gnupg.org/npth.git
@@ -27,12 +27,12 @@
 	url = git://git.gnupg.org/gpgme.git
 [submodule "external/gnupg-for-java"]
 	path = external/gnupg-for-java
-	url = https://github.com/smartrevolution/gnupg-for-java.git
+	url = https://github.com/smartrevolution/gnupg-for-java
 [submodule "external/pinentry"]
 	path = external/pinentry
-	url = https://github.com/guardianproject/pinentry.git
+	url = https://github.com/guardianproject/pinentry
 	ignore = dirty
 [submodule "external/ActionBarSherlock"]
 	path = external/ActionBarSherlock
-	url = https://github.com/JakeWharton/ActionBarSherlock.git
+	url = https://github.com/JakeWharton/ActionBarSherlock
 	ignore = dirty
