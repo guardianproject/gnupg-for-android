@@ -24,15 +24,17 @@ else
  NDK_PROCESSOR=x86
 endif
 
+# this gives use NDK_TOOLCHAIN_VERSION, APP_ABI, etc.
+include $(PROJECT_ROOT)/jni/Application.mk
+
 # Android NDK setup
 NDK_BASE ?= /opt/android-ndk
 NDK_ABI=arm
 # NDK platform level, aka APP_PLATFORM, is equivalent to minSdkVersion
 NDK_PLATFORM_LEVEL ?= \
 	$(shell sed -n 's,.*android:minSdkVersion="\([0-9][0-9]*\)".*,\1,p' $(PROJECT_ROOT)/AndroidManifest.xml)
-NDK_TOOLCHAIN_VERSION = \
-	$(shell sed -n 's,.*NDK_TOOLCHAIN_VERSION=\(.*\),\1,p' $(PROJECT_ROOT)/jni/Application.mk)
-NDK_SYSROOT=$(NDK_BASE)/platforms/android-$(NDK_PLATFORM_LEVEL)/arch-$(NDK_ABI)
+APP_PLATFORM := android-$(NDK_PLATFORM_LEVEL)
+NDK_SYSROOT=$(NDK_BASE)/platforms/$(APP_PLATFORM)/arch-$(NDK_ABI)
 NDK_UNAME:=`uname -s | tr '[A-Z]' '[a-z]'`
 ifeq ($(NDK_ABI),x86)
  HOST = i686-linux-android
@@ -42,6 +44,10 @@ else
  NDK_TOOLCHAIN = $(HOST)-$(NDK_TOOLCHAIN_VERSION)
 endif
 NDK_TOOLCHAIN_BASE=$(NDK_BASE)/toolchains/$(NDK_TOOLCHAIN)/prebuilt/$(NDK_UNAME)-$(NDK_PROCESSOR)
+
+# include Android's build flags
+TARGET_ARCH_ABI = $(APP_ABI)
+include $(NDK_BASE)/toolchains/$(NDK_TOOLCHAIN)/setup.mk
 
 
 # install root for built files
@@ -61,16 +67,16 @@ RANLIB := $(NDK_TOOLCHAIN_BASE)/bin/$(HOST)-ranlib
 STRIP := $(NDK_TOOLCHAIN_BASE)/bin/$(HOST)-strip \
 	--strip-unneeded -R .note -R .comment
 
-CFLAGS = -DANDROID -I$(LOCAL)/include
-LDFLAGS = -L$(SYSROOT)/usr/lib -llog -L$(LOCAL)/lib
+CFLAGS = -DANDROID -I$(LOCAL)/include $(TARGET_CFLAGS)
+LDFLAGS = -L$(SYSROOT)/usr/lib -llog -L$(LOCAL)/lib $(TARGET_LDFLAGS)
 
-# turn off gcc optmization on the native builds for now, to aid debugging
-
-# build as small as possible, mostly useful for static binaries
-#CFLAGS += -fdata-sections -ffunction-sections -Os
-#LDFLAGS += -Wl,--gc-sections
-# unoptimized debug builds!
-CFLAGS += -g
+# change 'release' to 'debug' for unoptimized debug builds
+ifeq ($(APP_ABI),armeabi-v7a)
+	CFLAGS += $(TARGET_arm_release_CFLAGS)
+endif
+ifeq ($(APP_ABI),armeabi)
+	CFLAGS += $(TARGET_thumb_release_CFLAGS)
+endif
 
 
 .PHONY = clean distclean install-clean \
@@ -84,9 +90,24 @@ CFLAGS += -g
 	openldap-build openldap-clean openldap-install \
 	npth-build npth-clean npth-install \
 	pth-build pth-clean pth-install \
-	libiconv-build libiconv-clean libiconv-install
+	libiconv-build libiconv-clean libiconv-install \
+	showsetup
 
 all: gnupg-install gnupg-static gpgme-install android-assets
+
+
+#------------------------------------------------------------------------------#
+# debugging stuff
+
+showsetup:
+	@echo "NDK_TOOLCHAIN_VERSION: $(NDK_TOOLCHAIN_VERSION)"
+	@echo "NDK_TOOLCHAIN: $(NDK_TOOLCHAIN)"
+	@echo "APP_PLATFORM: $(APP_PLATFORM)"
+	@echo "APP_ABI: $(APP_ABI)"
+	@echo "CC: $(CC)"
+	@echo "LD: $(LD)"
+	@echo "CFLAGS: $(CFLAGS)"
+	@echo "LDFLAGS: $(LDFLAGS)"
 
 
 #------------------------------------------------------------------------------#
