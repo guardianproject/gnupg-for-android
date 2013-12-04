@@ -35,7 +35,7 @@ NDK_PLATFORM_LEVEL ?= \
 	$(shell sed -n 's,.*android:minSdkVersion="\([0-9][0-9]*\)".*,\1,p' $(PROJECT_ROOT)/AndroidManifest.xml)
 APP_PLATFORM := android-$(NDK_PLATFORM_LEVEL)
 NDK_SYSROOT=$(NDK_BASE)/platforms/$(APP_PLATFORM)/arch-$(NDK_ABI)
-NDK_UNAME:=`uname -s | tr '[A-Z]' '[a-z]'`
+NDK_UNAME := $(shell uname -s | tr '[A-Z]' '[a-z]')
 ifeq ($(NDK_ABI),x86)
  HOST = i686-linux-android
  NDK_TOOLCHAIN = $(NDK_ABI)-$(NDK_TOOLCHAIN_VERSION)
