@@ -747,7 +747,7 @@ gitclean: distclean
 	rm -rf $(ASSETS)/libexec
 	rm -rf $(ASSETS)/sbin
 	rm -rf $(ASSETS)/share
-	rm -rf $(ASSETS)/tests
+	rm -rf $(ASSETS)/tests/gpgme
 	rm -rf $(ASSETS)/var
 	rm -rf $(EXTERNAL_ROOT)/data
 	for file in $(EXTERNAL_ROOT)/*; do \
