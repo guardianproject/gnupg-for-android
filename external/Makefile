@@ -10,9 +10,9 @@ export PKG_CONFIG_PATH=$(LOCAL)/lib/pkgconfig
 # workaround for cross-compiling bug in autoconf
 export ac_cv_func_malloc_0_nonnull=yes
 
-CWD = $(shell pwd)
-PROJECT_ROOT = $(CWD)/..
-EXTERNAL_ROOT = $(PROJECT_ROOT)/external
+EXTERNAL_ROOT := $(shell pwd)
+# this gives use NDK_TOOLCHAIN_VERSION, APP_ABI, etc.
+include $(EXTERNAL_ROOT)/../jni/Application.mk
 
 # Android now has 64-bit and 32-bit versions of the NDK for GNU/Linux.  We
 # assume that the build platform uses the appropriate version, otherwise the
@@ -24,16 +24,10 @@ else
  NDK_PROCESSOR=x86
 endif
 
-# this gives use NDK_TOOLCHAIN_VERSION, APP_ABI, etc.
-include $(PROJECT_ROOT)/jni/Application.mk
-
 # Android NDK setup
 NDK_BASE ?= /opt/android-ndk
 NDK_ABI=arm
 # NDK platform level, aka APP_PLATFORM, is equivalent to minSdkVersion
-NDK_PLATFORM_LEVEL ?= \
-	$(shell sed -n 's,.*android:minSdkVersion="\([0-9][0-9]*\)".*,\1,p' $(PROJECT_ROOT)/AndroidManifest.xml)
-APP_PLATFORM := android-$(NDK_PLATFORM_LEVEL)
 NDK_SYSROOT=$(NDK_BASE)/platforms/$(APP_PLATFORM)/arch-$(NDK_ABI)
 NDK_UNAME := $(shell uname -s | tr '[A-Z]' '[a-z]')
 ifeq ($(NDK_ABI),x86)
@@ -68,7 +62,7 @@ STRIP := $(NDK_TOOLCHAIN_BASE)/bin/$(HOST)-strip \
 	--strip-unneeded -R .note -R .comment
 
 CFLAGS = -DANDROID -I$(LOCAL)/include $(TARGET_CFLAGS)
-LDFLAGS = -L$(SYSROOT)/usr/lib -llog -L$(LOCAL)/lib $(TARGET_LDFLAGS)
+LDFLAGS = -llog -L$(LOCAL)/lib $(TARGET_LDFLAGS)
 
 # change 'release' to 'debug' for unoptimized debug builds
 ifeq ($(APP_ABI),armeabi-v7a)
@@ -101,6 +95,7 @@ all: gnupg-install gnupg-static gpgme-install android-assets
 showsetup:
 	@echo "NDK_TOOLCHAIN_VERSION: $(NDK_TOOLCHAIN_VERSION)"
 	@echo "NDK_TOOLCHAIN: $(NDK_TOOLCHAIN)"
+	@echo "NDK_SYSROOT: $(NDK_SYSROOT)"
 	@echo "APP_PLATFORM: $(APP_PLATFORM)"
 	@echo "APP_ABI: $(APP_ABI)"
 	@echo "CC: $(CC)"
@@ -697,7 +692,7 @@ clean-assets:
 	rm -rf $(ASSETS)/tests/gpgme
 	rm -rf $(ASSETS)/var
 
-ASSETS := $(CWD)/../assets
+ASSETS := $(EXTERNAL_ROOT)/../assets
 assets: clean-assets assets-tests
 # add the new stuff
 	install -d $(ASSETS)

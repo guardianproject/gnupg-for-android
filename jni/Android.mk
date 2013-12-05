@@ -23,7 +23,6 @@ include $(BUILD_SHARED_LIBRARY)
 include $(CLEAR_VARS)
 
 external         := $(NDK_APP_PROJECT_PATH)/external
-source_files     := $(NDK_APP_PROJECT_PATH)/../external
 prefix           := data/data/info.guardianproject.gpg/app_opt
 APP_OPTIM        := debug
 LOCAL_MODULE     := libpinentry
@@ -35,15 +34,15 @@ LOCAL_C_INCLUDES := \
 	$(external)/pinentry/secmem
 LOCAL_SRC_FILES  := \
 	pinentry_cmd_handler.c \
-	$(source_files)/pinentry/pinentry/pinentry.c \
-	$(source_files)/pinentry/assuan/assuan-buffer.c \
-	$(source_files)/pinentry/assuan/assuan-errors.c \
-	$(source_files)/pinentry/assuan/assuan-handler.c \
-	$(source_files)/pinentry/assuan/assuan-listen.c \
-	$(source_files)/pinentry/assuan/assuan-pipe-server.c \
-	$(source_files)/pinentry/assuan/assuan-util.c \
-	$(source_files)/pinentry/secmem/secmem.c \
-	$(source_files)/pinentry/secmem/util.c
+	../external/pinentry/pinentry/pinentry.c \
+	../external/pinentry/assuan/assuan-buffer.c \
+	../external/pinentry/assuan/assuan-errors.c \
+	../external/pinentry/assuan/assuan-handler.c \
+	../external/pinentry/assuan/assuan-listen.c \
+	../external/pinentry/assuan/assuan-pipe-server.c \
+	../external/pinentry/assuan/assuan-util.c \
+	../external/pinentry/secmem/secmem.c \
+	../external/pinentry/secmem/util.c
 
 # pinentry's assuan requires assuan/mkerrors to be run in order to generate
 # assuan-errors.c, which is the assuan_strerror() implementation
