@@ -7,6 +7,7 @@ prefix           := data/data/info.guardianproject.gpg/app_opt
 APP_OPTIM        := debug
 LOCAL_MODULE     := libgnupg-for-java
 LOCAL_C_INCLUDES := $(external)/$(prefix)/include $(external)/gpgme/src
+LOCAL_CFLAGS     += -Wformat -Werror=format-security
 LOCAL_LDLIBS     += -L$(external)/$(prefix)/lib -lgpgme -llog
 LOCAL_SRC_FILES  := \
 	GnuPGContext.c \
@@ -26,7 +27,7 @@ source_files     := $(NDK_APP_PROJECT_PATH)/../external
 prefix           := data/data/info.guardianproject.gpg/app_opt
 APP_OPTIM        := debug
 LOCAL_MODULE     := libpinentry
-LOCAL_CFLAGS := -DHAVE_CONFIG_H
+LOCAL_CFLAGS := -DHAVE_CONFIG_H -Wformat -Werror=format-security
 LOCAL_LDLIBS     += -llog
 LOCAL_C_INCLUDES := \
 	$(external)/pinentry/assuan \
@@ -56,6 +57,7 @@ include $(BUILD_SHARED_LIBRARY)
 include $(CLEAR_VARS)
 
 LOCAL_MODULE := libposix
+LOCAL_CFLAGS += -Wformat -Werror=format-security
 LOCAL_LDLIBS += -llog
 LOCAL_SRC_FILES := info_guardianproject_gpg_Posix.c
 
