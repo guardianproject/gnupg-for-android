@@ -115,6 +115,8 @@ there are two limiting APIs:
     provided in Android 2.2, SDK android-8 and above
 * pthread_rwlock\*:
     provided in Android 2.3, SDK android-9 and above
+* pthread_atfork
+   provided in Android 4.0, SDK android-14 and above
 
 regex could easily be included in the build, pthread_rwlock\* would be more 
 difficult.
@@ -131,8 +133,8 @@ On **Fedora 17 x64**:
 
 	sudo yum install ncurses-libs.i686 libstdc++.i686 libgcc.i686 zlib.i686 gcc.i686
 
-Install the Android NDK for the command line version, and the Android SDK for
-the Android app version:
+Install the Android NDK v9b or newer for the command line version, and the
+Android SDK for the Android app version:
 
 SDK: http://developer.android.com/sdk/
 NDK: http://developer.android.com/sdk/ndk/
