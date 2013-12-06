@@ -60,9 +60,9 @@ public class GpgApplication extends Application {
         Log.i(TAG, "setup");
         // these need to be loaded before System.load("gnupg-for-java"); and
         // in the right order, since they have interdependencies.
-        System.load(NativeHelper.app_opt + "/lib/libgpg-error.so.0");
-        System.load(NativeHelper.app_opt + "/lib/libassuan.so.0");
-        System.load(NativeHelper.app_opt + "/lib/libgpgme.so.11");
+        System.loadLibrary("gpg-error");
+        System.loadLibrary("assuan");
+        System.loadLibrary("gpgme");
         GnuPG.createContext();
         startGpgAgent(mContext);
         startSharedDaemons(mContext);
