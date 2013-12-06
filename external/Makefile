@@ -84,9 +84,10 @@ endif
 	openldap-build openldap-clean openldap-install \
 	npth-build npth-clean npth-install \
 	libiconv-build libiconv-clean libiconv-install \
+	assets clean-assets \
 	showsetup
 
-all: gnupg-install gnupg-static gpgme-install android-assets
+all: gnupg-install gnupg-static gpgme-install assets
 
 
 #------------------------------------------------------------------------------#
@@ -693,6 +694,7 @@ gpgv2-static:
 	install gnupg/g10/gpgv2 $(LOCAL)/bin/gpgv2-static
 	$(STRIP)  $(LOCAL)/bin/gpgv2-static
 
+
 #------------------------------------------------------------------------------#
 # setup as assets for Android app
 
@@ -717,9 +719,7 @@ assets: clean-assets assets-tests
 	rm -f $(ASSETS)/bin/*-static
 	rm -f $(ASSETS)/lib/*.a $(ASSETS)/lib/*.la
 # remove lib symlinks since Android AssetManager copies them as files
-	for f in $(ASSETS)/lib/*.so; do \
-		test ! -L $$f || (rm $$f; echo rm $$f) \
-	done
+	rm -f $(ASSETS)/lib/*.so
 # remove .so.0 symlink and rename the .so.0.12.0 file to it
 	for f in $(ASSETS)/lib/*.so.[0-9]*; do \
 		echo $$f; \
