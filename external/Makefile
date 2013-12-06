@@ -115,7 +115,7 @@ libgpg-error/config.guess: config.guess
 	cp config.guess libgpg-error/config.guess
 
 libgpg-error/configure: libgpg-error/configure.ac
-	cd libgpg-error && ./autogen.sh && autoreconf --install --force --verbose
+	cd libgpg-error && autoreconf --install --force --verbose
 
 libgpg-error/Makefile: libgpg-error/config.sub libgpg-error/config.guess libgpg-error/configure
 	-patch -N -p1 --reject-file=- libgpg-error/m4/libtool.m4 libtool-Add-Android-Linux-support.patch
@@ -130,6 +130,15 @@ libgpg-error/Makefile: libgpg-error/config.sub libgpg-error/config.guess libgpg-
 			--enable-static \
 			--host=$(HOST) \
 			--prefix=$(LOCAL)
+	ls -l libgpg-error/libtool
+	# brute force and ignorance to make libtool comply with android style
+	sed -i 's,^fast_install=.*,fast_install=needless,' libgpg-error/libtool
+	sed -i 's,^version_type=.*,version_type=none,' libgpg-error/libtool
+	sed -i 's,^shlibpath_overrides_runpath=.*,shlibpath_overrides_runpath=yes,' libgpg-error/libtool
+	sed -i 's,^library_names_spec=.*,library_names_spec="\\$$libname\\$$release\\$$shared_ext",' libgpg-error/libtool
+	sed -i 's,^soname_spec=.*,soname_spec="\\$$libname\\$$release\\$$shared_ext",' libgpg-error/libtool
+	sed -i 's,^finish_cmds=.*,finish_cmds="",' libgpg-error/libtool
+	sed -i 's,^sys_lib_dlsearch_path_spec=.*,sys_lib_dlsearch_path_spec="/lib /usr/lib",' libgpg-error/libtool
 
 libgpg-error-build-stamp: libgpg-error/Makefile
 	$(MAKE) -C libgpg-error
