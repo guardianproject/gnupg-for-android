@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.os.Build;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
@@ -37,6 +38,8 @@ public class GpgApplication extends Application {
         mContext = getApplicationContext();
         NativeHelper.setup(mContext);
 
+        Posix.setenv("LD_LIBRARY_PATH", NativeHelper.ldLibraryPath, true);
+
         if (NativeHelper.installOrUpgradeNeeded()) {
             /*
              * Currently InstallActivity is triggered in
@@ -48,8 +51,14 @@ public class GpgApplication extends Application {
              * setup() is run here so that we can be sure it was run before any
              * Activity has started, so things like GnuPG.context won't be null.
              */
+            Posix.umask(00022); // set umask to make app_opt/ accessible by everyone
             setup();
         }
+        // This umask allows owner access only. From here on out, the files that
+        // the GPG app writes should have a restricted umask, this is files like
+        // the UNIX sockets for gpg-agent. Also it is needed on SDK < 4.1
+        // because otherwise all files will be 777
+        Posix.umask(00077);
     }
 
     /**

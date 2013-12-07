@@ -6,7 +6,7 @@ export app_opt=$app/app_opt
 
 export HOME=$app/app_home
 export GNUPGHOME=$app/app_home
-export LD_LIBRARY_PATH=$app_opt/lib:$LD_LIBRARY_PATH
+export LD_LIBRARY_PATH=$app/lib:$app_opt/lib:$LD_LIBRARY_PATH
 
 findusername_helper() {
     echo $2

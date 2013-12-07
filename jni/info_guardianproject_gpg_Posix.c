@@ -9,6 +9,17 @@ jint Java_info_guardianproject_gpg_Posix_umask(JNIEnv* env, jobject clazz, jint 
     return umask(mask);
 }
 
+JNIEXPORT jint JNICALL Java_info_guardianproject_gpg_Posix_setenv
+  (JNIEnv* env, jclass clazz, jstring key, jstring value, jboolean overwrite)
+{
+    char* k = (char *) (*env)->GetStringUTFChars(env, key, NULL);
+    char* v = (char *) (*env)->GetStringUTFChars(env, value, NULL);
+    int err = setenv(k, v, overwrite);
+    (*env)->ReleaseStringUTFChars(env, key, k);
+    (*env)->ReleaseStringUTFChars(env, value, v);
+    return err;
+}
+
 jint Java_info_guardianproject_gpg_Posix_symlink(JNIEnv* env, jobject clazz,
                                                  jstring oldpath, jstring newpath)
 {
@@ -19,7 +30,3 @@ jint Java_info_guardianproject_gpg_Posix_symlink(JNIEnv* env, jobject clazz,
     (*env)->ReleaseStringUTFChars(env, newpath, new);
     return err;
 }
-
-static const JNINativeMethod methods[] = {
-    {"umask", "(I)I", (void*)Java_info_guardianproject_gpg_Posix_umask},
-};

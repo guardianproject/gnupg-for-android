@@ -15,10 +15,6 @@ public class GpgAgentService extends Service {
     @Override
     public void onCreate() {
         Log.d(TAG, "onCreate");
-        // Owner permissions only. Necessary on pre-4.1 SDKs.
-        if (Build.VERSION.SDK_INT < 16) {
-            Posix.umask(00077);
-        }
         // since this is a separate process, it has its own instance of
         // NativeHelper
         NativeHelper.setup(this);

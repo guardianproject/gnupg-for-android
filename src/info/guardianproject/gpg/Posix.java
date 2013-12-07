@@ -19,6 +19,8 @@ public class Posix {
 
     public static native int umask(int mask);
 
+    public static native int setenv(String key, String value, boolean overwrite);
+
     public static native int symlink(String oldPath, String newPath);
 
     public static void kill9(String command) {
