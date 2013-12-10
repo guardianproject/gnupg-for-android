@@ -14,6 +14,7 @@ import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.provider.ContactsContract.CommonDataKinds;
 import android.provider.ContactsContract.Contacts;
+import android.text.Layout;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -23,7 +24,10 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -42,6 +46,20 @@ public class CreateKeyActivity extends Activity {
 
         registerForContextMenu(findViewById(R.id.keySize));
         registerForContextMenu(findViewById(R.id.keyExpire));
+
+        final LinearLayout commentLayout = (LinearLayout) findViewById(R.id.commentLayout);
+        CheckBox addCommentCheckbox = (CheckBox) findViewById(R.id.addComment);
+        addCommentCheckbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                Log.i(TAG, "onCheckedChanged " + isChecked);
+                if (isChecked)
+                    commentLayout.setVisibility(View.VISIBLE);
+                else
+                    commentLayout.setVisibility(View.GONE);
+            }
+        });
 
         Button createKeyButton = (Button) findViewById(R.id.createKeyButton);
         createKeyButton.setOnClickListener(new OnClickListener() {

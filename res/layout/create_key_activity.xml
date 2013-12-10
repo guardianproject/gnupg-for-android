@@ -8,7 +8,7 @@
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/checkboxes"
+        android:layout_above="@+id/addCommentLayout"
         android:orientation="horizontal" >
 
         <LinearLayout
@@ -32,15 +32,6 @@
                 android:layout_weight="1"
                 android:gravity="right|center_vertical"
                 android:text="@string/key_email_label"
-                android:textSize="15sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="right|center_vertical"
-                android:text="@string/key_comment_label"
                 android:textSize="15sp"
                 android:textStyle="bold" />
 
@@ -98,16 +89,6 @@
                 android:singleLine="true"
                 android:textSize="20sp" />
 
-            <EditText
-                android:id="@+id/keyComment"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="left|center_vertical"
-                android:inputType="textEmailSubject"
-                android:singleLine="true"
-                android:textSize="20sp" />
-
             <TextView
                 android:id="@+id/keyType"
                 android:layout_width="match_parent"
@@ -140,6 +121,49 @@
                 android:text="@string/key_expire_never"
                 android:textSize="20sp"
                 android:typeface="monospace" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/addCommentLayout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/checkboxes"
+        android:orientation="vertical" >
+
+        <CheckBox
+            android:id="@+id/addComment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="false"
+            android:text="@string/key_add_comment" />
+
+        <LinearLayout
+            android:id="@+id/commentLayout"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_margin="5sp"
+            android:orientation="horizontal"
+            android:visibility="gone" >
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="right|center_vertical"
+                android:text="@string/key_comment_label"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/keyComment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="left|center_vertical"
+                android:inputType="textEmailSubject"
+                android:singleLine="true"
+                android:textSize="20sp" />
         </LinearLayout>
     </LinearLayout>
 
