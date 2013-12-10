@@ -149,10 +149,39 @@ public class NativeHelper {
 
         conf += "PACKAGE_NAME=" + GpgApplication.PACKAGE_NAME + "\n";
         conf += "LD_LIBRARY_PATH=" + ldLibraryPath + "\n";
-        conf += "BOOTCLASSPATH=" + System.getenv("BOOTCLASSPATH") + "\n";
         conf += "GNUPGHOME=" + app_home + "\n";
         conf += "app_opt=" + app_opt + "\n";
         conf += "app_gnupghome=" + app_gnupghome + "\n";
+
+        /*
+         * set these, but do not override these if they are present.
+         * pinentry-android receives a very sanitized environment, but some env
+         * vars are essential to launching the PinEntryActivty from
+         * /system/bin/am
+         */
+        String[] vars = {
+                "ANDROID_ASSETS",
+                "ANDROID_BOOTLOGO",
+                "ANDROID_CACHE",
+                "ANDROID_DATA",
+                "ANDROID_PROPERTY_WORKSPACE",
+                "ANDROID_ROOT",
+                "ANDROID_SOCKET_zygote",
+                "ANDROID_STORAGE",
+                "ASEC_MOUNTPOINT",
+                "BOOTCLASSPATH",
+                "EMULATED_STORAGE_SOURCE",
+                "EMULATED_STORAGE_TARGET",
+                "EXTERNAL_STORAGE",
+                "LOOP_MOUNTPOINT",
+                "PATH",
+                "SECONDARY_STORAGE",
+        };
+        for (String ev : vars) {
+            String value = System.getenv(ev);
+            if (value != null)
+                conf += ev + "=${" + ev + ":-" + value + "}\n";
+        }
 
         /*
          * As per https://code.google.com/p/android/issues/detail?id=39801 on
