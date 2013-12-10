@@ -5,6 +5,7 @@ import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -20,6 +21,15 @@ public class Posix {
     public static native int umask(int mask);
 
     public static native int setenv(String key, String value, boolean overwrite);
+
+    public static int setenv(String key, File file, boolean overwrite) {
+        try {
+            return setenv(key, file.getCanonicalPath(), overwrite);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return setenv(key, file.getAbsolutePath(), overwrite);
+        }
+    }
 
     public static native int symlink(String oldPath, String newPath);
 

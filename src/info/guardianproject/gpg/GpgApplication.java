@@ -38,6 +38,11 @@ public class GpgApplication extends Application {
         mContext = getApplicationContext();
         NativeHelper.setup(mContext);
 
+        /*
+         * Setup the global environment for all processes launched from this
+         * app. LD_LIBRARY_PATH is the only way Android finds shared libraries
+         * when running things from the command line
+         */
         Posix.setenv("LD_LIBRARY_PATH", NativeHelper.ldLibraryPath, true);
 
         if (NativeHelper.installOrUpgradeNeeded()) {
