@@ -95,7 +95,8 @@ public class FirstRunSetupActivity extends Activity {
     private void setIntegratePrefs() {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         Editor prefsEditor = prefs.edit();
-        prefsEditor.putBoolean(SyncConstants.PREFS_INTEGRATE_CONTACTS, integrateBox.isChecked());
+        prefsEditor.putBoolean(getString(R.string.pref_contacts_integration),
+                integrateBox.isChecked());
         prefsEditor.commit();
     }
 

@@ -171,7 +171,7 @@ public class MainActivity extends SherlockFragmentActivity
     private void setupSyncAccount() {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         boolean contactIntegrationEnabled = prefs.getBoolean(
-                SyncConstants.PREFS_INTEGRATE_CONTACTS, true);
+                getString(R.string.pref_contacts_integration), true);
         if (contactIntegrationEnabled) {
             AccountManager am = AccountManager.get(MainActivity.this);
             if (am == null) {

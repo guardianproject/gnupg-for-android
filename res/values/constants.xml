@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="pref_start_boot">pref_start_boot</string>
+    <string name="pref_keyserver">pref_keyserver</string>
+    <string name="pref_contacts_integration">contacts_integration</string>
+</resources>
