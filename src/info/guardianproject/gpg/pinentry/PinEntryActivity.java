@@ -23,6 +23,7 @@ public class PinEntryActivity extends FragmentActivity implements PinentryCallba
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.i(TAG, "onCreate");
         super.onCreate(savedInstanceState);
         getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
 
@@ -38,6 +39,7 @@ public class PinEntryActivity extends FragmentActivity implements PinentryCallba
 
     @Override
     public void onPinentryDialogClosed() {
+        Log.i(TAG, "onPinentryDialogClosed");
         finish();
     }
 }

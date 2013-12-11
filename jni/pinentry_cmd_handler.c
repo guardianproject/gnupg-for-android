@@ -27,6 +27,7 @@
 
 int recv_fd ( int socket )
 {
+    LOGD("recv_fd");
     int sent_fd, available_ancillary_element_buffer_space;
     struct msghdr socket_message;
     struct iovec io_vector[1];
@@ -103,6 +104,7 @@ struct pe_context {
 
 int pe_get_internal_gnupghome( struct pe_context* ctx )
 {
+    LOGD("pe_get_internal_gnupghome");
     jclass NativeHelperCls = ( *ctx->env )->FindClass ( ctx->env, "info/guardianproject/gpg/NativeHelper" );
     if ( !NativeHelperCls ) {
         LOGE ( "pe_get_internal_gnupghome: failed to retrieve NativeHelperCls\n" );
@@ -153,6 +155,7 @@ int pe_get_internal_gnupghome( struct pe_context* ctx )
 }
 int pe_context_init( struct pe_context* ctx, JavaVM* vm )
 {
+    LOGD("pe_context_init");
     ctx->jvm = vm;
     if ( ctx->jvm == 0 ) {
         LOGE ( "pe_context_init: JVM is null\n" );
@@ -175,6 +178,7 @@ int pe_context_init( struct pe_context* ctx, JavaVM* vm )
 
 int pe_struct_init( struct pe_context* ctx )
 {
+    LOGD("pe_struct_init");
 
     ctx->pe_struct_class = ( *ctx->env )->FindClass ( ctx->env, "info/guardianproject/gpg/pinentry/PinentryStruct" );
 
@@ -243,6 +247,7 @@ int pe_add_string( const struct pe_context* ctx, const char* field, const char* 
 
 int pe_activity_init( struct pe_context* ctx, jobject pe_activity )
 {
+    LOGD("pe_activity_init");
     ctx->pe_activity_class = ( *ctx->env )->FindClass ( ctx->env, "info/guardianproject/gpg/pinentry/PinentryDialog" );
     if ( !ctx->pe_activity_class ) {
         LOGE ( "pe_activity_init: failed to retrieve PinentryDialog.class\n" );
@@ -259,6 +264,7 @@ int pe_activity_init( struct pe_context* ctx, jobject pe_activity )
 
 int pe_set_pe_struct( struct pe_context* ctx )
 {
+    LOGD("pe_set_pe_struct");
     jobject result;
     jmethodID setPinentryStructMethod;
     setPinentryStructMethod = ( *ctx->env )->GetMethodID ( ctx->env, ctx->pe_activity_class, "setPinentryStruct", "(Linfo/guardianproject/gpg/pinentry/PinentryStruct;)Linfo/guardianproject/gpg/pinentry/PinentryStruct;" );
@@ -333,6 +339,7 @@ int pe_get_result( const struct pe_context* ctx )
 
 int pe_get_canceled( const struct pe_context* ctx )
 {
+    LOGD("pe_get_canceled");
     jfieldID fid;
     fid = ( *ctx->env )->GetFieldID ( ctx->env, ctx->pe_struct_class , "canceled", "I" );
     if ( !fid ) {
@@ -347,6 +354,7 @@ int pe_get_canceled( const struct pe_context* ctx )
 
 int pe_fill_data( struct pe_context* ctx )
 {
+    LOGD("pe_fill_data");
     int rc = 0;
     // populate the PinentryStruct with values from pinentry_t pe
     rc = pe_add_string( ctx, "title", ctx->pe->title );
@@ -387,6 +395,7 @@ int pe_fill_data( struct pe_context* ctx )
  */
 int pe_prompt_pin ( void )
 {
+    LOGD("pe_prompt_pin");
     int rc = 0;
 
     // instantiates the Java PinentryStruct object
@@ -410,6 +419,7 @@ int pe_prompt_pin ( void )
 
 int pe_prompt_buttons ( void )
 {
+    LOGD("pe_prompt_buttons");
     int rc = 0;
     // instantiates the Java PinentryStruct object
     rc = pe_struct_init( &_ctx );
@@ -435,6 +445,7 @@ int pe_prompt_buttons ( void )
 static int
 android_cmd_handler ( pinentry_t pe )
 {
+    LOGD("android_cmd_handler");
     int want_pass = !!pe->pin;
 
     pinentry = pe;
@@ -463,6 +474,7 @@ pinentry_cmd_handler_t pinentry_cmd_handler = android_cmd_handler;
  */
 int connect_helper( int app_uid )
 {
+    LOGD("connect_helper");
     struct sockaddr_un addr;
     char path[UNIX_PATH_MAX];
     int path_len = 0;
@@ -504,6 +516,7 @@ int connect_helper( int app_uid )
 JNIEXPORT void JNICALL
 Java_info_guardianproject_gpg_pinentry_PinentryDialog_connectToGpgAgent ( JNIEnv* env, jobject self, jint app_uid )
 {
+    LOGE("connectToGpgAgent");
     int in, out, sock;
 
     _ctx.env = env;
@@ -555,9 +568,11 @@ Java_info_guardianproject_gpg_pinentry_PinentryDialog_connectToGpgAgent ( JNIEnv
     /*
      * now we can act like a normal pinentry
      */
+    LOGD("try pinentry_init()");
     pinentry_init ( "pinentry-android" );
 
     /* Consumes all arguments.  */
+    LOGD("try pinentry_parse_opts()");
     if ( pinentry_parse_opts ( 0, 0 ) )
         write ( sock, EXIT_SUCCESS, 1 );
 

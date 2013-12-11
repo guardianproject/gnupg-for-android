@@ -40,6 +40,7 @@ public class PinentryDialog extends DialogFragment {
     private OnClickListener pinEnterClickListener = new OnClickListener() {
         @Override
         public void onClick(View v) {
+            Log.i(TAG, "pinEnterClickListener onClick");
             setPin();
             syncNotify();
         }
@@ -48,6 +49,7 @@ public class PinentryDialog extends DialogFragment {
     private OnClickListener notOkClickListener = new OnClickListener() {
         @Override
         public void onClick(View v) {
+            Log.i(TAG, "notOkClickListener onClick");
             setNotOked(true);
             syncNotify();
         }
@@ -56,6 +58,7 @@ public class PinentryDialog extends DialogFragment {
     private OnClickListener cancelClickListener = new OnClickListener() {
         @Override
         public void onClick(View v) {
+            Log.i(TAG, "cancelClickListener onClick");
             setCanceled(true);
             syncNotify();
         }
@@ -64,6 +67,7 @@ public class PinentryDialog extends DialogFragment {
     private OnClickListener okClickListener = new OnClickListener() {
         @Override
         public void onClick(View v) {
+            Log.i(TAG, "okClickListener onClick");
             setCanceled(false);
             syncNotify();
         }
@@ -75,6 +79,7 @@ public class PinentryDialog extends DialogFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
+        Log.i(TAG, "onCreateView");
         super.onCreate(savedInstanceState);
         View view = inflater.inflate(R.layout.pinentry_activity, container);
 
@@ -101,6 +106,7 @@ public class PinentryDialog extends DialogFragment {
 
     @Override
     public void onActivityCreated(Bundle arg0) {
+        Log.i(TAG, "onActivityCreated");
         super.onActivityCreated(arg0);
         mCallback = (PinentryCallback) getActivity();
         NativeHelper.setup(getActivity());
@@ -108,11 +114,13 @@ public class PinentryDialog extends DialogFragment {
 
     @Override
     public void onResume() {
+        Log.i(TAG, "onResume");
         super.onResume();
         new Thread(new Runnable() {
 
             @Override
             public void run() {
+                Log.i(TAG, "onResume thread run()");
                 /*
                  * This function does major magic it blocks (hence the thread)
                  * when it returns it means gpg-agent is no longer communicating
@@ -120,6 +128,7 @@ public class PinentryDialog extends DialogFragment {
                  */
                 connectToGpgAgent(app_uid);
                 mCallback.onPinentryDialogClosed();
+                Log.i(TAG, "onResume thread run() end");
             }
 
         }).start();
@@ -127,6 +136,7 @@ public class PinentryDialog extends DialogFragment {
 
     @Override
     public void onStop() {
+        Log.i(TAG, "onResume");
         syncNotify();
         mCallback.onPinentryDialogClosed();
         super.onDestroy();
