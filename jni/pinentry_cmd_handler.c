@@ -452,7 +452,6 @@ android_cmd_handler ( pinentry_t pe )
     } else {
         LOGE("android_cmd_handler: we don't do this");
         return pe_prompt_buttons();
-        return ( confirm_value == CONFIRM_OK ) ? 1 : 0;
     }
 }
 
