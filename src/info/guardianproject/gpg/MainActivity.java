@@ -43,9 +43,11 @@ public class MainActivity extends SherlockFragmentActivity
     // for sync timing
     public static final long MILLISECONDS_PER_SECOND = 1000L;
     public static final long SECONDS_PER_MINUTE = 60L;
-    public static final long SYNC_INTERVAL_IN_MINUTES = 120L;
+    public static final long MINUTES_PER_HOUR = 60L;
+    public static final long SYNC_INTERVAL_IN_HOURS = 72L;
     public static final long SYNC_INTERVAL =
-            SYNC_INTERVAL_IN_MINUTES *
+            SYNC_INTERVAL_IN_HOURS *
+                    MINUTES_PER_HOUR *
                     SECONDS_PER_MINUTE *
                     MILLISECONDS_PER_SECOND;
 
