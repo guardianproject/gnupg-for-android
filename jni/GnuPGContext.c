@@ -18,73 +18,6 @@
 
 JavaVM* _jvm;
 
-void* passphrase_cb = NULL;
-
-/*
-gpgme_error_t
-passphrase_cb(void *hook, const char *uid_hint, const char *passphrase_info,
-          int prev_was_bad, int fd)
-{
-    jobject self = (jobject) hook;
-
-    if (self == NULL) {
-    return GPG_ERR_GENERAL;
-    }
-
-    JNIEnv *env;
-    (*_jvm)->AttachCurrentThread(_jvm, &env, NULL);
-
-    jclass cls = (*env)->GetObjectClass(env, self);
-
-    if (cls == NULL) {
-    return GPG_ERR_GENERAL;
-    }
-
-    char methodDescr[] =
-    "(Ljava/lang/String;Ljava/lang/String;I)Ljava/lang/String;";
-    jmethodID mid =
-    (*env)->GetMethodID(env, cls, "passphraseCallback", methodDescr);
-
-    if (mid == NULL) {
-    return GPG_ERR_GENERAL;
-    }
-
-    //jbyte *hint = (*env)->NewStringUTF(env, uid_hint);
-    jstring hint = (*env)->NewStringUTF(env, uid_hint);
-    if (hint == NULL) {
-    return GPG_ERR_GENERAL;
-    }
-
-    jstring pphrinfo = (*env)->NewStringUTF(env, passphrase_info);
-    if (pphrinfo == NULL) {
-    return GPG_ERR_GENERAL;
-    }
-
-    //jbyte *pphr;//passphrase is return value from callback to Java
-    jstring pphr;       //passphrase is return value from callback to Java
-    pphr = (*env)->CallObjectMethod(env, self, mid, hint, pphrinfo, (jlong)0);
-
-    if (pphr == NULL) {
-    return GPG_ERR_CANCELED;
-    }
-
-    int len = (*env)->GetStringLength(env, pphr);
-    char buf[len + 1];      //leave the last char for newline
-
-    //TODO: Check for errors after the next call?!
-    (*env)->GetStringUTFRegion(env, pphr, 0, len, buf);
-
-    buf[len] = '\n';        //add the newline to the end...
-
-    ssize_t written;
-    written = write(fd, buf, len);
-    if (written == -1) {
-    return GPG_ERR_GENERAL;
-    }
-
-    return GPG_ERR_NO_ERROR;
-}
-*/
 
 JNIEXPORT jint JNICALL
 JNI_OnLoad(JavaVM* vm, void* reserved)
@@ -192,8 +125,6 @@ Java_com_freiheit_gnupg_GnuPGContext_gpgmeOpDecrypt(JNIEnv* env,
 {
     gpgme_error_t err;
 
-    gpgme_set_passphrase_cb(CONTEXT(context), passphrase_cb, (void*)self);
-
     err = gpgme_data_rewind(DATA(cipher));  //TODO: Use seek instead of rewind
     if (UTILS_onErrorThrowException(env, err)) {
         return;
@@ -281,33 +212,10 @@ Java_com_freiheit_gnupg_GnuPGContext_gpgmeOpChangePassphrase(JNIEnv* env,
 {
     gpgme_error_t err;
 
-    gpgme_data_t out = NULL;
-
-    gpgme_set_passphrase_cb(CONTEXT(context), passphrase_cb, self);
-
-    err = gpgme_data_new(&out);
+    err = gpgme_op_passwd(CONTEXT(context), KEY(keydata), 0);
     if (UTILS_onErrorThrowException(env, err)) {
         return;
     }
-
-    err = gpgme_op_edit(CONTEXT(context), KEY(keydata), edit_fnc, out, out);
-    if (UTILS_onErrorThrowException(env, err)) {
-        return;
-    }
-
-    fputs("[-- Last response --]\n", stdout);
-    flush_data(out);
-
-    gpgme_data_release(out);
-
-    /*   err = gpgme_op_decrypt_start(CONTEXT(context), (gpgme_data_t)cipher, (gpgme_data_t)plain); */
-    /*   if(UTILS_onErrorThrowException(env, err)){ */
-    /*     return; */
-    /*   } */
-    /*   gpgme_ctx_t waitedOn = gpgme_wait(CONTEXT(context), err, 1);//HANG UNTIL COMPLETED! */
-    /*   if(waitedOn != NULL && UTILS_onErrorThrowException(env, err)){ */
-    /*     return; */
-    /*   } */
 }
 
 JNIEXPORT void JNICALL
@@ -327,8 +235,6 @@ Java_com_freiheit_gnupg_GnuPGContext_gpgmeOpEncryptSign(JNIEnv* env,
         jlong cipher)
 {
     gpgme_error_t err;
-
-    gpgme_set_passphrase_cb(CONTEXT(context), passphrase_cb, self);
 
     jsize len = (*env)->GetArrayLength(env, recipients);
     gpgme_key_t keys[len + 1];
@@ -371,8 +277,6 @@ Java_com_freiheit_gnupg_GnuPGContext_gpgmeOpDecryptVerify(JNIEnv* env,
 {
     gpgme_error_t err;
 
-    gpgme_set_passphrase_cb(CONTEXT(context), passphrase_cb, self);
-
     err = gpgme_data_rewind(DATA(cipher));  //TODO: Use seek instead of rewind
     if (UTILS_onErrorThrowException(env, err)) {
         return;
@@ -405,8 +309,6 @@ Java_com_freiheit_gnupg_GnuPGContext_gpgmeOpSign(JNIEnv* env,
         jlong signature)
 {
     gpgme_error_t err;
-
-    gpgme_set_passphrase_cb(CONTEXT(context), passphrase_cb, (void*) self);
 
     err = gpgme_data_rewind(DATA(plain));   //TODO: Use seek instead of rewind
     if (UTILS_onErrorThrowException(env, err)) {
@@ -444,8 +346,6 @@ Java_com_freiheit_gnupg_GnuPGContext_gpgmeOpVerify(JNIEnv* env,
         jlong plain)
 {
     gpgme_error_t err;
-
-    gpgme_set_passphrase_cb(CONTEXT(context), passphrase_cb, self);
 
     err = gpgme_data_rewind(DATA(signature));   //TODO: Use seek instead of rewind
     if (UTILS_onErrorThrowException(env, err)) {

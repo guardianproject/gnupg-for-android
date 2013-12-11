@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -29,6 +30,8 @@ import android.widget.Toast;
 import java.io.File;
 import java.io.OutputStream;
 import java.util.Calendar;
+
+import com.freiheit.gnupg.GnuPGKey;
 
 public class DebugLogActivity extends FragmentActivity implements OnCreateContextMenuListener {
     public static final String TAG = "DebugLogActivity";
@@ -164,6 +167,25 @@ public class DebugLogActivity extends FragmentActivity implements OnCreateContex
                     }
                 });
                 alert.show();
+                return true;
+            case R.id.menu_change_passphrase:
+                GnuPGKey[] keys = GnuPG.context.listSecretKeys();
+                if (keys != null && keys.length > 0) {
+                    final GnuPGKey key = keys[0];
+                    String msg = String.format(getString(R.string.changing_passphrase_for_format),
+                                key.getName() + " <" + key.getEmail() + ">:" + key.getKeyID());
+                    Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
+                    new AsyncTask<Void, Void, Void>() {
+
+                        @Override
+                        protected Void doInBackground(Void... params) {
+                            GnuPG.context.changePassphrase(key);
+                            return null;
+                        }
+                    }.execute();
+                } else {
+                    Toast.makeText(this, R.string.error_no_secret_key, Toast.LENGTH_LONG).show();
+                }
                 return true;
             case R.id.menu_run_test:
                 command = NativeHelper.app_opt + "/tests/run-tests-with-password.sh";

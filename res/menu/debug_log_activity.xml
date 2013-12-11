@@ -35,6 +35,10 @@
         android:showAsAction="ifRoom|withText"
         android:title="@string/title_search_keys"/>
     <item
+        android:id="@+id/menu_change_passphrase"
+        android:showAsAction="ifRoom|withText"
+        android:title="@string/title_change_passphrase"/>
+    <item
         android:id="@+id/menu_run_test"
         android:showAsAction="ifRoom|withText"
         android:title="Run Tests"/>

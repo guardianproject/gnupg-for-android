@@ -171,28 +171,6 @@ public class GnuPGContext extends GnuPGPeer {
         gpgmeSetTextmode(getInternalRepresentation(), state);
     }
 
-    /**
-     * Sets a listener, if GPGME needs to request a passphrase from the user (or
-     * even from a program or a database..)
-     * <p>
-     * A passphrase-listener is global to a jvm. This means, you can register
-     * only <em>one</em> listener.
-     * <p>
-     * I am working on this, but it is not so easy to access jvm methods from a
-     * specific object from a non-jvm thread, which the passphrase callback
-     * is...
-     * 
-     * @param l a GnuPGPassphraseListener implementation
-     * @see com.freiheit.gnupg.GnuPGPassphraseListener
-     */
-    public void setPassphraseListener(GnuPGPassphraseListener l) {
-        _passphraseListener = l;
-    }
-
-    public String passphraseCallback(String hint, String passphraseInfo, long wasBad) {
-        return _passphraseListener.getPassphrase(hint, passphraseInfo, wasBad);
-    }
-
     private long[] getInternalRepresentationFromRecipients(GnuPGKey[] recipients) {
         // note that these are pointers to addresses in the javagnupg shared lib
         long recipientsInternals[] = new long[recipients.length];
@@ -641,9 +619,6 @@ public class GnuPGContext extends GnuPGPeer {
     }
 
     public void changePassphrase(GnuPGKey key) throws GnuPGException {
-        if (_passphraseListener == null)
-            throw new GnuPGException("Aborting: No GnuPGPassphraseListener set.");
-
         if (key == null)
             return;
 
