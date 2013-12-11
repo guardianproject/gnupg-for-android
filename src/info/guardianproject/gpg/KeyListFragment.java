@@ -45,7 +45,6 @@ import java.util.Vector;
 
 public class KeyListFragment extends SherlockFragment {
 
-    public static final String BROADCAST_ACTION_KEYLIST_CHANGED = "info.guardianproject.gpg.keylist";
     protected ListView mListView;
     protected KeyListAdapter mListAdapter;
     protected View mFilterLayout;
@@ -246,7 +245,7 @@ public class KeyListFragment extends SherlockFragment {
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            if (intent.getAction().equals(BROADCAST_ACTION_KEYLIST_CHANGED)) {
+            if (intent.getAction().equals(GpgApplication.BROADCAST_ACTION_KEYLIST_CHANGED)) {
                 // refresh keylist
                 Log.d("KeyListFragment", "BROADCAST_ACTION_KEYLIST_CHANGED");
                 handleIntent(mCurrentAction, mCurrentExtras);
@@ -257,7 +256,7 @@ public class KeyListFragment extends SherlockFragment {
     private void registerReceiver() {
         Log.d("KeyListFragment", "register!");
         LocalBroadcastManager.getInstance(getActivity()).registerReceiver(mBroadcastReceiver,
-                new IntentFilter(BROADCAST_ACTION_KEYLIST_CHANGED));
+                new IntentFilter(GpgApplication.BROADCAST_ACTION_KEYLIST_CHANGED));
     }
 
     private void unregisterReceiver() {

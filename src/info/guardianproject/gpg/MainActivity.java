@@ -208,6 +208,7 @@ public class MainActivity extends SherlockFragmentActivity
             ContentResolver.setSyncAutomatically(account, ContactsContract.AUTHORITY, false);
             ContentResolver.addPeriodicSync(account, ContactsContract.AUTHORITY, new Bundle(),
                     SYNC_INTERVAL);
+            GpgApplication.mSyncAccount = account;
         }
     }
 

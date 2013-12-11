@@ -1,16 +1,21 @@
 
 package info.guardianproject.gpg;
 
+import java.io.File;
+
+import android.accounts.Account;
 import android.app.Application;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
-import android.os.Build;
+import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.provider.ContactsContract;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
-
-import java.io.File;
 
 public class GpgApplication extends Application {
     public static final String TAG = "GpgApplication";
@@ -19,7 +24,10 @@ public class GpgApplication extends Application {
     public static String VERSION_NAME = null;
     public static int VERSION_CODE = 0;
 
-    Context mContext;
+    public static Account mSyncAccount = null;
+    public static final String BROADCAST_ACTION_KEYLIST_CHANGED = "info.guardianproject.gpg.keylist";
+
+    static Context mContext;
 
     /* request codes for intents */
     // must us only lowest 16 bits, otherwise you get (not sure under which
@@ -119,7 +127,36 @@ public class GpgApplication extends Application {
 
     protected static void sendKeylistChangedBroadcast(Context c) {
         LocalBroadcastManager.getInstance(c).sendBroadcast(
-                new Intent(KeyListFragment.BROADCAST_ACTION_KEYLIST_CHANGED));
+                new Intent(BROADCAST_ACTION_KEYLIST_CHANGED));
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(mContext);
+        if (prefs.getBoolean(mContext.getString(R.string.pref_contacts_integration), true))
+            requestContactsSync();
+    }
+
+    /**
+     * Request sync with the Contacts for the default account, authority. This
+     * is set at a normal priority, so it might take a few seconds for the sync
+     * to kick in.
+     */
+    static void requestContactsSync() {
+        requestContactsSync(false);
+    }
+
+    /**
+     * Request sync with the Contacts for the default account, authority. You
+     * can set the sync to be expedited to try to force it to happen
+     * immediately.
+     * 
+     * @param <code>expedited</code> force the sync to start immediately
+     */
+    static void requestContactsSync(boolean expedited) {
+        if (mSyncAccount == null)
+            return;
+        Bundle settingsBundle = new Bundle();
+        // set SYNC_EXTRAS_MANUAL to force when setSyncAutomatically is false
+        settingsBundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
+        settingsBundle.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, expedited);
+        ContentResolver.requestSync(mSyncAccount, ContactsContract.AUTHORITY, settingsBundle);
     }
 
 }
