@@ -117,17 +117,18 @@ public class ContactManager {
         Log.d(TAG, "In SyncContacts");
         for (final RawContact rawContact : rawContacts) {
             final long rawContactId = 0;
-
+            // TODO implement deleting and updating, then uncomment this
+            //final long rawContactId = rawContact.getRawContactId();
             if (rawContactId != 0) {
                 // updating
                 Log.d(TAG, "updating Contact");
-                if (!rawContact.isDeleted()) {
+                if (rawContact.isDeleted()) {
+                    // TODO delete contacts
+                    // deleteContact(context, rawContactId, batchOperation);
+                } else {
                     // updateContact(context, resolver, rawContact,
                     // updateServerId,
                     // true, true, true, rawContactId, batchOperation);
-                } else {
-                    // TODO delete contacts
-                    // deleteContact(context, rawContactId, batchOperation);
                 }
             } else {
                 // adding new contact
