@@ -185,16 +185,25 @@ public class MainActivity extends SherlockFragmentActivity
             // password can always be something fake, we don't need it
             String password = "fake-password";
             Account[] accts = am.getAccountsByType(SyncConstants.ACCOUNT_TYPE);
+            Account account = null;
             for (Account a : accts) {
-                if (a.name == account_name)
-                    return;
+                Log.v(TAG, "account: " + a.name);
+                if (a.name.equals(account_name)) {
+                    Log.v(TAG, "Found our account (" + a.name + " == " + account_name);
+                    account = a;
+                    break;
+                }
             }
-            Account account = new Account(account_name, SyncConstants.ACCOUNT_TYPE);
-            boolean result = am.addAccountExplicitly(account, password, null);
-            if (result) {
-                Log.d(TAG, "Account Added");
-            } else {
-                Log.e(TAG, "Account Add failed");
+            if (account == null) {
+                Log.v(TAG, "addAccountExplicitly");
+                account = new Account(account_name, SyncConstants.ACCOUNT_TYPE);
+                boolean result = am.addAccountExplicitly(account, password, null);
+                if (result) {
+                    Log.d(TAG, "Sync Account Added");
+                } else {
+                    Log.e(TAG, "Failed to add Sync Account");
+                    return;
+                }
             }
             ContentResolver.setSyncAutomatically(account, ContactsContract.AUTHORITY, false);
             ContentResolver.addPeriodicSync(account, ContactsContract.AUTHORITY, new Bundle(),
