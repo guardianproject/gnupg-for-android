@@ -141,20 +141,20 @@ libgpg-error/Makefile: libgpg-error/config.sub libgpg-error/config.guess libgpg-
 	sed -i 's,^finish_cmds=.*,finish_cmds="",' libgpg-error/libtool
 	sed -i 's,^sys_lib_dlsearch_path_spec=.*,sys_lib_dlsearch_path_spec="/lib /usr/lib",' libgpg-error/libtool
 
-libgpg-error-build-stamp: libgpg-error/Makefile
+libgpg-error/src/.libs/libgpg-error.so: libgpg-error/Makefile
 	$(MAKE) -C libgpg-error
-	touch libgpg-error-build-stamp
 
-libgpg-error-build: libgpg-error-build-stamp
+libgpg-error-build: libgpg-error/src/.libs/libgpg-error.so
 
-$(LOCAL)/lib/libgpg-error.a: libgpg-error-build
+$(LOCAL)/lib/libgpg-error.so: libgpg-error/src/.libs/libgpg-error.so
 	$(MAKE) -C libgpg-error prefix=$(LOCAL) install
 	ls -l $(LOCAL)/lib/libgpg-error.so*
 
-libgpg-error-install: $(LOCAL)/lib/libgpg-error.a
+libgpg-error-install: $(LOCAL)/lib/libgpg-error.so
 
 libgpg-error-clean:
-	-rm -f libgpg-error-build-stamp
+	-$(MAKE) -C libgpg-error clean
+	rm -rf libgpg-error/configure libgpg-error/Makefile
 
 
 #------------------------------------------------------------------------------#
@@ -180,18 +180,20 @@ libgcrypt/Makefile: libgcrypt/config.sub libgcrypt/config.guess libgcrypt/config
 				--with-gpg-error-prefix=$(LOCAL) \
 				--prefix=$(LOCAL)
 
-libgcrypt-build-stamp: $(LOCAL)/lib/libgpg-error.a libgcrypt/Makefile
+libgcrypt/src/.libs/libgcrypt.so: $(LOCAL)/lib/libgpg-error.so libgcrypt/Makefile
 	$(MAKE) -C libgcrypt
-	touch libgcrypt-build-stamp
 
-libgcrypt-build: libgcrypt-build-stamp
-
-$(LOCAL)/lib/libgcrypt.a: libgcrypt-build
+$(LOCAL)/lib/libgcrypt.so: libgcrypt/src/.libs/libgcrypt.so
 	$(MAKE) -C libgcrypt prefix=$(LOCAL) install
-	ls -l $(LOCAL)/lib/libgcrypt.a
+	ls -l $(LOCAL)/lib/libgcrypt.so
+
+libgcrypt-build: libgcrypt/src/.libs/libgcrypt.so
+
+libgcrypt-install: $(LOCAL)/lib/libgcrypt.so
 
 libgcrypt-clean:
-	-rm -f libgcrypt-build-stamp
+	-$(MAKE) -C libgcrypt clean
+	rm -rf libgcrypt/configure libgcrypt/Makefile
 
 
 #------------------------------------------------------------------------------#
@@ -217,20 +219,20 @@ libassuan/Makefile: libassuan/config.sub libassuan/config.guess libassuan/config
 				--with-gpg-error-prefix=$(LOCAL) \
 				--prefix=$(LOCAL)
 
-libassuan-build-stamp: $(LOCAL)/lib/libgpg-error.a libassuan/Makefile
+libassuan/src/.libs/libassuan.so: $(LOCAL)/lib/libgpg-error.so libassuan/Makefile
 	$(MAKE) -C libassuan
-	touch libassuan-build-stamp
 
-libassuan-build: libassuan-build-stamp
-
-$(LOCAL)/lib/libassuan.a: libassuan-build
+$(LOCAL)/lib/libassuan.so: libassuan/src/.libs/libassuan.so
 	$(MAKE) -C libassuan prefix=$(LOCAL) install
-	ls -l $(LOCAL)/lib/libassuan.so*
+	ls -l $(LOCAL)/lib/libassuan.so
 
-libassuan-install: $(LOCAL)/lib/libassuan.a
+libassuan-build: libassuan/src/.libs/libassuan.so
+
+libassuan-install: $(LOCAL)/lib/libassuan.so
 
 libassuan-clean:
-	-rm -f libassuan-build-stamp
+	-$(MAKE) -C libassuan clean
+	rm -rf libassuan/configure libassuan/Makefile
 
 
 #------------------------------------------------------------------------------#
@@ -256,20 +258,20 @@ npth/Makefile: npth/config.sub npth/config.guess npth/configure
 				--with-gnu-ld \
 				--prefix=$(LOCAL)
 
-npth-build-stamp: $(LOCAL)/lib/libgpg-error.a npth/Makefile
+npth/src/.libs/libnpth.so: $(LOCAL)/lib/libgpg-error.so npth/Makefile
 	$(MAKE) -C npth
-	touch npth-build-stamp
 
-npth-build: npth-build-stamp
-
-$(LOCAL)/lib/libnpth.a: npth-build
+$(LOCAL)/lib/libnpth.so: npth/src/.libs/libnpth.so
 	$(MAKE) -C npth prefix=$(LOCAL) install
 	ls -l $(LOCAL)/lib/libnpth.so*
 
-npth-install: $(LOCAL)/lib/libnpth.a
+npth-build: npth/src/.libs/libnpth.so
+
+npth-install: $(LOCAL)/lib/libnpth.so
 
 npth-clean:
-	-rm -f npth-build-stamp
+	-$(MAKE) -C npth clean
+	rm -rf npth/Makefile npth/configure
 
 
 #------------------------------------------------------------------------------#
@@ -284,7 +286,7 @@ libksba/config.guess: config.guess
 libksba/configure: libksba/configure.ac
 	cd libksba && ./autogen.sh
 
-libksba/Makefile: $(LOCAL)/lib/libgpg-error.a libksba/config.sub libksba/config.guess libksba/configure
+libksba/Makefile: $(LOCAL)/lib/libgpg-error.so libksba/config.sub libksba/config.guess libksba/configure
 	-patch -N -p1 --reject-file=- libksba/m4/libtool.m4 libtool-Add-Android-Linux-support.patch
 	cd libksba && \
 		CC="$(CC)" AR="$(AR)" RANLIB=$(RANLIB) CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS)" \
@@ -295,20 +297,20 @@ libksba/Makefile: $(LOCAL)/lib/libgpg-error.a libksba/config.sub libksba/config.
 				--with-gpg-error-prefix=$(LOCAL) \
 				--prefix=$(LOCAL)
 
-libksba-build-stamp: libksba/Makefile
+libksba/src/.libs/libksba.so: libksba/Makefile
 	$(MAKE) -C libksba
-	touch libksba-build-stamp
 
-libksba-build: libksba-build-stamp
-
-$(LOCAL)/lib/libksba.a: libksba-build
+$(LOCAL)/lib/libksba.so: libksba/src/.libs/libksba.so
 	$(MAKE) -C libksba prefix=$(LOCAL) install
-	ls -l $(LOCAL)/lib/libksba.a
+	ls -l $(LOCAL)/lib/libksba.so
 
-libksba-install: $(LOCAL)/lib/libksba.a
+libksba-build: libksba/src/.libs/libksba.so
+
+libksba-install: $(LOCAL)/lib/libksba.so
 
 libksba-clean:
-	-rm -f libksba-build-stamp
+	-$(MAKE) -C libksba clean
+	rm -rf libksba/configure libksba/Makefile
 
 
 #------------------------------------------------------------------------------#
@@ -356,6 +358,7 @@ $(LOCAL)/lib/libldap.a: openldap-build
 openldap-install: $(LOCAL)/lib/libldap.a
 
 openldap-clean:
+	-$(MAKE) -C openldap clean
 	-rm -f openldap-build-stamp
 
 
@@ -536,22 +539,23 @@ gnupg/Makefile: gnupg/configure gnupg/config.sub gnupg/config.guess
 #				--with-adns=$(LOCAL) \ $(LOCAL)/lib/libadns.a
 
 
-gnupg-build: gnupg-build-stamp 
-gnupg-build-stamp: $(LOCAL)/lib/libgpg-error.a $(LOCAL)/lib/libgcrypt.a $(LOCAL)/lib/libksba.a $(LOCAL)/lib/libassuan.a $(LOCAL)/lib/libldap.a $(LOCAL)/lib/libnpth.a gnupg/Makefile
+gnupg/g10/gpg2: $(LOCAL)/lib/libgpg-error.so $(LOCAL)/lib/libgcrypt.so $(LOCAL)/lib/libksba.so $(LOCAL)/lib/libassuan.so $(LOCAL)/lib/libldap.a $(LOCAL)/lib/libnpth.so gnupg/Makefile
 	$(MAKE) -C gnupg
-	touch gnupg-build-stamp
 
-$(LOCAL)/bin/gpg2: gnupg-build $(GNUPG_SOURCES) gnupg/configure
+$(LOCAL)/bin/gpg2: gnupg/g10/gpg2 $(GNUPG_SOURCES) gnupg/configure
 	$(MAKE) -C gnupg prefix=$(LOCAL) install
 	ls -l $(LOCAL)/bin/gpg2
 
-gnupg-install: $(LOCAL)/bin/gpg2 pinentry-install
+gnupg-build: gnupg/g10/gpg2
+
+gnupg-install: $(LOCAL)/bin/gpg2 $(LOCAL)/bin/pinentry-android
 	install -d $(LOCAL)/etc/gnupg
 	install -d $(LOCAL)/var/run/gnupg
 	install -d $(LOCAL)/var/cache/gnupg
 
 gnupg-clean:
-	-rm -f gnupg-build-stamp
+	-$(MAKE) -C gnupg
+
 
 #------------------------------------------------------------------------------#
 # pinentry
@@ -584,12 +588,10 @@ pinentry/Makefile: pinentry/configure pinentry/config.sub pinentry/config.guess
 				--prefix=$(prefix) \
 				LDFLAGS="$(LDFLAGS)"
 
-pinentry-build: pinentry-build-stamp 
-pinentry-build-stamp:  pinentry/Makefile
+pinentry/android/pinentry-android:  pinentry/Makefile
 	$(MAKE) -C pinentry LDFLAGS="$(LDFLAGS)"
-	touch pinentry-build-stamp
 
-$(LOCAL)/bin/pinentry-android: pinentry-build $(PINENTRY_SOURCES) pinentry/configure
+$(LOCAL)/bin/pinentry-android: pinentry/android/pinentry-android $(PINENTRY_SOURCES) pinentry/configure
 	$(MAKE) -C pinentry prefix=$(LOCAL) install
 	# we only want pinentry-android, not the 'pinentry' symlink, since it'll
 	# be copied as a full file in Android's assets procedure, and we hardcode
@@ -599,10 +601,12 @@ $(LOCAL)/bin/pinentry-android: pinentry-build $(PINENTRY_SOURCES) pinentry/confi
 	# just delete the symlink here.
 	rm -f $(LOCAL)/bin/pinentry
 
+pinentry-build: pinentry/android/pinentry-android
+
 pinentry-install: $(LOCAL)/bin/pinentry-android
 
 pinentry-clean:
-	-rm -f pinentry-build-stamp
+	-$(MAKE) -C pinentry clean
 
 #------------------------------------------------------------------------------#
 # gpgme
@@ -630,19 +634,19 @@ gpgme/Makefile: gpgme/configure
 				--disable-g13-test \
 				--prefix=$(prefix)
 
-gpgme-build-stamp: gpgme/Makefile
+gpgme/src/.libs/libgpgme.so: gpgme/Makefile
 	$(MAKE) -C gpgme
-	touch gpgme-build-stamp
 
-gpgme-build: gpgme-build-stamp
-
-$(LOCAL)/lib/libgpgme.so: gpgme-build
+$(LOCAL)/lib/libgpgme.so: gpgme/src/.libs/libgpgme.so
 	$(MAKE) -C gpgme DESTDIR=$(DESTDIR) prefix=$(prefix) install
 
-gpgme-install: gnupg-install $(LOCAL)/lib/libgpgme.so
+gpgme-build: gpgme/src/.libs/libgpgme.so
+
+gpgme-install: $(LOCAL)/bin/gpg2 $(LOCAL)/lib/libgpgme.so
 
 gpgme-clean:
-	-rm -f gpgme-build-stamp gpgme/Makefile gpg/configure
+	-$(MAKE) -C gpgme clean
+	-rm -f gpgme/Makefile gpgme/configure
 
 
 
@@ -737,14 +741,6 @@ install-clean:
 	rm -rf -- $(LOCAL)
 
 clean: install-clean pinentry-clean gnupg-clean curl-clean openldap-clean libksba-clean libassuan-clean npth-clean libgcrypt-clean libgpg-error-clean adns-clean libiconv-clean
-	-$(MAKE) -C gnupg clean
-	-$(MAKE) -C pinentry clean
-	-$(MAKE) -C curl clean
-	-$(MAKE) -C openldap clean
-	-$(MAKE) -C libksba clean
-	-$(MAKE) -C libassuan clean
-	-$(MAKE) -C libgcrypt clean
-	-$(MAKE) -C libgpg-error clean
 
 distclean: clean install-clean
 	-$(MAKE) -C gnupg distclean
