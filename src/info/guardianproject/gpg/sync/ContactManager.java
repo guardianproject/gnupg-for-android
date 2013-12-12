@@ -1,6 +1,12 @@
 
 package info.guardianproject.gpg.sync;
 
+import info.guardianproject.gpg.R;
+import info.guardianproject.gpg.sync.SyncAdapter.EncryptFileTo;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import android.accounts.Account;
 import android.content.ContentResolver;
 import android.content.ContentUris;
@@ -18,11 +24,6 @@ import android.provider.ContactsContract.RawContacts;
 import android.provider.ContactsContract.Settings;
 import android.text.TextUtils;
 import android.util.Log;
-
-import info.guardianproject.gpg.R;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class ContactManager {
     public static final String TAG = ContactManager.class.getSimpleName();
@@ -310,8 +311,9 @@ public class ContactManager {
                 } else if (mimeType.equals(Email.CONTENT_ITEM_TYPE)) {
                     email = c.getString(DataQuery.COLUMN_EMAIL_ADDRESS);
                     Log.d(TAG, "email:" + email);
-                } else if (mimeType.equals(SyncAdapterColumns.MIME_ENCRYPT_FILE_TO)) {
-                    keyfingerprint = c.getString(DataQuery.COLUMN_KEYFPR);
+                } else if (mimeType.equals(EncryptFileTo.CONTENT_ITEM_TYPE)) {
+                    keyfingerprint = c.getString(DataQuery.COLUMN_FINGERPRINT);
+                    Log.d(TAG, "fingerprint:" + keyfingerprint);
                     Log.d(TAG, "fingerprint:" + keyfingerprint);
                 } else {
                     Log.d(TAG, "GOT UNKNOWN DATA: " + mimeType);
@@ -392,7 +394,7 @@ public class ContactManager {
         public static final int COLUMN_EMAIL_ADDRESS = COLUMN_DATA1;
         public static final int COLUMN_EMAIL_TYPE = COLUMN_DATA2;
         public static final int COLUMN_NOTE = COLUMN_DATA1;
-        public static final int COLUMN_KEYFPR = COLUMN_DATA1;
+        public static final int COLUMN_FINGERPRINT = COLUMN_DATA1;
         public static final int COLUMN_FULL_NAME = COLUMN_DATA1;
         public static final int COLUMN_AVATAR_IMAGE = COLUMN_DATA15;
         public static final int COLUMN_SYNC_DIRTY = COLUMN_SYNC1;

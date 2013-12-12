@@ -1,6 +1,9 @@
 
 package info.guardianproject.gpg.sync;
 
+import info.guardianproject.gpg.EncryptFileActivity;
+import info.guardianproject.gpg.GnuPG;
+import info.guardianproject.gpg.sync.SyncAdapter.EncryptFileTo;
 import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
@@ -8,9 +11,6 @@ import android.net.Uri;
 import android.util.Log;
 
 import com.freiheit.gnupg.GnuPGKey;
-
-import info.guardianproject.gpg.EncryptFileActivity;
-import info.guardianproject.gpg.GnuPG;
 
 /**
  * This class catches intents from our contact integration. It then forwards
@@ -39,11 +39,11 @@ public class ContactIntentRouter extends Activity {
         Uri contactUri = intent.getData();
 
         String[] PROJECTION = new String[] {
-                SyncAdapterColumns.DATA_KEYFINGERPRINT,
+                EncryptFileTo.FINGERPRINT,
         };
         Cursor c = getContentResolver().query(contactUri, PROJECTION, null, null, null);
         if (c.moveToFirst()) {
-            int fingerprintIndex = c.getColumnIndex(SyncAdapterColumns.DATA_KEYFINGERPRINT);
+            int fingerprintIndex = c.getColumnIndex(EncryptFileTo.FINGERPRINT);
             String fingerprint = c.getString(fingerprintIndex);
             // in theory, we could get the email from the ContentProvider, but
             // this is far easier
@@ -54,7 +54,7 @@ public class ContactIntentRouter extends Activity {
             key.destroy();
 
             if (action.equals(Intent.ACTION_VIEW) && type != null) {
-                if (type.equals(SyncAdapterColumns.MIME_ENCRYPT_FILE_TO) && contactUri != null) {
+                if (type.equals(EncryptFileTo.CONTENT_ITEM_TYPE) && contactUri != null) {
                     Log.d(TAG, "got ACTION_VIEW for type =" + type + " and data =" + contactUri);
                     Intent i = new Intent(this, EncryptFileActivity.class);
                     i.putExtra(Intent.EXTRA_TEXT, fingerprint);

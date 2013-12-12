@@ -58,7 +58,7 @@
   <!--account, contacts, and contact syncing-->
   <string name="account_label">Gnu Privacy Guard</string>
   <string name="contact_group">Sejf Kluczy Gnu Privacy Guard</string>
-  <string name="contact_encrypt_file">Zaszyfruj plik do</string>
+  <string name="encrypt_file_to">Zaszyfruj plik do</string>
   <string name="contact_view_key">Podgląd klucza</string>
   <string name="title_create_key">Utwórz Klucz</string>
   <string name="key_name_label">Nazwa:</string>

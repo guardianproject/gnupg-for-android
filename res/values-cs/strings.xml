@@ -58,7 +58,7 @@
   <!--account, contacts, and contact syncing-->
   <string name="account_label">Gnu Privacy Guard</string>
   <string name="contact_group">Gnu Privacy Guard Keyring</string>
-  <string name="contact_encrypt_file">Zašifrovat soubor do</string>
+  <string name="encrypt_file_to">Zašifrovat soubor do</string>
   <string name="contact_view_key">Zobrazit klíč</string>
   <string name="title_create_key">Vytvořit klíč</string>
   <string name="key_name_label">Jméno:</string>

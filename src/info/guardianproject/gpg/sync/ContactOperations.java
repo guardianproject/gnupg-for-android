@@ -1,6 +1,8 @@
 
 package info.guardianproject.gpg.sync;
 
+import info.guardianproject.gpg.R;
+import info.guardianproject.gpg.sync.SyncAdapter.EncryptFileTo;
 import android.content.ContentProviderOperation;
 import android.content.ContentValues;
 import android.content.Context;
@@ -14,8 +16,6 @@ import android.provider.ContactsContract.CommonDataKinds.StructuredName;
 import android.provider.ContactsContract.Data;
 import android.provider.ContactsContract.RawContacts;
 import android.text.TextUtils;
-
-import info.guardianproject.gpg.R;
 
 /**
  * Helper class for storing data in the platform content providers.
@@ -147,12 +147,12 @@ public class ContactOperations {
     public ContactOperations addEncryptFileTo(String keyfpr) {
         mValues.clear();
         if (!TextUtils.isEmpty(keyfpr)) {
-            mValues.put(SyncAdapterColumns.DATA_KEYFINGERPRINT, keyfpr);
-            mValues.put(SyncAdapterColumns.DATA_DETAIL,
-                    mContext.getString(R.string.contact_encrypt_file));
-            mValues.put(SyncAdapterColumns.DATA_SUMMARY,
-                    mContext.getString(R.string.contact_encrypt_file));
-            mValues.put(Data.MIMETYPE, SyncAdapterColumns.MIME_ENCRYPT_FILE_TO);
+            mValues.put(EncryptFileTo.FINGERPRINT, keyfpr);
+            mValues.put(EncryptFileTo.DETAIL,
+                    mContext.getString(R.string.encrypt_file_to_detail));
+            mValues.put(EncryptFileTo.SUMMARY,
+                    mContext.getString(R.string.encrypt_file_to));
+            mValues.put(Data.MIMETYPE, EncryptFileTo.CONTENT_ITEM_TYPE);
             addInsertOp();
         }
         return this;
@@ -254,7 +254,7 @@ public class ContactOperations {
     public ContactOperations updateKeyFingerprint(String keyfpr, String existingKeyfpr, Uri uri) {
         if (!TextUtils.equals(existingKeyfpr, keyfpr)) {
             mValues.clear();
-            mValues.put(SyncAdapterColumns.DATA_KEYFINGERPRINT, keyfpr);
+            mValues.put(EncryptFileTo.FINGERPRINT, keyfpr);
             addUpdateOp(uri);
         }
         return this;
@@ -321,7 +321,7 @@ public class ContactOperations {
     public ContactOperations updateProfileAction(Integer userId, Uri uri) {
         // TODO
         // mValues.clear();
-        // mValues.put(SyncAdapterColumns.DATA_PID, userId);
+        // mValues.put(EncryptFileTo.DATA_PID, userId);
         // addUpdateOp(uri);
         return this;
     }

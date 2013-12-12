@@ -58,7 +58,7 @@
   <!--account, contacts, and contact syncing-->
   <string name="account_label">Gnu Privacy Guard</string>
   <string name="contact_group">Gnu Privacy Guard Schlüsselbund</string>
-  <string name="contact_encrypt_file">Datei entschlüsseln nach</string>
+  <string name="encrypt_file_to">Datei entschlüsseln nach</string>
   <string name="contact_view_key">Schlüssel ansehen</string>
   <string name="title_create_key">Schlüssel erstellen</string>
   <string name="key_name_label">Name:</string>

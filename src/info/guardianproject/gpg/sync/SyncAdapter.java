@@ -1,6 +1,10 @@
 
 package info.guardianproject.gpg.sync;
 
+import java.util.List;
+
+import org.apache.http.ParseException;
+
 import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.content.AbstractThreadedSyncAdapter;
@@ -8,21 +12,32 @@ import android.content.ContentProviderClient;
 import android.content.Context;
 import android.content.SyncResult;
 import android.os.Bundle;
+import android.provider.ContactsContract.CommonDataKinds;
+import android.provider.ContactsContract.Data;
 import android.text.TextUtils;
 import android.util.Log;
 
-import org.apache.http.ParseException;
-
-import java.util.List;
-
 public class SyncAdapter extends AbstractThreadedSyncAdapter {
-    private static final String TAG = SyncAdapter.class.getSimpleName();
+    private static final String TAG = "SyncAdapter";
     private static final String SYNC_MARKER_KEY = "info.guardianproject.gpg.sync.marker";
-    private static final boolean NOTIFY_AUTH_FAILURE = true;
 
     private final AccountManager mAccountManager;
 
     private final Context mContext;
+
+    public final class EncryptFileTo {
+        /**
+         * MIME-type used when storing a profile {@link Data} entry. The custom
+         * MIME type you've defined for one of your custom data row types in the
+         * {@link ContactsContract.Data} table. see: res/xml/contacts.xml.
+         * EncryptFileTo.CONTENT_ITEM_TYPE is also defined in
+         * res/values/mimetypes.xml as \@string/mimetype_encryptfileto
+         */
+        public static final String CONTENT_ITEM_TYPE = "vnd.android.cursor.item/vnd.info.guardianproject.gpg.encryptfileto";
+        public static final String FINGERPRINT = Data.DATA1;
+        public static final String SUMMARY = Data.DATA2;
+        public static final String DETAIL = Data.DATA3;
+    }
 
     public SyncAdapter(Context context, boolean autoInitialize) {
         super(context, autoInitialize);
@@ -33,7 +48,6 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     @Override
     public void onPerformSync(Account account, Bundle extras, String authority,
             ContentProviderClient provider, SyncResult syncResult) {
-
         try {
             long lastSyncMarker = getServerSyncMarker(account);
             // first pass at naive "sync
