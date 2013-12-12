@@ -1,23 +1,25 @@
 
 package info.guardianproject.gpg;
 
+import info.guardianproject.gpg.apg_compat.Apg;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 
-import info.guardianproject.gpg.apg_compat.Apg;
-
-public class KeyListActivity extends SherlockFragmentActivity implements
+public class SelectKeysActivity extends SherlockFragmentActivity implements
         KeyListFragment.OnKeysSelectedListener {
+    public static final String TAG = "SelectKeysActivity";
 
     KeyListFragment mFragment;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        Log.v(TAG, "onCreate");
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.key_list_activity);
+        setContentView(R.layout.select_keys_activity);
 
         setDefaultKeyMode(DEFAULT_KEYS_SEARCH_LOCAL);
 
@@ -30,7 +32,7 @@ public class KeyListActivity extends SherlockFragmentActivity implements
 
         // adding the fragment programmatically so I can set the arguments
         FragmentTransaction trans = getSupportFragmentManager().beginTransaction();
-        trans.add(R.id.activity_main_layout, frag);
+        trans.add(R.id.select_keys_activity_layout, frag);
         trans.commit();
     }
 

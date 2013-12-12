@@ -310,7 +310,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".KeyListActivity"
+            android:name=".SelectKeysActivity"
             android:configChanges="keyboardHidden|orientation|keyboard"
             android:label="@string/title_select_recipients"
             android:launchMode="singleTop" >

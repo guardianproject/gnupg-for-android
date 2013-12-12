@@ -26,6 +26,7 @@
     <string name="title_change_passphrase">Change Passphrase</string>
     <string name="title_error">Error</string>
     <string name="title_settings">Settings</string>
+    <string name="title_select_keys">Select Key</string>
     <string name="verify_signature">Verify Signature</string>
     <string name="signature_verified">Signature Verified</string>
     <string name="verifying_file_format">Verifying \"%s\"</string>
