@@ -15,6 +15,7 @@
 #include <android/log.h>
 
 #define LOGD(...) __android_log_print(ANDROID_LOG_DEBUG , "GnuPGContext", __VA_ARGS__)
+#define LOGE(...) __android_log_print(ANDROID_LOG_ERROR , "GnuPGContext", __VA_ARGS__)
 
 JavaVM* _jvm;
 
@@ -384,17 +385,11 @@ Java_com_freiheit_gnupg_GnuPGContext_gpgmeKeylist(JNIEnv* env,
         jstring query,
         jboolean secret_only)
 {
-    gpgme_error_t err;
-    gpgme_key_t key;
-    jlong num_keys_found = 0;
-    jobjectArray result = NULL;
-    jobject keyObj = NULL;
-
     //copy string object from java to native string
     const jsize query_len = (*env)->GetStringLength(env, query);
     LOGD("query length %d\n", query_len);
     const jbyte* query_str = (jbyte*)(*env)->GetStringUTFChars(env, query,
-                             NULL);
+                                                               NULL);
     //get the right constructor to invoke for every key in result set
     jclass keyClass;
     keyClass = (*env)->FindClass(env, "com/freiheit/gnupg/GnuPGKey");
@@ -407,50 +402,56 @@ Java_com_freiheit_gnupg_GnuPGContext_gpgmeKeylist(JNIEnv* env,
     if (cid == NULL) {
         return NULL;
     }
-    //loop two times: one for counting, second for generating result array
-    int is_counting = 0;    //loop 1: counting number of keys in result
-    int is_working = 1;     //loop 2: generating result array
 
-    int i = 0;          //loop counter
-    int j = 0;          //index in result array, used only in second loop run...
-    for (i = 0; i < 2; i++) {   //loops [0..1]
-        err = gpgme_op_keylist_start(CONTEXT(context),
-                                     query_len > 0 ? (const char*)query_str : NULL,
-                                     secret_only);
-        if (UTILS_onErrorThrowException(env, err)) {
-            (*env)->ReleaseStringUTFChars(env, query, (const char*)query_str);
-            LOGD("keylist gpgme error 1: %s\n", gpgme_strerror(err));
+    gpgme_error_t err = gpgme_op_keylist_start(CONTEXT(context),
+                                 query_len > 0 ? (const char*)query_str : NULL,
+                                 secret_only);
+    if (UTILS_onErrorThrowException(env, err)) {
+        (*env)->ReleaseStringUTFChars(env, query, (const char*)query_str);
+        LOGD("keylist gpgme error 1: %s\n", gpgme_strerror(err));
+        return NULL;
+    }
+
+    gpgme_key_t key;
+    jlong num_keys_found = 0;
+    struct _keyInList {
+        gpgme_key_t key;
+        struct _keyInList *next;
+    };
+    typedef struct _keyInList *keyInList;
+    keyInList current, next, head = NULL;
+    while (!err) {
+        err = gpgme_op_keylist_next(CONTEXT(context), &key);
+        if ((gpg_err_code(err) != GPG_ERR_EOF)
+            && UTILS_onErrorThrowException(env, err)) {
+            LOGD("keylist gpgme error: %s\n", gpgme_strerror(err));
             return NULL;
+        } else if (err) {
+            break; // we have nothing, quit before setting the list
         }
-
-        while (!err) {
-            err = gpgme_op_keylist_next(CONTEXT(context), &key);
-            if ((gpg_err_code(err) != GPG_ERR_EOF)
-                    && UTILS_onErrorThrowException(env, err)) {
-                LOGD("keylist gpgme error: %s\n", gpgme_strerror(err));
-                return NULL;
-            }
-
-            if (is_counting == i && key != NULL) {  //only true in first loop: i=0
-                num_keys_found++;   //increment result count
-                gpgme_key_release(key);
-            } else if (is_working == i && key != NULL) {    //only true in second loop: i=1
-                if (result == NULL) {
-                    result = (*env)->NewObjectArray(env,
-                                                    num_keys_found,
-                                                    keyClass,
-                                                    NULL);
-                }
-                keyObj = (*env)->NewObject(env, keyClass, cid, LNG(key));
-                (*env)->SetObjectArrayElement(env, result, j++, keyObj);
-            } else {
-                //FIXME: Can not happen...but should be checked -> throwing exception?
-            }
-            key = NULL;
-
-        }           //end while
-
-    }               //end for
+        current = (keyInList)malloc(sizeof(keyInList));
+        current->key = key;
+        current->next = head;
+        head = current;
+        LOGD("Add key %i: (%s <%s>)",
+             (int)num_keys_found, key->uids->name, key->uids->email);
+        num_keys_found++;
+    }
+    current = head;
+    jobject keyObj = NULL;
+    jobjectArray result = (*env)->NewObjectArray(env,
+                                                 num_keys_found,
+                                                 keyClass,
+                                                 NULL);
+    int i;
+    for(i = 0; i < num_keys_found; i++) {
+        key = current->key;
+        keyObj = (*env)->NewObject(env, keyClass, cid, LNG(key));
+        (*env)->SetObjectArrayElement(env, result, i, keyObj);
+        next = current->next;
+        free(current);
+        current = next;
+    }
 
     //..and release the query string for gc..
     (*env)->ReleaseStringUTFChars(env, query, (const char*) query_str);
