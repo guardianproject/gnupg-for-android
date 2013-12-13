@@ -36,6 +36,22 @@ public class GpgApplication extends Application {
     // requestCode
     public static final int FILENAME = 0x00007006;
 
+    static {
+        /*
+         * These need to be loaded before GnuPGContext, which does
+         * System.loadLibrary("gnupg-for-java"); and in the right order, since
+         * they have interdependencies. They are loaded here rather than in
+         * GnuPGContext because only Android needs to have these manually
+         * loaded. On real operating systems, a library knows how to find its
+         * dependent libraries without manual tricks. They don't need
+         * LD_LIBRARY_PATH because they are included in the APK via the libs/
+         * folder. ndk-build puts them into libs/.
+         */
+        System.loadLibrary("gpg-error");
+        System.loadLibrary("assuan");
+        System.loadLibrary("gpgme");
+    }
+
     @Override
     public void onCreate() {
         Log.i(TAG, "onCreate");
@@ -64,7 +80,7 @@ public class GpgApplication extends Application {
              * setup() is run here so that we can be sure it was run before any
              * Activity has started, so things like GnuPG.context won't be null.
              */
-            Posix.umask(00022); // set umask to make app_opt/ accessible by everyone
+            Posix.umask(00022); // set umask to make app_opt/ accessible by all
             setup();
         }
         // This umask allows owner access only. From here on out, the files that
@@ -80,11 +96,6 @@ public class GpgApplication extends Application {
      */
     void setup() {
         Log.i(TAG, "setup");
-        // these need to be loaded before System.load("gnupg-for-java"); and
-        // in the right order, since they have interdependencies.
-        System.loadLibrary("gpg-error");
-        System.loadLibrary("assuan");
-        System.loadLibrary("gpgme");
         GnuPG.createContext();
         startGpgAgent(mContext);
         startSharedDaemons(mContext);
