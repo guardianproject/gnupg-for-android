@@ -25,9 +25,6 @@
 [submodule "external/gpgme"]
 	path = external/gpgme
 	url = git://git.gnupg.org/gpgme.git
-[submodule "external/gnupg-for-java"]
-	path = external/gnupg-for-java
-	url = https://github.com/smartrevolution/gnupg-for-java
 [submodule "external/pinentry"]
 	path = external/pinentry
 	url = https://github.com/guardianproject/pinentry
