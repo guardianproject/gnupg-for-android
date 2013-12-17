@@ -188,11 +188,6 @@ public class ContactOperations {
         return this;
     }
 
-    public ContactOperations addAvatar(String avatarUrl) {
-        // no-op
-        return this;
-    }
-
     /**
      * Adds a profile action
      * 
@@ -303,11 +298,6 @@ public class ContactOperations {
         mValues.clear();
         mValues.put(RawContacts.DIRTY, isDirtyValue);
         addUpdateOp(uri);
-        return this;
-    }
-
-    public ContactOperations updateAvatar(String avatarUrl, Uri uri) {
-        // no op
         return this;
     }
 

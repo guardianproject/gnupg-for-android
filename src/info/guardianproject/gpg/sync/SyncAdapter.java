@@ -12,7 +12,7 @@ import android.content.ContentProviderClient;
 import android.content.Context;
 import android.content.SyncResult;
 import android.os.Bundle;
-import android.provider.ContactsContract.CommonDataKinds;
+import android.provider.ContactsContract;
 import android.provider.ContactsContract.Data;
 import android.text.TextUtils;
 import android.util.Log;
@@ -49,8 +49,8 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     public void onPerformSync(Account account, Bundle extras, String authority,
             ContentProviderClient provider, SyncResult syncResult) {
         try {
-            long lastSyncMarker = getServerSyncMarker(account);
-            // first pass at naive "sync
+            // TODO this should probably be used to prevent duplication of work
+            // long lastSyncMarker = getServerSyncMarker(account);
 
             /*
              * All keys from gnupg are written into Contacts By default,
@@ -58,38 +58,19 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
              * list. So let's set the flag that causes them to be visible, so
              * that users can actually see these contacts.
              */
-            if (lastSyncMarker == 0) {
-                ContactManager.setAccountContactsVisibility(getContext(), account, true);
-            }
+            ContactManager.setAccountContactsVisibility(getContext(), account, true);
 
-            List<RawContact> dirtyContacts = ContactManager.getDirtyContacts(mContext, account);
             List<RawContact> updatedContacts = RawContact.fromPublicKeys();
-            // Make sure that our group exists
             final long groupId = ContactManager.ensureGroupExists(mContext, account);
-
-            Log.d(TAG, "Before update contacts, scyncing : " + updatedContacts.size());
-
             ContactManager.deleteContacts(mContext,
                     account.name,
-                    dirtyContacts,
-                    groupId,
-                    lastSyncMarker);
-            long newSyncState = ContactManager.updateContacts(mContext,
+                    updatedContacts,
+                    groupId);
+            Log.d(TAG, "number of contacts before syncing: " + updatedContacts.size());
+            ContactManager.addContacts(mContext,
                     account.name,
                     updatedContacts,
-                    groupId,
-                    lastSyncMarker);
-
-            /*
-             * Save off the new sync marker. On our next sync, we only want to
-             * receive contacts that have changed since this sync...
-             */
-            setServerSyncMarker(account, newSyncState);
-
-            // if (dirtyContacts.size() > 0) {
-            // ContactManager.clearSyncFlags(mContext, dirtyContacts);
-            // }
-
+                    groupId);
         } catch (final ParseException e) {
             Log.e(TAG, "ParseException", e);
             syncResult.stats.numParseExceptions++;
