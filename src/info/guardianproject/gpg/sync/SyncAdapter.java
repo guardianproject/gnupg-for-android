@@ -62,11 +62,8 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
             List<RawContact> updatedContacts = RawContact.fromPublicKeys();
             final long groupId = ContactManager.ensureGroupExists(mContext, account);
-            ContactManager.deleteContacts(mContext,
-                    account.name,
-                    updatedContacts,
-                    groupId);
-            Log.d(TAG, "number of contacts before syncing: " + updatedContacts.size());
+            ContactManager.deleteAllContacts(mContext, account);
+            Log.d(TAG, "number of contacts to add: " + updatedContacts.size());
             ContactManager.addContacts(mContext,
                     account.name,
                     updatedContacts,

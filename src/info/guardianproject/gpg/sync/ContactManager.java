@@ -13,13 +13,14 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
+import android.provider.ContactsContract;
 import android.provider.ContactsContract.Groups;
 import android.provider.ContactsContract.RawContacts;
 import android.provider.ContactsContract.Settings;
 import android.util.Log;
 
 public class ContactManager {
-    public static final String TAG = ContactManager.class.getSimpleName();
+    public static final String TAG = "ContactManager";
 
     /**
      * When we first add a sync adapter to the system, the contacts from that
@@ -89,9 +90,7 @@ public class ContactManager {
     }
 
     /**
-     * Take a list of contacts and add all them to the contacts database.
-     * Typically this list of contacts would have been returned from the server,
-     * and we want to apply those changes locally.
+     * Take a list of keys and add all them to the contacts database.
      * 
      * @param context The context of Authenticator Activity
      * @param account The username for the account
@@ -108,23 +107,6 @@ public class ContactManager {
             if (!rawContact.isDeleted()) {
                 newUsers.add(rawContact);
                 addContact(context, account, rawContact, groupId, true, batchOperation);
-            }
-            if (batchOperation.size() >= 50) {
-                batchOperation.execute();
-            }
-        }
-        batchOperation.execute();
-    }
-
-    public static synchronized void deleteContacts(Context context, String account,
-            List<RawContact> rawContacts, long groupId) {
-        final ContentResolver resolver = context.getContentResolver();
-        final BatchOperation batchOperation = new BatchOperation(context, resolver);
-
-        Log.d(TAG, "deleteContacts: " + rawContacts.size());
-        for (final RawContact rawContact : rawContacts) {
-            if (rawContact.getRawContactId() != 0) {
-                deleteContact(context, rawContact.getRawContactId(), batchOperation);
             }
             if (batchOperation.size() >= 50) {
                 batchOperation.execute();
@@ -160,6 +142,39 @@ public class ContactManager {
                 .addGroupMembership(groupId);
     }
 
+    public static synchronized void deleteAllContacts(Context context, Account account) {
+        final ContentResolver resolver = context.getContentResolver();
+        final BatchOperation batchOperation = new BatchOperation(context, resolver);
+        final Uri contentUri = RawContacts.CONTENT_URI.buildUpon()
+                .appendQueryParameter(ContactsContract.CALLER_IS_SYNCADAPTER, "true")
+                .build();
+        final String selection = RawContacts.ACCOUNT_TYPE + "='" + SyncConstants.ACCOUNT_TYPE
+                + "' AND " + RawContacts.ACCOUNT_NAME + "=?";
+        final Cursor c = resolver.query(contentUri,
+                new String[] {
+                    RawContacts._ID
+                },
+                selection,
+                new String[] {
+                    account.name
+                },
+                null);
+        try {
+            while (c.moveToNext()) {
+                final long rawContactId = c.getLong(0);
+                if (rawContactId != 0)
+                    deleteContact(context, rawContactId, batchOperation);
+                if (batchOperation.size() >= 50)
+                    batchOperation.execute();
+            }
+        } finally {
+            if (c != null) {
+                c.close();
+            }
+        }
+        batchOperation.execute();
+    }
+
     /**
      * Deletes a contact from the platform contacts provider. This method is
      * used both for contacts that were deleted locally and then that deletion
@@ -172,7 +187,7 @@ public class ContactManager {
      */
     private static void deleteContact(Context context, long rawContactId,
             BatchOperation batchOperation) {
-
+        Log.v(TAG, "deleteContact " + rawContactId);
         batchOperation.add(ContactOperations.newDeleteCpo(
                 ContentUris.withAppendedId(RawContacts.CONTENT_URI, rawContactId),
                 true, true).build());
