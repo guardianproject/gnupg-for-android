@@ -19,8 +19,10 @@ import android.provider.ContactsContract.RawContacts;
 import android.provider.ContactsContract.Settings;
 import android.util.Log;
 
-public class ContactManager {
-    public static final String TAG = "ContactManager";
+public class GpgContactManager {
+    public static final String TAG = "GpgContactManager";
+
+    public static final String ACCOUNT_TYPE = "info.guardianproject.gpg.sync";
 
     /**
      * When we first add a sync adapter to the system, the contacts from that
@@ -36,7 +38,7 @@ public class ContactManager {
             boolean visible) {
         ContentValues values = new ContentValues();
         values.put(RawContacts.ACCOUNT_NAME, account.name);
-        values.put(RawContacts.ACCOUNT_TYPE, SyncConstants.ACCOUNT_TYPE);
+        values.put(RawContacts.ACCOUNT_TYPE, GpgContactManager.ACCOUNT_TYPE);
         values.put(Settings.UNGROUPED_VISIBLE, visible ? 1 : 0);
 
         context.getContentResolver().insert(Settings.CONTENT_URI, values);
@@ -97,13 +99,13 @@ public class ContactManager {
      * @param rawContacts The list of contacts to update
      */
     public static synchronized void addContacts(Context context, String account,
-            List<RawContact> rawContacts, long groupId) {
+            List<RawGpgContact> rawContacts, long groupId) {
         final ContentResolver resolver = context.getContentResolver();
         final BatchOperation batchOperation = new BatchOperation(context, resolver);
-        final List<RawContact> newUsers = new ArrayList<RawContact>();
+        final List<RawGpgContact> newUsers = new ArrayList<RawGpgContact>();
 
         Log.d(TAG, "addContacts: " + rawContacts.size());
-        for (final RawContact rawContact : rawContacts) {
+        for (final RawGpgContact rawContact : rawContacts) {
             if (!rawContact.isDeleted()) {
                 newUsers.add(rawContact);
                 addContact(context, account, rawContact, groupId, true, batchOperation);
@@ -128,11 +130,11 @@ public class ContactManager {
      * @param batchOperation allow us to batch together multiple operations into
      *            a single provider call
      */
-    public static void addContact(Context context, String accountName, RawContact rawContact,
+    public static void addContact(Context context, String accountName, RawGpgContact rawContact,
             long groupId, boolean inSync, BatchOperation batchOperation) {
 
         // Put the data in the contacts provider
-        final ContactOperations contactOp = ContactOperations.createNewContact(
+        final GpgContactOperations contactOp = GpgContactOperations.newInstance(
                 context, rawContact.getFingerprint(), accountName, inSync, batchOperation);
 
         contactOp.addName(rawContact.getFullName())
@@ -148,7 +150,7 @@ public class ContactManager {
         final Uri contentUri = RawContacts.CONTENT_URI.buildUpon()
                 .appendQueryParameter(ContactsContract.CALLER_IS_SYNCADAPTER, "true")
                 .build();
-        final String selection = RawContacts.ACCOUNT_TYPE + "='" + SyncConstants.ACCOUNT_TYPE
+        final String selection = RawContacts.ACCOUNT_TYPE + "='" + GpgContactManager.ACCOUNT_TYPE
                 + "' AND " + RawContacts.ACCOUNT_NAME + "=?";
         final Cursor c = resolver.query(contentUri,
                 new String[] {
@@ -188,7 +190,7 @@ public class ContactManager {
     private static void deleteContact(Context context, long rawContactId,
             BatchOperation batchOperation) {
         Log.v(TAG, "deleteContact " + rawContactId);
-        batchOperation.add(ContactOperations.newDeleteCpo(
+        batchOperation.add(GpgContactOperations.newDeleteCpo(
                 ContentUris.withAppendedId(RawContacts.CONTENT_URI, rawContactId),
                 true, true).build());
     }

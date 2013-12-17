@@ -1,6 +1,8 @@
 
 package info.guardianproject.gpg;
 
+import info.guardianproject.gpg.apg_compat.Apg;
+import info.guardianproject.gpg.sync.GpgContactManager;
 import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.content.ContentResolver;
@@ -24,9 +26,6 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
-
-import info.guardianproject.gpg.apg_compat.Apg;
-import info.guardianproject.gpg.sync.SyncConstants;
 
 public class MainActivity extends SherlockFragmentActivity
         implements TabListener,
@@ -184,7 +183,7 @@ public class MainActivity extends SherlockFragmentActivity
             String account_name = "gnupg-test";
             // password can always be something fake, we don't need it
             String password = "fake-password";
-            Account[] accts = am.getAccountsByType(SyncConstants.ACCOUNT_TYPE);
+            Account[] accts = am.getAccountsByType(GpgContactManager.ACCOUNT_TYPE);
             Account account = null;
             for (Account a : accts) {
                 Log.v(TAG, "account: " + a.name);
@@ -196,7 +195,7 @@ public class MainActivity extends SherlockFragmentActivity
             }
             if (account == null) {
                 Log.v(TAG, "addAccountExplicitly");
-                account = new Account(account_name, SyncConstants.ACCOUNT_TYPE);
+                account = new Account(account_name, GpgContactManager.ACCOUNT_TYPE);
                 boolean result = am.addAccountExplicitly(account, password, null);
                 if (result) {
                     Log.d(TAG, "Sync Account Added");

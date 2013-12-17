@@ -8,7 +8,7 @@ import info.guardianproject.gpg.GnuPG;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RawContact {
+public class RawGpgContact {
 
     private final String mFullName;
     private final String mEmail;
@@ -18,19 +18,19 @@ public class RawContact {
     private final long mRawContactId;
     private final boolean mDeleted;
 
-    public static List<RawContact> fromPublicKeys() {
+    public static List<RawGpgContact> fromPublicKeys() {
         GnuPGKey[] keys = GnuPG.context.listKeys();
         if (keys == null)
-            return new ArrayList<RawContact>();
-        ArrayList<RawContact> list = new ArrayList<RawContact>(keys.length);
+            return new ArrayList<RawGpgContact>();
+        ArrayList<RawGpgContact> list = new ArrayList<RawGpgContact>(keys.length);
         for (GnuPGKey key : keys) {
-            list.add(RawContact.fromKey(key));
+            list.add(RawGpgContact.fromKey(key));
         }
         return list;
     }
 
-    public static RawContact fromKey(GnuPGKey key) {
-        return new RawContact(key.getName(),
+    public static RawGpgContact fromKey(GnuPGKey key) {
+        return new RawGpgContact(key.getName(),
                 key.getEmail(),
                 key.getComment(),
                 key.getFingerprint(),
@@ -40,7 +40,7 @@ public class RawContact {
 
     }
 
-    public RawContact(String name, String email, String comment, String readableFpr,
+    public RawGpgContact(String name, String email, String comment, String readableFpr,
             String fingerprint, long rawContactId, boolean deleted) {
         super();
         this.mFullName = name;

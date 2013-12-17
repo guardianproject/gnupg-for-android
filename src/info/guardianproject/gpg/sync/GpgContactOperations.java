@@ -20,7 +20,7 @@ import android.text.TextUtils;
 /**
  * Helper class for storing data in the platform content providers.
  */
-public class ContactOperations {
+public class GpgContactOperations {
     private final ContentValues mValues;
     private final BatchOperation mBatchOperation;
     private final Context mContext;
@@ -52,9 +52,9 @@ public class ContactOperations {
      * @param isSyncOperation are we executing this as part of a sync operation?
      * @return instance of ContactOperations
      */
-    public static ContactOperations createNewContact(Context context, String keyFpr,
+    public static GpgContactOperations newInstance(Context context, String keyFpr,
             String accountName, boolean isSyncOperation, BatchOperation batchOperation) {
-        return new ContactOperations(context, keyFpr, accountName, isSyncOperation, batchOperation);
+        return new GpgContactOperations(context, keyFpr, accountName, isSyncOperation, batchOperation);
     }
 
     /**
@@ -66,12 +66,12 @@ public class ContactOperations {
      * @param isSyncOperation are we executing this as part of a sync operation?
      * @return instance of ContactOperations
      */
-    public static ContactOperations updateExistingContact(Context context, long rawContactId,
+    public static GpgContactOperations updateExistingContact(Context context, long rawContactId,
             boolean isSyncOperation, BatchOperation batchOperation) {
-        return new ContactOperations(context, rawContactId, isSyncOperation, batchOperation);
+        return new GpgContactOperations(context, rawContactId, isSyncOperation, batchOperation);
     }
 
-    public ContactOperations(Context context, boolean isSyncOperation,
+    public GpgContactOperations(Context context, boolean isSyncOperation,
             BatchOperation batchOperation) {
         mValues = new ContentValues();
         mIsYieldAllowed = true;
@@ -80,20 +80,20 @@ public class ContactOperations {
         mBatchOperation = batchOperation;
     }
 
-    public ContactOperations(Context context, String keyFpr, String accountName,
+    public GpgContactOperations(Context context, String keyFpr, String accountName,
             boolean isSyncOperation, BatchOperation batchOperation) {
         this(context, isSyncOperation, batchOperation);
         mBackReference = mBatchOperation.size();
         mIsNewContact = true;
         mValues.put(RawContacts.SOURCE_ID, keyFpr);
-        mValues.put(RawContacts.ACCOUNT_TYPE, SyncConstants.ACCOUNT_TYPE);
+        mValues.put(RawContacts.ACCOUNT_TYPE, GpgContactManager.ACCOUNT_TYPE);
         mValues.put(RawContacts.ACCOUNT_NAME, accountName);
         ContentProviderOperation.Builder builder =
                 newInsertCpo(RawContacts.CONTENT_URI, mIsSyncOperation, true).withValues(mValues);
         mBatchOperation.add(builder.build());
     }
 
-    public ContactOperations(Context context, long rawContactId, boolean isSyncOperation,
+    public GpgContactOperations(Context context, long rawContactId, boolean isSyncOperation,
             BatchOperation batchOperation) {
         this(context, isSyncOperation, batchOperation);
         mIsNewContact = false;
@@ -108,7 +108,7 @@ public class ContactOperations {
      *            form Can be null if firstName/lastName are specified.
      * @return instance of ContactOperations
      */
-    public ContactOperations addName(String fullName) {
+    public GpgContactOperations addName(String fullName) {
         mValues.clear();
 
         if (!TextUtils.isEmpty(fullName)) {
@@ -127,7 +127,7 @@ public class ContactOperations {
      * @param the email address we're adding
      * @return instance of ContactOperations
      */
-    public ContactOperations addEmail(String email) {
+    public GpgContactOperations addEmail(String email) {
         mValues.clear();
         if (!TextUtils.isEmpty(email)) {
             mValues.put(Email.DATA, email);
@@ -144,7 +144,7 @@ public class ContactOperations {
      * @param the email address we're adding
      * @return instance of ContactOperations
      */
-    public ContactOperations addEncryptFileTo(String keyfpr) {
+    public GpgContactOperations addEncryptFileTo(String keyfpr) {
         mValues.clear();
         if (!TextUtils.isEmpty(keyfpr)) {
             mValues.put(EncryptFileTo.FINGERPRINT, keyfpr);
@@ -164,7 +164,7 @@ public class ContactOperations {
      * @param the email address we're adding
      * @return instance of ContactOperations
      */
-    public ContactOperations addComment(String comment) {
+    public GpgContactOperations addComment(String comment) {
         mValues.clear();
         if (!TextUtils.isEmpty(comment)) {
             mValues.put(Note.NOTE, comment);
@@ -180,7 +180,7 @@ public class ContactOperations {
      * @param id The id of the group to assign
      * @return instance of ContactOperations
      */
-    public ContactOperations addGroupMembership(long groupId) {
+    public GpgContactOperations addGroupMembership(long groupId) {
         mValues.clear();
         mValues.put(GroupMembership.GROUP_ROW_ID, groupId);
         mValues.put(GroupMembership.MIMETYPE, GroupMembership.CONTENT_ITEM_TYPE);
@@ -194,7 +194,7 @@ public class ContactOperations {
      * @param userId the userId of the sample SyncAdapter user object
      * @return instance of ContactOperations
      */
-    public ContactOperations addProfileAction(long userId) {
+    public GpgContactOperations addProfileAction(long userId) {
         // TODO
         // mValues.clear();
         // if (userId != 0) {
@@ -216,7 +216,7 @@ public class ContactOperations {
      * @param uri Uri for the existing raw contact to be updated
      * @return instance of ContactOperations
      */
-    public ContactOperations updateServerId(long serverId, Uri uri) {
+    public GpgContactOperations updateServerId(long serverId, Uri uri) {
         mValues.clear();
         mValues.put(RawContacts.SOURCE_ID, serverId);
         addUpdateOp(uri);
@@ -230,7 +230,7 @@ public class ContactOperations {
      * @param uri Uri for the existing raw contact to be updated
      * @return instance of ContactOperations
      */
-    public ContactOperations updateEmail(String email, String existingEmail, Uri uri) {
+    public GpgContactOperations updateEmail(String email, String existingEmail, Uri uri) {
         if (!TextUtils.equals(existingEmail, email)) {
             mValues.clear();
             mValues.put(Email.DATA, email);
@@ -246,7 +246,7 @@ public class ContactOperations {
      * @param uri Uri for the existing raw contact to be updated
      * @return instance of ContactOperations
      */
-    public ContactOperations updateKeyFingerprint(String keyfpr, String existingKeyfpr, Uri uri) {
+    public GpgContactOperations updateKeyFingerprint(String keyfpr, String existingKeyfpr, Uri uri) {
         if (!TextUtils.equals(existingKeyfpr, keyfpr)) {
             mValues.clear();
             mValues.put(EncryptFileTo.FINGERPRINT, keyfpr);
@@ -262,7 +262,7 @@ public class ContactOperations {
      * @param uri Uri for the existing raw contact to be updated
      * @return instance of ContactOperations
      */
-    public ContactOperations updateComment(String comment, String existingComment, Uri uri) {
+    public GpgContactOperations updateComment(String comment, String existingComment, Uri uri) {
         if (!TextUtils.equals(existingComment, comment)) {
             mValues.clear();
             mValues.put(Note.NOTE, comment);
@@ -279,7 +279,7 @@ public class ContactOperations {
      * @param fullName the new full name to store
      * @return instance of ContactOperations
      */
-    public ContactOperations updateName(Uri uri,
+    public GpgContactOperations updateName(Uri uri,
             String existingFullName,
             String fullName) {
 
@@ -293,7 +293,7 @@ public class ContactOperations {
         return this;
     }
 
-    public ContactOperations updateDirtyFlag(boolean isDirty, Uri uri) {
+    public GpgContactOperations updateDirtyFlag(boolean isDirty, Uri uri) {
         int isDirtyValue = isDirty ? 1 : 0;
         mValues.clear();
         mValues.put(RawContacts.DIRTY, isDirtyValue);
@@ -308,7 +308,7 @@ public class ContactOperations {
      * @param uri Uri for the existing raw contact to be updated
      * @return instance of ContactOperations
      */
-    public ContactOperations updateProfileAction(Integer userId, Uri uri) {
+    public GpgContactOperations updateProfileAction(Integer userId, Uri uri) {
         // TODO
         // mValues.clear();
         // mValues.put(EncryptFileTo.DATA_PID, userId);

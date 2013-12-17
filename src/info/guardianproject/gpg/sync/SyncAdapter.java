@@ -58,13 +58,13 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
              * list. So let's set the flag that causes them to be visible, so
              * that users can actually see these contacts.
              */
-            ContactManager.setAccountContactsVisibility(getContext(), account, true);
+            GpgContactManager.setAccountContactsVisibility(getContext(), account, true);
 
-            List<RawContact> updatedContacts = RawContact.fromPublicKeys();
-            final long groupId = ContactManager.ensureGroupExists(mContext, account);
-            ContactManager.deleteAllContacts(mContext, account);
+            List<RawGpgContact> updatedContacts = RawGpgContact.fromPublicKeys();
+            final long groupId = GpgContactManager.ensureGroupExists(mContext, account);
+            GpgContactManager.deleteAllContacts(mContext, account);
             Log.d(TAG, "number of contacts to add: " + updatedContacts.size());
-            ContactManager.addContacts(mContext,
+            GpgContactManager.addContacts(mContext,
                     account.name,
                     updatedContacts,
                     groupId);

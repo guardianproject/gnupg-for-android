@@ -13,8 +13,6 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.CheckBox;
 
-import info.guardianproject.gpg.sync.SyncConstants;
-
 public class FirstRunSetupActivity extends Activity {
 
     private final static String TAG = FirstRunSetupActivity.class.getSimpleName();
