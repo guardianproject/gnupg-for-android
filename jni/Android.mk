@@ -11,6 +11,11 @@ LOCAL_SRC_FILES := $(LOCAL)/lib/libassuan.so
 include $(PREBUILT_SHARED_LIBRARY)
 
 include $(CLEAR_VARS)
+LOCAL_MODULE := libcurl
+LOCAL_SRC_FILES := $(LOCAL)/lib/libcurl.so
+include $(PREBUILT_SHARED_LIBRARY)
+
+include $(CLEAR_VARS)
 LOCAL_MODULE := libgcrypt
 LOCAL_SRC_FILES := $(LOCAL)/lib/libgcrypt.so
 include $(PREBUILT_SHARED_LIBRARY)

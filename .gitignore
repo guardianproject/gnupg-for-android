@@ -28,7 +28,6 @@ external/libiconv-1.14
 external/libiconv-1.14.tar.gz
 external/libiconv-1.14.tar.gz.sig*
 external/openldap-build-stamp
-external/curl-build-stamp
 external/libiconv-build-stamp
 # android build files
 build.xml

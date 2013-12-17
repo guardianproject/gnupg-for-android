@@ -375,31 +375,42 @@ curl/configure: curl/configure.ac
 	cd curl && ./buildconf
 
 curl/Makefile: curl/config.sub curl/config.guess curl/configure
+	-patch -N -p1 --reject-file=- curl/m4/libtool.m4 libtool-Add-Android-Linux-support.patch
 	cd curl && \
 		CC="$(CC)" AR="$(AR)" RANLIB=$(RANLIB) CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS)" \
 			./configure \
 				--enable-static \
 				--host=$(HOST) \
 				--prefix=$(prefix) \
-				--with-ldap-lib=$(LOCAL) \
-				--with-lber-lib=$(LOCAL) \
-				--with-gnu-ld
+				--with-gnu-ld \
+				--disable-imap \
+				--disable-ldap \
+				--disable-pop3 \
+				--disable-rtsp \
+				--disable-smtp
+	# brute force and ignorance to make libtool comply with android style
+	sed -i 's,^fast_install=.*,fast_install=needless,' curl/libtool
+	sed -i 's,^version_type=.*,version_type=none,' curl/libtool
+	sed -i 's,^shlibpath_overrides_runpath=.*,shlibpath_overrides_runpath=yes,' curl/libtool
+	sed -i 's,^library_names_spec=.*,library_names_spec="\\$$libname\\$$release\\$$shared_ext",' curl/libtool
+	sed -i 's,^soname_spec=.*,soname_spec="\\$$libname\\$$release\\$$shared_ext",' curl/libtool
+	sed -i 's,^finish_cmds=.*,finish_cmds="",' curl/libtool
+	sed -i 's,^sys_lib_dlsearch_path_spec=.*,sys_lib_dlsearch_path_spec="/lib /usr/lib",' curl/libtool
 
-curl-build-stamp: curl/Makefile
+curl/lib/.libs/libcurl.so: curl/Makefile
 	$(MAKE) -C curl
-	touch curl-build-stamp
 
-curl-build: curl-build-stamp
-
-$(LOCAL)/lib/libcurl.a: curl-build
+$(LOCAL)/lib/libcurl.so: curl/lib/.libs/libcurl.so
 	$(MAKE) -C curl DESTDIR=$(DESTDIR) prefix=$(prefix) install
-	$(MAKE) -C curl DESTDIR=$(DESTDIR) prefix=$(prefix) install
-	ls -l $(LOCAL)/lib/libcurl.a
+	ls -l $(LOCAL)/lib/libcurl.so
 
-curl-install: $(LOCAL)/lib/libcurl.a
+curl-build: curl/lib/.libs/libcurl.so
+
+curl-install: $(LOCAL)/lib/libcurl.so
 
 curl-clean:
-	-rm -f curl-build-stamp
+	-$(MAKE) -C curl clean
+	rm -f curl/Makefile
 
 
 #------------------------------------------------------------------------------#
@@ -539,7 +550,7 @@ gnupg/Makefile: gnupg/configure gnupg/config.sub gnupg/config.guess
 #				--with-adns=$(LOCAL) \ $(LOCAL)/lib/libadns.a
 
 
-gnupg/g10/gpg2: $(LOCAL)/lib/libgpg-error.so $(LOCAL)/lib/libgcrypt.so $(LOCAL)/lib/libksba.so $(LOCAL)/lib/libassuan.so $(LOCAL)/lib/libldap.a $(LOCAL)/lib/libnpth.so gnupg/Makefile
+gnupg/g10/gpg2: $(LOCAL)/lib/libgpg-error.so $(LOCAL)/lib/libgcrypt.so $(LOCAL)/lib/libksba.so $(LOCAL)/lib/libassuan.so $(LOCAL)/lib/libldap.a $(LOCAL)/lib/libnpth.so $(LOCAL)/lib/libcurl.so gnupg/Makefile
 	$(MAKE) -C gnupg
 
 $(LOCAL)/bin/gpg2: gnupg/g10/gpg2 $(GNUPG_SOURCES) gnupg/configure
@@ -721,6 +732,7 @@ assets: clean-assets assets-tests
 	cp -a $(LOCAL)/* $(ASSETS)
 # remove all the stuff we don't need
 	rm -f $(ASSETS)/bin/*-static
+	rm -f $(ASSETS)/bin/curl*
 	rm -f $(ASSETS)/lib/*.a $(ASSETS)/lib/*.la
 # remove lib symlinks since Android AssetManager copies them as files
 	rm -f $(ASSETS)/lib/*.so
