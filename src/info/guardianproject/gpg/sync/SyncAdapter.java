@@ -37,6 +37,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         public static final String FINGERPRINT = Data.DATA1;
         public static final String SUMMARY = Data.DATA2;
         public static final String DETAIL = Data.DATA3;
+        public static final String KEY_STATUS_FLAGS = Data.DATA4;
     }
 
     public SyncAdapter(Context context, boolean autoInitialize) {

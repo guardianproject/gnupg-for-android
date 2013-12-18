@@ -11,7 +11,6 @@ import android.provider.ContactsContract;
 import android.provider.ContactsContract.CommonDataKinds.Email;
 import android.provider.ContactsContract.CommonDataKinds.GroupMembership;
 import android.provider.ContactsContract.CommonDataKinds.Note;
-import android.provider.ContactsContract.CommonDataKinds.Phone;
 import android.provider.ContactsContract.CommonDataKinds.StructuredName;
 import android.provider.ContactsContract.Data;
 import android.provider.ContactsContract.RawContacts;
@@ -104,15 +103,15 @@ public class GpgContactOperations {
      * Adds a contact name. We can take either a full name ("Bob Smith") or
      * separated first-name and last-name ("Bob" and "Smith").
      * 
-     * @param fullName The full name of the contact - typically from an edit
+     * @param name The full name of the contact - typically from an edit
      *            form Can be null if firstName/lastName are specified.
      * @return instance of ContactOperations
      */
-    public GpgContactOperations addName(String fullName) {
+    public GpgContactOperations addName(String name) {
         mValues.clear();
 
-        if (!TextUtils.isEmpty(fullName)) {
-            mValues.put(StructuredName.DISPLAY_NAME, fullName);
+        if (!TextUtils.isEmpty(name)) {
+            mValues.put(StructuredName.DISPLAY_NAME, name);
             mValues.put(StructuredName.MIMETYPE, StructuredName.CONTENT_ITEM_TYPE);
         }
         if (mValues.size() > 0) {
@@ -144,14 +143,15 @@ public class GpgContactOperations {
      * @param the email address we're adding
      * @return instance of ContactOperations
      */
-    public GpgContactOperations addEncryptFileTo(String keyfpr) {
+    public GpgContactOperations addEncryptFileTo(String fingerprint, int flags) {
         mValues.clear();
-        if (!TextUtils.isEmpty(keyfpr)) {
-            mValues.put(EncryptFileTo.FINGERPRINT, keyfpr);
+        if (!TextUtils.isEmpty(fingerprint)) {
+            mValues.put(EncryptFileTo.FINGERPRINT, fingerprint);
             mValues.put(EncryptFileTo.DETAIL,
                     mContext.getString(R.string.encrypt_file_to_detail));
             mValues.put(EncryptFileTo.SUMMARY,
                     mContext.getString(R.string.encrypt_file_to));
+            mValues.put(EncryptFileTo.KEY_STATUS_FLAGS, flags);
             mValues.put(Data.MIMETYPE, EncryptFileTo.CONTENT_ITEM_TYPE);
             addInsertOp();
         }
@@ -210,20 +210,6 @@ public class GpgContactOperations {
     }
 
     /**
-     * Updates contact's serverId
-     * 
-     * @param serverId the serverId for this contact
-     * @param uri Uri for the existing raw contact to be updated
-     * @return instance of ContactOperations
-     */
-    public GpgContactOperations updateServerId(long serverId, Uri uri) {
-        mValues.clear();
-        mValues.put(RawContacts.SOURCE_ID, serverId);
-        addUpdateOp(uri);
-        return this;
-    }
-
-    /**
      * Updates contact's email
      * 
      * @param email email id of the sample SyncAdapter user
@@ -246,7 +232,7 @@ public class GpgContactOperations {
      * @param uri Uri for the existing raw contact to be updated
      * @return instance of ContactOperations
      */
-    public GpgContactOperations updateKeyFingerprint(String keyfpr, String existingKeyfpr, Uri uri) {
+    public GpgContactOperations updateFingerprint(String keyfpr, String existingKeyfpr, Uri uri) {
         if (!TextUtils.equals(existingKeyfpr, keyfpr)) {
             mValues.clear();
             mValues.put(EncryptFileTo.FINGERPRINT, keyfpr);
@@ -322,7 +308,7 @@ public class GpgContactOperations {
     private void addInsertOp() {
 
         if (!mIsNewContact) {
-            mValues.put(Phone.RAW_CONTACT_ID, mRawContactId);
+            mValues.put(Data.RAW_CONTACT_ID, mRawContactId);
         }
         ContentProviderOperation.Builder builder =
                 newInsertCpo(Data.CONTENT_URI, mIsSyncOperation, mIsYieldAllowed);

@@ -2,6 +2,7 @@
 package info.guardianproject.gpg.sync;
 
 import info.guardianproject.gpg.R;
+import info.guardianproject.gpg.sync.SyncAdapter.EncryptFileTo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +15,12 @@ import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.ContactsContract;
+import android.provider.Contacts.GroupsColumns;
+import android.provider.ContactsContract.CommonDataKinds.Email;
+import android.provider.ContactsContract.CommonDataKinds.GroupMembership;
+import android.provider.ContactsContract.CommonDataKinds.Note;
+import android.provider.ContactsContract.CommonDataKinds.StructuredName;
+import android.provider.ContactsContract.Data;
 import android.provider.ContactsContract.Groups;
 import android.provider.ContactsContract.RawContacts;
 import android.provider.ContactsContract.Settings;
@@ -106,7 +113,7 @@ public class GpgContactManager {
 
         Log.d(TAG, "addContacts: " + rawContacts.size());
         for (final RawGpgContact rawContact : rawContacts) {
-            if (!rawContact.isDeleted()) {
+            if (!rawContact.deleted) {
                 newUsers.add(rawContact);
                 addContact(context, account, rawContact, groupId, true, batchOperation);
             }
@@ -135,13 +142,113 @@ public class GpgContactManager {
 
         // Put the data in the contacts provider
         final GpgContactOperations contactOp = GpgContactOperations.newInstance(
-                context, rawContact.getFingerprint(), accountName, inSync, batchOperation);
+                context, rawContact.fingerprint, accountName, inSync, batchOperation);
 
-        contactOp.addName(rawContact.getFullName())
-                .addEmail(rawContact.getEmail())
-                .addEncryptFileTo(rawContact.getFingerprint())
-                .addComment(rawContact.getComment())
+        contactOp.addName(rawContact.name)
+                .addEmail(rawContact.email)
+                .addEncryptFileTo(rawContact.fingerprint, rawContact.flags)
+                .addComment(rawContact.comment)
                 .addGroupMembership(groupId);
+    }
+
+    public static List<RawGpgContact> getAllContacts(Context context, Account account) {
+        Log.i(TAG, "*** Looking for local contacts with public keys");
+        List<RawGpgContact> contacts = new ArrayList<RawGpgContact>();
+
+        if (account == null) // if the account isn't setup yet...
+            return contacts;
+
+        final ContentResolver resolver = context.getContentResolver();
+        final Uri contentUri = RawContacts.CONTENT_URI.buildUpon()
+                .appendQueryParameter(ContactsContract.CALLER_IS_SYNCADAPTER, "true")
+                .build();
+        final String[] projection = new String[] {
+                RawContacts._ID,
+        };
+        final String[] selectionArgs = new String[] {
+                account.name
+        };
+        final String selection = RawContacts.ACCOUNT_TYPE + "='" + GpgContactManager.ACCOUNT_TYPE
+                + "' AND " + RawContacts.ACCOUNT_NAME + "=?";
+
+        final Cursor c = resolver.query(contentUri,
+                projection,
+                selection,
+                selectionArgs,
+                null);
+        try {
+            while (c.moveToNext()) {
+                RawGpgContact rawContact = getRawGpgContact(context, c.getLong(0));
+                Log.i(TAG, "Contact Name: " + rawContact.name);
+                contacts.add(rawContact);
+            }
+        } finally {
+            if (c != null) {
+                c.close();
+            }
+        }
+        return contacts;
+    }
+
+    /**
+     * Return a User object with data extracted from a contact stored in the
+     * local contacts database. Because a contact is actually stored over
+     * several rows in the database, our query will return those multiple rows
+     * of information. We then iterate over the rows and build the User
+     * structure from what we find.
+     * 
+     * @param context the Authenticator Activity context
+     * @param rawContactId the unique ID for the local contact
+     * @return a User object containing info on that contact
+     */
+    private static RawGpgContact getRawGpgContact(Context context, long rawContactId) {
+        String fullName = null;
+        String email = null;
+        String comment = null;
+        String fingerprint = null;
+        int flags = 0;
+        final ContentResolver resolver = context.getContentResolver();
+        final String selection = Data.RAW_CONTACT_ID + "=?";
+        final String[] selectionArgs = new String[] {
+                String.valueOf(rawContactId)
+        };
+        final String[] projection = new String[] {
+                Data._ID, // 0
+                RawContacts.SOURCE_ID, // 1
+                Data.MIMETYPE,// 2
+                Data.DATA1, // 3
+                Data.DATA2, // 4
+                Data.DATA3, // 5
+                Data.DATA4, // 6
+        };
+        final Cursor c =
+                resolver.query(Data.CONTENT_URI, projection, selection,
+                        selectionArgs, null);
+        try {
+            while (c.moveToNext()) {
+                final long id = c.getLong(0);
+                final String mimeType = c.getString(2); // Data.MIMETYPE
+                final Uri uri = ContentUris.withAppendedId(Data.CONTENT_URI, id);
+                if (mimeType.equals(StructuredName.CONTENT_ITEM_TYPE)) {
+                    fullName = c.getString(3); // Data.DATA1
+                } else if (mimeType.equals(Note.CONTENT_ITEM_TYPE)) {
+                    comment = c.getString(3); // Data.DATA1
+                } else if (mimeType.equals(Email.CONTENT_ITEM_TYPE)) {
+                    email = c.getString(3); // Data.DATA1
+                } else if (mimeType.equals(EncryptFileTo.CONTENT_ITEM_TYPE)) {
+                    fingerprint = c.getString(1); // RawContacts.SOURCE_ID
+                    flags = c.getShort(6); // Data.DATA4
+                } else if (mimeType.equals(GroupMembership.CONTENT_ITEM_TYPE)) {
+                    Log.d(TAG, "group item:" + c.getString(3)); // Data.DATA1
+                } else {
+                    Log.d(TAG, "GOT UNKNOWN DATA: " + mimeType);
+                }
+            }
+        } finally {
+            c.close();
+        }
+
+        return new RawGpgContact(fullName, email, comment, fingerprint, flags, rawContactId, false);
     }
 
     public static synchronized void deleteAllContacts(Context context, Account account) {
