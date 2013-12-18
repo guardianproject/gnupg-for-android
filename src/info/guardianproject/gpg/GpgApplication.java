@@ -170,4 +170,14 @@ public class GpgApplication extends Application {
         ContentResolver.requestSync(mSyncAccount, ContactsContract.AUTHORITY, settingsBundle);
     }
 
+    static int[] genFingerprintColor(String fingerprint) {
+        char[] fp = fingerprint.toCharArray();
+        int[] ret = new int[4];
+        ret[0] = (int) Long.parseLong("ff" + fp[0] + fp[0] + fp[1] + fp[2] + fp[3] + fp[3], 16);
+        ret[1] = (int) Long.parseLong("ff" + fp[4] + fp[4] + fp[5] + fp[6] + fp[7] + fp[7], 16);
+        ret[2] = (int) Long.parseLong("ff" + fp[8] + fp[8] + fp[9] + fp[10] + fp[11] + fp[11], 16);
+        ret[3] = (int) Long.parseLong("ff" + fp[12] + fp[12] + fp[13] + fp[14] + fp[15] + fp[15],
+                16);
+        return ret;
+    }
 }

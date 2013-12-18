@@ -18,6 +18,10 @@
 
 package info.guardianproject.gpg;
 
+import info.guardianproject.gpg.apg_compat.Apg;
+
+import java.util.Vector;
+
 import android.app.Activity;
 import android.app.SearchManager;
 import android.content.BroadcastReceiver;
@@ -33,20 +37,17 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockFragment;
 
-import info.guardianproject.gpg.apg_compat.Apg;
-
-import java.util.Vector;
-
 public class KeyListFragment extends SherlockFragment {
 
     protected ListView mListView;
-    protected KeyListAdapter mListAdapter;
+    protected BaseAdapter mBaseAdapter;
     protected View mFilterLayout;
     protected Button mClearFilterButton;
     protected Button mOkButton;
@@ -172,13 +173,17 @@ public class KeyListFragment extends SherlockFragment {
             mFilterInfo.setText(getString(R.string.filterInfo_format, searchString));
         }
 
-        mListAdapter = new KeyListAdapter(mListView, action,
-                searchString, selectedKeyIds);
-        mListView.setAdapter(mListAdapter);
+        if (action == null || !action.equals(Apg.Intent.SELECT_SECRET_KEY))
+            mBaseAdapter = new KeyListContactsAdapter(mListView, action, searchString,
+                    selectedKeyIds);
+        else
+            mBaseAdapter = new KeyListGnuPGKeyAdapter(mListView, action, searchString,
+                    selectedKeyIds);
+        mListView.setAdapter(mBaseAdapter);
 
         if (selectedKeyIds != null) {
-            for (int i = 0; i < mListAdapter.getCount(); ++i) {
-                long keyId = mListAdapter.getItemId(i);
+            for (int i = 0; i < mBaseAdapter.getCount(); ++i) {
+                long keyId = mBaseAdapter.getItemId(i);
                 for (int j = 0; j < selectedKeyIds.length; ++j) {
                     if (keyId == selectedKeyIds[j]) {
                         mListView.setItemChecked(i, true);

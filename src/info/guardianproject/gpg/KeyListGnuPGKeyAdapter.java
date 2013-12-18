@@ -32,8 +32,8 @@ import info.guardianproject.gpg.apg_compat.Apg;
 import java.math.BigInteger;
 import java.util.Locale;
 
-public class KeyListAdapter extends BaseAdapter {
-    public static final String TAG = "KeyListAdapter";
+public class KeyListGnuPGKeyAdapter extends BaseAdapter {
+    public static final String TAG = "KeyListGnuPGKeyAdapter";
 
     protected LayoutInflater mInflater;
     protected ListView mParent;
@@ -42,7 +42,7 @@ public class KeyListAdapter extends BaseAdapter {
 
     private GnuPGKey[] mKeyArray;
 
-    public KeyListAdapter(ListView parent, String action,
+    public KeyListGnuPGKeyAdapter(ListView parent, String action,
             String searchString, long selectedKeyIds[]) {
         mParent = parent;
         mSearchString = searchString;
@@ -98,17 +98,6 @@ public class KeyListAdapter extends BaseAdapter {
         return new BigInteger(keyId, 16).longValue(); // MASTER_KEY_ID
     }
 
-    private int[] genFingerprintColor(String fingerprint) {
-        char[] fp = fingerprint.toCharArray();
-        int[] ret = new int[4];
-        ret[0] = (int) Long.parseLong("ff" + fp[0] + fp[0] + fp[1] + fp[2] + fp[3] + fp[3], 16);
-        ret[1] = (int) Long.parseLong("ff" + fp[4] + fp[4] + fp[5] + fp[6] + fp[7] + fp[7], 16);
-        ret[2] = (int) Long.parseLong("ff" + fp[8] + fp[8] + fp[9] + fp[10] + fp[11] + fp[11], 16);
-        ret[3] = (int) Long.parseLong("ff" + fp[12] + fp[12] + fp[13] + fp[14] + fp[15] + fp[15],
-                16);
-        return ret;
-    }
-
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         GnuPGKey key = mKeyArray[position];
@@ -126,7 +115,7 @@ public class KeyListAdapter extends BaseAdapter {
 
         // set text color based on the web colors generate from fingerprint
         String keyId = key.getKeyID().toLowerCase(Locale.ENGLISH);
-        int[] keyIdColors = genFingerprintColor(keyId);
+        int[] keyIdColors = GpgApplication.genFingerprintColor(keyId);
 
         keyId0.setText(keyId.substring(0, 4));
         keyId1.setText(keyId.substring(4, 8));
