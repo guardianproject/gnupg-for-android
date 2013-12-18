@@ -1,6 +1,7 @@
 
 package info.guardianproject.gpg.sync;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.http.ParseException;
@@ -61,14 +62,25 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
              */
             GpgContactManager.setAccountContactsVisibility(getContext(), account, true);
 
-            List<RawGpgContact> updatedContacts = RawGpgContact.fromPublicKeys();
-            final long groupId = GpgContactManager.ensureGroupExists(mContext, account);
+            List<RawGpgContact> publicKeys = RawGpgContact.fromPublicKeys();
+            List<RawGpgContact> secretKeys = RawGpgContact.fromSecretKeys();
+            final List<RawGpgContact> updatedContacts = new ArrayList<RawGpgContact>();
+            for (RawGpgContact pk : publicKeys) {
+                RawGpgContact foundContact = null;
+                for (RawGpgContact sk : secretKeys) {
+                    if (pk.fingerprint.equals(sk.fingerprint)) {
+                        foundContact = sk;
+                        break;
+                    }
+                }
+                if (foundContact != null)
+                    updatedContacts.add(foundContact);
+                else
+                    updatedContacts.add(pk);
+            }
             GpgContactManager.deleteAllContacts(mContext, account);
             Log.d(TAG, "number of contacts to add: " + updatedContacts.size());
-            GpgContactManager.addContacts(mContext,
-                    account.name,
-                    updatedContacts,
-                    groupId);
+            GpgContactManager.addContacts(mContext, account, updatedContacts);
         } catch (final ParseException e) {
             Log.e(TAG, "ParseException", e);
             syncResult.stats.numParseExceptions++;

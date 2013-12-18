@@ -57,7 +57,7 @@
   <string name="wizard_button_skip">Überspringen</string>
   <!--account, contacts, and contact syncing-->
   <string name="account_label">Gnu Privacy Guard</string>
-  <string name="contact_group">Gnu Privacy Guard Schlüsselbund</string>
+  <string name="keyring_group_name">Gnu Privacy Guard Schlüsselbund</string>
   <string name="encrypt_file_to">Datei entschlüsseln nach</string>
   <string name="contact_view_key">Schlüssel ansehen</string>
   <string name="title_create_key">Schlüssel erstellen</string>

@@ -57,7 +57,7 @@
   <string name="wizard_button_skip">Omitir</string>
   <!--account, contacts, and contact syncing-->
   <string name="account_label">Gnu Privacy Guard</string>
-  <string name="contact_group">Anillo de claves de Gnu Privacy Guard</string>
+  <string name="keyring_group_name">Anillo de claves de Gnu Privacy Guard</string>
   <string name="encrypt_file_to">Cifrar archivo a</string>
   <string name="contact_view_key">Ver clave</string>
   <string name="title_create_key">Generar clave</string>

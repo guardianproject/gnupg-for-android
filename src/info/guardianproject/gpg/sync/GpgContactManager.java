@@ -15,7 +15,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.ContactsContract;
-import android.provider.Contacts.GroupsColumns;
 import android.provider.ContactsContract.CommonDataKinds.Email;
 import android.provider.ContactsContract.CommonDataKinds.GroupMembership;
 import android.provider.ContactsContract.CommonDataKinds.Note;
@@ -58,8 +57,7 @@ public class GpgContactManager {
      * @param account
      * @return the group id
      */
-    public static long ensureGroupExists(Context context, Account account) {
-        final String groupName = context.getString(R.string.contact_group);
+    public static long ensureGroupExists(Context context, Account account, String groupName) {
         final ContentResolver resolver = context.getContentResolver();
 
         // Lookup the group
@@ -105,8 +103,8 @@ public class GpgContactManager {
      * @param account The username for the account
      * @param rawContacts The list of contacts to update
      */
-    public static synchronized void addContacts(Context context, String account,
-            List<RawGpgContact> rawContacts, long groupId) {
+    public static synchronized void addContacts(Context context, Account account,
+            List<RawGpgContact> rawContacts) {
         final ContentResolver resolver = context.getContentResolver();
         final BatchOperation batchOperation = new BatchOperation(context, resolver);
         final List<RawGpgContact> newUsers = new ArrayList<RawGpgContact>();
@@ -115,7 +113,7 @@ public class GpgContactManager {
         for (final RawGpgContact rawContact : rawContacts) {
             if (!rawContact.deleted) {
                 newUsers.add(rawContact);
-                addContact(context, account, rawContact, groupId, true, batchOperation);
+                addContact(context, resolver, account, rawContact, true, batchOperation);
             }
             if (batchOperation.size() >= 50) {
                 batchOperation.execute();
@@ -137,18 +135,28 @@ public class GpgContactManager {
      * @param batchOperation allow us to batch together multiple operations into
      *            a single provider call
      */
-    public static void addContact(Context context, String accountName, RawGpgContact rawContact,
-            long groupId, boolean inSync, BatchOperation batchOperation) {
+    public static void addContact(Context context, ContentResolver resolver, Account account,
+            RawGpgContact rawContact, boolean inSync, BatchOperation batchOperation) {
 
         // Put the data in the contacts provider
         final GpgContactOperations contactOp = GpgContactOperations.newInstance(
-                context, rawContact.fingerprint, accountName, inSync, batchOperation);
+                context, rawContact.fingerprint, account.name, inSync, batchOperation);
 
         contactOp.addName(rawContact.name)
                 .addEmail(rawContact.email)
                 .addEncryptFileTo(rawContact.fingerprint, rawContact.flags)
-                .addComment(rawContact.comment)
-                .addGroupMembership(groupId);
+                .addComment(rawContact.comment);
+        long groupId = GpgContactManager.ensureGroupExists(context, account,
+                context.getString(R.string.keyring_group_name));
+        contactOp.addGroupMembership(groupId);
+        Log.v(TAG, "added " + rawContact.name + " to group " + groupId + "  flags: "
+                + rawContact.flags);
+        if (rawContact.hasSecretKey) {
+            groupId = GpgContactManager.ensureGroupExists(context, account,
+                    context.getString(R.string.secret_key_group_name));
+            contactOp.addGroupMembership(groupId);
+            Log.d(TAG, "secret key group: " + groupId);
+        }
     }
 
     public static List<RawGpgContact> getAllContacts(Context context, Account account) {

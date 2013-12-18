@@ -41,7 +41,14 @@ public class RawGpgContact {
     }
 
     public static List<RawGpgContact> fromPublicKeys() {
-        GnuPGKey[] keys = GnuPG.context.listKeys();
+        return getGnuPGKeysAsRawGpgContacts(GnuPG.context.listKeys());
+    }
+
+    public static List<RawGpgContact> fromSecretKeys() {
+        return getGnuPGKeysAsRawGpgContacts(GnuPG.context.listSecretKeys());
+    }
+
+    private static List<RawGpgContact> getGnuPGKeysAsRawGpgContacts(GnuPGKey[] keys) {
         if (keys == null)
             return new ArrayList<RawGpgContact>();
         ArrayList<RawGpgContact> list = new ArrayList<RawGpgContact>(keys.length);
