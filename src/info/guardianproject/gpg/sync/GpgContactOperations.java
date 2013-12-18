@@ -46,14 +46,15 @@ public class GpgContactOperations {
      * to the platform contacts provider.
      * 
      * @param context the Authenticator Activity context
-     * @param userId the userId of the sample SyncAdapter user object
+     * @param fingerprint the fingerprint of the OpenPGP key
      * @param accountName the username for the SyncAdapter account
      * @param isSyncOperation are we executing this as part of a sync operation?
      * @return instance of ContactOperations
      */
-    public static GpgContactOperations newInstance(Context context, String keyFpr,
+    public static GpgContactOperations newInstance(Context context, String fingerprint,
             String accountName, boolean isSyncOperation, BatchOperation batchOperation) {
-        return new GpgContactOperations(context, keyFpr, accountName, isSyncOperation, batchOperation);
+        return new GpgContactOperations(context, fingerprint, accountName, isSyncOperation,
+                batchOperation);
     }
 
     /**
@@ -79,12 +80,12 @@ public class GpgContactOperations {
         mBatchOperation = batchOperation;
     }
 
-    public GpgContactOperations(Context context, String keyFpr, String accountName,
+    public GpgContactOperations(Context context, String fingerprint, String accountName,
             boolean isSyncOperation, BatchOperation batchOperation) {
         this(context, isSyncOperation, batchOperation);
         mBackReference = mBatchOperation.size();
         mIsNewContact = true;
-        mValues.put(RawContacts.SOURCE_ID, keyFpr);
+        mValues.put(RawContacts.SOURCE_ID, fingerprint);
         mValues.put(RawContacts.ACCOUNT_TYPE, GpgContactManager.ACCOUNT_TYPE);
         mValues.put(RawContacts.ACCOUNT_NAME, accountName);
         ContentProviderOperation.Builder builder =
@@ -103,8 +104,8 @@ public class GpgContactOperations {
      * Adds a contact name. We can take either a full name ("Bob Smith") or
      * separated first-name and last-name ("Bob" and "Smith").
      * 
-     * @param name The full name of the contact - typically from an edit
-     *            form Can be null if firstName/lastName are specified.
+     * @param name The full name of the contact - typically from an edit form
+     *            Can be null if firstName/lastName are specified.
      * @return instance of ContactOperations
      */
     public GpgContactOperations addName(String name) {
@@ -209,14 +210,7 @@ public class GpgContactOperations {
         return this;
     }
 
-    /**
-     * Updates contact's email
-     * 
-     * @param email email id of the sample SyncAdapter user
-     * @param uri Uri for the existing raw contact to be updated
-     * @return instance of ContactOperations
-     */
-    public GpgContactOperations updateEmail(String email, String existingEmail, Uri uri) {
+    public GpgContactOperations updateEmail(Uri uri, String existingEmail, String email) {
         if (!TextUtils.equals(existingEmail, email)) {
             mValues.clear();
             mValues.put(Email.DATA, email);
@@ -225,14 +219,7 @@ public class GpgContactOperations {
         return this;
     }
 
-    /**
-     * Updates contact's keyfingerprint
-     * 
-     * @param keyfpr
-     * @param uri Uri for the existing raw contact to be updated
-     * @return instance of ContactOperations
-     */
-    public GpgContactOperations updateFingerprint(String keyfpr, String existingKeyfpr, Uri uri) {
+    public GpgContactOperations updateFingerprint(Uri uri, String existingKeyfpr, String keyfpr) {
         if (!TextUtils.equals(existingKeyfpr, keyfpr)) {
             mValues.clear();
             mValues.put(EncryptFileTo.FINGERPRINT, keyfpr);
@@ -241,14 +228,7 @@ public class GpgContactOperations {
         return this;
     }
 
-    /**
-     * Updates contact's comment
-     * 
-     * @param comment
-     * @param uri Uri for the existing raw contact to be updated
-     * @return instance of ContactOperations
-     */
-    public GpgContactOperations updateComment(String comment, String existingComment, Uri uri) {
+    public GpgContactOperations updateComment(Uri uri, String existingComment, String comment) {
         if (!TextUtils.equals(existingComment, comment)) {
             mValues.clear();
             mValues.put(Note.NOTE, comment);
@@ -279,7 +259,7 @@ public class GpgContactOperations {
         return this;
     }
 
-    public GpgContactOperations updateDirtyFlag(boolean isDirty, Uri uri) {
+    public GpgContactOperations updateDirtyFlag(Uri uri, boolean isDirty) {
         int isDirtyValue = isDirty ? 1 : 0;
         mValues.clear();
         mValues.put(RawContacts.DIRTY, isDirtyValue);
@@ -287,14 +267,7 @@ public class GpgContactOperations {
         return this;
     }
 
-    /**
-     * Updates contact's profile action
-     * 
-     * @param userId sample SyncAdapter user id
-     * @param uri Uri for the existing raw contact to be updated
-     * @return instance of ContactOperations
-     */
-    public GpgContactOperations updateProfileAction(Integer userId, Uri uri) {
+    public GpgContactOperations updateProfileAction(Uri uri, Integer userId) {
         // TODO
         // mValues.clear();
         // mValues.put(EncryptFileTo.DATA_PID, userId);
