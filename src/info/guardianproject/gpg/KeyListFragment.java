@@ -173,12 +173,7 @@ public class KeyListFragment extends SherlockFragment {
             mFilterInfo.setText(getString(R.string.filterInfo_format, searchString));
         }
 
-        if (action == null || !action.equals(Apg.Intent.SELECT_SECRET_KEY))
-            mBaseAdapter = new KeyListContactsAdapter(mListView, action, searchString,
-                    selectedKeyIds);
-        else
-            mBaseAdapter = new KeyListGnuPGKeyAdapter(mListView, action, searchString,
-                    selectedKeyIds);
+        mBaseAdapter = new KeyListContactsAdapter(mListView, action, searchString, selectedKeyIds);
         mListView.setAdapter(mBaseAdapter);
 
         if (selectedKeyIds != null) {

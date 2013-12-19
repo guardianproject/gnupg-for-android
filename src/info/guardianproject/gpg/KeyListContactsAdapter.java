@@ -21,6 +21,8 @@ import info.guardianproject.gpg.sync.GpgContactManager;
 import info.guardianproject.gpg.sync.RawGpgContact;
 
 import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.List;
 
 import android.content.Context;
 import android.util.Log;
@@ -41,8 +43,8 @@ public class KeyListContactsAdapter extends BaseAdapter {
 
     private RawGpgContact[] mContacts;
 
-    public KeyListContactsAdapter(ListView parent, String action,
-            String searchString, long selectedKeyIds[]) {
+    public KeyListContactsAdapter(ListView parent, String action, String searchString,
+            long selectedKeyIds[]) {
         Context c = parent.getContext();
         mParent = parent;
         mSearchString = searchString;
@@ -50,14 +52,20 @@ public class KeyListContactsAdapter extends BaseAdapter {
 
         mInflater = (LayoutInflater) c.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-        if (action == null || !action.equals(Apg.Intent.SELECT_SECRET_KEY))
-            mContacts = GpgContactManager.getAllContacts(c, GpgApplication.mSyncAccount).toArray(new RawGpgContact[0]);
-        //else
-            //mContacts = GnuPG.context.listSecretKeys();
-        // TODO method for putting keyserver queries into GnuPGKey[] 
-        //{
-        //GnuPGKey[] mContacts = GnuPG.context.generateEmptyKeyArray(withLengthOf);
-        //}
+        List<RawGpgContact> contacts = GpgContactManager.getAllContacts(c,
+                GpgApplication.mSyncAccount);
+        if (action == null || !action.equals(Apg.Intent.SELECT_SECRET_KEY)) {
+            Log.v(TAG, "showing all keys");
+            mContacts = contacts.toArray(new RawGpgContact[contacts.size()]);
+        } else {
+            Log.v(TAG, "showing only secret keys");
+            // TODO this should be implemented using the Group secret_key_group_name
+            List<RawGpgContact> secretKeys = new ArrayList<RawGpgContact>();
+            for (RawGpgContact r : contacts)
+                if (r.isSecret || r.hasSecretKey)
+                    secretKeys.add(r);
+            mContacts = secretKeys.toArray(new RawGpgContact[secretKeys.size()]);
+        }
         if (mContacts == null) {
             Log.e(TAG, "keyArray is null");
         }
