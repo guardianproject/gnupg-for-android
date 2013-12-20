@@ -27,14 +27,11 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 
-public class MainActivity extends SherlockFragmentActivity
-        implements TabListener,
-        OnPageChangeListener,
-        KeyListFragment.OnKeysSelectedListener {
+public class MainActivity extends SherlockFragmentActivity implements TabListener,
+        OnPageChangeListener, KeyListFragment.OnKeysSelectedListener {
     private final static String TAG = "MainActivity";
 
     private static final String TAB_POSITION = "position";
-    private ViewPager pager = null;
     private final int INSTALL_COMPLETE = 0x00000000;
     private final int SHOW_WIZARD = 0x00000001;
 
@@ -48,6 +45,18 @@ public class MainActivity extends SherlockFragmentActivity
                     MINUTES_PER_HOUR *
                     SECONDS_PER_MINUTE *
                     MILLISECONDS_PER_SECOND;
+
+    private ViewPager mPager = null;
+
+    private static class Tabs {
+        public static final int PUBLIC_KEYS = 0;
+        public static final int SECRET_KEYS = 1;
+        public static final int FIND_KEYS = 2;
+        public static final int length = 3;
+    }
+
+    KeyListFragment tabFragments[] = new KeyListFragment[Tabs.length];
+    int mCurrentTab;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -85,12 +94,12 @@ public class MainActivity extends SherlockFragmentActivity
         }
 
         setContentView(R.layout.main_activity);
-        pager = (ViewPager) findViewById(R.id.main_pager);
+        mPager = (ViewPager) findViewById(R.id.main_pager);
         FragmentManager mgr = getSupportFragmentManager();
         if (mgr == null)
             Log.e(TAG, "getSupportFragmentManager returned null wtf!");
-        pager.setAdapter(new MainPagerAdapter(mgr));
-        pager.setOnPageChangeListener(this);
+        mPager.setAdapter(new MainPagerAdapter(mgr));
+        mPager.setOnPageChangeListener(this);
 
         ActionBar bar = getSupportActionBar();
         bar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
@@ -135,8 +144,8 @@ public class MainActivity extends SherlockFragmentActivity
     public void onRestoreInstanceState(Bundle state) {
         super.onRestoreInstanceState(state);
 
-        if (pager != null && state != null) {
-            pager.setCurrentItem(state.getInt(TAB_POSITION));
+        if (mPager != null && state != null) {
+            mPager.setCurrentItem(state.getInt(TAB_POSITION));
         }
     }
 
@@ -144,8 +153,8 @@ public class MainActivity extends SherlockFragmentActivity
     public void onSaveInstanceState(Bundle state) {
         super.onSaveInstanceState(state);
 
-        if (pager != null && state != null) {
-            state.putInt(TAB_POSITION, pager.getCurrentItem());
+        if (mPager != null && state != null) {
+            state.putInt(TAB_POSITION, mPager.getCurrentItem());
         }
     }
 
@@ -157,7 +166,7 @@ public class MainActivity extends SherlockFragmentActivity
     @Override
     public void onTabSelected(Tab tab, FragmentTransaction ft) {
         Integer position = (Integer) tab.getTag();
-        pager.setCurrentItem(position);
+        mPager.setCurrentItem(position);
     }
 
     @Override
@@ -221,7 +230,7 @@ public class MainActivity extends SherlockFragmentActivity
 
         @Override
         public int getCount() {
-            return (3);
+            return (Tabs.length);
         }
 
         @Override
@@ -234,13 +243,13 @@ public class MainActivity extends SherlockFragmentActivity
             final String EXTRA_INTENT_VERSION = "intentVersion";
             extras.putString(EXTRA_INTENT_VERSION, VERSION);
             switch (position) {
-                case 0:
+                case Tabs.PUBLIC_KEYS:
                     args.putString("action", Action.SHOW_PUBLIC_KEYS);
                     break;
-                case 1:
+                case Tabs.SECRET_KEYS:
                     args.putString("action", Action.SHOW_SECRET_KEYS);
                     break;
-                case 2:
+                case Tabs.FIND_KEYS:
                     args.putString("action", Action.FIND_KEYS);
                     break;
                 default:
@@ -248,6 +257,7 @@ public class MainActivity extends SherlockFragmentActivity
             }
             args.putBundle("extras", extras);
             frag.setArguments(args);
+            tabFragments[position] = frag;
             return frag;
         }
     }
