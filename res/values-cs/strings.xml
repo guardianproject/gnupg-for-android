@@ -21,7 +21,6 @@
   <string name="title_import_keys">Import klíčů</string>
   <string name="title_export_keys">Export klíčů</string>
   <string name="title_receive_keys">Přijmout klíče</string>
-  <string name="title_search_keys">Vyhledat klíče</string>
   <string name="title_error">Chyba</string>
   <string name="title_settings">Nastavení</string>
   <string name="verify_signature">Ověřit podpis</string>

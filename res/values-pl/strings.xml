@@ -21,7 +21,6 @@
   <string name="title_import_keys">Importuj klucze</string>
   <string name="title_export_keys">Eksportowanie Kluczy</string>
   <string name="title_receive_keys">Odbierz Klucze</string>
-  <string name="title_search_keys">Przeszukaj klucze</string>
   <string name="title_error">Błąd</string>
   <string name="title_settings">Ustawienia</string>
   <string name="verify_signature">Weryfikuj Sygnaturę</string>

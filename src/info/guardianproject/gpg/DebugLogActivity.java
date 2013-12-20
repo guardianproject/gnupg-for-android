@@ -117,19 +117,6 @@ public class DebugLogActivity extends FragmentActivity implements OnCreateContex
             case R.id.menu_create_key:
                 startActivity(new Intent(this, CreateKeyActivity.class));
                 return true;
-            case R.id.menu_search_keys:
-                alert.setTitle("Search Keys");
-                alert.setPositiveButton("Search", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int whichButton) {
-                        Intent intent = new Intent(getApplicationContext(),
-                                SearchKeysActivity.class);
-                        intent.putExtra(Intent.EXTRA_TEXT, input.getText().toString());
-                        startActivity(intent);
-                    }
-                });
-                alert.show();
-                return true;
             case R.id.menu_receive_key:
                 alert.setTitle(R.string.receive_key);
                 alert.setMessage(R.string.receive_key_message);

@@ -30,11 +30,6 @@
         android:showAsAction="ifRoom|withText"
         android:title="@string/title_create_key"/>
     <item
-        android:id="@+id/menu_search_keys"
-        android:icon="@android:drawable/ic_menu_search"
-        android:showAsAction="ifRoom|withText"
-        android:title="@string/title_search_keys"/>
-    <item
         android:id="@+id/menu_change_passphrase"
         android:showAsAction="ifRoom|withText"
         android:title="@string/title_change_passphrase"/>

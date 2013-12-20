@@ -39,7 +39,6 @@
         <activity android:name=".DebugLogActivity" />
         <activity android:name=".FirstRunSetupActivity" />
         <activity android:name=".GpgPreferenceActivity" />
-        <activity android:name=".SearchKeysActivity" />
         <activity
             android:name=".DecryptActivity"
             android:excludeFromRecents="true"
