@@ -16,6 +16,7 @@
 
 package info.guardianproject.gpg;
 
+import info.guardianproject.gpg.GpgApplication.Action;
 import info.guardianproject.gpg.apg_compat.Apg;
 import info.guardianproject.gpg.sync.GpgContactManager;
 import info.guardianproject.gpg.sync.RawGpgContact;
@@ -54,10 +55,12 @@ public class KeyListContactsAdapter extends BaseAdapter {
 
         List<RawGpgContact> contacts = GpgContactManager.getAllContacts(c,
                 GpgApplication.mSyncAccount);
-        if (action == null || !action.equals(Apg.Intent.SELECT_SECRET_KEY)) {
+        if (action == null || action.equals(Action.SHOW_PUBLIC_KEYS)
+                || action.equals(Action.SELECT_PUBLIC_KEYS)) {
             Log.v(TAG, "showing all keys");
             mContacts = contacts.toArray(new RawGpgContact[contacts.size()]);
-        } else {
+        } else if (action.equals(Action.SHOW_SECRET_KEYS)
+                || action.equals(Action.SELECT_SECRET_KEYS)) {
             Log.v(TAG, "showing only secret keys");
             // TODO this should be implemented using the Group secret_key_group_name
             List<RawGpgContact> secretKeys = new ArrayList<RawGpgContact>();

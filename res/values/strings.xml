@@ -22,6 +22,8 @@
     <string name="title_import_keys">Import Keys</string>
     <string name="title_export_keys">Export Keys</string>
     <string name="title_receive_keys">Receive Keys</string>
+    <string name="title_public_keys">Public Keys</string>
+    <string name="title_secret_keys">Secret Keys</string>
     <string name="title_change_passphrase">Change Passphrase</string>
     <string name="title_error">Error</string>
     <string name="title_settings">Settings</string>

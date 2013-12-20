@@ -1,6 +1,7 @@
 
 package info.guardianproject.gpg;
 
+import info.guardianproject.gpg.GpgApplication.Action;
 import info.guardianproject.gpg.apg_compat.Apg;
 import info.guardianproject.gpg.sync.GpgContactManager;
 import android.accounts.Account;
@@ -96,10 +97,10 @@ public class MainActivity extends SherlockFragmentActivity
         ActionBar bar = getSupportActionBar();
         bar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
         bar.addTab(bar.newTab()
-                .setText("Public Keys")
+                .setText(R.string.title_public_keys)
                 .setTabListener(this).setTag(0));
         bar.addTab(bar.newTab()
-                .setText("Private Keys")
+                .setText(R.string.title_secret_keys)
                 .setTabListener(this).setTag(1));
     }
 
@@ -226,23 +227,16 @@ public class MainActivity extends SherlockFragmentActivity
             KeyListFragment frag = new KeyListFragment();
             Bundle args = new Bundle();
             Bundle extras = new Bundle();
-            // TODO this should use GnuPG.context.listKeys() and
-            // .listSecretKeys()
             final String VERSION = "1";
             final String EXTRA_INTENT_VERSION = "intentVersion";
+            extras.putString(EXTRA_INTENT_VERSION, VERSION);
             switch (position) {
-                case 0: // public keys
-                {
-                    args.putString("action", Apg.Intent.SELECT_PUBLIC_KEYS);
-                    extras.putString(EXTRA_INTENT_VERSION, VERSION);
+                case 0:
+                    args.putString("action", Action.SHOW_PUBLIC_KEYS);
                     break;
-                }
-                case 1: // private keys
-                {
-                    args.putString("action", Apg.Intent.SELECT_SECRET_KEY);
-                    extras.putString(EXTRA_INTENT_VERSION, VERSION);
+                case 1:
+                    args.putString("action", Action.SHOW_SECRET_KEYS);
                     break;
-                }
                 default:
                     return null;
             }

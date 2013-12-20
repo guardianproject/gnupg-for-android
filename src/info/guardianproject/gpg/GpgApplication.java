@@ -52,6 +52,14 @@ public class GpgApplication extends Application {
         System.loadLibrary("gpgme");
     }
 
+    public static class Action {
+        public static final String SHOW_PUBLIC_KEYS = "info.guardianproject.gpg.SHOW_PUBLIC_KEYS";
+        public static final String SHOW_SECRET_KEYS = "info.guardianproject.gpg.SHOW_SECRET_KEYS";
+        public static final String SELECT_PUBLIC_KEYS = "info.guardianproject.gpg.SELECT_PUBLIC_KEYS";
+        public static final String SELECT_SECRET_KEYS = "info.guardianproject.gpg.SELECT_SECRET_KEYS";
+        public static final String FIND_KEYS = "info.guardianproject.gpg.FIND_KEYS";
+    }
+
     @Override
     public void onCreate() {
         Log.i(TAG, "onCreate");

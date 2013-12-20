@@ -18,6 +18,7 @@
 
 package info.guardianproject.gpg;
 
+import info.guardianproject.gpg.GpgApplication.Action;
 import info.guardianproject.gpg.apg_compat.Apg;
 
 import java.util.Vector;
@@ -92,11 +93,11 @@ public class KeyListFragment extends SherlockFragment {
         mListView = (ListView) getView().findViewById(R.id.list);
 
         String action = getArguments().getString("action");
-        if (action == null || action.equals(""))
+        if (action == null) {
             mListView.setChoiceMode(ListView.CHOICE_MODE_NONE);
-        else if (action.equals(Apg.Intent.SELECT_PUBLIC_KEYS))
+        } else if (action.equals(Action.SELECT_PUBLIC_KEYS) || action.equals(Action.FIND_KEYS)) {
             mListView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
-        else if (action.equals(Apg.Intent.SELECT_SECRET_KEY)) {
+        } else if (action.equals(Action.SELECT_SECRET_KEYS)) {
             mListView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
             mListView.setOnItemClickListener(new OnItemClickListener() {
                 @Override
@@ -105,6 +106,8 @@ public class KeyListFragment extends SherlockFragment {
                     mCallback.onKeySelected(id, Apg.userId(userId));
                 }
             });
+        } else {
+            mListView.setChoiceMode(ListView.CHOICE_MODE_NONE);
         }
 
         mOkButton = (Button) getView().findViewById(R.id.btn_ok);

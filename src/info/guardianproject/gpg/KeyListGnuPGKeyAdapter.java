@@ -27,6 +27,7 @@ import android.widget.TextView;
 
 import com.freiheit.gnupg.GnuPGKey;
 
+import info.guardianproject.gpg.GpgApplication.Action;
 import info.guardianproject.gpg.apg_compat.Apg;
 
 import java.math.BigInteger;
@@ -51,10 +52,13 @@ public class KeyListGnuPGKeyAdapter extends BaseAdapter {
         mInflater = (LayoutInflater) parent.getContext().getSystemService(
                 Context.LAYOUT_INFLATER_SERVICE);
 
-        if (action == null || !action.equals(Apg.Intent.SELECT_SECRET_KEY))
+        if (action == null || action.equals(Action.SHOW_PUBLIC_KEYS)
+                || action.equals(Action.SELECT_PUBLIC_KEYS)) {
             mKeyArray = GnuPG.context.listKeys();
-        else
+        } else if (action.equals(Action.SHOW_SECRET_KEYS)
+                || action.equals(Action.SELECT_SECRET_KEYS)) {
             mKeyArray = GnuPG.context.listSecretKeys();
+        }
         if (mKeyArray == null) {
             Log.e(TAG, "keyArray is null");
         }
