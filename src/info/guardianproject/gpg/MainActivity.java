@@ -17,6 +17,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.actionbarsherlock.app.ActionBar;
@@ -24,11 +25,12 @@ import com.actionbarsherlock.app.ActionBar.Tab;
 import com.actionbarsherlock.app.ActionBar.TabListener;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
+import com.actionbarsherlock.widget.SearchView;
+import com.actionbarsherlock.widget.SearchView.OnQueryTextListener;
 
 public class MainActivity extends SherlockFragmentActivity implements TabListener,
-        OnPageChangeListener, KeyListFragment.OnKeysSelectedListener {
+        OnPageChangeListener, OnQueryTextListener, KeyListFragment.OnKeysSelectedListener {
     private final static String TAG = "MainActivity";
 
     private static final String TAB_POSITION = "position";
@@ -57,6 +59,8 @@ public class MainActivity extends SherlockFragmentActivity implements TabListene
 
     KeyListFragment tabFragments[] = new KeyListFragment[Tabs.length];
     int mCurrentTab;
+    String mCurrentSearchString;
+    SearchView mSearchView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -123,6 +127,11 @@ public class MainActivity extends SherlockFragmentActivity implements TabListene
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getSupportMenuInflater().inflate(R.menu.main_activity, menu);
+        MenuItem item = menu.findItem(R.id.search);
+        mSearchView = new SearchView(this);
+        mSearchView.setOnQueryTextListener(this);
+        mSearchView.setIconifiedByDefault(true);
+        item.setActionView(mSearchView);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -292,5 +301,41 @@ public class MainActivity extends SherlockFragmentActivity implements TabListene
     @Override
     public void onKeysSelected(long[] selectedKeyIds, String[] selectedUserIds) {
         // no op
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        // only FIND_KEYS really needs an actual Submit, PUBLIC_KEYS/SECRET_KEYS
+        // are handled in onQueryTextChange()
+        if (mPager.getCurrentItem() != Tabs.FIND_KEYS)
+            return false;
+        if (!query.equals(mCurrentSearchString)) {
+            if (TextUtils.isEmpty(query))
+                mCurrentSearchString = null;
+            else
+                mCurrentSearchString = query;
+            // tabFragments[Tabs.FIND_KEYS].mKeyserverAdapter.getFilter().filter(mCurrentSearchString);
+        }
+        return true;
+    }
+// TODO http://www.survivingwithandroid.com/2012/10/android-listview-custom-filter-and.html
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        mCurrentSearchString = !TextUtils.isEmpty(newText) ? newText : null;
+        switch (mPager.getCurrentItem()) {
+            case Tabs.PUBLIC_KEYS:
+                // TODO mAdapter.getFilter().filter(mCurrentSearchString);
+                // tabFragments[Tabs.PUBLIC_KEYS].mShowKeysAdapter.getFilter().filter(mCurrentSearchString);
+                break;
+            case Tabs.SECRET_KEYS:
+                // TODO mAdapter.getFilter().filter(mCurrentSearchString);
+                // tabFragments[Tabs.SECRET_KEYS].mShowKeysAdapter.getFilter().filter(mCurrentSearchString);
+                break;
+            case Tabs.FIND_KEYS:
+                // TODO mAdapter.getFilter().filter(mCurrentSearchString);
+                break;
+            default:
+        }
+        return true;
     }
 }

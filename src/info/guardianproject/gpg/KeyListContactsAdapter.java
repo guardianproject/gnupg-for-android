@@ -17,7 +17,6 @@
 package info.guardianproject.gpg;
 
 import info.guardianproject.gpg.GpgApplication.Action;
-import info.guardianproject.gpg.apg_compat.Apg;
 import info.guardianproject.gpg.sync.GpgContactManager;
 import info.guardianproject.gpg.sync.RawGpgContact;
 
@@ -31,10 +30,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ListView;
 import android.widget.TextView;
 
-public class KeyListContactsAdapter extends BaseAdapter {
+public class KeyListContactsAdapter extends BaseAdapter implements Filterable {
     public static final String TAG = "KeyListContactsAdapter";
 
     protected LayoutInflater mInflater;
@@ -173,5 +174,11 @@ public class KeyListContactsAdapter extends BaseAdapter {
         status.setEnabled(usable);
 
         return view;
+    }
+
+    @Override
+    public Filter getFilter() {
+        // TODO Auto-generated method stub
+        return null;
     }
 }
