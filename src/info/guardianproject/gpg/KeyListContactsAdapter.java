@@ -149,7 +149,7 @@ public class KeyListContactsAdapter extends BaseAdapter {
         }
 
         if (usable)
-            status.setText(R.string.usable);
+            status.setText(""); // default state
         else if (key.isDisabled)
             status.setText(R.string.disabled);
         else if (key.isExpired)

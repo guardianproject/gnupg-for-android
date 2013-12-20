@@ -98,7 +98,7 @@
             android:layout_height="wrap_content"
             android:text="@string/expired"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textStyle="italic" />
+            android:textStyle="bold" />
     </LinearLayout>
 
 </LinearLayout>
