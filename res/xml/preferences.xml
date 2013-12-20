@@ -7,7 +7,7 @@
         android:title="@string/pref_start_boot_title" />
 
     <EditTextPreference
-        android:defaultValue="200.144.121.45"
+        android:defaultValue="ipv4.pool.sks-keyservers.net"
         android:key="@string/pref_keyserver"
         android:summary="@string/pref_keyserver_summary"
         android:title="@string/pref_keyserver_title" />

@@ -100,6 +100,9 @@ public class MainActivity extends SherlockFragmentActivity
         bar.addTab(bar.newTab()
                 .setText(R.string.title_secret_keys)
                 .setTabListener(this).setTag(1));
+        bar.addTab(bar.newTab()
+                .setText(R.string.title_find_keys)
+                .setTabListener(this).setTag(2));
     }
 
     @Override
@@ -178,6 +181,7 @@ public class MainActivity extends SherlockFragmentActivity
                 Log.e(TAG, "AccountManager is null");
                 return;
             }
+
             // the main account name, this should be the user's primary email
             String account_name = "gnupg-test";
             // password can always be something fake, we don't need it
@@ -217,11 +221,12 @@ public class MainActivity extends SherlockFragmentActivity
 
         @Override
         public int getCount() {
-            return (2);
+            return (3);
         }
 
         @Override
         public Fragment getItem(int position) {
+            Log.v(TAG, "getItem " + position);
             KeyListFragment frag = new KeyListFragment();
             Bundle args = new Bundle();
             Bundle extras = new Bundle();
@@ -234,6 +239,9 @@ public class MainActivity extends SherlockFragmentActivity
                     break;
                 case 1:
                     args.putString("action", Action.SHOW_SECRET_KEYS);
+                    break;
+                case 2:
+                    args.putString("action", Action.FIND_KEYS);
                     break;
                 default:
                     return null;

@@ -45,7 +45,8 @@ public class KeyListFragment extends SherlockListFragment {
     public static final String TAG = "KeyListFragment";
 
     protected ListView mListView;
-
+    protected ListAdapter mShowKeysAdapter = null;
+    protected ListAdapter mKeyserverAdapter = null;
     private String mCurrentAction;
     private Bundle mCurrentExtras;
 
@@ -133,10 +134,16 @@ public class KeyListFragment extends SherlockListFragment {
         }
 
         if (action.equals(Action.FIND_KEYS)) {
-            //setListAdapter(new KeyListKeyserverAdapter(mListView, searchString));
+            Log.d(TAG, "action: " + Action.FIND_KEYS);
+            if (mKeyserverAdapter == null)
+                mKeyserverAdapter = new KeyListKeyserverAdapter(mListView, searchString);
+            setListAdapter(mKeyserverAdapter);
         } else {
-            setListAdapter(new KeyListContactsAdapter(mListView, action, searchString,
-                    selectedKeyIds));
+            Log.d(TAG, "action: other");
+            if (mShowKeysAdapter == null)
+                mShowKeysAdapter = new KeyListContactsAdapter(mListView, action, searchString,
+                        selectedKeyIds);
+            setListAdapter(mShowKeysAdapter);
             if (selectedKeyIds != null) {
                 ListAdapter adapter = getListAdapter();
                 for (int i = 0; i < adapter.getCount(); ++i) {

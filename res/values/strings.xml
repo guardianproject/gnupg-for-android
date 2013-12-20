@@ -12,7 +12,7 @@
     <string name="dialog_installing_msg">Setting up Gnu Privacy Guard</string>
     <string name="dialog_installing_title">Installing&#8230; (wait for it to finish!)</string>
     <string name="pref_keyserver_title">Keyserver</string>
-    <string name="pref_keyserver_summary">Which keyserver to download and publish keys to (default: hkp://keys.gnupg.net)</string>
+    <string name="pref_keyserver_summary">Which HKP keyserver to download from and publish keys to (default: ipv4.pool.sks-keyservers.net)</string>
     <string name="pref_start_boot_title">Start Daemons on Boot</string>
     <string name="pref_start_boot_summary">Starts the pinentry and dirmngr daemons when your device boots</string>
     <string name="title_decrypt_file">Decrypt File</string>
@@ -24,6 +24,7 @@
     <string name="title_receive_keys">Receive Keys</string>
     <string name="title_public_keys">Public Keys</string>
     <string name="title_secret_keys">Secret Keys</string>
+    <string name="title_find_keys">Find Keys</string>
     <string name="title_change_passphrase">Change Passphrase</string>
     <string name="title_error">Error</string>
     <string name="title_settings">Settings</string>
