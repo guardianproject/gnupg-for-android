@@ -32,44 +32,24 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.BaseAdapter;
-import android.widget.Button;
+import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
 
-import com.actionbarsherlock.app.SherlockFragment;
+import com.actionbarsherlock.app.SherlockListFragment;
 
-public class KeyListFragment extends SherlockFragment {
+public class KeyListFragment extends SherlockListFragment {
+    public static final String TAG = "KeyListFragment";
 
     protected ListView mListView;
-    protected BaseAdapter mBaseAdapter;
-    protected View mFilterLayout;
-    protected Button mClearFilterButton;
-    protected Button mOkButton;
-    protected Button mCancelButton;
-    protected TextView mFilterInfo;
-    protected View mKeyListButtonBar;
-    protected boolean mShowButtons = true;
 
     private String mCurrentAction;
     private Bundle mCurrentExtras;
 
     private OnKeysSelectedListener mCallback;
-
-    @Override
-    public View onCreateView(LayoutInflater inflater,
-            ViewGroup container,
-            Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        View result = inflater.inflate(R.layout.key_list_fragment, container, false);
-        return result;
-    }
 
     /**
      * Fragment -> Activity communication
@@ -90,7 +70,8 @@ public class KeyListFragment extends SherlockFragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mListView = (ListView) getView().findViewById(R.id.list);
+        setEmptyText(getString(R.string.search_hint));
+        mListView = getListView();
 
         String action = getArguments().getString("action");
         if (action == null) {
@@ -109,19 +90,6 @@ public class KeyListFragment extends SherlockFragment {
         } else {
             mListView.setChoiceMode(ListView.CHOICE_MODE_NONE);
         }
-
-        mOkButton = (Button) getView().findViewById(R.id.btn_ok);
-        mOkButton.setOnClickListener(okClicked);
-
-        mCancelButton = (Button) getView().findViewById(R.id.btn_cancel);
-        mCancelButton.setOnClickListener(cancelClicked);
-        mFilterLayout = getView().findViewById(R.id.layout_filter);
-        mFilterInfo = (TextView) mFilterLayout.findViewById(R.id.filterInfo);
-        mClearFilterButton = (Button) mFilterLayout.findViewById(R.id.btn_clear);
-        mKeyListButtonBar = getView().findViewById(R.id.keyListButtonBar);
-
-        mClearFilterButton.setOnClickListener(clearFilterclicked);
-        updateButtons();
         registerReceiver();
         handleIntent(action, getArguments().getBundle("extras"));
     }
@@ -130,11 +98,6 @@ public class KeyListFragment extends SherlockFragment {
     public void onDestroy() {
         super.onDestroy();
         unregisterReceiver();
-    }
-
-    public void toggleButtons(boolean visible) {
-        mShowButtons = visible;
-        updateButtons();
     }
 
     public void handleIntent(String action, Bundle extras) {
@@ -169,72 +132,25 @@ public class KeyListFragment extends SherlockFragment {
             }
         }
 
-        if (searchString == null) {
-            mFilterLayout.setVisibility(View.GONE);
+        if (action.equals(Action.FIND_KEYS)) {
+            //setListAdapter(new KeyListKeyserverAdapter(mListView, searchString));
         } else {
-            mFilterLayout.setVisibility(View.VISIBLE);
-            mFilterInfo.setText(getString(R.string.filterInfo_format, searchString));
-        }
-
-        mBaseAdapter = new KeyListContactsAdapter(mListView, action, searchString, selectedKeyIds);
-        mListView.setAdapter(mBaseAdapter);
-
-        if (selectedKeyIds != null) {
-            for (int i = 0; i < mBaseAdapter.getCount(); ++i) {
-                long keyId = mBaseAdapter.getItemId(i);
-                for (int j = 0; j < selectedKeyIds.length; ++j) {
-                    if (keyId == selectedKeyIds[j]) {
-                        mListView.setItemChecked(i, true);
-                        break;
+            setListAdapter(new KeyListContactsAdapter(mListView, action, searchString,
+                    selectedKeyIds));
+            if (selectedKeyIds != null) {
+                ListAdapter adapter = getListAdapter();
+                for (int i = 0; i < adapter.getCount(); ++i) {
+                    long keyId = adapter.getItemId(i);
+                    for (int j = 0; j < selectedKeyIds.length; ++j) {
+                        if (keyId == selectedKeyIds[j]) {
+                            mListView.setItemChecked(i, true);
+                            break;
+                        }
                     }
                 }
             }
         }
     }
-
-    private void updateButtons() {
-        if (mOkButton != null && mCancelButton != null) {
-            mOkButton.setVisibility(mShowButtons ? View.VISIBLE : View.INVISIBLE);
-            mCancelButton.setVisibility(mShowButtons ? View.VISIBLE : View.INVISIBLE);
-            mKeyListButtonBar.setVisibility(mShowButtons ? View.VISIBLE : View.INVISIBLE);
-        }
-    }
-
-    OnClickListener cancelClicked = new OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            mCallback.onKeySelectionCanceled();
-        }
-    };
-    OnClickListener okClicked = new OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            Vector<Long> keys = new Vector<Long>();
-            Vector<String> userIds = new Vector<String>();
-            for (int i = 0; i < mListView.getCount(); ++i) {
-                if (mListView.isItemChecked(i)) {
-                    keys.add(mListView.getItemIdAtPosition(i));
-                    String userId[] = (String[]) mListView.getItemAtPosition(i);
-                    userIds.add(Apg.userId(userId));
-                }
-            }
-            long selectedKeyIds[] = new long[keys.size()];
-            for (int i = 0; i < keys.size(); ++i) {
-                selectedKeyIds[i] = keys.get(i);
-            }
-
-            String userIdArray[] = new String[0];
-            mCallback.onKeysSelected(selectedKeyIds, userIds.toArray(userIdArray));
-        }
-    };
-
-    OnClickListener clearFilterclicked = new OnClickListener() {
-
-        @Override
-        public void onClick(View v) {
-            handleIntent("", new Bundle());
-        }
-    };
 
     public interface OnKeysSelectedListener {
         public void onKeySelected(long id, String userId);

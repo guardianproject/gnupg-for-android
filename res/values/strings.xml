@@ -50,6 +50,7 @@
     <string name="no_key_specified_using_this_key">No one was specified as the recipient, so using the default:</string>
     <string name="sign_file">Sign file?</string>
     <string name="changing_passphrase_for_format">Changing passphrase for %s</string>
+    <string name="search_hint">search by name, email, or key ID</string>
 
     <!-- first run wizard -->
     <string name="wizard_welcome_title">Welcome to Gnu Privacy Guard</string>

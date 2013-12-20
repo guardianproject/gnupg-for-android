@@ -2,7 +2,6 @@
 package info.guardianproject.gpg;
 
 import info.guardianproject.gpg.GpgApplication.Action;
-import info.guardianproject.gpg.apg_compat.Apg;
 import info.guardianproject.gpg.sync.GpgContactManager;
 import android.accounts.Account;
 import android.accounts.AccountManager;
@@ -32,8 +31,7 @@ public class MainActivity extends SherlockFragmentActivity
         implements TabListener,
         OnPageChangeListener,
         KeyListFragment.OnKeysSelectedListener {
-
-    private final static String TAG = MainActivity.class.getSimpleName();
+    private final static String TAG = "MainActivity";
 
     private static final String TAB_POSITION = "position";
     private ViewPager pager = null;
@@ -112,7 +110,7 @@ public class MainActivity extends SherlockFragmentActivity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        new MenuInflater(this).inflate(R.menu.main_activity, menu);
+        getSupportMenuInflater().inflate(R.menu.main_activity, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -240,7 +238,6 @@ public class MainActivity extends SherlockFragmentActivity
                 default:
                     return null;
             }
-            frag.toggleButtons(false);
             args.putBundle("extras", extras);
             frag.setArguments(args);
             return frag;
