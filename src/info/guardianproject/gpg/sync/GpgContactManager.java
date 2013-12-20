@@ -19,6 +19,7 @@ import android.provider.ContactsContract.CommonDataKinds.Email;
 import android.provider.ContactsContract.CommonDataKinds.GroupMembership;
 import android.provider.ContactsContract.CommonDataKinds.Note;
 import android.provider.ContactsContract.CommonDataKinds.StructuredName;
+import android.provider.ContactsContract.Contacts;
 import android.provider.ContactsContract.Data;
 import android.provider.ContactsContract.Groups;
 import android.provider.ContactsContract.RawContacts;
@@ -172,22 +173,23 @@ public class GpgContactManager {
                 .build();
         final String[] projection = new String[] {
                 RawContacts._ID,
+                Contacts.DISPLAY_NAME
         };
         final String[] selectionArgs = new String[] {
                 account.name
         };
         final String selection = RawContacts.ACCOUNT_TYPE + "='" + GpgContactManager.ACCOUNT_TYPE
                 + "' AND " + RawContacts.ACCOUNT_NAME + "=?";
+        final String sort = Contacts.DISPLAY_NAME + " COLLATE LOCALIZED ASC";
 
         final Cursor c = resolver.query(contentUri,
                 projection,
                 selection,
                 selectionArgs,
-                null);
+                sort);
         try {
             while (c.moveToNext()) {
                 RawGpgContact rawContact = getRawGpgContact(context, c.getLong(0));
-                Log.i(TAG, "Contact Name: " + rawContact.name);
                 contacts.add(rawContact);
             }
         } finally {
@@ -247,7 +249,7 @@ public class GpgContactManager {
                     fingerprint = c.getString(1); // RawContacts.SOURCE_ID
                     flags = c.getShort(6); // Data.DATA4
                 } else if (mimeType.equals(GroupMembership.CONTENT_ITEM_TYPE)) {
-                    Log.d(TAG, "group item:" + c.getString(3)); // Data.DATA1
+                    //Log.d(TAG, "group item:" + c.getString(3)); // Data.DATA1
                 } else {
                     Log.d(TAG, "GOT UNKNOWN DATA: " + mimeType);
                 }
