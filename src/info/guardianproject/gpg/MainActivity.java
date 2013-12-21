@@ -1,6 +1,10 @@
 
 package info.guardianproject.gpg;
 
+import java.util.List;
+
+import org.openintents.openpgp.keyserver.KeyServer.KeyInfo;
+
 import info.guardianproject.gpg.GpgApplication.Action;
 import info.guardianproject.gpg.sync.GpgContactManager;
 import android.accounts.Account;
@@ -15,10 +19,12 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.app.LoaderManager;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.text.TextUtils;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.ActionBar.Tab;
@@ -50,7 +56,7 @@ public class MainActivity extends SherlockFragmentActivity implements TabListene
 
     private ViewPager mPager = null;
 
-    private static class Tabs {
+    static class Tabs {
         public static final int PUBLIC_KEYS = 0;
         public static final int SECRET_KEYS = 1;
         public static final int FIND_KEYS = 2;
@@ -59,7 +65,8 @@ public class MainActivity extends SherlockFragmentActivity implements TabListene
 
     KeyListFragment tabFragments[] = new KeyListFragment[Tabs.length];
     int mCurrentTab;
-    String mCurrentSearchString;
+    static String mCurrentSearchString;
+    String mPreviousSearchString;
     SearchView mSearchView;
 
     @Override
@@ -309,16 +316,24 @@ public class MainActivity extends SherlockFragmentActivity implements TabListene
         // are handled in onQueryTextChange()
         if (mPager.getCurrentItem() != Tabs.FIND_KEYS)
             return false;
-        if (!query.equals(mCurrentSearchString)) {
-            if (TextUtils.isEmpty(query))
-                mCurrentSearchString = null;
-            else
-                mCurrentSearchString = query;
-            // tabFragments[Tabs.FIND_KEYS].mKeyserverAdapter.getFilter().filter(mCurrentSearchString);
+        if (mCurrentSearchString.equals(mPreviousSearchString))
+            return true;
+
+        if (query.length() < 3)
+            Toast.makeText(this, R.string.error_short_keyserver_query, Toast.LENGTH_LONG).show();
+        else {
+            KeyListFragment frag = tabFragments[Tabs.FIND_KEYS];
+            frag.restartLoader();
+            // hide the previous list and show the spinner:
+            frag.setListShown(false);
         }
+        mPreviousSearchString = mCurrentSearchString;
+
         return true;
     }
-// TODO http://www.survivingwithandroid.com/2012/10/android-listview-custom-filter-and.html
+
+    // TODO
+    // http://www.survivingwithandroid.com/2012/10/android-listview-custom-filter-and.html
     @Override
     public boolean onQueryTextChange(String newText) {
         mCurrentSearchString = !TextUtils.isEmpty(newText) ? newText : null;

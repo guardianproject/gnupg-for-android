@@ -16,19 +16,12 @@
 
 package info.guardianproject.gpg;
 
-import java.math.BigInteger;
-import java.util.Locale;
+import java.util.List;
 
-import org.openintents.openpgp.keyserver.HkpKeyServer;
-import org.openintents.openpgp.keyserver.KeyServer;
-import org.openintents.openpgp.keyserver.KeyServer.InsufficientQuery;
 import org.openintents.openpgp.keyserver.KeyServer.KeyInfo;
-import org.openintents.openpgp.keyserver.KeyServer.QueryException;
-import org.openintents.openpgp.keyserver.KeyServer.TooManyResponses;
 
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
+import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -44,7 +37,6 @@ public class KeyListKeyserverAdapter extends BaseAdapter {
     protected ListView mParent;
     protected String mSearchString;
 
-    private HkpKeyServer mKeyserver;
     private KeyInfo[] mKeyArray;
 
     public KeyListKeyserverAdapter(ListView parent, String searchString) {
@@ -54,28 +46,18 @@ public class KeyListKeyserverAdapter extends BaseAdapter {
 
         mInflater = (LayoutInflater) parent.getContext().getSystemService(
                 Context.LAYOUT_INFLATER_SERVICE);
-
-        Context context = mParent.getContext();
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-        String host = prefs.getString(GpgPreferenceActivity.PREF_KEYSERVER,
-                "ipv4.pool.sks-keyservers.net");
-/*
-        mKeyserver = new HkpKeyServer(host);
-        try {
-            mKeyArray = mKeyserver.search("hans@eds.org").toArray(new KeyInfo[0]);
-        } catch (QueryException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (TooManyResponses e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (InsufficientQuery e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-*/
         if (mKeyArray == null) {
             Log.e(TAG, "keyArray is null");
+        }
+    }
+
+    void setData(List<KeyInfo> newData) {
+        if (newData == null) {
+            mKeyArray = new KeyInfo[0];
+            notifyDataSetInvalidated();
+        } else {
+            mKeyArray = newData.toArray(new KeyInfo[newData.size()]);
+            notifyDataSetChanged();
         }
     }
 
@@ -101,7 +83,6 @@ public class KeyListKeyserverAdapter extends BaseAdapter {
 
     @Override
     public Object getItem(int position) {
-        Log.v(TAG, "getItem " + position);
         KeyInfo key = mKeyArray[position];
         String[] ret = new String[3];
         ret[0] = "";
@@ -121,7 +102,6 @@ public class KeyListKeyserverAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        Log.v(TAG, "getView " + position);
         KeyInfo key = mKeyArray[position];
         View view = mInflater.inflate(R.layout.key_list_item, null);
         boolean usable = isEnabled(position);
@@ -158,13 +138,9 @@ public class KeyListKeyserverAdapter extends BaseAdapter {
         }
 
         if (usable)
-            status.setText("");
-        /*
-         * else if (key.isDisabled()) status.setText(R.string.disabled); else if
-         * (key.isExpired()) status.setText(R.string.expired); else if
-         * (key.isInvalid()) status.setText(R.string.invalid); else if
-         * (key.isRevoked()) status.setText(R.string.revoked);
-         */
+            status.setText(DateFormat.getDateFormat(mParent.getContext()).format(key.creationDate));
+        else if (key.isRevoked)
+            status.setText(R.string.revoked);
         else
             status.setText(R.string.noKey);
 

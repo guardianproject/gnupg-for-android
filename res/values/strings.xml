@@ -117,6 +117,10 @@
     <string name="error_no_pgp_content_found_format">No PGP content found in \"%s\"!</string>
     <string name="error_fingerprint_too_short_format">The fingerprint %s is too short! It must be at least 16 digits.</string>
     <string name="error_no_secret_key">There is no secret key! You need to generate or import one.</string>
+    <string name="error_insufficient_query">ERROR! Insufficient query. Try narrowing down your search</string>
+    <string name="error_too_many_responses">Too many responses! Try narrowing down your search</string>
+    <string name="error_query_failed">ERROR! Query failed, try again!</string>
+    <string name="error_short_keyserver_query">Keyserver searches must be at least 3 characters long!</string>
 
     <!-- content descriptions for accessibility -->
     <string name="folder">folder</string>

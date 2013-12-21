@@ -19,9 +19,13 @@
 package info.guardianproject.gpg;
 
 import info.guardianproject.gpg.GpgApplication.Action;
+import info.guardianproject.gpg.MainActivity.Tabs;
 import info.guardianproject.gpg.apg_compat.Apg;
 
+import java.util.List;
 import java.util.Vector;
+
+import org.openintents.openpgp.keyserver.KeyServer.KeyInfo;
 
 import android.app.Activity;
 import android.app.SearchManager;
@@ -30,6 +34,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.Loader;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.View;
@@ -38,15 +44,17 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockListFragment;
 
-public class KeyListFragment extends SherlockListFragment {
+public class KeyListFragment extends SherlockListFragment implements
+        LoaderManager.LoaderCallbacks<KeyserverResult<List<KeyInfo>>> {
     public static final String TAG = "KeyListFragment";
 
     protected ListView mListView;
     protected ListAdapter mShowKeysAdapter = null;
-    protected ListAdapter mKeyserverAdapter = null;
+    protected KeyListKeyserverAdapter mKeyserverAdapter = null;
     private String mCurrentAction;
     private Bundle mCurrentExtras;
 
@@ -72,6 +80,7 @@ public class KeyListFragment extends SherlockListFragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         setEmptyText(getString(R.string.search_hint));
+        setHasOptionsMenu(true);
         mListView = getListView();
 
         String action = getArguments().getString("action");
@@ -93,6 +102,10 @@ public class KeyListFragment extends SherlockListFragment {
         }
         registerReceiver();
         handleIntent(action, getArguments().getBundle("extras"));
+        LoaderManager lm = getLoaderManager();
+        if (action.equals(Action.FIND_KEYS) && lm.getLoader(Tabs.FIND_KEYS) != null) {
+            lm.initLoader(Tabs.FIND_KEYS, null, this);
+        }
     }
 
     @Override
@@ -188,6 +201,43 @@ public class KeyListFragment extends SherlockListFragment {
     private void unregisterReceiver() {
         Log.d("KeyListFragment", "unregister");
         LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(mBroadcastReceiver);
+    }
+
+    void restartLoader() {
+        getLoaderManager().restartLoader(Tabs.FIND_KEYS, null, this);
+    }
+
+    @Override
+    public Loader<KeyserverResult<List<KeyInfo>>> onCreateLoader(int id, Bundle args) {
+        Log.v(TAG, "Loader<List<KeyInfo>> onCreateLoader " + id);
+        Loader<KeyserverResult<List<KeyInfo>>> loader = new KeyserverLoader(getActivity());
+        // the AsyncTaskLoader won't start without this here
+        loader.forceLoad();
+        return loader;
+    }
+
+    @Override
+    public void onLoadFinished(Loader<KeyserverResult<List<KeyInfo>>> loader,
+            KeyserverResult<List<KeyInfo>> result) {
+        Log.v(TAG, "onLoadFinished");
+        List<KeyInfo> data = result.getData();
+        if (data != null) {
+            mKeyserverAdapter.setData(data);
+        } else {
+            Toast.makeText(getActivity(), result.getErrorResid(), Toast.LENGTH_LONG).show();
+            setEmptyText(getString(result.getErrorResid()));
+        }
+        if (isResumed()) {
+            setListShown(true);
+        } else {
+            setListShownNoAnimation(true);
+        }
+    }
+
+    @Override
+    public void onLoaderReset(Loader<KeyserverResult<List<KeyInfo>>> loader) {
+        Log.v(TAG, "onLoaderReset");
+        mKeyserverAdapter.setData(null);
     }
 
 }
