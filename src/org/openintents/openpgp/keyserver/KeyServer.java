@@ -19,6 +19,7 @@ package org.openintents.openpgp.keyserver;
 import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -26,6 +27,7 @@ import java.util.regex.Pattern;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 
 public abstract class KeyServer {
 
@@ -56,8 +58,8 @@ public abstract class KeyServer {
     static public class KeyInfo implements Serializable, Parcelable {
         private static final long serialVersionUID = -7797972113284992662L;
         public ArrayList<String> userIds;
-        public String revoked;
-        public Date date;
+        public boolean isRevoked;
+        public Date creationDate;
         public String fingerprint = null;
         public long keyId = 0;
         public int size;
@@ -70,7 +72,7 @@ public abstract class KeyServer {
         public static String hexFromKeyId(long keyId) {
             return String.format("%016x", keyId).toLowerCase(Locale.ENGLISH);
         }
- 
+
         public KeyInfo() {
             userIds = new ArrayList<String>();
         }
@@ -79,8 +81,8 @@ public abstract class KeyServer {
             this();
 
             in.readStringList(this.userIds);
-            this.revoked = in.readString();
-            this.date = (Date) in.readSerializable();
+            this.isRevoked = in.readByte() != 0;
+            this.creationDate = (Date) in.readSerializable();
             this.fingerprint = in.readString();
             this.keyId = in.readLong();
             this.size = in.readInt();
@@ -95,8 +97,8 @@ public abstract class KeyServer {
         @Override
         public void writeToParcel(Parcel dest, int flags) {
             dest.writeStringList(userIds);
-            dest.writeString(revoked);
-            dest.writeSerializable(date);
+            dest.writeByte((byte) (isRevoked ? 1 : 0));
+            dest.writeSerializable(creationDate);
             dest.writeString(fingerprint);
             dest.writeLong(keyId);
             dest.writeInt(size);

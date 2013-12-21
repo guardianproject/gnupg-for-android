@@ -82,9 +82,7 @@ public class KeyListKeyserverAdapter extends BaseAdapter {
     @Override
     public boolean isEnabled(int position) {
         KeyInfo key = mKeyArray[position];
-        Log.v(TAG, "isEnabled " + position + " : " + key.revoked);
-        // TODO check for expire, disabled, etc.
-        return (!key.revoked.equals(""));
+        return (!key.isRevoked);
     }
 
     @Override

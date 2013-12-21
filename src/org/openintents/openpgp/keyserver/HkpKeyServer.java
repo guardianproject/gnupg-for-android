@@ -108,7 +108,7 @@ public class HkpKeyServer extends KeyServer {
         return raw.toString(encoding);
     }
 
-    private String query(String request) throws QueryException, HttpError {
+    private String submitQuery(String request) throws QueryException, HttpError {
         InetAddress ips[];
         try {
             ips = InetAddress.getAllByName(mHost);
@@ -141,17 +141,17 @@ public class HkpKeyServer extends KeyServer {
     }
 
     @Override
-    public ArrayList<KeyInfo> search(String query) throws QueryException, TooManyResponses,
+    public ArrayList<KeyInfo> search(String searchString) throws QueryException, TooManyResponses,
             InsufficientQuery {
         ArrayList<KeyInfo> results = new ArrayList<KeyInfo>();
 
-        if (query.length() < 3) {
+        if (searchString.length() < 3) {
             throw new InsufficientQuery();
         }
 
         String encodedQuery;
         try {
-            encodedQuery = URLEncoder.encode(query, "utf8");
+            encodedQuery = URLEncoder.encode(searchString, "utf8");
         } catch (UnsupportedEncodingException e) {
             return null;
         }
@@ -159,7 +159,7 @@ public class HkpKeyServer extends KeyServer {
 
         String data = null;
         try {
-            data = query(request);
+            data = submitQuery(request);
         } catch (HttpError e) {
             if (e.getCode() == 404) {
                 return results;
@@ -174,7 +174,6 @@ public class HkpKeyServer extends KeyServer {
             }
             throw new QueryException("querying server(s) for '" + mHost + "' failed");
         }
-
         Matcher matcher = PUB_KEY_LINE.matcher(data);
         while (matcher.find()) {
             KeyInfo info = new KeyInfo();
@@ -182,12 +181,13 @@ public class HkpKeyServer extends KeyServer {
             info.algorithm = matcher.group(2);
             info.setFingerprint(matcher.group(3));
             String chunks[] = matcher.group(4).split("-");
-            info.date = new GregorianCalendar(Integer.parseInt(chunks[0]),
+            info.creationDate = new GregorianCalendar(Integer.parseInt(chunks[0]),
                     Integer.parseInt(chunks[1]), Integer.parseInt(chunks[2])).getTime();
             info.userIds = new ArrayList<String>();
-            if (matcher.group(5).startsWith("*** KEY")) {
-                info.revoked = matcher.group(5);
+            if (matcher.group(5).startsWith("*** KEY REVOKED ***")) {
+                info.isRevoked = true;
             } else {
+                info.isRevoked = false;
                 String tmp = matcher.group(5).replaceAll("<.*?>", "");
                 tmp = Html.fromHtml(tmp).toString();
                 info.userIds.add(tmp);
