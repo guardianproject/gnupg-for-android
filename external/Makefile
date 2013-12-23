@@ -116,10 +116,9 @@ libgpg-error/config.guess: config.guess
 	cp config.guess libgpg-error/config.guess
 
 libgpg-error/configure: libgpg-error/configure.ac
-	cd libgpg-error && autoreconf --install --force --verbose
+	cd libgpg-error && ./autogen.sh
 
 libgpg-error/Makefile: libgpg-error/config.sub libgpg-error/config.guess libgpg-error/configure
-	-patch -N -p1 --reject-file=- libgpg-error/m4/libtool.m4 libtool-Add-Android-Linux-support.patch
 	cd libgpg-error && \
 		./configure \
 			CC="$(CC)" \
@@ -170,7 +169,6 @@ libgcrypt/configure: libgcrypt/configure.ac
 	cd libgcrypt && ./autogen.sh
 
 libgcrypt/Makefile: libgcrypt/config.sub libgcrypt/config.guess libgcrypt/configure
-	-patch -N -p1 --reject-file=- libgcrypt/m4/libtool.m4 libtool-Add-Android-Linux-support.patch
 	cd libgcrypt && \
 		CC="$(CC)" AR="$(AR)" RANLIB=$(RANLIB) CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS)" \
 			./configure \
