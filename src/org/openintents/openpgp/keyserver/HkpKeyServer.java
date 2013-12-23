@@ -141,19 +141,41 @@ public class HkpKeyServer extends KeyServer {
     }
 
     @Override
-    public ArrayList<KeyInfo> search(String searchString) throws QueryException, TooManyResponses,
-            InsufficientQuery {
+    public ArrayList<KeyInfo> search(String searchString) throws QueryException,
+            TooManyResponses, InsufficientQuery {
         ArrayList<KeyInfo> results = new ArrayList<KeyInfo>();
 
         if (searchString.length() < 3) {
             throw new InsufficientQuery();
         }
 
+        // if its a 8 or 16 char number, format as key ID
+        if (searchString.length() >= 8)
+            try {
+                String keyIdString = null;
+                long keyId = KeyInfo.keyIdFromFingerprint(searchString);
+                if (searchString.length() == 8 ||
+                        (searchString.startsWith("0x") && searchString.length() == 10))
+                    keyIdString = String.format("0x%08x", keyId);
+                else
+                    keyIdString = String.format("0x%016x", keyId);
+                results.addAll(parseQuery(keyIdString));
+            } catch (NumberFormatException e) {
+                // not a number, pass it thru unmodified as a name/email query
+            }
+        results.addAll(parseQuery(searchString));
+        return results;
+    }
+
+    private ArrayList<KeyInfo> parseQuery(String searchString) throws QueryException,
+            TooManyResponses, InsufficientQuery {
+        ArrayList<KeyInfo> results = new ArrayList<KeyInfo>();
         String encodedQuery;
         try {
             encodedQuery = URLEncoder.encode(searchString, "utf8");
         } catch (UnsupportedEncodingException e) {
-            return null;
+            e.printStackTrace();
+            return results;
         }
         final String request = "/pks/lookup?op=index&search=" + encodedQuery;
 
