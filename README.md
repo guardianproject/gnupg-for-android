@@ -111,15 +111,13 @@ https://dev.guardianproject.info/projects/gpgandroid/issues
 We would like to target as many Android platforms as possible.  Currently
 there are two limiting APIs:
 
-* regex:
-    provided in Android 2.2, SDK android-8 and above
-* pthread_rwlock\*:
-    provided in Android 2.3, SDK android-9 and above
-* pthread_atfork
-   provided in Android 4.0, SDK android-14 and above
+* `regex` - provided in Android 2.2, SDK android-8 and above
+* `pthread_rwlock*` - provided in Android 2.3, SDK android-9 and above
+* `pthread_atfork` - provided in Android 4.0, SDK android-14 and above
 
-regex could easily be included in the build, pthread_rwlock\* would be more 
-difficult.
+regex could easily be included in the build, `pthread_rwlock\*` would be more 
+difficult. `pthread_atfork` is not really fully required, but might be in the
+future.
 
 
 ## Build Setup
@@ -136,8 +134,13 @@ On **Fedora 17 x64**:
 Install the Android NDK v9b or newer for the command line version, and the
 Android SDK for the Android app version:
 
-SDK: http://developer.android.com/sdk/
-NDK: http://developer.android.com/sdk/ndk/
+* SDK: http://developer.android.com/sdk/
+* NDK: http://developer.android.com/sdk/ndk/
+
+If you are building in Eclipse or IntelliJ, you need to also set up the
+`android-support-v7-appcompat` library project:
+
+* https://developer.android.com/tools/support-library/setup.html#libs-with-res
 
 
 ## Building

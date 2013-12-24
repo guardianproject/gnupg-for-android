@@ -8,5 +8,5 @@ fi
 
 projectname=`sed -n 's,.*name="app_name">\(.*\)<.*,\1,p' res/values/strings.xml`
 
-android update lib-project --path external/ActionBarSherlock/actionbarsherlock
+android update lib-project --path libs/appcompat
 android update project --path . --name $projectname
