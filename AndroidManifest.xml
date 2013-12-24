@@ -36,7 +36,9 @@
         android:label="@string/app_name"
         android:theme="@style/Theme.AppCompat" >
         <activity android:name=".CreateKeyActivity" />
-        <activity android:name=".DebugLogActivity" />
+        <activity
+            android:name=".DebugLogActivity"
+            android:parentActivityName=".MainActivity" />
         <activity android:name=".FirstRunSetupActivity" />
         <activity android:name=".GpgPreferenceActivity" />
         <activity
@@ -46,7 +48,8 @@
         <activity
             android:name=".EncryptFileActivity"
             android:excludeFromRecents="true"
-            android:label="@string/title_encrypt_file" />
+            android:label="@string/title_encrypt_file"
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".FirstRunWelcomeActivity"
             android:noHistory="true" />
@@ -239,7 +242,8 @@
         <activity
             android:name=".ImportFileActivity"
             android:excludeFromRecents="true"
-            android:label="@string/title_import_keys" >
+            android:label="@string/title_import_keys"
+            android:parentActivityName=".MainActivity" >
             <intent-filter>
                 <data android:mimeType="@string/pgp_keys" />
             </intent-filter>

@@ -1,6 +1,10 @@
 
 package info.guardianproject.gpg;
 
+import java.io.File;
+import java.io.OutputStream;
+import java.util.Calendar;
+
 import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -16,7 +20,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.os.Messenger;
 import android.preference.PreferenceManager;
-import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -27,13 +31,9 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.File;
-import java.io.OutputStream;
-import java.util.Calendar;
-
 import com.freiheit.gnupg.GnuPGKey;
 
-public class DebugLogActivity extends FragmentActivity implements OnCreateContextMenuListener {
+public class DebugLogActivity extends ActionBarActivity implements OnCreateContextMenuListener {
     public static final String TAG = "DebugLogActivity";
 
     private ScrollView consoleScroll;
@@ -56,6 +56,8 @@ public class DebugLogActivity extends FragmentActivity implements OnCreateContex
         setContentView(R.layout.debug_log_activity);
         consoleScroll = (ScrollView) findViewById(R.id.consoleScroll);
         consoleText = (TextView) findViewById(R.id.consoleText);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     @Override
