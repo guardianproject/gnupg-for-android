@@ -34,7 +34,7 @@
         android:allowBackup="false"
         android:icon="@drawable/icon"
         android:label="@string/app_name"
-        android:theme="@style/Theme.Sherlock" >
+        android:theme="@style/Theme.AppCompat" >
         <activity android:name=".CreateKeyActivity" />
         <activity android:name=".DebugLogActivity" />
         <activity android:name=".FirstRunSetupActivity" />

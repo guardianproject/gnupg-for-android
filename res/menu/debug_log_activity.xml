@@ -1,20 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:appcompat="http://schemas.android.com/apk/res-auto" >
 
     <item
         android:id="@+id/menu_decrypt_file"
-        android:showAsAction="ifRoom|withText"
-        android:title="@string/title_decrypt_file"/>
+        android:title="@string/title_decrypt_file"
+        appcompat:showAsAction="ifRoom|withText"/>
     <item
         android:id="@+id/menu_import_key_from_file"
         android:icon="@android:drawable/ic_input_add"
-        android:showAsAction="ifRoom|withText"
-        android:title="@string/title_import_keys"/>
+        android:title="@string/title_import_keys"
+        appcompat:showAsAction="ifRoom|withText"/>
     <item
         android:id="@+id/menu_export_keys_to_file"
         android:icon="@android:drawable/ic_menu_save"
-        android:showAsAction="ifRoom|withText"
-        android:title="@string/title_export_keys"/>
+        android:title="@string/title_export_keys"
+        appcompat:showAsAction="ifRoom|withText"/>
     <item
         android:id="@+id/menu_receive_key"
         android:icon="@android:drawable/arrow_down_float"
@@ -23,29 +24,29 @@
     <item
         android:id="@+id/menu_send_key"
         android:icon="@android:drawable/arrow_up_float"
-        android:showAsAction="ifRoom|withText"
-        android:title="@string/send_key"/>
+        android:title="@string/send_key"
+        appcompat:showAsAction="ifRoom|withText"/>
     <item
         android:id="@+id/menu_create_key"
-        android:showAsAction="ifRoom|withText"
-        android:title="@string/title_create_key"/>
+        android:title="@string/title_create_key"
+        appcompat:showAsAction="ifRoom|withText"/>
     <item
         android:id="@+id/menu_change_passphrase"
-        android:showAsAction="ifRoom|withText"
-        android:title="@string/title_change_passphrase"/>
+        android:title="@string/title_change_passphrase"
+        appcompat:showAsAction="ifRoom|withText"/>
     <item
         android:id="@+id/menu_run_test"
-        android:showAsAction="ifRoom|withText"
-        android:title="Run Tests"/>
+        android:title="Run Tests"
+        appcompat:showAsAction="ifRoom|withText"/>
     <item
         android:id="@+id/menu_share_log"
         android:icon="@android:drawable/ic_menu_send"
-        android:showAsAction="ifRoom|withText"
-        android:title="Share Test Log"/>
+        android:title="Share Test Log"
+        appcompat:showAsAction="ifRoom|withText"/>
     <item
         android:id="@+id/menu_settings_key"
         android:icon="@android:drawable/ic_menu_preferences"
-        android:showAsAction="ifRoom|withText"
-        android:title="@string/title_settings"/>
+        android:title="@string/title_settings"
+        appcompat:showAsAction="ifRoom|withText"/>
 
 </menu>

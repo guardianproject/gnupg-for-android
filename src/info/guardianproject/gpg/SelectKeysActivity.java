@@ -4,12 +4,12 @@ package info.guardianproject.gpg;
 import info.guardianproject.gpg.apg_compat.Apg;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 
-import com.actionbarsherlock.app.SherlockFragmentActivity;
 
-public class SelectKeysActivity extends SherlockFragmentActivity implements
+public class SelectKeysActivity extends FragmentActivity implements
         KeyListFragment.OnKeysSelectedListener {
     public static final String TAG = "SelectKeysActivity";
 

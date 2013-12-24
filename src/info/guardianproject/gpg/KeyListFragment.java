@@ -34,6 +34,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.support.v4.app.ListFragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.support.v4.content.LocalBroadcastManager;
@@ -46,9 +47,8 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.actionbarsherlock.app.SherlockListFragment;
 
-public class KeyListFragment extends SherlockListFragment implements
+public class KeyListFragment extends ListFragment implements
         LoaderManager.LoaderCallbacks<KeyserverResult<List<KeyInfo>>> {
     public static final String TAG = "KeyListFragment";
 

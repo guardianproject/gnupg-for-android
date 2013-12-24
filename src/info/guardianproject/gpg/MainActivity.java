@@ -1,10 +1,6 @@
 
 package info.guardianproject.gpg;
 
-import java.util.List;
-
-import org.openintents.openpgp.keyserver.KeyServer.KeyInfo;
-
 import info.guardianproject.gpg.GpgApplication.Action;
 import info.guardianproject.gpg.sync.GpgContactManager;
 import android.accounts.Account;
@@ -19,23 +15,22 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.app.LoaderManager;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBar.Tab;
+import android.support.v7.app.ActionBar.TabListener;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.SearchView;
+import android.support.v7.widget.SearchView.OnQueryTextListener;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.actionbarsherlock.app.ActionBar;
-import com.actionbarsherlock.app.ActionBar.Tab;
-import com.actionbarsherlock.app.ActionBar.TabListener;
-import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuItem;
-import com.actionbarsherlock.widget.SearchView;
-import com.actionbarsherlock.widget.SearchView.OnQueryTextListener;
-
-public class MainActivity extends SherlockFragmentActivity implements TabListener,
+public class MainActivity extends ActionBarActivity implements TabListener,
         OnPageChangeListener, OnQueryTextListener, KeyListFragment.OnKeysSelectedListener {
     private final static String TAG = "MainActivity";
 
@@ -133,12 +128,11 @@ public class MainActivity extends SherlockFragmentActivity implements TabListene
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getSupportMenuInflater().inflate(R.menu.main_activity, menu);
-        MenuItem item = menu.findItem(R.id.search);
-        mSearchView = new SearchView(this);
+        getMenuInflater().inflate(R.menu.main_activity, menu);
+        MenuItem item = menu.findItem(R.id.action_search);
+        mSearchView = (SearchView) MenuItemCompat.getActionView(item);
         mSearchView.setOnQueryTextListener(this);
         mSearchView.setIconifiedByDefault(true);
-        item.setActionView(mSearchView);
         return super.onCreateOptionsMenu(menu);
     }
 
