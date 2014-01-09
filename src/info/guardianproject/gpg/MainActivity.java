@@ -177,10 +177,12 @@ public class MainActivity extends ActionBarActivity implements TabListener,
     public void onTabSelected(Tab tab, FragmentTransaction ft) {
         Integer position = (Integer) tab.getTag();
         mPager.setCurrentItem(position);
-    }
-
-    @Override
-    public void onKeySelectionCanceled() {
+        // hide FIND_KEYS ActionMode if still visible when switching tabs
+        if (position == Tabs.FIND_KEYS
+                && tabFragments[Tabs.FIND_KEYS] != null
+                && tabFragments[Tabs.FIND_KEYS].mActionMode != null) {
+            tabFragments[Tabs.FIND_KEYS].mActionMode.finish();
+        }
     }
 
     private void showWizard() {
@@ -302,6 +304,11 @@ public class MainActivity extends ActionBarActivity implements TabListener,
     @Override
     public void onKeysSelected(long[] selectedKeyIds, String[] selectedUserIds) {
         // no op
+    }
+
+    @Override
+    public void onKeySelectionCanceled() {
+        Log.i(TAG, "onKeySelectionCanceled");
     }
 
     @Override

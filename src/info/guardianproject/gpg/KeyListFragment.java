@@ -22,10 +22,13 @@ import info.guardianproject.gpg.GpgApplication.Action;
 import info.guardianproject.gpg.MainActivity.Tabs;
 import info.guardianproject.gpg.apg_compat.Apg;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Vector;
 
+import org.openintents.openpgp.keyserver.HkpKeyServer;
 import org.openintents.openpgp.keyserver.KeyServer.KeyInfo;
+import org.openintents.openpgp.keyserver.KeyServer.QueryException;
 
 import android.app.Activity;
 import android.app.SearchManager;
@@ -33,20 +36,26 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.ListFragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.support.v4.content.LocalBroadcastManager;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.view.ActionMode;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
-
 
 public class KeyListFragment extends ListFragment implements
         LoaderManager.LoaderCallbacks<KeyserverResult<List<KeyInfo>>> {
@@ -55,10 +64,14 @@ public class KeyListFragment extends ListFragment implements
     protected ListView mListView;
     protected ListAdapter mShowKeysAdapter = null;
     protected KeyListKeyserverAdapter mKeyserverAdapter = null;
+    protected ActionMode mActionMode;
     private String mCurrentAction;
     private Bundle mCurrentExtras;
 
-    private OnKeysSelectedListener mCallback;
+    private ActionBarActivity mMainActivity;
+    private OnKeysSelectedListener mOnKeysSelectedCallback;
+
+    private final HashSet<Integer> mSelectedItems = new HashSet<Integer>();
 
     /**
      * Fragment -> Activity communication
@@ -68,8 +81,9 @@ public class KeyListFragment extends ListFragment implements
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
+        mMainActivity = (ActionBarActivity) activity;
         try {
-            mCallback = (OnKeysSelectedListener) activity;
+            mOnKeysSelectedCallback = (OnKeysSelectedListener) activity;
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
                     + " must implement OnKeysSelectedListener");
@@ -84,17 +98,19 @@ public class KeyListFragment extends ListFragment implements
         mListView = getListView();
 
         String action = getArguments().getString("action");
-        if (action == null) {
+        if (action == null || action.equals(Action.SHOW_PUBLIC_KEYS)) {
             mListView.setChoiceMode(ListView.CHOICE_MODE_NONE);
-        } else if (action.equals(Action.SELECT_PUBLIC_KEYS) || action.equals(Action.FIND_KEYS)) {
+        } else if (action.equals(Action.FIND_KEYS)) {
+            mListView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+        } else if (action.equals(Action.SELECT_PUBLIC_KEYS)) {
             mListView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
         } else if (action.equals(Action.SELECT_SECRET_KEYS)) {
-            mListView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+            mListView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
             mListView.setOnItemClickListener(new OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
                     String[] userId = (String[]) mListView.getItemAtPosition(position);
-                    mCallback.onKeySelected(id, Apg.userId(userId));
+                    mOnKeysSelectedCallback.onKeySelected(id, Apg.userId(userId));
                 }
             });
         } else {
@@ -240,4 +256,82 @@ public class KeyListFragment extends ListFragment implements
         mKeyserverAdapter.setData(null);
     }
 
+
+    ActionMode.Callback mActionModeCallback = new ActionMode.Callback() {
+
+        // Called when the action mode is created; startActionMode() was called
+        @Override
+        public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+            // Inflate a menu resource providing context menu items
+            MenuInflater inflater = mode.getMenuInflater();
+            inflater.inflate(R.menu.find_keys_context_menu, menu);
+            return true;
+        }
+
+        // Called each time the action mode is shown. Always called after
+        // onCreateActionMode, but
+        // may be called multiple times if the mode is invalidated.
+        @Override
+        public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+            return false; // Return false if nothing is done
+        }
+
+        // Called when the user selects a contextual menu item
+        @Override
+        public boolean onActionItemClicked(final ActionMode mode, MenuItem item) {
+            switch (item.getItemId()) {
+                case R.id.download:
+                    Log.i(TAG, "download the keys!");
+                    mMainActivity.setSupportProgressBarIndeterminateVisibility(true);
+                    new AsyncTask<Void, Void, Void>() {
+                        final Context context = getActivity().getApplicationContext();
+                        SharedPreferences prefs = PreferenceManager
+                                .getDefaultSharedPreferences(context);
+                        final String host = prefs.getString(GpgPreferenceActivity.PREF_KEYSERVER,
+                                "ipv4.pool.sks-keyservers.net");
+                        final long[] selected = mListView.getCheckedItemIds();
+                        final Intent intent = new Intent(context, ImportFileActivity.class);
+
+                        @Override
+                        protected Void doInBackground(Void... params) {
+                            HkpKeyServer keyserver = new HkpKeyServer(host);
+                            String keys = "";
+                            for (int i = 0; i < selected.length; i++) {
+                                Log.v(TAG, "id: " + selected[i]);
+                                try {
+                                    keys += keyserver.get(selected[i]);
+                                } catch (QueryException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                            intent.setType("text/plain");
+                            intent.setAction(Intent.ACTION_SEND);
+                            intent.putExtra(Intent.EXTRA_TEXT, keys);
+                            return null;
+                        }
+
+                        @Override
+                        protected void onPostExecute(Void v) {
+                            GpgApplication.sendKeylistChangedBroadcast(context);
+                            mMainActivity.setSupportProgressBarIndeterminateVisibility(false);
+                            mode.finish(); // Action picked, so close the CAB
+                            startActivity(intent);
+                        }
+                    }.execute();
+                    return true;
+                default:
+                    return false;
+            }
+        }
+
+        // Called when the user exits the action mode
+        @Override
+        public void onDestroyActionMode(ActionMode mode) {
+            mActionMode = null;
+            mListView.clearChoices();
+            for (int i : mSelectedItems)
+                mListView.setItemChecked(i, false);
+            mSelectedItems.clear();
+        }
+    };
 }

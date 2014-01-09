@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:appcompat="http://schemas.android.com/apk/res-auto" >
+
+    <item
+        android:id="@+id/download"
+        android:icon="@android:drawable/ic_input_add"
+        android:title="@string/title_import_keys"
+        appcompat:showAsAction="ifRoom|withText"/>
+
+</menu>
