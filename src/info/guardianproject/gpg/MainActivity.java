@@ -255,10 +255,6 @@ public class MainActivity extends ActionBarActivity implements TabListener,
             Log.v(TAG, "getItem " + position);
             KeyListFragment frag = new KeyListFragment();
             Bundle args = new Bundle();
-            Bundle extras = new Bundle();
-            final String VERSION = "1";
-            final String EXTRA_INTENT_VERSION = "intentVersion";
-            extras.putString(EXTRA_INTENT_VERSION, VERSION);
             switch (position) {
                 case Tabs.PUBLIC_KEYS:
                     args.putString("action", Action.SHOW_PUBLIC_KEYS);
@@ -272,7 +268,6 @@ public class MainActivity extends ActionBarActivity implements TabListener,
                 default:
                     return null;
             }
-            args.putBundle("extras", extras);
             frag.setArguments(args);
             tabFragments[position] = frag;
             return frag;
