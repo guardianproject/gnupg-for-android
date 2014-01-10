@@ -62,6 +62,7 @@ public class MainActivity extends ActionBarActivity implements TabListener,
     int mCurrentTab;
     static String mCurrentSearchString;
     String mPreviousSearchString;
+    MenuItem mSearchMenuItem;
     SearchView mSearchView;
 
     @Override
@@ -129,8 +130,8 @@ public class MainActivity extends ActionBarActivity implements TabListener,
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_activity, menu);
-        MenuItem item = menu.findItem(R.id.action_search);
-        mSearchView = (SearchView) MenuItemCompat.getActionView(item);
+        mSearchMenuItem = menu.findItem(R.id.action_search);
+        mSearchView = (SearchView) MenuItemCompat.getActionView(mSearchMenuItem);
         mSearchView.setOnQueryTextListener(this);
         mSearchView.setIconifiedByDefault(true);
         return super.onCreateOptionsMenu(menu);
@@ -177,11 +178,13 @@ public class MainActivity extends ActionBarActivity implements TabListener,
     public void onTabSelected(Tab tab, FragmentTransaction ft) {
         Integer position = (Integer) tab.getTag();
         mPager.setCurrentItem(position);
-        // hide FIND_KEYS ActionMode if still visible when switching tabs
-        if (position == Tabs.FIND_KEYS
-                && tabFragments[Tabs.FIND_KEYS] != null
+        if (position == Tabs.FIND_KEYS) {
+            MenuItemCompat.expandActionView(mSearchMenuItem);
+        } else if (tabFragments[Tabs.FIND_KEYS] != null
                 && tabFragments[Tabs.FIND_KEYS].mActionMode != null) {
+            // hide FIND_KEYS ActionMode if still visible when switching tabs
             tabFragments[Tabs.FIND_KEYS].mActionMode.finish();
+            MenuItemCompat.collapseActionView(mSearchMenuItem);
         }
     }
 
