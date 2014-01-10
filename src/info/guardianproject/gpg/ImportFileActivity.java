@@ -27,6 +27,7 @@ public class ImportFileActivity extends ActionBarActivity {
     private FileDialogFragment mFileDialog;
     private Handler mReturnHandler;
     private Messenger mMessenger;
+    private File mDeleteThisFileAfterImport;
 
     private MimeTypeMap mMimeTypeMap;
 
@@ -80,6 +81,8 @@ public class ImportFileActivity extends ActionBarActivity {
                         Log.d(TAG, "deleteAfterImport: " + deleteAfterImport);
                         runImport(importFilename, deleteAfterImport);
                     } else if (message.what == Gpg2TaskFragment.GPG2_TASK_FINISHED) {
+                        if (mDeleteThisFileAfterImport != null)
+                            mDeleteThisFileAfterImport.delete();
                         notifyImportComplete();
                     }
                 }
@@ -194,12 +197,14 @@ public class ImportFileActivity extends ActionBarActivity {
         }
         try {
             String keyFilename = keyFile.getCanonicalPath();
+            if (deleteAfterImport)
+                mDeleteThisFileAfterImport = keyFile;
+            else
+                mDeleteThisFileAfterImport = null;
             String args = " --import '" + keyFilename + "'";
             Gpg2TaskFragment gpg2Task = new Gpg2TaskFragment();
             gpg2Task.configTask(mMessenger, new Gpg2TaskFragment.Gpg2Task(), args);
             gpg2Task.show(mFragmentManager, GPG2_TASK_FRAGMENT_TAG);
-            if (deleteAfterImport)
-                new File(importFilename).delete();
             Log.d(TAG, "import complete");
         } catch (GnuPGException e) {
             Log.e(TAG, "File import failed: ");
