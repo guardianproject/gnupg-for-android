@@ -72,6 +72,7 @@
     <string name="encrypt_file_to_detail">Choose a file to encrypt to this person.</string>
     <string name="contact_view_key">View key</string>
     <string name="title_create_key">Create Key</string>
+    <string name="list_keys">List Keys</string>
     <string name="key_name_label">Name:</string>
     <string name="key_email_label">Email:</string>
     <string name="key_comment_label">Comment:</string>

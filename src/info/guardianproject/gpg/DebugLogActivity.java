@@ -160,6 +160,13 @@ public class DebugLogActivity extends ActionBarActivity implements OnCreateConte
                 });
                 alert.show();
                 return true;
+            case R.id.menu_list_keys:
+                command = NativeHelper.gpg2 + "--list-secret-keys --fingerprint;";
+                command += NativeHelper.gpg2 + "--list-keys --fingerprint;";
+                commandThread = new CommandThread();
+                commandThread.start();
+                Log.i(TAG, "finished " + command);
+                return true;
             case R.id.menu_change_passphrase:
                 GnuPGKey[] keys = GnuPG.context.listSecretKeys();
                 if (keys != null && keys.length > 0) {
