@@ -1,7 +1,11 @@
 
 package info.guardianproject.gpg;
 
+import info.guardianproject.gpg.GpgApplication.Action;
+
 import java.io.File;
+
+import org.openintents.openpgp.keyserver.KeyServer.KeyInfo;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -21,17 +25,18 @@ public class EncryptFileActivity extends ActionBarActivity {
 
     private FragmentManager mFragmentManager;
     private FileDialogFragment mFileDialog;
-    private Handler mReturnHandler;
     private Messenger mMessenger;
-    private String mFingerprint;
-    private String mEmail;
+    private long[] mRecipientKeyIds;
+    private String[] mRecipientEmails;
     private File mEncryptedFile;
     private File mPlainFile;
+    private String mDefaultFilename;
 
     // used to find any existing instance of the fragment, in case of rotation,
     static final String GPG2_TASK_FRAGMENT_TAG = TAG;
 
     private static final int ENCRYPTED_DATA_SENT = 4321;
+    private static final int ENCRYPT_FILE_TO = 0x1231;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,56 +44,9 @@ public class EncryptFileActivity extends ActionBarActivity {
         mFragmentManager = getSupportFragmentManager();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        Intent intent = getIntent();
-        Uri uri = intent.getData();
-        Log.v(TAG, "onCreate: " + uri);
-        String scheme = null;
-        if (uri != null)
-            scheme = uri.getScheme();
-        Bundle extras = intent.getExtras();
-        String[] recipients = null;
-        if (extras != null) {
-            mFingerprint = extras.getString(Intent.EXTRA_TEXT);
-            // currently only supports sending to a single email/fingerprint
-            recipients = (String[]) extras.get(Intent.EXTRA_EMAIL);
-        }
-        if (recipients != null && recipients.length > 0)
-            mEmail = recipients[0];
-        else
-            Log.w(TAG, "receive no email address in Intent!");
-
-        if (mFingerprint == null) {
-            // didn't receive one in intent, set to default key on device
-            GnuPGKey key = null;
-            GnuPGKey keys[] = GnuPG.context.listSecretKeys();
-            if (keys != null && keys.length > 0)
-                key = keys[0];
-            if (key == null) {
-                keys = GnuPG.context.listKeys();
-                if (keys != null && keys.length > 0)
-                    key = keys[0];
-            }
-            if (key != null) {
-                mFingerprint = key.getFingerprint();
-                mEmail = key.getEmail();
-                String text = getString(R.string.no_key_specified_using_this_key);
-                text += String.format(" %s <%s> (%s) %s",
-                        key.getName(), key.getEmail(), key.getComment(), key.getFingerprint());
-                Toast.makeText(this, text, Toast.LENGTH_LONG).show();
-            }
-        }
-
-        if (mFingerprint == null || mFingerprint.length() < 16) {
-            String msg = String.format(getString(R.string.error_fingerprint_too_short_format),
-                    mFingerprint);
-            Log.d(TAG, msg);
-            Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
-            cancel();
-            return;
-        }
-
+        // Create a new Messenger for the communication back
         // Message is received after file is selected
-        mReturnHandler = new Handler() {
+        mMessenger = new Messenger(new Handler() {
             @Override
             public void handleMessage(Message message) {
                 if (message.what == FileDialogFragment.MESSAGE_CANCELED) {
@@ -99,21 +57,71 @@ public class EncryptFileActivity extends ActionBarActivity {
                     sendEncryptedFile();
                 }
             }
-        };
+        });
 
-        // Create a new Messenger for the communication back
-        mMessenger = new Messenger(mReturnHandler);
+        Intent intent = getIntent();
+        Uri uri = intent.getData();
+        String scheme = null;
+        if (uri != null)
+            scheme = uri.getScheme();
         if (scheme != null && scheme.equals("file") && new File(uri.getPath()).canRead())
-            showEncryptToFileDialog(uri.getPath());
+            mDefaultFilename = uri.getPath();
         else
-            showEncryptToFileDialog(null);
+            mDefaultFilename = null;
+
+        Bundle extras = intent.getExtras();
+        if (extras != null) {
+            mRecipientKeyIds = extras.getLongArray(Intent.EXTRA_UID);
+            mRecipientEmails = extras.getStringArray(Intent.EXTRA_EMAIL);
+        }
+
+        if (mRecipientKeyIds == null || mRecipientKeyIds.length == 0) {
+            Intent i = new Intent(this, SelectKeysActivity.class);
+            i.setAction(Action.SELECT_PUBLIC_KEYS);
+            startActivityForResult(i, ENCRYPT_FILE_TO);
+        } else {
+            showEncryptToFileDialog();
+        }
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Log.i(TAG, "Activity Result: " + requestCode + " " + resultCode);
+        Log.i(TAG, "onActivityResult: " + requestCode + " " + resultCode + " " + data);
 
         switch (requestCode) {
+            case ENCRYPT_FILE_TO:
+                Bundle extras = data.getExtras();
+                if (extras != null) {
+                    mRecipientKeyIds = extras.getLongArray(Intent.EXTRA_UID);
+                    mRecipientEmails = extras.getStringArray(Intent.EXTRA_EMAIL);
+                }
+                if (mRecipientKeyIds == null || mRecipientKeyIds.length == 0) {
+                    // didn't receive recipients, set to default key on device
+                    GnuPGKey key = null;
+                    GnuPGKey keys[] = GnuPG.context.listSecretKeys();
+                    if (keys != null && keys.length > 0)
+                        key = keys[0];
+                    if (key == null) {
+                        keys = GnuPG.context.listKeys();
+                        if (keys != null && keys.length > 0)
+                            key = keys[0];
+                    }
+                    if (key != null) {
+                        mRecipientKeyIds = new long[] {
+                                KeyInfo.keyIdFromFingerprint(key.getFingerprint())
+                        };
+                        mRecipientEmails = new String[] {
+                                key.getEmail()
+                        };
+                        String text = getString(R.string.no_key_specified_using_this_key);
+                        text += String.format(" %s <%s> (%s) %s",
+                                key.getName(), key.getEmail(), key.getComment(),
+                                key.getFingerprint());
+                        Toast.makeText(this, text, Toast.LENGTH_LONG).show();
+                    }
+                }
+                showEncryptToFileDialog();
+                return;
             case GpgApplication.FILENAME: // file picker result returned
                 Log.i(TAG, "GpgApplication.FILENAME " + GpgApplication.FILENAME);
                 if (resultCode != RESULT_OK || data == null)
@@ -157,14 +165,14 @@ public class EncryptFileActivity extends ActionBarActivity {
     /**
      * Show to dialog from where to import keys
      */
-    public void showEncryptToFileDialog(final String defaultFilename) {
+    private void showEncryptToFileDialog() {
         new Runnable() {
             @Override
             public void run() {
                 mFileDialog = FileDialogFragment.newInstance(mMessenger,
                         getString(R.string.title_encrypt_file),
                         getString(R.string.dialog_specify_encrypt_file),
-                        defaultFilename,
+                        mDefaultFilename,
                         getString(R.string.sign_file),
                         GpgApplication.FILENAME);
 
@@ -191,7 +199,10 @@ public class EncryptFileActivity extends ActionBarActivity {
                 String args = "--output '" + mEncryptedFile + "'";
                 if (signFile)
                     args += " --sign ";
-                args += " --encrypt --recipient " + mFingerprint + " '" + plainFilename + "'";
+                args += " --encrypt ";
+                for (long keyId : mRecipientKeyIds)
+                    args += " --recipient " + KeyInfo.hexFromKeyId(keyId);
+                args += " '" + plainFilename + "'";
                 Gpg2TaskFragment gpg2Task = new Gpg2TaskFragment();
                 gpg2Task.configTask(mMessenger, new Gpg2TaskFragment.Gpg2Task(), args);
                 gpg2Task.show(mFragmentManager, GPG2_TASK_FRAGMENT_TAG);
@@ -213,10 +224,7 @@ public class EncryptFileActivity extends ActionBarActivity {
             Posix.chmod("644", mEncryptedFile);
             Intent send = new Intent(Intent.ACTION_SEND);
             send.putExtra(Intent.EXTRA_SUBJECT, mEncryptedFile.getName());
-            if (mEmail != null && mEmail.length() > 3)
-                send.putExtra(Intent.EXTRA_EMAIL, new String[] {
-                        mEmail
-                });
+            send.putExtra(Intent.EXTRA_EMAIL, mRecipientEmails);
             Uri uri = Uri.fromFile(mEncryptedFile);
             send.putExtra(Intent.EXTRA_STREAM, uri);
             send.setType(getString(R.string.pgp_encrypted));
