@@ -432,7 +432,7 @@ public class DebugLogActivity extends ActionBarActivity implements OnCreateConte
                 if (intent.getAction().equals(COMMAND_FINISHED)) {
                     if (command.contains("--import") || command.contains("--recv-keys")) {
                         Log.d(TAG, "Import complete.");
-                        GpgApplication.sendKeylistChangedBroadcast(DebugLogActivity.this);
+                        GpgApplication.triggerContactsSync();
                     }
                 }
             }

@@ -347,7 +347,7 @@ public class KeyListFragment extends ListFragment implements
 
                         @Override
                         protected void onPostExecute(Void v) {
-                            GpgApplication.sendKeylistChangedBroadcast(context);
+                            GpgApplication.triggerContactsSync();
                             mCurrentActivity.setSupportProgressBarIndeterminateVisibility(false);
                             mode.finish(); // Action picked, so close the CAB
                             startActivity(intent);

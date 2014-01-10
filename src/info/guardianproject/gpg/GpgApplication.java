@@ -14,7 +14,6 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
-import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
 public class GpgApplication extends Application {
@@ -144,9 +143,7 @@ public class GpgApplication extends Application {
         }
     }
 
-    protected static void sendKeylistChangedBroadcast(Context c) {
-        LocalBroadcastManager.getInstance(c).sendBroadcast(
-                new Intent(BROADCAST_ACTION_KEYLIST_CHANGED));
+    protected static void triggerContactsSync() {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(mContext);
         if (prefs.getBoolean(mContext.getString(R.string.pref_contacts_integration), true))
             requestContactsSync();

@@ -1,6 +1,8 @@
 
 package info.guardianproject.gpg.sync;
 
+import info.guardianproject.gpg.GpgApplication;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,10 +13,12 @@ import android.accounts.AccountManager;
 import android.content.AbstractThreadedSyncAdapter;
 import android.content.ContentProviderClient;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SyncResult;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.provider.ContactsContract.Data;
+import android.support.v4.content.LocalBroadcastManager;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -85,6 +89,8 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
             Log.e(TAG, "ParseException", e);
             syncResult.stats.numParseExceptions++;
         }
+        LocalBroadcastManager.getInstance(mContext).sendBroadcast(
+                new Intent(GpgApplication.BROADCAST_ACTION_KEYLIST_CHANGED));
     }
 
     /**

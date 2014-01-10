@@ -148,7 +148,7 @@ public class ReceiveKeyActivity extends FragmentActivity {
 
     private void notifyRecvKeyComplete() {
         Log.d(TAG, "recv-key complete, sending broadcast");
-        GpgApplication.sendKeylistChangedBroadcast(this);
+        GpgApplication.triggerContactsSync();
         showKeyAfterRecvKey();
     }
 }

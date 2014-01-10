@@ -14,7 +14,6 @@ import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.provider.ContactsContract.CommonDataKinds;
 import android.provider.ContactsContract.Contacts;
-import android.text.Layout;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -232,7 +231,7 @@ public class CreateKeyActivity extends Activity {
 
     private void createKeyComplete(Integer result) {
         Log.d(TAG, "gen-key complete, sending broadcast");
-        GpgApplication.sendKeylistChangedBroadcast(this);
+        GpgApplication.triggerContactsSync();
         setResult(result);
         if (result != RESULT_OK)
             Toast.makeText(this, getString(R.string.error_gen_key_failed), Toast.LENGTH_LONG)

@@ -215,7 +215,7 @@ public class ImportFileActivity extends ActionBarActivity {
 
     private void notifyImportComplete() {
         Log.d(TAG, "import complete, sending broadcast");
-        GpgApplication.sendKeylistChangedBroadcast(this);
+        GpgApplication.triggerContactsSync();
     }
 
 }
