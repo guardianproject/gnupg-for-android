@@ -64,14 +64,15 @@ public class KeyListFragment extends ListFragment implements
     protected ListView mListView;
     protected ListAdapter mShowKeysAdapter = null;
     protected KeyListKeyserverAdapter mKeyserverAdapter = null;
+    protected String mAction;
     protected ActionMode mActionMode;
     private String mCurrentAction;
     private Bundle mCurrentExtras;
 
-    private ActionBarActivity mMainActivity;
+    private ActionBarActivity mCurrentActivity;
     private OnKeysSelectedListener mOnKeysSelectedCallback;
 
-    private final HashSet<Integer> mSelectedItems = new HashSet<Integer>();
+    private final HashSet<Integer> mSelectedPositions = new HashSet<Integer>();
 
     /**
      * Fragment -> Activity communication
@@ -81,7 +82,7 @@ public class KeyListFragment extends ListFragment implements
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        mMainActivity = (ActionBarActivity) activity;
+        mCurrentActivity = (ActionBarActivity) activity;
         try {
             mOnKeysSelectedCallback = (OnKeysSelectedListener) activity;
         } catch (ClassCastException e) {
@@ -97,14 +98,15 @@ public class KeyListFragment extends ListFragment implements
         setHasOptionsMenu(true);
         mListView = getListView();
 
-        String action = getArguments().getString("action");
-        if (action == null || action.equals(Action.SHOW_PUBLIC_KEYS)) {
+        mAction = getArguments().getString("action");
+        Log.i(TAG, "onActivityCreated  action: " + mAction);
+        if (mAction == null || mAction.equals(Action.SHOW_PUBLIC_KEYS)) {
             mListView.setChoiceMode(ListView.CHOICE_MODE_NONE);
-        } else if (action.equals(Action.FIND_KEYS)) {
+        } else if (mAction.equals(Action.FIND_KEYS)) {
             mListView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
-        } else if (action.equals(Action.SELECT_PUBLIC_KEYS)) {
+        } else if (mAction.equals(Action.SELECT_PUBLIC_KEYS)) {
             mListView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
-        } else if (action.equals(Action.SELECT_SECRET_KEYS)) {
+        } else if (mAction.equals(Action.SELECT_SECRET_KEYS)) {
             mListView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
             mListView.setOnItemClickListener(new OnItemClickListener() {
                 @Override
@@ -117,9 +119,9 @@ public class KeyListFragment extends ListFragment implements
             mListView.setChoiceMode(ListView.CHOICE_MODE_NONE);
         }
         registerReceiver();
-        handleIntent(action, getArguments().getBundle("extras"));
+        handleIntent(mAction, getArguments().getBundle("extras"));
         LoaderManager lm = getLoaderManager();
-        if (action.equals(Action.FIND_KEYS) && lm.getLoader(Tabs.FIND_KEYS) != null) {
+        if (mAction.equals(Action.FIND_KEYS) && lm.getLoader(Tabs.FIND_KEYS) != null) {
             lm.initLoader(Tabs.FIND_KEYS, null, this);
         }
     }
@@ -256,6 +258,19 @@ public class KeyListFragment extends ListFragment implements
         mKeyserverAdapter.setData(null);
     }
 
+    @Override
+    public void onListItemClick(ListView l, View v, int position, long id) {
+        if (mSelectedPositions.contains(position))
+            mSelectedPositions.remove(position);
+        else
+            mSelectedPositions.add(position);
+
+        if (mActionMode == null
+                && (mAction.equals(Action.FIND_KEYS)
+                        || mAction.equals(Action.SELECT_SECRET_KEYS)
+                        || mAction.equals(Action.SELECT_PUBLIC_KEYS)))
+            mActionMode = mCurrentActivity.startSupportActionMode(mActionModeCallback);
+    }
 
     ActionMode.Callback mActionModeCallback = new ActionMode.Callback() {
 
@@ -264,7 +279,11 @@ public class KeyListFragment extends ListFragment implements
         public boolean onCreateActionMode(ActionMode mode, Menu menu) {
             // Inflate a menu resource providing context menu items
             MenuInflater inflater = mode.getMenuInflater();
-            inflater.inflate(R.menu.find_keys_context_menu, menu);
+            if (mAction.equals(Action.FIND_KEYS)) {
+                inflater.inflate(R.menu.find_keys_context_menu, menu);
+            } else {
+                inflater.inflate(R.menu.encrypt_file_to_context_menu, menu);
+            }
             return true;
         }
 
@@ -280,9 +299,25 @@ public class KeyListFragment extends ListFragment implements
         @Override
         public boolean onActionItemClicked(final ActionMode mode, MenuItem item) {
             switch (item.getItemId()) {
+                case R.id.select_keys:
+                    long[] selectedKeyIds = new long[mSelectedPositions.size()];
+                    String[] selectedEmails = new String[selectedKeyIds.length];
+                    int p = 0;
+                    for (Integer position : mSelectedPositions) {
+                        selectedKeyIds[p] = mListView.getItemIdAtPosition(position);
+                        String[] itemStrings = (String[]) mListView.getItemAtPosition(position);
+                        selectedEmails[p] = itemStrings[1];
+                        p++;
+                    }
+                    Intent data = new Intent();
+                    data.putExtra(Intent.EXTRA_UID, selectedKeyIds);
+                    data.putExtra(Intent.EXTRA_EMAIL, selectedEmails);
+                    mCurrentActivity.setResult(Activity.RESULT_OK, data);
+                    mode.finish();
+                    return true;
                 case R.id.download:
                     Log.i(TAG, "download the keys!");
-                    mMainActivity.setSupportProgressBarIndeterminateVisibility(true);
+                    mCurrentActivity.setSupportProgressBarIndeterminateVisibility(true);
                     new AsyncTask<Void, Void, Void>() {
                         final Context context = getActivity().getApplicationContext();
                         SharedPreferences prefs = PreferenceManager
@@ -313,7 +348,7 @@ public class KeyListFragment extends ListFragment implements
                         @Override
                         protected void onPostExecute(Void v) {
                             GpgApplication.sendKeylistChangedBroadcast(context);
-                            mMainActivity.setSupportProgressBarIndeterminateVisibility(false);
+                            mCurrentActivity.setSupportProgressBarIndeterminateVisibility(false);
                             mode.finish(); // Action picked, so close the CAB
                             startActivity(intent);
                         }
@@ -329,9 +364,9 @@ public class KeyListFragment extends ListFragment implements
         public void onDestroyActionMode(ActionMode mode) {
             mActionMode = null;
             mListView.clearChoices();
-            for (int i : mSelectedItems)
+            for (int i : mSelectedPositions)
                 mListView.setItemChecked(i, false);
-            mSelectedItems.clear();
+            mSelectedPositions.clear();
         }
     };
 }

@@ -1,15 +1,16 @@
 
 package info.guardianproject.gpg;
 
+import info.guardianproject.gpg.GpgApplication.Action;
 import info.guardianproject.gpg.apg_compat.Apg;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.view.ActionMode;
 import android.util.Log;
 
-
-public class SelectKeysActivity extends FragmentActivity implements
+public class SelectKeysActivity extends ActionBarActivity implements
         KeyListFragment.OnKeysSelectedListener {
     public static final String TAG = "SelectKeysActivity";
 
@@ -26,7 +27,7 @@ public class SelectKeysActivity extends FragmentActivity implements
         KeyListFragment frag = new KeyListFragment();
         Intent i = getIntent();
         Bundle args = new Bundle();
-        args.putString("action", i.getAction());
+        args.putString("action", Action.SELECT_PUBLIC_KEYS);
         args.putBundle("extras", i.getExtras());
         frag.setArguments(args);
 
@@ -64,6 +65,12 @@ public class SelectKeysActivity extends FragmentActivity implements
     @Override
     public void onKeySelectionCanceled() {
         setResult(RESULT_CANCELED, null);
+        finish();
+    }
+
+    @Override
+    public void onSupportActionModeFinished(ActionMode mode) {
+        Log.i(TAG, "onSupportActionModeFinished");
         finish();
     }
 

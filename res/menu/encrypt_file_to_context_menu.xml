@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:appcompat="http://schemas.android.com/apk/res-auto" >
+
+    <item
+        android:id="@+id/select_keys"
+        android:icon="@android:drawable/checkbox_on_background"
+        android:title="@string/encrypt_file_to"
+        appcompat:showAsAction="ifRoom|withText"/>
+
+</menu>
