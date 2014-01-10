@@ -28,6 +28,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.Window;
 import android.widget.Toast;
 
 public class MainActivity extends ActionBarActivity implements TabListener,
@@ -100,6 +101,7 @@ public class MainActivity extends ActionBarActivity implements TabListener,
             setupSyncAccount();
         }
 
+        supportRequestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
         setContentView(R.layout.main_activity);
         mPager = (ViewPager) findViewById(R.id.main_pager);
         FragmentManager mgr = getSupportFragmentManager();
