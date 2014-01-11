@@ -181,7 +181,8 @@ public class MainActivity extends ActionBarActivity implements TabListener,
         Integer position = (Integer) tab.getTag();
         mPager.setCurrentItem(position);
         if (position == Tabs.FIND_KEYS) {
-            MenuItemCompat.expandActionView(mSearchMenuItem);
+            if (mSearchMenuItem != null)
+                MenuItemCompat.expandActionView(mSearchMenuItem);
         } else if (tabFragments[Tabs.FIND_KEYS] != null
                 && tabFragments[Tabs.FIND_KEYS].mActionMode != null) {
             // hide FIND_KEYS ActionMode if still visible when switching tabs
@@ -309,9 +310,11 @@ public class MainActivity extends ActionBarActivity implements TabListener,
             Toast.makeText(this, R.string.error_short_keyserver_query, Toast.LENGTH_LONG).show();
         else {
             KeyListFragment frag = tabFragments[Tabs.FIND_KEYS];
-            frag.restartLoader();
-            // hide the previous list and show the spinner:
-            frag.setListShown(false);
+            if (frag != null) {
+                frag.restartLoader();
+                // hide the previous list and show the spinner:
+                frag.setListShown(false);
+            }
         }
         mPreviousSearchString = mCurrentSearchString;
 
