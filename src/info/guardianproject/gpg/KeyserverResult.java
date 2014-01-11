@@ -2,7 +2,7 @@
 package info.guardianproject.gpg;
 
 public class KeyserverResult<D> {
-    private int errorResid;
+    private int errorResid = 0;
     private D data;
 
     public int getErrorResid() {

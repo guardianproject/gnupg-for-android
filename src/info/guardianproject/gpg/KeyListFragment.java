@@ -228,8 +228,14 @@ public class KeyListFragment extends ListFragment implements
         if (data != null) {
             mKeyserverAdapter.setData(data);
         } else {
-            Toast.makeText(getActivity(), result.getErrorResid(), Toast.LENGTH_LONG).show();
-            setEmptyText(getString(result.getErrorResid()));
+            int resid = result.getErrorResid();
+            // TODO really, resid should never be wrong, wtf?
+            if (resid > 0) {
+                Toast.makeText(getActivity(), resid, Toast.LENGTH_LONG).show();
+                setEmptyText(getString(resid));
+            } else {
+                Log.w(TAG, "resid <= 0?");
+            }
         }
         if (isResumed()) {
             setListShown(true);
