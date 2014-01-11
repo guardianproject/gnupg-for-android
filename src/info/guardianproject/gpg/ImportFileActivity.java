@@ -3,7 +3,10 @@ package info.guardianproject.gpg;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
+
+import org.apache.commons.io.FileUtils;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -14,6 +17,7 @@ import android.os.Message;
 import android.os.Messenger;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBarActivity;
+import android.text.TextUtils;
 import android.util.Log;
 import android.webkit.MimeTypeMap;
 import android.widget.Toast;
@@ -46,6 +50,7 @@ public class ImportFileActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        mFragmentManager = getSupportFragmentManager();
 
         mMimeTypeMap = MimeTypeMap.getSingleton();
 
@@ -53,6 +58,30 @@ public class ImportFileActivity extends ActionBarActivity {
         Intent intent = getIntent();
         String action = intent.getAction();
         String type = intent.getType();
+
+        // Message is received after file is selected
+        mReturnHandler = new Handler() {
+            @Override
+            public void handleMessage(Message message) {
+                if (message.what == FileDialogFragment.MESSAGE_CANCELED) {
+                    cancel();
+                } else if (message.what == FileDialogFragment.MESSAGE_OK) {
+                    Bundle data = message.getData();
+                    File f = new File(data.getString(FileDialogFragment.MESSAGE_DATA_FILENAME));
+                    boolean deleteAfterImport = data
+                            .getBoolean(FileDialogFragment.MESSAGE_DATA_CHECKED);
+                    Log.d(TAG, "importFilename: " + f);
+                    Log.d(TAG, "deleteAfterImport: " + deleteAfterImport);
+                    runImport(f, deleteAfterImport);
+                } else if (message.what == Gpg2TaskFragment.GPG2_TASK_FINISHED) {
+                    if (mDeleteThisFileAfterImport != null)
+                        mDeleteThisFileAfterImport.delete();
+                    notifyImportComplete();
+                }
+            }
+        };
+        // Create a new Messenger for the communication back
+        mMessenger = new Messenger(mReturnHandler);
 
         if (Intent.ACTION_SEND.equals(action) && type != null) {
             if ("text/plain".equals(type)) {
@@ -63,33 +92,6 @@ public class ImportFileActivity extends ActionBarActivity {
         } else if (Intent.ACTION_SEND_MULTIPLE.equals(action)) {
             handleSendMultipleBinaries(intent);
         } else {
-            mFragmentManager = getSupportFragmentManager();
-            // Message is received after file is selected
-            mReturnHandler = new Handler() {
-                @Override
-                public void handleMessage(Message message) {
-                    if (message.what == FileDialogFragment.MESSAGE_CANCELED) {
-                        cancel();
-                    } else if (message.what == FileDialogFragment.MESSAGE_OK) {
-                        Bundle data = message.getData();
-                        String importFilename = new File(
-                                data.getString(FileDialogFragment.MESSAGE_DATA_FILENAME))
-                                .getAbsolutePath();
-                        boolean deleteAfterImport = data
-                                .getBoolean(FileDialogFragment.MESSAGE_DATA_CHECKED);
-                        Log.d(TAG, "importFilename: " + importFilename);
-                        Log.d(TAG, "deleteAfterImport: " + deleteAfterImport);
-                        runImport(importFilename, deleteAfterImport);
-                    } else if (message.what == Gpg2TaskFragment.GPG2_TASK_FINISHED) {
-                        if (mDeleteThisFileAfterImport != null)
-                            mDeleteThisFileAfterImport.delete();
-                        notifyImportComplete();
-                    }
-                }
-            };
-            // Create a new Messenger for the communication back
-            mMessenger = new Messenger(mReturnHandler);
-
             Uri uri = intent.getData();
             if (uri == null)
                 showImportFromFileDialog("");
@@ -138,29 +140,43 @@ public class ImportFileActivity extends ActionBarActivity {
 
     void handleSendText(Intent intent) {
         String sharedText = intent.getStringExtra(Intent.EXTRA_TEXT);
-        if (sharedText != null) {
-            Toast.makeText(this, "handle send text", Toast.LENGTH_LONG).show();
+        if (!TextUtils.isEmpty(sharedText)) {
+            try {
+                File importFile = File.createTempFile("import", ".asc");
+                Log.d(TAG, "handle send text importFile: " + importFile);
+                FileUtils.writeStringToFile(importFile, sharedText);
+                runImport(importFile, true);
+            } catch (IOException e) {
+                e.printStackTrace();
+                setResult(RESULT_CANCELED);
+                finish();
+            }
         }
     }
 
     void handleSendBinary(Intent intent) {
         Uri uri = (Uri) intent.getParcelableExtra(Intent.EXTRA_STREAM);
-        if (isSupportedFileType(uri)) {
-            Toast.makeText(this, "handle send binary: " + uri,
-                    Toast.LENGTH_LONG).show();
-            Log.v(TAG, "handle send binary: " + uri);
+        if (!isSupportedFileType(uri))
+            return;
+        try {
+            File importFile = File.createTempFile("import", ".gpg");
+            Log.d(TAG, "handle send binary importFile: " + importFile);
+            InputStream in = getContentResolver().openInputStream(uri);
+            FileUtils.copyInputStreamToFile(in, importFile);
+            runImport(importFile, true);
+        } catch (IOException e) {
+            e.printStackTrace();
+            setResult(RESULT_CANCELED);
+            finish();
         }
     }
 
     void handleSendMultipleBinaries(Intent intent) {
-        ArrayList<Uri> uris = intent
-                .getParcelableArrayListExtra(Intent.EXTRA_STREAM);
-        for (Uri uri : uris)
-            if (isSupportedFileType(uri)) {
-                Toast.makeText(this, "handle multiple binaries: " + uri, Toast.LENGTH_LONG)
-                        .show();
-                Log.v(TAG, "handle multiple binaries: " + uri);
-            }
+        ArrayList<Uri> uris = intent.getParcelableArrayListExtra(Intent.EXTRA_STREAM);
+        for (Uri uri : uris) {
+            Log.v(TAG, "handle multiple binaries: " + uri);
+            handleSendBinary(new Intent().putExtra(Intent.EXTRA_STREAM, uri));
+        }
     }
 
     /**
@@ -186,26 +202,25 @@ public class ImportFileActivity extends ActionBarActivity {
         finish();
     }
 
-    private void runImport(String importFilename, boolean deleteAfterImport) {
-        File keyFile = new File(importFilename);
-        if (!keyFile.exists()) {
+    private void runImport(File importFile, boolean deleteAfterImport) {
+        if (!importFile.exists()) {
             String errorMsg = String.format(
                     getString(R.string.error_file_does_not_exist_format),
-                    keyFile);
+                    importFile);
             Toast.makeText(getBaseContext(), errorMsg, Toast.LENGTH_LONG).show();
             return;
         }
         try {
-            String keyFilename = keyFile.getCanonicalPath();
+            String keyFilename = importFile.getCanonicalPath();
             if (deleteAfterImport)
-                mDeleteThisFileAfterImport = keyFile;
+                mDeleteThisFileAfterImport = importFile;
             else
                 mDeleteThisFileAfterImport = null;
             String args = " --import '" + keyFilename + "'";
             Gpg2TaskFragment gpg2Task = new Gpg2TaskFragment();
             gpg2Task.configTask(mMessenger, new Gpg2TaskFragment.Gpg2Task(), args);
             gpg2Task.show(mFragmentManager, GPG2_TASK_FRAGMENT_TAG);
-            Log.d(TAG, "import complete");
+            Log.d(TAG, "import launch complete");
         } catch (GnuPGException e) {
             Log.e(TAG, "File import failed: ");
             e.printStackTrace();
