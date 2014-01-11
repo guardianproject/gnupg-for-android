@@ -70,7 +70,6 @@ public class KeyListFragment extends ListFragment implements
     private Bundle mCurrentExtras;
 
     private ActionBarActivity mCurrentActivity;
-    private OnKeysSelectedListener mOnKeysSelectedCallback;
 
     private final HashSet<Integer> mSelectedPositions = new HashSet<Integer>();
 
@@ -83,12 +82,6 @@ public class KeyListFragment extends ListFragment implements
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         mCurrentActivity = (ActionBarActivity) activity;
-        try {
-            mOnKeysSelectedCallback = (OnKeysSelectedListener) activity;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString()
-                    + " must implement OnKeysSelectedListener");
-        }
     }
 
     @Override
@@ -108,13 +101,6 @@ public class KeyListFragment extends ListFragment implements
             mListView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
         } else if (mAction.equals(Action.SELECT_SECRET_KEYS)) {
             mListView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
-            mListView.setOnItemClickListener(new OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-                    String[] userId = (String[]) mListView.getItemAtPosition(position);
-                    mOnKeysSelectedCallback.onKeySelected(id, Apg.userId(userId));
-                }
-            });
         } else {
             mListView.setChoiceMode(ListView.CHOICE_MODE_NONE);
         }

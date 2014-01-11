@@ -2,7 +2,6 @@
 package info.guardianproject.gpg;
 
 import info.guardianproject.gpg.GpgApplication.Action;
-import info.guardianproject.gpg.apg_compat.Apg;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
@@ -10,11 +9,8 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.view.ActionMode;
 import android.util.Log;
 
-public class SelectKeysActivity extends ActionBarActivity implements
-        KeyListFragment.OnKeysSelectedListener {
+public class SelectKeysActivity extends ActionBarActivity {
     public static final String TAG = "SelectKeysActivity";
-
-    KeyListFragment mFragment;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -38,46 +34,9 @@ public class SelectKeysActivity extends ActionBarActivity implements
     }
 
     @Override
-    protected void onNewIntent(Intent i) {
-        super.onNewIntent(i);
-        mFragment.handleIntent(i.getAction(), i.getExtras());
-    }
-
-    @Override
-    public void onKeySelected(long id, String userId) {
-        Intent data = new Intent();
-        data.putExtra(Apg.EXTRA_KEY_ID, id);
-        data.putExtra(Apg.EXTRA_USER_ID, userId);
-        setResult(RESULT_OK, data);
-        finish();
-
-    }
-
-    @Override
-    public void onKeysSelected(long[] selectedKeyIds, String[] selectedUserIds) {
-        Intent data = new Intent();
-        data.putExtra(Apg.EXTRA_SELECTION, selectedKeyIds);
-        data.putExtra(Apg.EXTRA_USER_IDS, selectedUserIds);
-        setResult(RESULT_OK, data);
-        finish();
-    }
-
-    @Override
-    public void onKeySelectionCanceled() {
-        setResult(RESULT_CANCELED, null);
-        finish();
-    }
-
-    @Override
     public void onSupportActionModeFinished(ActionMode mode) {
         Log.i(TAG, "onSupportActionModeFinished");
         finish();
     }
 
-    // @Override
-    // public boolean onCreateOptionsMenu(Menu menu) {
-    // menu.add(0, Id.menu.option.search, 0, R.string.menu_search)
-    // .setIcon(android.R.drawable.ic_menu_search);
-    // return true;
-    // }
 }

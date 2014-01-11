@@ -32,7 +32,7 @@ import android.view.Window;
 import android.widget.Toast;
 
 public class MainActivity extends ActionBarActivity implements TabListener,
-        OnPageChangeListener, OnQueryTextListener, KeyListFragment.OnKeysSelectedListener {
+        OnPageChangeListener, OnQueryTextListener {
     private final static String TAG = "MainActivity";
 
     private static final String TAB_POSITION = "position";
@@ -294,21 +294,6 @@ public class MainActivity extends ActionBarActivity implements TabListener,
     @Override
     public void onTabReselected(Tab tab, FragmentTransaction ft) {
         // no op
-    }
-
-    @Override
-    public void onKeySelected(long id, String userId) {
-        // no op
-    }
-
-    @Override
-    public void onKeysSelected(long[] selectedKeyIds, String[] selectedUserIds) {
-        // no op
-    }
-
-    @Override
-    public void onKeySelectionCanceled() {
-        Log.i(TAG, "onKeySelectionCanceled");
     }
 
     @Override
