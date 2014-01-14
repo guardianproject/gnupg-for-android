@@ -196,6 +196,7 @@ public class FileHandlerActivity extends Activity {
         // now add the full path to the filename
         final File incomingFile = new File(getFilesDir(), incomingFilename);
         incomingFilename = incomingFile.getCanonicalPath();
+        final String filename = incomingFile.getName();
         final String extension = FilenameUtils.getExtension(incomingFilename);
         if (mimeType.equals(getString(R.string.pgp_keys))) {
             importFile(incomingFilename, mimeType);
@@ -204,7 +205,6 @@ public class FileHandlerActivity extends Activity {
         } else if (mimeType.equals(getString(R.string.pgp_encrypted))) {
             decryptFile(incomingFilename, mimeType);
         } else if (mimeType.equals("application/octet-stream")) {
-            String filename = incomingFile.getName();
             if (filename.equals("pubring.gpg") || filename.equals("secring.gpg")
                     || extension.equals("pgp"))
                 importFile(incomingFilename, getString(R.string.pgp_keys));
@@ -221,6 +221,12 @@ public class FileHandlerActivity extends Activity {
                 decryptFile(incomingFilename, getString(R.string.pgp_encrypted));
             else
                 detectAsciiFileType(incomingFilename);
+            // apps are sloppy and don't set MIME type, so check only extension
+        } else if (filename.equals("pubring.gpg") || filename.equals("secring.gpg")
+                || extension.equals("pkr") || extension.equals("skr") || extension.equals("key")) {
+            importFile(incomingFilename, getString(R.string.pgp_keys));
+        } else if (extension.equals("pgp") || extension.equals("gpg")) {
+            decryptFile(incomingFilename, getString(R.string.pgp_encrypted));
         } else {
             /*
              * TODO this is a file type that we don't handle, so assume the user
