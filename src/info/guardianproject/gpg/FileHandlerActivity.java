@@ -99,11 +99,11 @@ public class FileHandlerActivity extends Activity {
                 handleFileScheme(intent, uri);
             else if (scheme.equals("content"))
                 handleContentScheme(intent, uri);
+            finish();
         } catch (Exception e) {
             e.printStackTrace();
             showError(R.string.app_name, e.getMessage());
         }
-        finish();
     }
 
     private void handleExtraText(Intent intent) {
@@ -169,8 +169,9 @@ public class FileHandlerActivity extends Activity {
                 encryptFile(incomingFilename);
             }
         } else {
-            Toast.makeText(this, getString(R.string.error_cannot_read_incoming_file_format),
-                    Toast.LENGTH_LONG).show();
+            throw new IOException(String.format(
+                    getString(R.string.error_cannot_read_incoming_file_format),
+                    uri));
         }
     }
 
@@ -225,15 +226,13 @@ public class FileHandlerActivity extends Activity {
              * TODO this is a file type that we don't handle, so assume the user
              * wants to do something to it, like sign and/or encrypt it
              */
-            String msg = String.format(
+            throw new IOException(String.format(
                     getString(R.string.error_cannot_detect_file_type_format),
-                    uri);
-            showError(R.string.app_name, msg);
+                    uri));
         }
     }
 
     private void showError(int resId, String msg) {
-        Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(resId)
                 .setMessage(msg)
