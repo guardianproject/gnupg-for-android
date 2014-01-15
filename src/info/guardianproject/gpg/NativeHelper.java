@@ -13,6 +13,7 @@ import java.io.PrintWriter;
 import java.util.Scanner;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 
 import android.content.Context;
 import android.content.res.AssetManager;
@@ -234,17 +235,9 @@ public class NativeHelper {
         try {
             in = assetManager.open(filename);
             out = new FileOutputStream(new File(app_opt, filename).getAbsolutePath());
-
-            byte[] buffer = new byte[1024];
-            int read;
-            while ((read = in.read(buffer)) != -1) {
-                out.write(buffer, 0, read);
-            }
+            IOUtils.copy(in, out);
             in.close();
-            in = null;
-            out.flush();
             out.close();
-            out = null;
         } catch (Exception e) {
             Log.e(TAG, filename + ": " + e.getMessage());
         }

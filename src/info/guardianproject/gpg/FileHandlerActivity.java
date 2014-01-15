@@ -10,6 +10,7 @@ import java.util.regex.Pattern;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.io.IOUtils;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -186,10 +187,8 @@ public class FileHandlerActivity extends Activity {
         InputStream in = getContentResolver().openInputStream(uri);
         if (in == null)
             throw new IOException("Cannot access mail attachment: " + uri);
-        OutputStream out = new BufferedOutputStream(openFileOutput(incomingFilename, MODE_PRIVATE));
-        byte[] buffer = new byte[8192];
-        while (in.read(buffer) > 0)
-            out.write(buffer);
+        OutputStream out = openFileOutput(incomingFilename, MODE_PRIVATE);
+        IOUtils.copy(in, out);
         out.close();
         in.close();
 
