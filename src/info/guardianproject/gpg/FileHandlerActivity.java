@@ -1,6 +1,16 @@
 
 package info.guardianproject.gpg;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.FilenameUtils;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ContentResolver;
@@ -11,21 +21,11 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore.MediaColumns;
 import android.util.Log;
-import android.widget.Toast;
-
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.FilenameUtils;
-
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class FileHandlerActivity extends Activity {
     public static final String TAG = "FileHandlerActivity";
+
+    boolean mShowingDialog = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,7 +99,8 @@ public class FileHandlerActivity extends Activity {
                 handleFileScheme(intent, uri);
             else if (scheme.equals("content"))
                 handleContentScheme(intent, uri);
-            finish();
+            if (!mShowingDialog) // the dialog will run finish() instead
+                finish();
         } catch (Exception e) {
             e.printStackTrace();
             showError(R.string.app_name, e.getMessage());
@@ -163,10 +164,9 @@ public class FileHandlerActivity extends Activity {
             } else {
                 /*
                  * This is a file type that gpg does not recognize or support,
-                 * so it must be a file that is intended to be encrypted and
-                 * sent
+                 * so it must be intended to be signed and/or encrypted
                  */
-                encryptFile(incomingFilename);
+                showChooseSignOrEncrypt(incomingFilename);
             }
         } else {
             throw new IOException(String.format(
@@ -228,22 +228,52 @@ public class FileHandlerActivity extends Activity {
         } else if (extension.equals("pgp") || extension.equals("gpg")) {
             decryptFile(incomingFilename, getString(R.string.pgp_encrypted));
         } else {
-            /*
-             * TODO this is a file type that we don't handle, so assume the user
-             * wants to do something to it, like sign and/or encrypt it
-             */
-            throw new IOException(String.format(
-                    getString(R.string.error_cannot_detect_file_type_format),
-                    uri));
+            showChooseSignOrEncrypt(incomingFilename);
         }
     }
 
     private void showError(int resId, String msg) {
+        mShowingDialog = true;
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(resId)
                 .setMessage(msg)
                 .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
+                        Log.i(TAG, "showError setPositiveButton onClick");
+                        setResult(RESULT_CANCELED);
+                        finish();
+                    }
+                });
+        builder.show();
+    }
+
+    private void showChooseSignOrEncrypt(final String filename) {
+        mShowingDialog = true;
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        String msg = String
+                .format(getString(R.string.dialog_encrypt_or_sign_file_format), filename);
+        builder.setTitle(R.string.openpgp_operation)
+                .setMessage(msg)
+                // TODO implement a signing Activity and use it here
+                .setPositiveButton(R.string.sign, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        Log.i(TAG, "showChooseSignOrEncrypt setPositiveButton onClick");
+                        setResult(RESULT_OK);
+                        finish();
+                        signFile(filename);
+                    }
+                })
+                .setNeutralButton(R.string.encrypt, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        Log.i(TAG, "showChooseSignOrEncrypt setNeutralButton onClick");
+                        setResult(RESULT_OK);
+                        finish();
+                        encryptFile(filename);
+                    }
+                })
+                .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        Log.i(TAG, "showChooseSignOrEncrypt setNegativeButton onClick");
                         setResult(RESULT_CANCELED);
                         finish();
                     }

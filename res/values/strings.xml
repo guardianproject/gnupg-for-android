@@ -53,6 +53,8 @@
     <string name="no_key_specified_using_this_key">No one was specified as the recipient, so using the default:</string>
     <string name="sign_file">Sign file?</string>
     <string name="ascii_signature">ASCII signature?</string>
+    <string name="sign">Sign&#8230;</string>
+    <string name="encrypt">Encrypt&#8230;</string>
     <string name="changing_passphrase_for_format">Changing passphrase for %s</string>
     <string name="search_hint">search by name, email, or key ID</string>
 
@@ -99,6 +101,8 @@
     <string name="backing_up_to_sdcard">Backing up new key to SD Card&#8230;</string>
     <string name="dialog_share_file_using">Share file using:</string>
     <string name="dialog_view_file_using">View file using:</string>
+    <string name="openpgp_operation">OpenPGP Operation</string>
+    <string name="dialog_encrypt_or_sign_file_format">Encrypt and/or sign \"%s\"?</string>
 
     <!-- sending and receiving dialogs -->
     <string name="receive_key">Receive key&#8230;</string>
