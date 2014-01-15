@@ -288,8 +288,10 @@ public class FileHandlerActivity extends Activity {
     }
 
     private String getContentColumn(ContentResolver resolver, Uri uri, String columnName) {
+        String ret = null;
+        Cursor cursor = null;
         try {
-            Cursor cursor = resolver.query(uri, new String[] {
+            cursor = resolver.query(uri, new String[] {
                     columnName
             }, null, null, null);
             if (cursor == null)
@@ -301,12 +303,14 @@ public class FileHandlerActivity extends Activity {
                 Log.i(TAG,
                         "Column " + columnName + " (" + nameIndex + ") is '"
                                 + cursor.getString(nameIndex) + "'");
-                return cursor.getString(nameIndex);
+                ret = cursor.getString(nameIndex);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return null;
+        if (cursor != null)
+            cursor.close();
+        return ret;
     }
 
     private void detectAsciiFileType(String incomingFilename) throws IOException {
