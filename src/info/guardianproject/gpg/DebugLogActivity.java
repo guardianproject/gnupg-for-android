@@ -20,6 +20,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.os.Messenger;
 import android.preference.PreferenceManager;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -57,7 +58,9 @@ public class DebugLogActivity extends ActionBarActivity implements OnCreateConte
         consoleScroll = (ScrollView) findViewById(R.id.consoleScroll);
         consoleText = (TextView) findViewById(R.id.consoleText);
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        ActionBar ab = getSupportActionBar();
+        ab.setDisplayHomeAsUpEnabled(true);
+        ab.setTitle(R.string.title_debug_mode);
     }
 
     @Override
