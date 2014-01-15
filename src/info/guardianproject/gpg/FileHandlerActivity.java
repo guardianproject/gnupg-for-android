@@ -385,6 +385,13 @@ public class FileHandlerActivity extends Activity {
         startActivity(intent);
     }
 
+    private void signFile(String incomingFilename) {
+        Log.v(TAG, "signFile(" + incomingFilename + ")");
+        Intent intent = new Intent(this, SignFileActivity.class);
+        intent.setData(Uri.fromFile(new File(incomingFilename)));
+        startActivity(intent);
+    }
+
     private void verifyFile(String incomingFilename, String mimeType) {
         Log.v(TAG, "verifyFile(" + incomingFilename + ", " + mimeType + ")");
         Intent intent = new Intent(this, VerifyActivity.class);

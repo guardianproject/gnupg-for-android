@@ -51,6 +51,11 @@
             android:label="@string/title_encrypt_file"
             android:parentActivityName=".MainActivity" />
         <activity
+            android:name=".SignFileActivity"
+            android:excludeFromRecents="true"
+            android:label="@string/title_sign_file"
+            android:parentActivityName=".MainActivity" />
+        <activity
             android:name=".FirstRunWelcomeActivity"
             android:noHistory="true" />
         <activity
