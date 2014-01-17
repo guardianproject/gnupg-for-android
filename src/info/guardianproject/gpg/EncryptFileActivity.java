@@ -15,6 +15,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.os.Messenger;
+import android.os.RemoteException;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
@@ -39,6 +40,7 @@ public class EncryptFileActivity extends ActionBarActivity {
 
     private static final int ENCRYPTED_DATA_SENT = 4321;
     private static final int ENCRYPT_FILE_TO = 0x1231;
+    private static final int SELECTED_RECIPIENTS = 0x9999;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +59,8 @@ public class EncryptFileActivity extends ActionBarActivity {
                     processFile(message);
                 } else if (message.what == Gpg2TaskFragment.GPG2_TASK_FINISHED) {
                     sendEncryptedFile();
+                } else if (message.what == SELECTED_RECIPIENTS) {
+                    showEncryptToFileDialog();
                 }
             }
         });
@@ -122,7 +126,7 @@ public class EncryptFileActivity extends ActionBarActivity {
                         Toast.makeText(this, text, Toast.LENGTH_LONG).show();
                     }
                 }
-                showEncryptToFileDialog();
+                sendMessageToHandler(SELECTED_RECIPIENTS);
                 return;
             case GpgApplication.FILENAME: // file picker result returned
                 Log.i(TAG, "GpgApplication.FILENAME " + GpgApplication.FILENAME);
@@ -195,6 +199,23 @@ public class EncryptFileActivity extends ActionBarActivity {
                 mFileDialog.show(mFragmentManager, "fileDialog");
             }
         }.run();
+    }
+
+    /**
+     * Send message back to handler which is initialized in a activity
+     * 
+     * @param what Message integer you want to send
+     */
+    private void sendMessageToHandler(Integer what) {
+        Message msg = Message.obtain();
+        msg.what = what;
+        try {
+            mMessenger.send(msg);
+        } catch (RemoteException e) {
+            Log.w(TAG, "Exception sending message, Is handler present?", e);
+        } catch (NullPointerException e) {
+            Log.w(TAG, "Messenger is null!", e);
+        }
     }
 
     private void processFile(Message message) {
