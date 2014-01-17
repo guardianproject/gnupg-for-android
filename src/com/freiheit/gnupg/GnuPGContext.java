@@ -35,32 +35,6 @@ import java.io.IOException;
  * }
  * </pre>
  * 
- * If you execute an operation, where GnuPG needs a passphrase (password,
- * mantra) from you, you need to tell the library which Class is listening for
- * such a request and is able to deliver the entered passphrase to the library.
- * You can implement such a listener by yourself, but you can also use two
- * pre-fabricated ones. (Of course, normally you should install
- * gpg-agent/pinentry for this job...but some will need this ability to get
- * passphrases from a database or so. And: This release is not checking for the
- * existence of gpg-agent...so it won't work anyway.)
- * <p>
- * <em>How to add a Passphrase-Listener to read a password from the console?</em>
- * 
- * <pre>
- *    {@code
- *      ctx.setPassphraseListener(new GnuPGPassphraseConsole());
- *      //caution: you can still see the password while you are typing...
- *    }
- * </pre>
- * 
- * <em>How to add a Passphrase-Listener to read a password from the swing dialog?</em>
- * 
- * <pre>
- *    {@code
- *      ctx.setPassphraseListener(new GnuPGPassphraseWindow());
- *    }
- * </pre>
- * 
  * @author Stefan Richter, stefan@freiheit.com
  */
 
@@ -74,7 +48,6 @@ public class GnuPGContext extends GnuPGPeer {
     private String _filename;
     private String _reqversion;
     private int _protocol;
-    private GnuPGPassphraseListener _passphraseListener = null;
 
     /** Creates a new Context (use on context for one thread!) */
     public GnuPGContext() {
