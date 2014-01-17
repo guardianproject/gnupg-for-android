@@ -7,6 +7,8 @@ import java.io.File;
 
 import org.openintents.openpgp.keyserver.KeyServer.KeyInfo;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -162,6 +164,20 @@ public class EncryptFileActivity extends ActionBarActivity {
         }
     }
 
+    private void showError(String msg) {
+        Log.i(TAG, msg);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.encrypt_file_to)
+                .setMessage(msg)
+                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        Log.i(TAG, "showError setPositiveButton onClick");
+                        cancel();
+                    }
+                });
+        builder.show();
+    }
+
     /**
      * Show to dialog from where to import keys
      */
@@ -186,11 +202,10 @@ public class EncryptFileActivity extends ActionBarActivity {
         boolean signFile = data.getBoolean(FileDialogFragment.MESSAGE_DATA_CHECKED);
         mPlainFile = new File(data.getString(FileDialogFragment.MESSAGE_DATA_FILENAME));
         if (!mPlainFile.exists()) {
-            String errorMsg = String.format(
+            String msg = String.format(
                     getString(R.string.error_file_does_not_exist_format),
                     mPlainFile);
-            Toast.makeText(getBaseContext(), errorMsg, Toast.LENGTH_LONG).show();
-            cancel();
+            showError(msg);
         } else {
             try {
                 String plainFilename = mPlainFile.getCanonicalPath();
@@ -207,13 +222,11 @@ public class EncryptFileActivity extends ActionBarActivity {
                 gpg2Task.configTask(mMessenger, new Gpg2TaskFragment.Gpg2Task(), args);
                 gpg2Task.show(mFragmentManager, GPG2_TASK_FRAGMENT_TAG);
             } catch (Exception e) {
+                e.printStackTrace();
                 String msg = String.format(
                         getString(R.string.error_encrypting_file_failed_format),
                         mPlainFile);
-                Toast.makeText(getBaseContext(), msg, Toast.LENGTH_LONG).show();
-                Log.e(TAG, "File encrypt failed: " + mPlainFile);
-                e.printStackTrace();
-                cancel();
+                showError(msg);
             }
         }
     }
@@ -235,9 +248,7 @@ public class EncryptFileActivity extends ActionBarActivity {
         } else {
             String msg = String.format(getString(R.string.error_file_does_not_exist_format),
                     mEncryptedFile);
-            Log.i(TAG, msg);
-            Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
-            cancel();
+            showError(msg);
         }
     }
 }
