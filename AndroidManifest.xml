@@ -44,7 +44,8 @@
         <activity
             android:name=".DecryptActivity"
             android:excludeFromRecents="true"
-            android:label="@string/title_decrypt_file" />
+            android:label="@string/title_decrypt_file"
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".EncryptFileActivity"
             android:excludeFromRecents="true"

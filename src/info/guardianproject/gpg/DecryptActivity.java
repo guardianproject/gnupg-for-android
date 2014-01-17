@@ -1,7 +1,10 @@
 
 package info.guardianproject.gpg;
 
-import android.app.Activity;
+import java.io.File;
+
+import org.apache.commons.io.FilenameUtils;
+
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -10,14 +13,11 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.widget.Toast;
 
-import org.apache.commons.io.FilenameUtils;
-
-import java.io.File;
-
-public class DecryptActivity extends Activity {
+public class DecryptActivity extends ActionBarActivity {
     private static final String TAG = "DecryptActivity";
 
     private File mEncryptedFile;
@@ -28,6 +28,8 @@ public class DecryptActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         Intent intent = getIntent();
         String action = intent.getAction();
