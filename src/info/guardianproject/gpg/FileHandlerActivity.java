@@ -12,7 +12,6 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ContentResolver;
 import android.content.DialogInterface;
@@ -21,9 +20,10 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore.MediaColumns;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 
-public class FileHandlerActivity extends Activity {
+public class FileHandlerActivity extends ActionBarActivity {
     public static final String TAG = "FileHandlerActivity";
 
     boolean mShowingDialog = false;
@@ -34,6 +34,8 @@ public class FileHandlerActivity extends Activity {
         super.onCreate(savedInstanceState);
 
         // TODO rename to IncomingContentHandlerActivity
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         Intent intent = getIntent();
 
