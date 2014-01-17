@@ -99,7 +99,9 @@
     <string name="generating_revoke_cert">Generating revokation certificate&#8230;</string>
     <string name="uploading_to_keyserver">Uploading to keyserver&#8230;</string>
     <string name="backing_up_to_sdcard">Backing up new key to SD Card&#8230;</string>
-    <string name="dialog_share_file_using">Share file using:</string>
+    <string name="dialog_share_encrypted_file_using">Share encrypted file using:</string>
+    <string name="dialog_share_signature_file_using">Share signature file using:</string>
+    <string name="dialog_share_debug_log_using">Share debug log using:</string>
     <string name="dialog_view_file_using">View file using:</string>
     <string name="openpgp_operation">OpenPGP Operation</string>
     <string name="dialog_encrypt_or_sign_file_format">Encrypt and/or sign \"%s\"?</string>

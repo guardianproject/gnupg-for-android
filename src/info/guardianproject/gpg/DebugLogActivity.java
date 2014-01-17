@@ -480,6 +480,6 @@ public class DebugLogActivity extends ActionBarActivity implements OnCreateConte
                         + "\n\nlog:\n----------------------------------\n"
                         + consoleText.getText().toString()
                 );
-        startActivity(Intent.createChooser(i, getString(R.string.dialog_share_file_using)));
+        startActivity(Intent.createChooser(i, getString(R.string.dialog_share_debug_log_using)));
     }
 }

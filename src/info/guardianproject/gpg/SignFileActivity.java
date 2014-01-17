@@ -220,7 +220,7 @@ public class SignFileActivity extends ActionBarActivity {
             send.setType(getString(R.string.pgp_signature));
             send.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
             Intent intent = Intent.createChooser(send,
-                    getString(R.string.dialog_share_file_using));
+                    getString(R.string.dialog_share_signature_file_using));
             startActivityForResult(intent, SIGNATURE_DATA_SENT);
         } else {
             String msg = String.format(getString(R.string.error_file_does_not_exist_format),
