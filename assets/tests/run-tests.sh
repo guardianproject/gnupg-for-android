@@ -20,3 +20,4 @@ runtest gpgme run-import --verbose pubdemo.asc
 runtest gpgme run-import --verbose pubkey-1.asc
 runtest gpgme run-keylist --verbose
 
+echo SUCCESS
