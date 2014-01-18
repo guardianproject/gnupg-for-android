@@ -18,6 +18,11 @@ assets/sbin
 assets/share
 assets/var
 assets/tests/gpgme
+assets/tests/libassuan/
+assets/tests/libgcrypt/
+assets/tests/libgpg-error/
+assets/tests/libksba/
+assets/tests/npth/
 #
 external/TAGS
 external/data

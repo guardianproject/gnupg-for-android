@@ -662,7 +662,47 @@ gpgme-clean:
 #------------------------------------------------------------------------------#
 # separate target for building and installing the tests into assets/
 
-assets-tests: assets-tests-gpgme
+assets-tests: assets-tests-libgpg-error assets-tests-libassuan assets-tests-libgcrypt assets-tests-npth assets-tests-libksba assets-tests-gpgme
+
+assets-tests-libgpg-error:
+	$(MAKE) -C libgpg-error/tests
+	install -d $(ASSETS)/tests/libgpg-error
+	install -p \
+		libgpg-error/tests/.libs/* \
+		$(ASSETS)/tests/libgpg-error
+
+assets-tests-libassuan:
+	$(MAKE) -C libassuan/tests
+	install -d $(ASSETS)/tests/libassuan
+	install -p \
+		libassuan/tests/.libs/* \
+		$(ASSETS)/tests/libassuan
+
+assets-tests-libgcrypt:
+	$(MAKE) -C libgcrypt/tests
+	install -d $(ASSETS)/tests/libgcrypt
+	install -p \
+		libgcrypt/tests/.libs/* \
+		libgcrypt/tests/*.inp \
+		libgcrypt/tests/*.key \
+		$(ASSETS)/tests/libgcrypt
+
+assets-tests-npth:
+	$(MAKE) -C npth/tests
+	install -d $(ASSETS)/tests/npth
+	install -p \
+		npth/tests/.libs/* \
+		$(ASSETS)/tests/npth
+
+assets-tests-libksba:
+	$(MAKE) -C libksba/tests
+	install -d $(ASSETS)/tests/libksba
+	install -p \
+		libksba/tests/.libs/* \
+		libksba/tests/*.der \
+		$(ASSETS)/tests/libksba
+
+# TODO the gnupg/tests/ are all based on shell scripts that won't run on Android
 
 assets-tests-gpgme:
 	$(MAKE) -C gpgme/tests
@@ -721,10 +761,15 @@ clean-assets:
 	rm -rf $(ASSETS)/sbin
 	rm -rf $(ASSETS)/share
 	rm -rf $(ASSETS)/tests/gpgme
+	rm -rf $(ASSETS)/tests/libassuan
+	rm -rf $(ASSETS)/tests/libgcrypt
+	rm -rf $(ASSETS)/tests/libgpg-error
+	rm -rf $(ASSETS)/tests/libksba
+	rm -rf $(ASSETS)/tests/npth
 	rm -rf $(ASSETS)/var
 
 ASSETS := $(EXTERNAL_ROOT)/../assets
-assets: clean-assets assets-tests
+assets: clean-assets
 # add the new stuff
 	install -d $(ASSETS)
 	cp -a $(LOCAL)/* $(ASSETS)
@@ -773,6 +818,11 @@ gitclean:
 	rm -rf $(ASSETS)/sbin
 	rm -rf $(ASSETS)/share
 	rm -rf $(ASSETS)/tests/gpgme
+	rm -rf $(ASSETS)/tests/libassuan
+	rm -rf $(ASSETS)/tests/libgcrypt
+	rm -rf $(ASSETS)/tests/libgpg-error
+	rm -rf $(ASSETS)/tests/libksba
+	rm -rf $(ASSETS)/tests/npth
 	rm -rf $(ASSETS)/var
 	rm -rf $(EXTERNAL_ROOT)/data
 	for file in $(EXTERNAL_ROOT)/*; do \
