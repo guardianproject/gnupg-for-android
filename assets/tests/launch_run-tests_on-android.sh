@@ -44,13 +44,17 @@ echo "What files got installed?"
 adb shell 'ls -l /data/data/info.guardianproject.gpg'
 adb shell 'ls -l /data/data/info.guardianproject.gpg/lib'
 adb shell 'ls -l /data/data/info.guardianproject.gpg/app_opt'
+adb shell 'ls -l /data/data/info.guardianproject.gpg/app_opt/aliases'
 adb shell 'ls -l /data/data/info.guardianproject.gpg/app_opt/bin'
 adb shell 'ls -l /data/data/info.guardianproject.gpg/app_opt/lib'
+adb shell 'ls -l /data/data/info.guardianproject.gpg/app_opt/tests'
+adb shell 'ls -l -R /data/data/info.guardianproject.gpg'
 
 
 echoheader
 echo "Printing the environment variables: "
 adb shell set
+adb shell export
 
 
 echoheader
