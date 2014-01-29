@@ -682,10 +682,9 @@ assets-tests-libgcrypt:
 	$(MAKE) -C libgcrypt/tests
 	install -d $(ASSETS)/tests/libgcrypt
 	install -p \
-		libgcrypt/tests/.libs/* \
-		libgcrypt/tests/*.inp \
-		libgcrypt/tests/*.key \
+		libgcrypt/tests/* \
 		$(ASSETS)/tests/libgcrypt
+	rm -f $(ASSETS)/tests/libgcrypt.[cho]
 
 assets-tests-npth:
 	$(MAKE) -C npth/tests
