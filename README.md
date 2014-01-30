@@ -161,6 +161,29 @@ First the get all of the source code from git:
 	ant clean debug
 
 
+### Running the GnuPG tests
+
+The GnuPG subprojects all include their own test suites.  They end up being
+quite large, so they are not included in the APK by default.  If you want to
+include all of the tests, then run `make -C external/ assets-tests` before
+`ndk-build`.  That gives you the same sequence as used in `jenkins-build.sh`,
+which is how we run our tests:
+
+    make -C external/ distclean clean-assets
+	make -C external/
+	make -C external/ assets-tests
+	ndk-build clean
+	ndk-build
+	./setup-ant.sh
+	ant clean debug
+
+Then to run the tests, first install the APK and run it so that it sets up all
+of its included assets.  Once the Android app has completed its initial setup,
+run:
+
+    ./assets/tests/launch_run-tests_on-android.sh
+
+
 ### How to Build Individual Components
 
 To compile the components individually you can use commands like (the order
