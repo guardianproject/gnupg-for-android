@@ -174,6 +174,9 @@ libgcrypt/Makefile: libgcrypt/config.sub libgcrypt/config.guess libgcrypt/config
 			./configure \
 				--enable-maintainer-mode \
 				--enable-static \
+				--disable-padlock-support \
+				--disable-drng-support \
+				--disable-neon-support \
 				--host=$(HOST) \
 				--with-gpg-error-prefix=$(LOCAL) \
 				--prefix=$(LOCAL)
