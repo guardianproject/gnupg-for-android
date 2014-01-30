@@ -25,7 +25,6 @@
                 android:gravity="center"
                 android:paddingBottom="20dp"
                 android:text="@string/wizard_integration_msg"
-                android:textAlignment="center"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <CheckBox
