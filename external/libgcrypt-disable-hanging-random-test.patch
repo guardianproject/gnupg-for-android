@@ -1,0 +1,12 @@
+diff --git a/libgcrypt/tests/random.c b/libgcrypt/tests/random.c
+index 10bf646..a52aacc 100644
+--- a/libgcrypt/tests/random.c
++++ b/libgcrypt/tests/random.c
+@@ -439,7 +439,6 @@ run_all_rng_tests (const char *program)
+     "--early-rng-check --prefer-fips-rng",
+     "--early-rng-check --prefer-system-rng",
+     "--prefer-standard-rng",
+-    "--prefer-fips-rng",
+     "--prefer-system-rng",
+     NULL
+   };

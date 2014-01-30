@@ -54,8 +54,8 @@ runtest libgcrypt keygrip --verbose
 runtest libgcrypt fips186-dsa --verbose
 runtest libgcrypt aeswrap --verbose
 runtest libgcrypt pkcs1v2 --verbose
-# TODO enable this test! Its temporarily disabled because it hangs for hours
-#runtest libgcrypt random --verbose --progress
+# TODO enable --prefer-fips-rng, its temporarily disabled because it hangs for hours
+runtest libgcrypt random --verbose --progress
 runtest libgcrypt dsa-rfc6979 --verbose
 runtest libgcrypt t-ed25519 --verbose
 runtest libgcrypt benchmark --verbose

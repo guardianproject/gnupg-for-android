@@ -177,6 +177,7 @@ libgcrypt/Makefile: libgcrypt/config.sub libgcrypt/config.guess libgcrypt/config
 				--host=$(HOST) \
 				--with-gpg-error-prefix=$(LOCAL) \
 				--prefix=$(LOCAL)
+	-patch -N -p1 --reject-file=- libgcrypt/tests/random.c libgcrypt-disable-hanging-random-test.patch
 
 libgcrypt/src/.libs/libgcrypt.so: $(LOCAL)/lib/libgpg-error.so libgcrypt/Makefile
 	$(MAKE) -C libgcrypt
