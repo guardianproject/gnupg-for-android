@@ -80,6 +80,14 @@ public class FileHandlerActivity extends ActionBarActivity {
                 scheme = "file";
                 uri = Uri.parse("file://" + path);
                 Log.i(TAG, "constructed a path from a content://media/ URI: " + uri);
+            } else if (host.equals("org.openintents.filemanager")) {
+                String path = uri.getPath();
+                File f = new File(path);
+                if (f.canRead()) {
+                    scheme = "file";
+                    uri = Uri.parse("file://" + path);
+                    Log.i(TAG, "constructed a path from a content://org.openintents.filemanager/ URI: " + uri);                    
+                }
             } else if (host.equals("com.google.android.gallery3d.provider")
                     || host.equals("com.android.gallery3d.provider")) {
                 String path = getContentColumn(getContentResolver(), uri, MediaColumns.DATA);
