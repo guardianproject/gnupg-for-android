@@ -75,7 +75,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="left|center_vertical"
-                android:inputType="textPersonName"
+                android:inputType="textCapWords|textPersonName"
                 android:singleLine="true"
                 android:textSize="20sp" />
 
