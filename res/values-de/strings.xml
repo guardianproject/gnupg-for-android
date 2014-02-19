@@ -1,55 +1,67 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
   <string name="app_name">GnuPrivacyGuard</string>
-  <string name="label_debug_header">Debugging für Tests </string>
+  <string name="label_debug_header">Fehlerprotokoll für Tests </string>
   <string name="pinentry_service_label">Gnu Privacy Guard pinentry Dienst</string>
   <string name="pinentry_service_started">Gnu Privacy Guard pinentry Dienst läuft </string>
-  <string name="enter_pin">Geben Sie ihre PIN ein</string>
+  <string name="enter_pin">Geben Sie Ihre PIN ein</string>
   <string name="title_activity_pinentry">PIN-Eingabe</string>
   <string name="title_activity_encrypt">Verschlüsseln</string>
   <string name="title_activity_decrypt">Entschlüsseln</string>
   <string name="dialog_installing_msg">Richte Gnu Privacy Guard ein</string>
-  <string name="dialog_installing_title">Installiere... (warten Sie bis der Vorgang abgeschlossen ist!)</string>
+  <string name="dialog_installing_title">Installiere... (Warten Sie, bis der Vorgang abgeschlossen ist!)</string>
   <string name="pref_keyserver_title">Schlüsselserver</string>
-  <string name="pref_keyserver_summary">Welcher Schlüsselserver für das Herunterladen und Veröffentlichen von Schlüsseln (Standard: hkp://keys.gnupg.net)</string>
+  <string name="pref_keyserver_summary">Welcher HKP Schlüsselserver für das Herunterladen und Veröffentlichen von Schlüsseln (Standard: ipv4.pool.sks-keyservers.net)</string>
   <string name="pref_start_boot_title">Daemon (Hintergrundprozess) beim Hochfahren starten</string>
-  <string name="pref_start_boot_summary">Startet die pinentry und dirmngr Dienste wenn Ihr Gerät bootet </string>
-  <string name="title_decrypt_file">Datei Entschlüsseln</string>
+  <string name="pref_start_boot_summary">Startet die pinentry und dirmngr Dienste wenn Ihr Gerät startet </string>
+  <string name="title_decrypt_file">Datei entschlüsseln</string>
   <string name="title_about">Über</string>
   <string name="title_debug_mode">Debug Modus</string>
   <string name="title_encrypt_file">Datei verschlüsseln</string>
+  <string name="title_sign_file">Datei signieren</string>
   <string name="title_import_keys">Schlüssel importieren</string>
-  <string name="title_export_keys">Schlüssel Exportieren</string>
+  <string name="title_export_keys">Schlüssel exportieren</string>
   <string name="title_receive_keys">Schlüssel abrufen </string>
+  <string name="title_public_keys">Öffentliche Schlüssel</string>
+  <string name="title_secret_keys">Geheime Schlüssel</string>
+  <string name="title_find_keys">Schlüssel finden</string>
+  <string name="title_change_passphrase">Passphrase ändern</string>
   <string name="title_error">Fehler</string>
   <string name="title_settings">Einstellungen</string>
+  <string name="title_select_keys">Schlüssel auswählen</string>
   <string name="verify_signature">Signatur prüfen </string>
   <string name="signature_verified">Signatur verifiziert</string>
   <string name="verifying_file_format">Überprüfe \"%s\"</string>
-  <string name="decrypting_file_format">Entschlüsseln von \"%s\"…</string>
+  <string name="decrypting_file_format">Entschlüssele \"%s\"…</string>
   <string name="error_no_file_manager_installed">Es ist kein kompatibles Dateiverwaltungsprogramm installiert!</string>
   <string name="error_files_not_supported">Datei-URIs werden von diesem Intent nicht unterstützt!</string>
   <string name="dialog_specify_decrypt_file">Wählen Sie die zu entschlüsselnde Datei:</string>
   <string name="dialog_specify_file_to_decrypt_to">Wählen Sie, wohin die entschlüsselten Daten gespeichert werden sollen:</string>
   <string name="dialog_decrypt_succeeded_view_file_format">\"%s\" entschlüsselt und erfolgreich überprüft, Datei anzeigen? </string>
   <string name="dialog_specify_encrypt_file">Wählen Sie die zu verschlüsselnde Datei:</string>
+  <string name="dialog_specify_sign_file">Wählen Sie die zu signierende Datei:</string>
   <string name="dialog_specify_import_file_msg">Wählen Sie die zu importierende Datei:</string>
   <string name="dialog_specify_export_file_msg">Alle Schlüssel werden in die unten ausgewählte Datei exportiert. WARNUNG! Datei wird überschrieben, falls sie bereits existiert. </string>
   <string name="dialog_verify_succeeded_view_file_format">\"%s\" erfolgreich überprüft, Datei anzeigen? </string>
   <string name="dialog_specific_keys_to_receive">Geben Sie die Schlüssel-IDs oder Fingerabdrücke der Schlüssel an, die Sie von den Schlüsselservern abrufen wollen:</string>
   <string name="key_already_exists_format">Schlüssel %s existiert bereits in Ihrem Schlüsselbund:</string>
   <string name="label_delete_after_import">Nach dem Importieren löschen</string>
-  <string name="label_export_secret_keys">Nur den privaten Schlüssel exportieren</string>
+  <string name="label_export_secret_keys">Nur geheime Schlüssel exportieren</string>
   <string name="renamed_existing_file_format">Bestehende Datei in %s umbenannt! </string>
   <string name="dialog_encrypting_title">Verschlüssele...</string>
   <string name="no_key_specified_using_this_key">Kein Empfänger ausgewählt, verwende Vorgabe:</string>
   <string name="sign_file">Datei signieren?</string>
+  <string name="ascii_signature">ASCII Signatur?</string>
+  <string name="sign">Signieren...</string>
+  <string name="encrypt">Verschlüsseln...</string>
+  <string name="changing_passphrase_for_format">Passphrase für %s wird geändert</string>
+  <string name="search_hint">nach Name, Email oder key ID suchen</string>
   <!--first run wizard-->
   <string name="wizard_welcome_title">Willkommen zu Gnu Privacy Guard</string>
   <string name="wizard_welcome_subtitle">Die Beta-Version von GnuPG für Android</string>
-  <string name="wizard_warning">WARNUNG! Sichern Sie all Ihre Schlüssel regelmäßig. Diese Anwendung befindet sich noch in einer heftigen Entwicklungsphase. </string>
-  <string name="wizard_button_backups">Ich werde Backups behalten</string>
-  <string name="wizard_integration_msg">Gnu Privacy Guard kann Ihren Schlüsselbund zur stärkeren Integration mit Ihren Kontakten abgleichen. Diese Änderungen sind nicht dauerhaft und können leicht rückgängig gemacht werden. </string>
+  <string name="wizard_warning">WARNUNG! Sichern Sie all Ihre Schlüssel regelmäßig. Diese Anwendung befindet sich noch in einer frühen Entwicklungsphase. </string>
+  <string name="wizard_button_backups">Ich werde Backups aufbewahren</string>
+  <string name="wizard_integration_msg">Gnu Privacy Guard kann Ihren Schlüsselbund zur besseren Integration mit Ihren Kontakten abgleichen. Diese Änderungen sind nicht dauerhaft und können leicht rückgängig gemacht werden. </string>
   <string name="wizard_integration_checkbox_label">Schlüsselbund mit Kontakten verknüpfen </string>
   <string name="wizard_button_create_key">Schlüssel Erstellen</string>
   <string name="wizard_button_import_keys">Schlüssel Importieren</string>
@@ -57,9 +69,12 @@
   <!--account, contacts, and contact syncing-->
   <string name="account_label">Gnu Privacy Guard</string>
   <string name="keyring_group_name">Gnu Privacy Guard Schlüsselbund</string>
+  <string name="secret_key_group_name">Geheime OpenPGP Schlüssel</string>
   <string name="encrypt_file_to">Datei entschlüsseln nach</string>
+  <string name="encrypt_file_to_detail">Wählen Sie die zu verschlüsselnde Datei für diese Person.</string>
   <string name="contact_view_key">Schlüssel ansehen</string>
   <string name="title_create_key">Schlüssel erstellen</string>
+  <string name="list_keys">Schlüssel auflisten</string>
   <string name="key_name_label">Name:</string>
   <string name="key_email_label">E-Mail-Adresse:</string>
   <string name="key_comment_label">Kommentar:</string>
@@ -72,16 +87,21 @@
   <string name="key_expire_five_years">5 Jahre</string>
   <string name="key_expire_ten_years">10 Jahre</string>
   <string name="key_expire_never">Nie</string>
-  <string name="key_revoke_gen">Rückrufzertifikat generieren</string>
+  <string name="key_revoke_gen">Widerrufzertifikat generieren</string>
+  <string name="key_add_comment">Optionales Kommentarfeld anzeigen</string>
   <string name="key_upload">Zum Schlüsselserver Hochladen</string>
-  <string name="key_make_backup">Sicherungskopie auf SD-Karte Speichern</string>
-  <string name="dialog_generating_new_key_title">Generiere Neuen Schlüssel...</string>
+  <string name="key_make_backup">Sicherungskopie auf SD-Karte speichern</string>
+  <string name="dialog_generating_new_key_title">Generiere neuen Schlüssel...</string>
   <string name="generating_new_key_message">Dieser Prozess kann bis zu 15 Minuten in Anspruch nehmen.</string>
-  <string name="generating_revoke_cert">Generiere Rückrufzertifikat...</string>
+  <string name="generating_revoke_cert">Generiere Widerrufzertifikat...</string>
   <string name="uploading_to_keyserver">Lade zum Schlüsselserver hoch...</string>
   <string name="backing_up_to_sdcard">Neuen Schlüssel auf SD-Karte sichern... </string>
-  <string name="dialog_share_file_using">Datei teilen mit:</string>
+  <string name="dialog_share_encrypted_file_using">Verschlüsselte Datei teilen über:</string>
+  <string name="dialog_share_signature_file_using">Signaturdatei teilen über:</string>
+  <string name="dialog_share_debug_log_using">Fehlerprotokoll teilen über:</string>
   <string name="dialog_view_file_using">Datei anzeigen mit:</string>
+  <string name="openpgp_operation">OpenPGP Operation</string>
+  <string name="dialog_encrypt_or_sign_file_format">\"%s\" Verschlüsseln und/oder Signieren?</string>
   <!--sending and receiving dialogs-->
   <string name="receive_key">Schlüssel abrufen... </string>
   <string name="receive_key_message">Geben Sie die Schlüssel-ID an, die Sie vom Schlüsselserver abrufen wollen:</string>
@@ -93,6 +113,7 @@
   <string name="error_output_file_exists_skipping_format">Ausgabedatei \"%s\" existiert, überspringe Entschlüsselung. </string>
   <string name="error_decrypting_file_failed_format">Entschlüsseln von \"%s\" fehlgeschlagen! </string>
   <string name="error_encrypting_file_failed_format">Verschlüsseln von \"%s\" fehlgeschlagen! </string>
+  <string name="error_signing_file_failed_format">\"%s\" Signieren schlug fehl!</string>
   <string name="error_decrypting_failed">Entschlüsseln fehlgeschlagen! </string>
   <string name="error_encrypting_failed">Verschlüsseln fehlgeschlagen! </string>
   <string name="error_gen_key_failed">Neuer Schlüssel konnte nicht erzeugt werden! </string>
@@ -101,6 +122,11 @@
   <string name="error_file_verify_failed_format">\"%s\" konnte nicht verifiziert werden!</string>
   <string name="error_no_pgp_content_found_format">Kein PGP-Inhalt in \"%s\" gefunden! </string>
   <string name="error_fingerprint_too_short_format">Der Fingerabdruck %s ist zu kurz! Er muss mind. 16 Zeichen lang sein. </string>
+  <string name="error_no_secret_key">Es gibt keinen geheimen Schlüssel! Sie müssen einen generieren oder importieren.</string>
+  <string name="error_insufficient_query">FEHLER! Unzureichende Abfrage. Versuchen Sie, Ihre Suche einzuschränken</string>
+  <string name="error_too_many_responses">Zu viele Ergebnisse! Versuchen Sie, Ihre Suche einzuschränken</string>
+  <string name="error_query_failed">FEHLER! Abfrage fehlgeschlagen, versuchen Sie es noch einmal!</string>
+  <string name="error_short_keyserver_query">Suchanfragen beim Schlüsselserver müssen mindestens 3 Zeichen lang sein!</string>
   <!--content descriptions for accessibility-->
   <string name="folder">Verzeichnis</string>
   <!--key status terms-->
@@ -112,7 +138,7 @@
   <string name="noKey">&lt;kein Schlüssel&gt;</string>
   <!--permission info-->
   <string name="perm_read_key_details_label">Lese Schlüsseldetails im APG-Stil</string>
-  <string name="perm_read_key_details_description">Lese die 16 Zeichen lange Schlüssel ID und die verbundene E-Mail-Adresse mithilfe eines ContentProvider im APG-Stil</string>
+  <string name="perm_read_key_details_description">Lese die 16 Zeichen lange Schlüssel-ID und die zugehörige E-Mail-Adresse mithilfe eines ContentProvider wie APG.</string>
   <!--APG-related messages-->
   <string name="error_activity_not_found">Keine geeignete Anwendung für diese Aktion gefunden.</string>
   <!--APG messages-->

@@ -5,24 +5,30 @@
   <string name="pinentry_service_label">Usługa wprowadzania PIN dla Gnu Privacy Guard</string>
   <string name="pinentry_service_started">Usługa wprowadzania PIN dla Gnu Privacy Guard jest uruchomiona</string>
   <string name="enter_pin">Wprowadź kod PIN</string>
-  <string name="title_activity_pinentry">Wprowadzanie PIN</string>
+  <string name="title_activity_pinentry">Wprowadzanie PINu</string>
   <string name="title_activity_encrypt">Szyfruj</string>
   <string name="title_activity_decrypt">Odszyfrowanie</string>
   <string name="dialog_installing_msg">Konfigurowanie Gnu Privacy Guard</string>
   <string name="dialog_installing_title">Instalowanie... (poczekaj na zakończenie!)</string>
   <string name="pref_keyserver_title">Serwer kluczy</string>
-  <string name="pref_keyserver_summary">Serwer kluczy dla publikowania i odbierania kluczy (domyślnie: hkp://keys.gnupg.net)</string>
+  <string name="pref_keyserver_summary">Z którego HKP kluczserwera pobrać i opublikować klucze do (domyślne: ipv4.pool.sks-keyservers.net)</string>
   <string name="pref_start_boot_title">Uruchom usługi przy starcie urządzenia</string>
   <string name="pref_start_boot_summary">Uruchom usługi: wprowadzania PIN i menadżer folderów podczas uruchomienia urządzenia</string>
   <string name="title_decrypt_file">Odszyfrowanie Pliku</string>
   <string name="title_about">O programie</string>
   <string name="title_debug_mode">Tryb Debugowania</string>
   <string name="title_encrypt_file">Szyfrowanie Pliku</string>
+  <string name="title_sign_file">Podpisz Plik</string>
   <string name="title_import_keys">Importuj klucze</string>
   <string name="title_export_keys">Eksportowanie Kluczy</string>
   <string name="title_receive_keys">Odbierz Klucze</string>
+  <string name="title_public_keys">Klucze Publiczne</string>
+  <string name="title_secret_keys">Klucze Prywatne</string>
+  <string name="title_find_keys">Szukaj Kluczy</string>
+  <string name="title_change_passphrase">Zmień Hasło</string>
   <string name="title_error">Błąd</string>
   <string name="title_settings">Ustawienia</string>
+  <string name="title_select_keys">Wybierz Klucz</string>
   <string name="verify_signature">Weryfikuj Sygnaturę</string>
   <string name="signature_verified">Sygnatura została zweryfikowana</string>
   <string name="verifying_file_format">Weryfikowanie \"%s\"</string>
@@ -33,6 +39,7 @@
   <string name="dialog_specify_file_to_decrypt_to">Wybierz plik do którego zapisać odszyfrowane dane:</string>
   <string name="dialog_decrypt_succeeded_view_file_format">\"%\" został odszyfrowany i poprawnie zweryfikowany, wyświetlić plik? </string>
   <string name="dialog_specify_encrypt_file">Wybierz plik do zaszyfrowania:</string>
+  <string name="dialog_specify_sign_file">Wybierz plik do podpisania:</string>
   <string name="dialog_specify_import_file_msg">Wybierz plik do zaimportowania:</string>
   <string name="dialog_specify_export_file_msg">Wszystkie klucze zostaną wyeksportowane do pliku, który podasz poniżej. UWAGA! Jeżeli plik istnieje, zostanie nadpisany.</string>
   <string name="dialog_verify_succeeded_view_file_format">\"%s\" został poprawnie zweryfikowany, wyświetlić plik?</string>
@@ -44,6 +51,11 @@
   <string name="dialog_encrypting_title">Szyfrowanie...</string>
   <string name="no_key_specified_using_this_key">Odbiorca nie został podany, użyto domyślnego:</string>
   <string name="sign_file">Podpisać plik?</string>
+  <string name="ascii_signature">Podpisanie ASCII?</string>
+  <string name="sign">Podpisz...</string>
+  <string name="encrypt">Szyfruj...</string>
+  <string name="changing_passphrase_for_format">Zmiana hasła dla %s</string>
+  <string name="search_hint">szukaj po nazwie, emailu lub ID klucza</string>
   <!--first run wizard-->
   <string name="wizard_welcome_title">Witamy w Gnu Privacy Guard</string>
   <string name="wizard_welcome_subtitle">GnuPG - Wersja beta dla systemu Android</string>
@@ -56,10 +68,13 @@
   <string name="wizard_button_skip">Pomiń</string>
   <!--account, contacts, and contact syncing-->
   <string name="account_label">Gnu Privacy Guard</string>
-  <string name="keyring_group_name">Sejf Kluczy Gnu Privacy Guard</string>
-  <string name="encrypt_file_to">Zaszyfruj plik do</string>
+  <string name="keyring_group_name">Brelok kluczy Gnu Privacy Guard</string>
+  <string name="secret_key_group_name">Klucze Prywatne OpenPGP</string>
+  <string name="encrypt_file_to">Szyfruj plik do...</string>
+  <string name="encrypt_file_to_detail">Wybierz plik do zaszyfrowania dla tej osoby.</string>
   <string name="contact_view_key">Podgląd klucza</string>
   <string name="title_create_key">Utwórz Klucz</string>
+  <string name="list_keys">Lista Kluczy</string>
   <string name="key_name_label">Nazwa:</string>
   <string name="key_email_label">Email:</string>
   <string name="key_comment_label">Komentarz:</string>
@@ -73,6 +88,7 @@
   <string name="key_expire_ten_years">10 lat</string>
   <string name="key_expire_never">Nigdy</string>
   <string name="key_revoke_gen">Generuj Certyfikat Unieważniający</string>
+  <string name="key_add_comment">Pokaż opcjonalne pole komentarz</string>
   <string name="key_upload">Wyślij do Serwerów Kluczy</string>
   <string name="key_make_backup">Wykonaj kopię na karcie SD</string>
   <string name="dialog_generating_new_key_title">Tworzenie nowego klucza...</string>
@@ -80,8 +96,12 @@
   <string name="generating_revoke_cert">Tworzenie Certyfikatu Unieważniającego...</string>
   <string name="uploading_to_keyserver">Przesyłanie do serwera kluczy...</string>
   <string name="backing_up_to_sdcard">Tworzenie kopii zapasowej na karcie SD...</string>
-  <string name="dialog_share_file_using">Udostępnij plik za pomocą:</string>
+  <string name="dialog_share_encrypted_file_using">Udostępnij zaszyfrowany plik używając:</string>
+  <string name="dialog_share_signature_file_using">Udostępnij plik podpisu używając:</string>
+  <string name="dialog_share_debug_log_using">Udostępnij log dubugowania używając:</string>
   <string name="dialog_view_file_using">Podgląd pliku za pomocą:</string>
+  <string name="openpgp_operation">Operacja OpenPGP</string>
+  <string name="dialog_encrypt_or_sign_file_format">Szyfruj i/albo podpisz \"%s\"?</string>
   <!--sending and receiving dialogs-->
   <string name="receive_key">Odbieranie klucza...</string>
   <string name="receive_key_message">Podaj identyfikator klucza do odebrania z serwera kluczy:</string>
@@ -93,6 +113,7 @@
   <string name="error_output_file_exists_skipping_format">Plik docelowy \"%s\" istnieje, przerywam odszyfrowywanie.</string>
   <string name="error_decrypting_file_failed_format">Odszyfrowanie \"%s\" nie powiodło się!</string>
   <string name="error_encrypting_file_failed_format">Zaszyfrowanie \"%s\" nie powiodło się!</string>
+  <string name="error_signing_file_failed_format">Podpisanie \"%s\" nieudane!</string>
   <string name="error_decrypting_failed">Odszyfrowanie nie powiodło się!</string>
   <string name="error_encrypting_failed">Szyfrowanie nie powiodło się!</string>
   <string name="error_gen_key_failed">Nie powiodło się generowanie nowego klucza!</string>
@@ -101,6 +122,11 @@
   <string name="error_file_verify_failed_format">Nie można zweryfikować \"%s\"!</string>
   <string name="error_no_pgp_content_found_format">Nie odnaleziono zawartości PGP w \"%s\"!</string>
   <string name="error_fingerprint_too_short_format">Odcisk dla %s jest za krótki! Musi zawierać minimun 16 znaków.</string>
+  <string name="error_no_secret_key">Brak klucza prywatnego! Musisz go wygenerować lub zaimportować.</string>
+  <string name="error_insufficient_query">BŁĄD! Niewystarczające zapytanie. Spróbuj zawęźić swoje wyszukiwania</string>
+  <string name="error_too_many_responses">Za dużo odpowiedzi! Spróbuj zawęzić swoje wyszukiwania</string>
+  <string name="error_query_failed">BŁĄD! Zapytanie nie powiodło się, spróbuj ponownie!</string>
+  <string name="error_short_keyserver_query">Szukanie Serwera Kluczy musi mieć conajmniej 3 znaki!</string>
   <!--content descriptions for accessibility-->
   <string name="folder">folder</string>
   <!--key status terms-->
