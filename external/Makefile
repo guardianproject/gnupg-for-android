@@ -87,7 +87,7 @@ endif
 	assets clean-assets \
 	showsetup
 
-all: gnupg-install gnupg-static gpgme-install assets
+all: gnupg-install gpgv2-static gpgme-install assets
 
 
 #------------------------------------------------------------------------------#
@@ -719,7 +719,7 @@ assets-tests-gpgme:
 #------------------------------------------------------------------------------#
 # ugly static linking hacks
 
-# crazy ugly hack
+# crazy ugly hack, only gpgv2 is currently used for anything (Lil' Debi)
 gnupg-static: gpg2-static gpg-agent-static gpgv2-static dirmngr-static
 
 gpg-agent-static:
