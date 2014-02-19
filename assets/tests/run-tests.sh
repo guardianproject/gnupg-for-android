@@ -61,7 +61,6 @@ runtest libgcrypt t-ed25519 --verbose
 runtest libgcrypt benchmark --verbose
 runtest libgcrypt bench-slope --verbose
 
-
 echo "------------------------------"
 echo "gpgme tests:"
 runtest gpgme t-version
@@ -70,6 +69,9 @@ runtest gpgme t-data
 runtest gpgme run-import --verbose pubkey-1.asc
 runtest gpgme run-import --verbose pubdemo.asc
 runtest gpgme run-import --verbose pubkey-1.asc
+runtest gpgme run-keylist --verbose
+runtest gpgme run-import --verbose seckey-1.asc
+runtest gpgme run-import --verbose secdemo.asc
 runtest gpgme run-keylist --verbose
 
 echo $SUCCESS
