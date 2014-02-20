@@ -60,3 +60,10 @@ adb shell export
 echoheader
 echo "Running run-tests.sh on Android via ADB:"
 run_test_script /data/data/info.guardianproject.gpg/app_opt/tests/run-tests.sh
+
+
+echoheader
+echo "Print out debug logs:"
+
+adb shell 'ls -l /data/data/info.guardianproject.gpg/app_log/'
+adb shell 'cat /data/data/info.guardianproject.gpg/app_log/*'
