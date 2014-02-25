@@ -83,7 +83,6 @@ endif
 	curl-build curl-clean curl-install \
 	openldap-build openldap-clean openldap-install \
 	npth-build npth-clean npth-install \
-	libiconv-build libiconv-clean libiconv-install \
 	assets clean-assets \
 	showsetup
 
@@ -459,52 +458,6 @@ adns-clean:
 	-rm -f adns-build-stamp
 
 
-#------------------------------------------------------------------------------#
-# libiconv
-
-libiconv-1.14.tar.gz.sig: libiconv-1.14.tar.gz
-	wget -c http://ftp.gnu.org/pub/gnu/libiconv/libiconv-1.14.tar.gz.sig
-	gpg --verify libiconv-1.14.tar.gz.sig
-
-libiconv-1.14.tar.gz:
-	wget -c http://ftp.gnu.org/pub/gnu/libiconv/libiconv-1.14.tar.gz
-	sha1sum -c libiconv-1.14.tar.gz.sha1
-
-libiconv-1.14: libiconv-1.14.tar.gz.sig
-	tar xzf libiconv-1.14.tar.gz
-
-libiconv-1.14/config.sub: libiconv-1.14 config.sub
-	cp config.sub libiconv-1.14/config.sub
-
-libiconv-1.14/config.guess: libiconv-1.14 config.guess
-	cp config.guess libiconv-1.14/config.guess
-
-libiconv-1.14/Makefile: libiconv-1.14 libiconv-1.14/Makefile.in libiconv-1.14/config.guess libiconv-1.14/config.sub
-	cd libiconv-1.14 && \
-		CFLAGS="$(CFLAGS) -mandroid" LDFLAGS="$(LDFLAGS)" \
-			./configure \
-				--prefix=$(prefix) \
-				--host=arm-linux-eabi \
-				--with-sysroot=$(NDK_SYSROOT) \
-				--with-gnu-ld
-
-libiconv-build-stamp: libiconv-1.14/Makefile
-	$(MAKE) -C libiconv-1.14
-	touch libiconv-build-stamp
-
-libiconv-build: libiconv-build-stamp
-
-$(LOCAL)/lib/libiconv.a: libiconv-build
-	$(MAKE) -C libiconv-1.14 DESTDIR=$(DESTDIR) prefix=$(prefix) install
-
-libiconv-install: $(LOCAL)/lib/libiconv.a
-
-libiconv-clean:
-	-rm -rf libiconv-1.14
-	-rm -f libiconv-1.14.tar.gz
-	-rm -f libiconv-1.14.tar.gz.sig*
-	-rm -f libiconv-build-stamp
-
 
 #------------------------------------------------------------------------------#
 # gnupg
@@ -793,7 +746,7 @@ assets: clean-assets
 install-clean:
 	rm -rf -- $(LOCAL)
 
-clean: install-clean pinentry-clean gnupg-clean curl-clean openldap-clean libksba-clean libassuan-clean npth-clean libgcrypt-clean libgpg-error-clean adns-clean libiconv-clean
+clean: install-clean pinentry-clean gnupg-clean curl-clean openldap-clean libksba-clean libassuan-clean npth-clean libgcrypt-clean libgpg-error-clean adns-clean
 
 distclean: clean install-clean
 	-$(MAKE) -C gnupg distclean
