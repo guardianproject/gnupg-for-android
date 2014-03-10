@@ -168,7 +168,68 @@
                 <data android:host="*" />
                 <data android:scheme="file" />
                 <data android:scheme="content" />
+
+                <!-- GnuPG ASCII data, mostly keys, but sometimes signatures and encrypted data -->
+                <data android:pathPattern=".*\\.asc" />
+                <data android:pathPattern=".*\\..*\\.asc" />
+                <data android:pathPattern=".*\\..*\\..*\\.asc" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\.asc" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\.asc" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\.asc" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\.asc" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.asc" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.asc" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.asc" />
+                <!-- GnuPG binary encrypted/signed data, binary format -->
+                <data android:pathPattern=".*\\.gpg" />
+                <data android:pathPattern=".*\\..*\\.gpg" />
+                <data android:pathPattern=".*\\..*\\..*\\.gpg" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\.gpg" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\.gpg" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\.gpg" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\.gpg" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.gpg" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.gpg" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.gpg" />
+                <!-- PGP encrypted data, binary format -->
+                <data android:pathPattern=".*\\.pgp" />
+                <data android:pathPattern=".*\\..*\\.pgp" />
+                <data android:pathPattern=".*\\..*\\..*\\.pgp" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\.pgp" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\.pgp" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\.pgp" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\.pgp" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.pgp" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.pgp" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.pgp" />
+                <!-- on some mail clients, PGP attachments show up as *.bin -->
+                <data android:pathPattern=".*\\.bin" />
+                <data android:pathPattern=".*\\..*\\.bin" />
+                <data android:pathPattern=".*\\..*\\..*\\.bin" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\.bin" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\.bin" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\.bin" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\.bin" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.bin" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.bin" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.bin" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:host="*" />
+                <data android:scheme="file" />
+                <data android:scheme="content" />
+                <!--
+                The ultimate in crack smoking!  Some apps will only respect these file associations
+                if the mimeType is not set, and other apps will only respect them if mimeType is set
+                to */*.  Therefore we have two whole copies of the same thing, besides setting the mimeType. 
+                -->
                 <data android:mimeType="*/*" />
+
                 <!-- GnuPG ASCII data, mostly keys, but sometimes signatures and encrypted data -->
                 <data android:pathPattern=".*\\.asc" />
                 <data android:pathPattern=".*\\..*\\.asc" />
@@ -232,7 +293,35 @@
                 <data android:host="*" />
                 <data android:scheme="file" />
                 <data android:scheme="content" />
+
+                <!-- GnuPG signatures, binary format -->
+                <data android:pathPattern=".*\\.sig" />
+                <data android:pathPattern=".*\\..*\\.sig" />
+                <data android:pathPattern=".*\\..*\\..*\\.sig" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\.sig" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\.sig" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\.sig" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\.sig" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.sig" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.sig" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.sig" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:host="*" />
+                <data android:scheme="file" />
+                <data android:scheme="content" />
+                <!--
+                The ultimate in crack smoking!  Some apps will only respect these file associations
+                if the mimeType is not set, and other apps will only respect them if mimeType is set
+                to */*.  Therefore we have two whole copies of the same thing, besides setting the mimeType. 
+                -->
                 <data android:mimeType="*/*" />
+
                 <!-- GnuPG signatures, binary format -->
                 <data android:pathPattern=".*\\.sig" />
                 <data android:pathPattern=".*\\..*\\.sig" />
@@ -263,7 +352,57 @@
                 <data android:host="*" />
                 <data android:scheme="file" />
                 <data android:scheme="content" />
+
+                <!-- PGP Public KeyRing -->
+                <data android:pathPattern=".*\\.key" />
+                <data android:pathPattern=".*\\..*\\.key" />
+                <data android:pathPattern=".*\\..*\\..*\\.key" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\.key" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\.key" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\.key" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\.key" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.key" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.key" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.key" />
+                <!-- PGP Public KeyRing, text format -->
+                <data android:pathPattern=".*\\.pkr" />
+                <data android:pathPattern=".*\\..*\\.pkr" />
+                <data android:pathPattern=".*\\..*\\..*\\.pkr" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\.pkr" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\.pkr" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\.pkr" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\.pkr" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.pkr" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.pkr" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.pkr" />
+                <!-- PGP Secret KeyRing, text format -->
+                <data android:pathPattern=".*\\.skr" />
+                <data android:pathPattern=".*\\..*\\.skr" />
+                <data android:pathPattern=".*\\..*\\..*\\.skr" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\.skr" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\.skr" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\.skr" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\.skr" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.skr" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.skr" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.skr" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:host="*" />
+                <data android:scheme="file" />
+                <data android:scheme="content" />
+                <!--
+                The ultimate in crack smoking!  Some apps will only respect these file associations
+                if the mimeType is not set, and other apps will only respect them if mimeType is set
+                to */*.  Therefore we have two whole copies of the same thing, besides setting the mimeType. 
+                -->
                 <data android:mimeType="*/*" />
+
                 <!-- PGP Public KeyRing -->
                 <data android:pathPattern=".*\\.key" />
                 <data android:pathPattern=".*\\..*\\.key" />
