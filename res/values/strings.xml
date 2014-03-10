@@ -132,6 +132,7 @@
     <string name="error_too_many_responses">Too many responses! Try narrowing down your search</string>
     <string name="error_query_failed">ERROR! Query failed, try again!</string>
     <string name="error_short_keyserver_query">Keyserver searches must be at least 3 characters long!</string>
+    <string name="error_bad_or_corrupt_key_format">Bad or corrupt key (%s)!</string>
 
     <!-- content descriptions for accessibility -->
     <string name="folder">folder</string>

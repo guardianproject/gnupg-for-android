@@ -3,6 +3,7 @@ package info.guardianproject.gpg.sync;
 
 import info.guardianproject.gpg.EncryptFileActivity;
 import info.guardianproject.gpg.GnuPG;
+import info.guardianproject.gpg.R;
 import info.guardianproject.gpg.sync.SyncAdapter.EncryptFileTo;
 
 import org.openintents.openpgp.keyserver.KeyServer.KeyInfo;
@@ -12,7 +13,9 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.util.Log;
+import android.widget.Toast;
 
+import com.freiheit.gnupg.GnuPGException;
 import com.freiheit.gnupg.GnuPGKey;
 
 /**
@@ -50,7 +53,17 @@ public class ContactIntentRouter extends Activity {
             String fingerprint = c.getString(fingerprintIndex);
             // in theory, we could get the email from the ContentProvider, but
             // this is far easier
-            GnuPGKey key = GnuPG.context.getKeyByFingerprint(fingerprint);
+            GnuPGKey key = null;
+            try {
+                key = GnuPG.context.getKeyByFingerprint(fingerprint);
+            } catch (GnuPGException e) {
+                String msg = String.format(getString(R.string.error_bad_or_corrupt_key_format), fingerprint);
+                Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
+                Log.e(TAG, msg);
+                e.printStackTrace();
+                finish();
+                return;
+            }
             String[] emails = new String[] {
                     key.getEmail()
             };
@@ -61,7 +74,7 @@ public class ContactIntentRouter extends Activity {
                     Log.d(TAG, "got ACTION_VIEW for type =" + type + " and data =" + contactUri);
                     Intent i = new Intent(this, EncryptFileActivity.class);
                     i.putExtra(Intent.EXTRA_UID, new long[] {
-                        KeyInfo.keyIdFromFingerprint(fingerprint)
+                            KeyInfo.keyIdFromFingerprint(fingerprint)
                     });
                     i.putExtra(Intent.EXTRA_EMAIL, emails);
                     startActivity(i);
