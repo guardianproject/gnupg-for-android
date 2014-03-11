@@ -52,7 +52,7 @@ public class KeyListKeyserverAdapter extends BaseAdapter {
     }
 
     void setData(List<KeyInfo> newData) {
-        if (newData == null) {
+        if (newData == null || newData.size() < 1) {
             mKeyArray = new KeyInfo[0];
             notifyDataSetInvalidated();
         } else {
@@ -74,7 +74,6 @@ public class KeyListKeyserverAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        Log.v(TAG, "getCount ");
         if (mKeyArray == null)
             return 0;
         else
