@@ -48,16 +48,17 @@ public class FirstRunSetupActivity extends Activity {
                 if (resultCode == RESULT_OK) {
                     startActivity(new Intent(this, MainActivity.class));
                 }
-                return;
+                break;
             }
             case REQUEST_IMPORTKEY: {
                 Log.d(TAG, "REQUEST_IMPORTKEY");
                 if (resultCode == RESULT_OK) {
                     startActivity(new Intent(this, MainActivity.class));
                 }
-                return;
+                break;
             }
         }
+        finish();
     }
 
     OnClickListener createKeys = new OnClickListener() {
@@ -87,6 +88,7 @@ public class FirstRunSetupActivity extends Activity {
         public void onClick(View v) {
             setIntegratePrefs();
             startActivity(new Intent(FirstRunSetupActivity.this, MainActivity.class));
+            finish();
         }
     };
 
