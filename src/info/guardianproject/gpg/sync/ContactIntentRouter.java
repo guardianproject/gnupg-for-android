@@ -48,7 +48,7 @@ public class ContactIntentRouter extends Activity {
                 EncryptFileTo.FINGERPRINT,
         };
         Cursor c = getContentResolver().query(contactUri, PROJECTION, null, null, null);
-        if (c.moveToFirst()) {
+        if (c != null && c.moveToFirst()) {
             int fingerprintIndex = c.getColumnIndex(EncryptFileTo.FINGERPRINT);
             String fingerprint = c.getString(fingerprintIndex);
             // in theory, we could get the email from the ContentProvider, but
