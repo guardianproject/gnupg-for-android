@@ -55,8 +55,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -161,14 +159,12 @@ public class KeyListFragment extends ListFragment implements
             setListAdapter(mKeyserverAdapter);
         } else {
             Log.d(TAG, "action: other");
-            if (mShowKeysAdapter == null)
-                mShowKeysAdapter = new KeyListContactsAdapter(mListView, action, searchString,
-                        selectedKeyIds);
+            mShowKeysAdapter = new KeyListContactsAdapter(mListView, action, searchString,
+                    selectedKeyIds);
             setListAdapter(mShowKeysAdapter);
             if (selectedKeyIds != null) {
-                ListAdapter adapter = getListAdapter();
-                for (int i = 0; i < adapter.getCount(); ++i) {
-                    long keyId = adapter.getItemId(i);
+                for (int i = 0; i < mShowKeysAdapter.getCount(); ++i) {
+                    long keyId = mShowKeysAdapter.getItemId(i);
                     for (int j = 0; j < selectedKeyIds.length; ++j) {
                         if (keyId == selectedKeyIds[j]) {
                             mListView.setItemChecked(i, true);
