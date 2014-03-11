@@ -178,16 +178,16 @@ public class MainActivity extends ActionBarActivity implements TabListener,
 
     @Override
     public void onTabSelected(Tab tab, FragmentTransaction ft) {
+        KeyListFragment currentTabFragment = tabFragments[mPager.getCurrentItem()];
+        if (currentTabFragment != null && currentTabFragment.mActionMode != null) {
+            // hide ActionMode if still visible when switching tabs
+            currentTabFragment.mActionMode.finish();
+        }
         Integer position = (Integer) tab.getTag();
         mPager.setCurrentItem(position);
         if (position == Tabs.FIND_KEYS) {
             if (mSearchMenuItem != null)
                 MenuItemCompat.expandActionView(mSearchMenuItem);
-        } else if (tabFragments[Tabs.FIND_KEYS] != null
-                && tabFragments[Tabs.FIND_KEYS].mActionMode != null) {
-            // hide FIND_KEYS ActionMode if still visible when switching tabs
-            tabFragments[Tabs.FIND_KEYS].mActionMode.finish();
-            MenuItemCompat.collapseActionView(mSearchMenuItem);
         }
     }
 
