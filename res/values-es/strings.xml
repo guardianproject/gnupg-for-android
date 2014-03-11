@@ -11,18 +11,24 @@
   <string name="dialog_installing_msg">Configurando Gnu Privacy Guard</string>
   <string name="dialog_installing_title">Instalando... (¡espere a que termine!)</string>
   <string name="pref_keyserver_title">Servidor de claves</string>
-  <string name="pref_keyserver_summary">Servidor de claves de donde descargar y publicar claves (por defecto: hkp://keys.gnupg.net)</string>
+  <string name="pref_keyserver_summary">Que servidor de claves usar para descargar y públicar claves (por defecto: ipv4.pool.sks-keyservers.net)</string>
   <string name="pref_start_boot_title">Iniciar servicio durante el arranque</string>
   <string name="pref_start_boot_summary">Arrancar los demonios de lectura de claves y manejo de listas de certificados de revocación al inicio</string>
   <string name="title_decrypt_file">Descifrar archivo</string>
   <string name="title_about">Acerca de</string>
   <string name="title_debug_mode">Modo de depuración</string>
   <string name="title_encrypt_file">Cifrar archivo</string>
+  <string name="title_sign_file">Firmar archivo</string>
   <string name="title_import_keys">Importar claves</string>
   <string name="title_export_keys">Exportar claves</string>
   <string name="title_receive_keys">Recibir claves</string>
+  <string name="title_public_keys">Claves públicas</string>
+  <string name="title_secret_keys">Claves privadas</string>
+  <string name="title_find_keys">Encontrar claves</string>
+  <string name="title_change_passphrase">Cambiar contraseña</string>
   <string name="title_error">Error</string>
   <string name="title_settings">Configuración</string>
+  <string name="title_select_keys">Seleccionar clave</string>
   <string name="verify_signature">Verificar firmas</string>
   <string name="signature_verified">Firma verificada</string>
   <string name="verifying_file_format">Verificando \"%s\"</string>
@@ -33,6 +39,7 @@
   <string name="dialog_specify_file_to_decrypt_to">Elija el archivo donde guardar los datos descifrados:</string>
   <string name="dialog_decrypt_succeeded_view_file_format">El archivo \"%s\" se ha descifrado y verificado apropiadamente, ¿desea verlo?</string>
   <string name="dialog_specify_encrypt_file">Seleccionar el archivo a cifrar:</string>
+  <string name="dialog_specify_sign_file">Seleccionar el archivo a firmar:</string>
   <string name="dialog_specify_import_file_msg">Elegir fichero a importar:</string>
   <string name="dialog_specify_export_file_msg">Todas las claves serán exportadas al fichero que ha especificado más abajo. ATENCIÓN: el archivo será sobrescrito si ya existe.</string>
   <string name="dialog_verify_succeeded_view_file_format">\"%s\" ha sido verificado apropiadamente, ¿desea verlo?</string>
@@ -44,6 +51,11 @@
   <string name="dialog_encrypting_title">Cifrando...</string>
   <string name="no_key_specified_using_this_key">No ha especificado el destinatario, se usará uno por defecto:</string>
   <string name="sign_file">¿Firmar archivo?</string>
+  <string name="ascii_signature">Firma ASCII?</string>
+  <string name="sign">Firmar...</string>
+  <string name="encrypt">Cifrar...</string>
+  <string name="changing_passphrase_for_format">Cambiando contraseña para %s</string>
+  <string name="search_hint">Busqueda por nombre, dirección de correo o clave ID</string>
   <!--first run wizard-->
   <string name="wizard_welcome_title">Bienvenido a Gnu Privacy Guard</string>
   <string name="wizard_welcome_subtitle">La versión beta de GnuPG para Android</string>
@@ -56,10 +68,13 @@
   <string name="wizard_button_skip">Omitir</string>
   <!--account, contacts, and contact syncing-->
   <string name="account_label">Gnu Privacy Guard</string>
-  <string name="keyring_group_name">Anillo de claves de Gnu Privacy Guard</string>
-  <string name="encrypt_file_to">Cifrar archivo a</string>
+  <string name="keyring_group_name">Anillo de llaves de Gnu Privacy Guard</string>
+  <string name="secret_key_group_name">Claves Privadas de OpenPGP</string>
+  <string name="encrypt_file_to">Cifrar archivo para...</string>
+  <string name="encrypt_file_to_detail">Elegir un archivo a cifrar para esta persona</string>
   <string name="contact_view_key">Ver clave</string>
   <string name="title_create_key">Generar clave</string>
+  <string name="list_keys">Lista de claves</string>
   <string name="key_name_label">Nombre:</string>
   <string name="key_email_label">Correo electrónico:</string>
   <string name="key_comment_label">Comentario:</string>
@@ -73,6 +88,7 @@
   <string name="key_expire_ten_years">Diez años</string>
   <string name="key_expire_never">Nunca</string>
   <string name="key_revoke_gen">Generar certificado de revocación</string>
+  <string name="key_add_comment">Añadir comentario opcional</string>
   <string name="key_upload">Subir a un servidor de claves</string>
   <string name="key_make_backup">Hacer una copia de seguridad en la tarjeta SD</string>
   <string name="dialog_generating_new_key_title">Generando nueva clave...</string>
@@ -80,8 +96,12 @@
   <string name="generating_revoke_cert">Generando certificado de revocación...</string>
   <string name="uploading_to_keyserver">Subiendo al servidor de claves...</string>
   <string name="backing_up_to_sdcard">Haciendo una copia de seguridad de la nueva clave en la tarjeta SD...</string>
-  <string name="dialog_share_file_using">Compartir archivo utilizando:</string>
+  <string name="dialog_share_encrypted_file_using">Compartir archivo cifrado usando:</string>
+  <string name="dialog_share_signature_file_using">Compartir fichero de firma usando:</string>
+  <string name="dialog_share_debug_log_using">Compartir registro de ejecución usando:</string>
   <string name="dialog_view_file_using">Ver archivo utilizando:</string>
+  <string name="openpgp_operation">Manejo de OpenPGP</string>
+  <string name="dialog_encrypt_or_sign_file_format">Cifrar y/o firmar \"%s\"?</string>
   <!--sending and receiving dialogs-->
   <string name="receive_key">Recibir clave...</string>
   <string name="receive_key_message">Especificar el ID de clave para recibirla desde el servidor:</string>
@@ -93,6 +113,7 @@
   <string name="error_output_file_exists_skipping_format">El fichero de salida \"%s\" existe, omitiendo descifrado.</string>
   <string name="error_decrypting_file_failed_format">¡El descifrado de \"%s\" ha fallado!</string>
   <string name="error_encrypting_file_failed_format">¡El cifrado de \"%s\" ha fallado!</string>
+  <string name="error_signing_file_failed_format">¡La firma de \"%s\" ha fallado!</string>
   <string name="error_decrypting_failed">¡Descifrado fallido!</string>
   <string name="error_encrypting_failed">¡Cifrado fallido!</string>
   <string name="error_gen_key_failed">¡Error generando la nueva clave!</string>
@@ -101,6 +122,11 @@
   <string name="error_file_verify_failed_format">¡La verificación de \"%s\" ha fallado!</string>
   <string name="error_no_pgp_content_found_format">¡No se ha encontrado contenido PGP en \"%s\"!</string>
   <string name="error_fingerprint_too_short_format">¡La huella digital %s es demasiado corta! Al menos debe contar con 16 dígitos.</string>
+  <string name="error_no_secret_key">¡No hay clave secreta! Es necesario generar o importar una.</string>
+  <string name="error_insufficient_query">¡ERROR! Petición insuficiente. Intente acotar su búsqueda</string>
+  <string name="error_too_many_responses">¡Demasiadas respuetas! Intente acotar su búsqueda</string>
+  <string name="error_query_failed">¡ERROR! Petición fallida. Por favor intentelo de nuevo.</string>
+  <string name="error_short_keyserver_query">Las peticiónes al servidor de claves han de contar al menos con 3 carácteres</string>
   <!--content descriptions for accessibility-->
   <string name="folder">Directorio</string>
   <!--key status terms-->
