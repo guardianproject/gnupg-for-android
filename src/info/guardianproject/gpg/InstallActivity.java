@@ -77,6 +77,7 @@ public class InstallActivity extends Activity {
             hideProgressDialog();
             GpgApplication app = (GpgApplication) getApplication();
             app.setup();
+            GpgApplication.requestContactsSync(true);
             finish();
         }
     }
