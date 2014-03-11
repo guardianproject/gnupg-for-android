@@ -159,8 +159,23 @@ public class ImportFileActivity extends ActionBarActivity {
         if (!isSupportedFileType(uri))
             return;
         try {
+            Log.d(TAG, "handle send binary: " + uri);
+            if (uri.getScheme().equals("file")) {
+                /*
+                 * If the file can be read directly, import directly. If its a
+                 * cached file, like from a keyserver download, then delete
+                 * after download. Otherwise write to a file and import.
+                 */
+                File tmpFile = new File(uri.getPath());
+                if (tmpFile.canRead()) {
+                    if (tmpFile.getParent().equals(getCacheDir().getAbsolutePath()))
+                        runImport(tmpFile, true);
+                    else
+                        runImport(tmpFile, false);
+                    return;
+                }
+            }
             File importFile = File.createTempFile("import", ".gpg");
-            Log.d(TAG, "handle send binary importFile: " + importFile);
             InputStream in = getContentResolver().openInputStream(uri);
             FileUtils.copyInputStreamToFile(in, importFile);
             runImport(importFile, true);

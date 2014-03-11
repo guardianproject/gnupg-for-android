@@ -22,10 +22,13 @@ import info.guardianproject.gpg.GpgApplication.Action;
 import info.guardianproject.gpg.MainActivity.Tabs;
 import info.guardianproject.gpg.apg_compat.Apg;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Vector;
 
+import org.apache.commons.io.FileUtils;
 import org.openintents.openpgp.keyserver.HkpKeyServer;
 import org.openintents.openpgp.keyserver.KeyServer.KeyInfo;
 import org.openintents.openpgp.keyserver.KeyServer.QueryException;
@@ -37,6 +40,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -331,9 +335,22 @@ public class KeyListFragment extends ListFragment implements
                                     e.printStackTrace();
                                 }
                             }
-                            intent.setType("text/plain");
-                            intent.setAction(Intent.ACTION_SEND);
-                            intent.putExtra(Intent.EXTRA_TEXT, keys);
+                            // An Intent can carry very much data, so write it
+                            // to a cached file
+                            try {
+                                File privateFile = File.createTempFile("keyserver", ".pkr",
+                                        mCurrentActivity.getCacheDir());
+                                FileUtils.writeStringToFile(privateFile, keys);
+                                intent.setType(getString(R.string.pgp_keys));
+                                intent.setAction(Intent.ACTION_SEND);
+                                intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(privateFile));
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                                // try sending the key data inline in the Intent
+                                intent.setType("text/plain");
+                                intent.setAction(Intent.ACTION_SEND);
+                                intent.putExtra(Intent.EXTRA_TEXT, keys);
+                            }
                             return null;
                         }
 
