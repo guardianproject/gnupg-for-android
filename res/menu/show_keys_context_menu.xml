@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:appcompat="http://schemas.android.com/apk/res-auto" >
+
+    <item
+        android:id="@+id/send_to_keyserver"
+        android:icon="@android:drawable/ic_menu_upload"
+        android:title="@string/send_to_keyserver"
+        appcompat:showAsAction="ifRoom|withText"/>
+    <item
+        android:id="@+id/download_from_keyserver"
+        android:icon="@android:drawable/arrow_down_float"
+        android:title="@string/refresh_from_keyserver"
+        appcompat:showAsAction="ifRoom|withText"/>
+
+</menu>

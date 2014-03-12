@@ -73,6 +73,8 @@
     <string name="account_label">Gnu Privacy Guard</string>
     <string name="keyring_group_name">Gnu Privacy Guard Keyring</string>
     <string name="secret_key_group_name">OpenPGP Secret Keys</string>
+    <string name="send_to_keyserver">Send to keyserver</string>
+    <string name="refresh_from_keyserver">Refresh from keyserver</string>
     <string name="encrypt_file_to">Encrypt file to&#8230;</string>
     <string name="encrypt_file_to_detail">Choose a file to encrypt to this person.</string>
     <string name="contact_view_key">View key</string>

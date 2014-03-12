@@ -94,9 +94,9 @@ public class KeyListFragment extends ListFragment implements
         mListView = getListView();
 
         mAction = getArguments().getString("action");
-        Log.i(TAG, "onActivityCreated  action: " + mAction);
+        // TODO should everything be CHOICE_MODE_MULTIPLE?
         if (mAction == null || mAction.equals(Action.SHOW_PUBLIC_KEYS)) {
-            mListView.setChoiceMode(ListView.CHOICE_MODE_NONE);
+            mListView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
         } else if (mAction.equals(Action.FIND_KEYS)) {
             mListView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
         } else if (mAction.equals(Action.SELECT_PUBLIC_KEYS)) {
@@ -259,6 +259,8 @@ public class KeyListFragment extends ListFragment implements
 
         if (mActionMode == null
                 && (mAction.equals(Action.FIND_KEYS)
+                        || mAction.equals(Action.SHOW_PUBLIC_KEYS)
+                        || mAction.equals(Action.SHOW_SECRET_KEYS)
                         || mAction.equals(Action.SELECT_SECRET_KEYS)
                         || mAction.equals(Action.SELECT_PUBLIC_KEYS)))
             mActionMode = mCurrentActivity.startSupportActionMode(mActionModeCallback);
@@ -273,6 +275,9 @@ public class KeyListFragment extends ListFragment implements
             MenuInflater inflater = mode.getMenuInflater();
             if (mAction.equals(Action.FIND_KEYS)) {
                 inflater.inflate(R.menu.find_keys_context_menu, menu);
+            } else if (mAction.equals(Action.SHOW_PUBLIC_KEYS)
+                    || mAction.equals(Action.SHOW_SECRET_KEYS)) {
+                inflater.inflate(R.menu.show_keys_context_menu, menu);
             } else {
                 inflater.inflate(R.menu.encrypt_file_to_context_menu, menu);
             }
@@ -307,57 +312,13 @@ public class KeyListFragment extends ListFragment implements
                     mCurrentActivity.setResult(Activity.RESULT_OK, data);
                     mode.finish();
                     return true;
-                case R.id.download:
-                    Log.i(TAG, "download the keys!");
+                case R.id.download_from_keyserver:
                     mCurrentActivity.setSupportProgressBarIndeterminateVisibility(true);
-                    new AsyncTask<Void, Void, Void>() {
-                        final Context context = getActivity().getApplicationContext();
-                        SharedPreferences prefs = PreferenceManager
-                                .getDefaultSharedPreferences(context);
-                        final String host = prefs.getString(GpgPreferenceActivity.PREF_KEYSERVER,
-                                "ipv4.pool.sks-keyservers.net");
-                        final long[] selected = mListView.getCheckedItemIds();
-                        final Intent intent = new Intent(context, ImportFileActivity.class);
-
-                        @Override
-                        protected Void doInBackground(Void... params) {
-                            HkpKeyServer keyserver = new HkpKeyServer(host);
-                            String keys = "";
-                            for (int i = 0; i < selected.length; i++) {
-                                Log.v(TAG, "id: " + selected[i]);
-                                try {
-                                    keys += keyserver.get(selected[i]);
-                                } catch (QueryException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                            // An Intent can carry very much data, so write it
-                            // to a cached file
-                            try {
-                                File privateFile = File.createTempFile("keyserver", ".pkr",
-                                        mCurrentActivity.getCacheDir());
-                                FileUtils.writeStringToFile(privateFile, keys);
-                                intent.setType(getString(R.string.pgp_keys));
-                                intent.setAction(Intent.ACTION_SEND);
-                                intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(privateFile));
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                                // try sending the key data inline in the Intent
-                                intent.setType("text/plain");
-                                intent.setAction(Intent.ACTION_SEND);
-                                intent.putExtra(Intent.EXTRA_TEXT, keys);
-                            }
-                            return null;
-                        }
-
-                        @Override
-                        protected void onPostExecute(Void v) {
-                            GpgApplication.triggerContactsSync();
-                            mCurrentActivity.setSupportProgressBarIndeterminateVisibility(false);
-                            mode.finish(); // Action picked, so close the CAB
-                            startActivity(intent);
-                        }
-                    }.execute();
+                    receiveFromKeyserver(mode);
+                    return true;
+                case R.id.send_to_keyserver:
+                    mCurrentActivity.setSupportProgressBarIndeterminateVisibility(true);
+                    sendToKeyserver(mode);
                     return true;
                 default:
                     return false;
@@ -374,4 +335,76 @@ public class KeyListFragment extends ListFragment implements
             mSelectedPositions.clear();
         }
     };
+
+    private final int KEYSERVER_SEND = 0x1111;
+    private final int KEYSERVER_RECEIVE = 0x2222;
+
+    private void receiveFromKeyserver(final ActionMode mode) {
+        keyserverOperation(KEYSERVER_RECEIVE, mode);
+    }
+
+    private void sendToKeyserver(final ActionMode mode) {
+        keyserverOperation(KEYSERVER_SEND, mode);
+    }
+
+    private void keyserverOperation(final int operation, final ActionMode mode) {
+        new AsyncTask<Void, Void, Void>() {
+            final Context context = getActivity().getApplicationContext();
+            SharedPreferences prefs = PreferenceManager
+                    .getDefaultSharedPreferences(context);
+            final String host = prefs.getString(GpgPreferenceActivity.PREF_KEYSERVER,
+                    "ipv4.pool.sks-keyservers.net");
+            final long[] selected = mListView.getCheckedItemIds();
+            final Intent intent = new Intent(context, ImportFileActivity.class);
+
+            @Override
+            protected Void doInBackground(Void... params) {
+                HkpKeyServer keyserver = new HkpKeyServer(host);
+                if (operation == KEYSERVER_SEND) {
+                    String args = "--keyserver " + host + " --send-keys ";
+                    for (int i = 0; i < selected.length; i++) {
+                        args += " " + Long.toHexString(selected[i]);
+                    }
+                    // TODO this should use the Java keyserver stuff
+                    GnuPG.gpg2(args);
+                } else if (operation == KEYSERVER_RECEIVE) {
+                    String keys = "";
+                    for (int i = 0; i < selected.length; i++) {
+                        try {
+                            keys += keyserver.get(selected[i]);
+                            keys += "\n\n";
+                        } catch (QueryException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    // An Intent can carry very much data, so write it
+                    // to a cached file
+                    try {
+                        File privateFile = File.createTempFile("keyserver", ".pkr",
+                                mCurrentActivity.getCacheDir());
+                        FileUtils.writeStringToFile(privateFile, keys);
+                        intent.setType(getString(R.string.pgp_keys));
+                        intent.setAction(Intent.ACTION_SEND);
+                        intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(privateFile));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        // try sending the key data inline in the Intent
+                        intent.setType("text/plain");
+                        intent.setAction(Intent.ACTION_SEND);
+                        intent.putExtra(Intent.EXTRA_TEXT, keys);
+                    }
+                }
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Void v) {
+                GpgApplication.triggerContactsSync();
+                mCurrentActivity.setSupportProgressBarIndeterminateVisibility(false);
+                mode.finish(); // Action picked, so close the CAB
+                if (operation == KEYSERVER_RECEIVE)
+                    startActivity(intent);
+            }
+        }.execute();
+    }
 }

@@ -3,7 +3,7 @@
     xmlns:appcompat="http://schemas.android.com/apk/res-auto" >
 
     <item
-        android:id="@+id/download"
+        android:id="@+id/download_from_keyserver"
         android:icon="@android:drawable/ic_input_add"
         android:title="@string/title_import_keys"
         appcompat:showAsAction="ifRoom|withText"/>
