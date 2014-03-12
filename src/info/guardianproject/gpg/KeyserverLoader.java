@@ -18,7 +18,6 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.v4.content.AsyncTaskLoader;
 import android.text.TextUtils;
-import android.util.Log;
 
 public class KeyserverLoader extends AsyncTaskLoader<KeyserverResult<List<KeyInfo>>> {
     public static final String TAG = "KeyserverLoader";
@@ -40,19 +39,16 @@ public class KeyserverLoader extends AsyncTaskLoader<KeyserverResult<List<KeyInf
 
     public KeyserverLoader(Context context) {
         super(context);
-        Log.v(TAG, "KeyserverLoader");
         mContext = context;
     }
 
     @Override
     public void onStartLoading() {
-        Log.v(TAG, "onStartLoading");
         mSearchString = MainActivity.mCurrentSearchString;
     }
 
     @Override
     public KeyserverResult<List<KeyInfo>> loadInBackground() {
-        Log.v(TAG, "loadInBackground");
         KeyserverResult<List<KeyInfo>> result = new KeyserverResult<List<KeyInfo>>();
         try {
             if(TextUtils.isEmpty(mSearchString))
@@ -61,7 +57,6 @@ public class KeyserverLoader extends AsyncTaskLoader<KeyserverResult<List<KeyInf
             String host = prefs.getString(GpgPreferenceActivity.PREF_KEYSERVER,
                     "ipv4.pool.sks-keyservers.net");
             HkpKeyServer keyserver = new HkpKeyServer(host);
-            Log.i(TAG, "loadInBackground mSearchString: " + mSearchString);
             ArrayList<KeyInfo> data = keyserver.search(mSearchString);
             Collections.sort(data, ALPHA_COMPARATOR);
             result.setData(data);
@@ -85,7 +80,6 @@ public class KeyserverLoader extends AsyncTaskLoader<KeyserverResult<List<KeyInf
      */
     @Override
     public void deliverResult(KeyserverResult<List<KeyInfo>> result) {
-        Log.v(TAG, "deliverResult");
         // An async query came in while the loader is stopped. We
         // don't need the result.
         if (isReset())

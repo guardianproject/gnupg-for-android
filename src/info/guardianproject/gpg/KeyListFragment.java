@@ -153,12 +153,10 @@ public class KeyListFragment extends ListFragment implements
         }
 
         if (action.equals(Action.FIND_KEYS)) {
-            Log.d(TAG, "action: " + Action.FIND_KEYS);
             if (mKeyserverAdapter == null)
                 mKeyserverAdapter = new KeyListKeyserverAdapter(mListView, searchString);
             setListAdapter(mKeyserverAdapter);
         } else {
-            Log.d(TAG, "action: other");
             mShowKeysAdapter = new KeyListContactsAdapter(mListView, action, searchString,
                     selectedKeyIds);
             setListAdapter(mShowKeysAdapter);
@@ -190,20 +188,17 @@ public class KeyListFragment extends ListFragment implements
         public void onReceive(Context context, Intent intent) {
             if (intent.getAction().equals(GpgApplication.BROADCAST_ACTION_KEYLIST_CHANGED)) {
                 // refresh keylist
-                Log.d("KeyListFragment", "BROADCAST_ACTION_KEYLIST_CHANGED");
                 handleIntent(mCurrentAction, mCurrentExtras);
             }
         }
     };
 
     private void registerReceiver() {
-        Log.d("KeyListFragment", "register!");
         LocalBroadcastManager.getInstance(getActivity()).registerReceiver(mBroadcastReceiver,
                 new IntentFilter(GpgApplication.BROADCAST_ACTION_KEYLIST_CHANGED));
     }
 
     private void unregisterReceiver() {
-        Log.d("KeyListFragment", "unregister");
         LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(mBroadcastReceiver);
     }
 
@@ -213,7 +208,6 @@ public class KeyListFragment extends ListFragment implements
 
     @Override
     public Loader<KeyserverResult<List<KeyInfo>>> onCreateLoader(int id, Bundle args) {
-        Log.v(TAG, "Loader<List<KeyInfo>> onCreateLoader " + id);
         Loader<KeyserverResult<List<KeyInfo>>> loader = new KeyserverLoader(getActivity());
         // the AsyncTaskLoader won't start without this here
         loader.forceLoad();
@@ -223,7 +217,6 @@ public class KeyListFragment extends ListFragment implements
     @Override
     public void onLoadFinished(Loader<KeyserverResult<List<KeyInfo>>> loader,
             KeyserverResult<List<KeyInfo>> result) {
-        Log.v(TAG, "onLoadFinished");
         List<KeyInfo> data = result.getData();
         if (data != null) {
             mKeyserverAdapter.setData(data);
@@ -246,7 +239,6 @@ public class KeyListFragment extends ListFragment implements
 
     @Override
     public void onLoaderReset(Loader<KeyserverResult<List<KeyInfo>>> loader) {
-        Log.v(TAG, "onLoaderReset");
         mKeyserverAdapter.setData(null);
     }
 

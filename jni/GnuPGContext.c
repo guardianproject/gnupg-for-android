@@ -387,7 +387,6 @@ Java_com_freiheit_gnupg_GnuPGContext_gpgmeKeylist(JNIEnv* env,
 {
     //copy string object from java to native string
     const jsize query_len = (*env)->GetStringLength(env, query);
-    LOGD("query length %d\n", query_len);
     const jbyte* query_str = (jbyte*)(*env)->GetStringUTFChars(env, query,
                                                                NULL);
     //get the right constructor to invoke for every key in result set
@@ -408,7 +407,7 @@ Java_com_freiheit_gnupg_GnuPGContext_gpgmeKeylist(JNIEnv* env,
                                  secret_only);
     if (UTILS_onErrorThrowException(env, err)) {
         (*env)->ReleaseStringUTFChars(env, query, (const char*)query_str);
-        LOGD("keylist gpgme error 1: %s\n", gpgme_strerror(err));
+        LOGE("keylist gpgme error 1: %s\n", gpgme_strerror(err));
         return NULL;
     }
 
@@ -424,7 +423,7 @@ Java_com_freiheit_gnupg_GnuPGContext_gpgmeKeylist(JNIEnv* env,
         err = gpgme_op_keylist_next(CONTEXT(context), &key);
         if ((gpg_err_code(err) != GPG_ERR_EOF)
             && UTILS_onErrorThrowException(env, err)) {
-            LOGD("keylist gpgme error: %s\n", gpgme_strerror(err));
+            LOGE("keylist gpgme error: %s\n", gpgme_strerror(err));
             return NULL;
         } else if (err) {
             break; // we have nothing, quit before setting the list
@@ -433,8 +432,6 @@ Java_com_freiheit_gnupg_GnuPGContext_gpgmeKeylist(JNIEnv* env,
         current->key = key;
         current->next = head;
         head = current;
-        LOGD("Add key %i: (%s <%s>)",
-             (int)num_keys_found, key->uids->name, key->uids->email);
         num_keys_found++;
     }
     current = head;
@@ -456,7 +453,6 @@ Java_com_freiheit_gnupg_GnuPGContext_gpgmeKeylist(JNIEnv* env,
     //..and release the query string for gc..
     (*env)->ReleaseStringUTFChars(env, query, (const char*) query_str);
 
-    LOGD("keylist num_keys_found = %d\n", (int) num_keys_found);
     return result;
 }
 

@@ -27,7 +27,7 @@ import android.provider.ContactsContract.Settings;
 import android.util.Log;
 
 public class GpgContactManager {
-    public static final String TAG = "GpgContactManager";
+    private static final String TAG = "GpgContactManager";
 
     public static final String ACCOUNT_TYPE = "info.guardianproject.gpg.sync";
 
@@ -110,7 +110,6 @@ public class GpgContactManager {
         final BatchOperation batchOperation = new BatchOperation(context, resolver);
         final List<RawGpgContact> newUsers = new ArrayList<RawGpgContact>();
 
-        Log.d(TAG, "addContacts: " + rawContacts.size());
         for (final RawGpgContact rawContact : rawContacts) {
             if (!rawContact.deleted) {
                 newUsers.add(rawContact);
@@ -150,18 +149,14 @@ public class GpgContactManager {
         long groupId = GpgContactManager.ensureGroupExists(context, account,
                 context.getString(R.string.keyring_group_name));
         contactOp.addGroupMembership(groupId);
-        Log.v(TAG, "added " + rawContact.name + " to group " + groupId + "  flags: "
-                + rawContact.flags);
         if (rawContact.hasSecretKey) {
             groupId = GpgContactManager.ensureGroupExists(context, account,
                     context.getString(R.string.secret_key_group_name));
             contactOp.addGroupMembership(groupId);
-            Log.d(TAG, "secret key group: " + groupId);
         }
     }
 
     public static List<RawGpgContact> getAllContacts(Context context, Account account) {
-        Log.i(TAG, "*** Looking for local contacts with public keys");
         List<RawGpgContact> contacts = new ArrayList<RawGpgContact>();
 
         if (account == null) // if the account isn't setup yet...
@@ -249,7 +244,7 @@ public class GpgContactManager {
                     fingerprint = c.getString(1); // RawContacts.SOURCE_ID
                     flags = c.getShort(6); // Data.DATA4
                 } else if (mimeType.equals(GroupMembership.CONTENT_ITEM_TYPE)) {
-                    //Log.d(TAG, "group item:" + c.getString(3)); // Data.DATA1
+                    // Log.d(TAG, "group item:" + c.getString(3)); // Data.DATA1
                 } else {
                     Log.d(TAG, "GOT UNKNOWN DATA: " + mimeType);
                 }
@@ -306,7 +301,6 @@ public class GpgContactManager {
      */
     private static void deleteContact(Context context, long rawContactId,
             BatchOperation batchOperation) {
-        Log.v(TAG, "deleteContact " + rawContactId);
         batchOperation.add(GpgContactOperations.newDeleteCpo(
                 ContentUris.withAppendedId(RawContacts.CONTENT_URI, rawContactId),
                 true, true).build());
