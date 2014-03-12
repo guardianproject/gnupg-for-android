@@ -275,8 +275,9 @@ public class CreateKeyActivity extends Activity {
                 if (((CheckBox) findViewById(R.id.keyUpload)).isChecked()) {
                     publishProgress(getString(R.string.uploading_to_keyserver));
                     SharedPreferences p = PreferenceManager.getDefaultSharedPreferences(context);
-                    String ks = p.getString(GpgPreferenceActivity.PREF_KEYSERVER, "200.144.121.45");
-                    GnuPG.gpg2(" --keyserver " + ks + " --send-keys " + fpr);
+                    final String host = p.getString(GpgPreferenceActivity.PREF_KEYSERVER,
+                            "ipv4.pool.sks-keyservers.net");
+                    GnuPG.gpg2(" --keyserver " + host + " --send-keys " + fpr);
                 }
                 if (((CheckBox) findViewById(R.id.keyMakeBackup)).isChecked()) {
                     publishProgress(getString(R.string.backing_up_to_sdcard));

@@ -131,8 +131,9 @@ public class ReceiveKeyActivity extends FragmentActivity {
     private void runRecvKey(String fingerprint, boolean ignored) {
         try {
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-            String ks = prefs.getString(GpgPreferenceActivity.PREF_KEYSERVER, "200.144.121.45");
-            String args = " --keyserver " + ks + " --recv-key " + fingerprint;
+            final String host = prefs.getString(GpgPreferenceActivity.PREF_KEYSERVER,
+                    "ipv4.pool.sks-keyservers.net");
+            String args = " --keyserver " + host + " --recv-key " + fingerprint;
             Gpg2TaskFragment gpg2Task = new Gpg2TaskFragment();
             gpg2Task.configTask(mMessenger, new Gpg2TaskFragment.Gpg2Task(), args);
             gpg2Task.show(mFragmentManager, GPG2_TASK_FRAGMENT_TAG);
