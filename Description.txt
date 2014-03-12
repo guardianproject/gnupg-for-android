@@ -1,36 +1,43 @@
-This release of our developer tool extends the gpgcli command line tool to bring an integrated privacy engine to your Android! GnuPrivacyGuard (GPG) gives you command line access to the entire GnuPG suite of encryption software. It also serves as the test bed for complete Android integration for all of GnuPG's crypto services, including OpenPGP, symmetric encryption, and more.
+GnuPrivacyGuard (GPG) brings GnuPG, the most trusted name in encryption, to Android.  Easily encrypt, decrypt, sign and verify files of any kind, just by sharing them to GPG. This app aims to provide a complete, integrated cryptographic toolkit integrated into the Android experience. GPG provides solid encryption for files private, and for verifying that files are who you think they are.  It includes optimizations to make it operate many times faster than other encryption packages on Android.
 
-GPG is GNU’s tool for end-to-end secure communication and encrypted data storage. This trusted protocol is the free software alternative to PGP. This app is built upon GnuPG 2.1, the new modularized version of GnuPG that now supports S/MIME.
+GPG provides an integrated experience, so clicking on OpenPGP files "just works".  You can also share files to GPG to decrypt, encrypt, sign, or verify them.  GPG will respond when you click on a OpenPGP fingerprint URL (one that starts with openpgp4fpr:).
 
-GPG aims to provide an integrated experience, so clicking on PGP files should "just work".  You can also share files to GPG to encrypt them.  GPG will also respond when you click on a PGP fingerprint URL (one that starts with openpgp4fpr:).
+GPG also gives you complete command line access to the entire GnuPG suite of encryption software. It also serves as the test bed for complete Android integration for all of GnuPG's crypto services, including OpenPGP, symmetric encryption, and more.
+
 
 ***Setup***
-Before using GPG, be sure to launch the app and let it finish its installation process.  Once it has completed, then you're ready to use it. The easiest way to get started with GPG is to install Android Terminal Emulator. GPG will automatically configure Android Terminal Emulator as long as you have the "Allow PATH extensions" settings enabled. Get the Android Terminal Emulator at https://play.google.com/store/apps/details?id=jackpal.androidterm
+Before using GPG, be sure to launch the app and let it finish its installation process.  Once it has completed, then you're ready to use it!
+
+If you want to use the command line, the easiest way to get started with GPG is to install Android Terminal Emulator. GPG will automatically configure Android Terminal Emulator as long as you have the "Allow PATH extensions" settings enabled. Get the Android Terminal Emulator at https://play.google.com/store/apps/details?id=jackpal.androidterm
+
 
 ***Features***
-★ TRUSTED SECURITY: This technology already seamlessly integrates into Linux on Debian, Ubuntu, Fedora, Mac OSX (GPGtools), Windows (gpg4win)
-★ PUBLIC KEY ENCRYPTION: Full interoperable replacement of the proprietary Pretty Good Privacy (PGP) standard that uses a serial combination of hashing, data compression, symmetric-key cryptography and finally public-key cryptography; each step uses one of everal supported algorithms.
-★ BROAD ALGORITHM LANDSCAPE: Supports 3DES, AES, Blowfish, CAST5, DSA, ElGamal, MD5, RSA, RIPDE-MD-160, SHA-1, TIGER, and Twofish.
-★ VERIFIABLE INTEGRITY AND AUTHENTICITY: Digital signatures create a trusted trail of ownership.
-★ CONFIRMED SECURITY: Italian Police, the FBI, and British police have been unable to crack its security and have resorted to demanding private keys. It’s been likened as “the closest you’re likely to get to military-grade encryption” by cryptographer Bruce Schneier.
-★ KEYSERVER SUPPORT: Integrated support for HKP and LDAP keyservers (keys.gnupg.net).
+★ TRUSTED SECURITY: GnuPG already seamlessly integrates into Mac OSX (GPGtools), Windows (gpg4win), GNU/Linux, Debian, Ubuntu, Fedora.
 ★ OPEN STANDARD COMPLIANT: Full OpenPGP implementation following RFC2440 and RFC4880
+★ PUBLIC KEY ENCRYPTION: Full interoperable replacement of the proprietary Pretty Good Privacy (PGP) standard.
+★ BROAD ALGORITHM LANDSCAPE: Supports 3DES, AES, Blowfish, CAST5, DSA, ElGamal, MD5, RSA, RIPDE-MD-160, SHA-1, TIGER, and Twofish.
+★ CONFIRMED SECURITY: Italian Police, the FBI, and British police have been unable to crack its security and have resorted to demanding private keys. It’s been likened as “the closest you’re likely to get to military-grade encryption” by cryptographer Bruce Schneier.
+★ KEYSERVER SUPPORT: Integrated support for HKP keyservers (ipv4.pool.sks-keyservers.net).
+★ WE SPEAK YOUR LANGUAGE: GPG is available for friends who speak: Arabic (العربية), English, French (Français), German (Deutsch), Norwegian (Norsk), Portuguese (Português), Spanish (Español).
+
+Don’t see your language? Join us and help translate the app: https://www.transifex.com/projects/p/gpg
+
 
 ***Please Report Bugs***
-This is an early release of a big project, so there will inevitable be bugs.  Help us improve this software by filing bug reports about any problem that you encounter. Feature requests are also  welcome!
+This is a big project, so there will inevitably be bugs.  Help us improve this software by filing bug reports about any problem that you encounter. Feature requests are also welcome!
 https://dev.guardianproject.info/projects/gpgandroid/issues
 
+
 ***Coming Soon***
-★ WE WANT TO SPEAK YOUR LANGUAGE: GPG is fully translatable, contribute a translation in your language!  https://www.transifex.com/projects/p/gpgcli/
 ★ SECURITY FOR APPS: We have an API in the works so that developers can easily embed this into any app to give it state of the art security features.
-★ GUI: We’re building a graphical user interface for easy key management.
+★ GUI: We’re developing a new Android experience for using encryption
 ★ STAY UP TO DATE: Sign up for our low-traffic Guardian-Dev mailing list to be notified when the API and GUI are released: https://lists.mayfirst.org/mailman/listinfo/guardian-dev
+
 
 ***Learn More***
 ★ ABOUT US: Guardian Project is a group of developers that make secure mobile apps and open-source code for a better tomorrow.
-★ OUR WEBSITE: https://GuardianProject.info.
+★ OUR WEBSITE: https://GuardianProject.info
 ★ CHAT WITH US: we want feedback! irc://irc.freenode.net/guardianproject or irc://irc.oftc.net/guardianproject
-★ ON TWITTER: https://twitter.com/guardianproject.
+★ ON TWITTER: https://twitter.com/guardianproject
 ★ OPEN-SOURCE: Our code is transparent. You can take a look or join the community to help make GnuPG for Android even better https://github.com/guardianproject/gnupg-for-android
-★ FREE SOFTWARE: We operate under the GNU General Public License (GPLv3+)
-https://www.gnu.org/licenses/gpl-3.0.html
+★ FREE SOFTWARE: We operate under the GNU General Public License (GPLv3+) https://www.gnu.org/licenses/gpl-3.0.html
