@@ -1,0 +1,22 @@
+* improved Contacts integration, can handle very large keyrings
+* share files to GPG to encrypt, decrypt, sign, verify, import
+* keyserver integration for finding, getting, and sending keys
+* ARMv7a/NEON support for much faster operation on recent devices
+* new translations: Arabic, French, Norwegian, Portuguese
+* lots of bug fixes
+
+v0.2.1
+* Android 4.3 fixes
+* fixed crashes
+* fixed "environment.conf: Permission denied" (#1744)
+* don't run Contacts sync every minute (#1763)
+* new translations: Czech, German, Polish, Spanish
+
+v0.2
+* send encrypted files via the Contacts/People app  "Encrypt File To"
+* encrypt files, media, and text, by sharing it to Gnu Privacy Guard
+* view encrypted files by sharing
+* import keys into your keyring:
+  - click on a .pkr, .skr, .key files
+  - click open a openpgp4fpr: URL
+  - scan a fingerprint QRCode
