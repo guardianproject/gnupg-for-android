@@ -187,7 +187,7 @@ public class DebugLogActivity extends ActionBarActivity implements OnCreateConte
                 }
                 return true;
             case R.id.menu_run_test:
-                command = NativeHelper.app_opt + "/tests/run-tests-with-password.sh";
+                command = NativeHelper.app_opt + "/tests/run-tests.sh";
                 commandThread = new CommandThread();
                 commandThread.start();
                 Log.i(TAG, "finished " + command);
