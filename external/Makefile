@@ -633,9 +633,7 @@ gpgme/Makefile: gpgme/configure
 				--enable-maintainer-mode \
 				--with-gpg-error-prefix=$(LOCAL) \
 				--with-libassuan-prefix=$(LOCAL) \
-				--with-gpg=$(prefix)/bin/gpg2 \
-				--with-gpgsm=$(prefix)/bin/gpgsm \
-				--with-gpgconf=$(prefix)/bin/gpgconf \
+				--enable-fixed-path=$(prefix)/bin \
 				--without-g13 \
 				--disable-glibtest \
 				--disable-gpg-test \
