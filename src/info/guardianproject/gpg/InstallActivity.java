@@ -13,6 +13,8 @@ import android.util.Log;
 public class InstallActivity extends Activity {
     public static final String TAG = "InstallActivity";
 
+    private ProgressDialog mDialog = null;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         Log.i(TAG, "onCreate");
@@ -20,15 +22,31 @@ public class InstallActivity extends Activity {
         new InstallTask(this).execute();
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        /*
+         * if the user goes to a different Activity, hide the dialog to prevent
+         * crashes once the process is complete
+         */
+        hideProgressDialog();
+    }
+
+    private void hideProgressDialog() {
+        if (mDialog != null && mDialog.isShowing())
+            mDialog.dismiss();
+        mDialog = null;
+    }
+
     public class InstallTask extends AsyncTask<Void, Void, Void> {
         public static final String TAG = "InstallTask";
-        private ProgressDialog dialog;
 
         private final Context context = getApplicationContext();
         private final Handler handler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
-                dialog.setMessage(msg.getData().getString("message"));
+                if (mDialog != null)
+                    mDialog.setMessage(msg.getData().getString("message"));
             }
         };
 
@@ -37,25 +55,20 @@ public class InstallActivity extends Activity {
             String messageText = getString(resId);
             if (messageText == null)
                 messageText = "(null)";
-            if (dialog == null) {
+            if (mDialog == null) {
                 Log.e(TAG, "installDialog is null!");
                 return;
             }
-            dialog.setMessage(messageText);
-            if (!dialog.isShowing())
-                dialog.show();
-        }
-
-        private void hideProgressDialog() {
-            dialog.dismiss();
+            mDialog.setMessage(messageText);
+            if (mDialog != null && !mDialog.isShowing())
+                mDialog.show();
         }
 
         public InstallTask(Context c) {
             Log.i(TAG, "InstallTask");
-            dialog = new ProgressDialog(c);
-            dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-            dialog.setTitle(R.string.dialog_installing_title);
-            dialog.setCancelable(false);
+            mDialog = new ProgressDialog(c);
+            mDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            mDialog.setTitle(R.string.dialog_installing_title);
         }
 
         @Override
