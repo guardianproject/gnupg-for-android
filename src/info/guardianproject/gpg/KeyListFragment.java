@@ -312,6 +312,10 @@ public class KeyListFragment extends ListFragment implements
                     mCurrentActivity.setSupportProgressBarIndeterminateVisibility(true);
                     sendToKeyserver(mode);
                     return true;
+                case R.id.delete_keys:
+                    mCurrentActivity.setSupportProgressBarIndeterminateVisibility(true);
+                    deleteKeys(mode);
+                    return true;
                 default:
                     return false;
             }
@@ -328,8 +332,13 @@ public class KeyListFragment extends ListFragment implements
         }
     };
 
+    private final int DELETE_KEYS = 0x0001;
     private final int KEYSERVER_SEND = 0x1111;
     private final int KEYSERVER_RECEIVE = 0x2222;
+
+    private void deleteKeys(final ActionMode mode) {
+        keyserverOperation(DELETE_KEYS, mode);
+    }
 
     private void receiveFromKeyserver(final ActionMode mode) {
         keyserverOperation(KEYSERVER_RECEIVE, mode);
@@ -352,7 +361,13 @@ public class KeyListFragment extends ListFragment implements
             @Override
             protected Void doInBackground(Void... params) {
                 HkpKeyServer keyserver = new HkpKeyServer(host);
-                if (operation == KEYSERVER_SEND) {
+                if (operation == DELETE_KEYS) {
+                    String args = "--batch --yes --delete-keys";
+                    for (int i = 0; i < selected.length; i++) {
+                        args += " " + Long.toHexString(selected[i]);
+                    }
+                    GnuPG.gpg2(args);
+                } else if (operation == KEYSERVER_SEND) {
                     String args = "--keyserver " + host + " --send-keys ";
                     for (int i = 0; i < selected.length; i++) {
                         args += " " + Long.toHexString(selected[i]);

@@ -12,5 +12,10 @@
         android:icon="@android:drawable/arrow_down_float"
         android:title="@string/refresh_from_keyserver"
         appcompat:showAsAction="ifRoom|withText"/>
+    <item
+        android:id="@+id/delete_keys"
+        android:icon="@android:drawable/ic_menu_delete"
+        android:title="@string/delete_keys"
+        appcompat:showAsAction="ifRoom|withText"/>
 
 </menu>
