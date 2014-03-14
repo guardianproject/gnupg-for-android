@@ -96,10 +96,12 @@ public class EncryptFileActivity extends ActionBarActivity {
 
         switch (requestCode) {
             case ENCRYPT_FILE_TO:
-                Bundle extras = data.getExtras();
-                if (extras != null) {
-                    mRecipientKeyIds = extras.getLongArray(Intent.EXTRA_UID);
-                    mRecipientEmails = extras.getStringArray(Intent.EXTRA_EMAIL);
+                if (data != null) {
+                    Bundle extras = data.getExtras();
+                    if (extras != null) {
+                        mRecipientKeyIds = extras.getLongArray(Intent.EXTRA_UID);
+                        mRecipientEmails = extras.getStringArray(Intent.EXTRA_EMAIL);
+                    }
                 }
                 if (mRecipientKeyIds == null || mRecipientKeyIds.length == 0) {
                     // didn't receive recipients, set to default key on device
