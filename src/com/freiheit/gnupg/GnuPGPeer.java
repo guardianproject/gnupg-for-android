@@ -22,14 +22,14 @@ package com.freiheit.gnupg;
  * @author Stefan Richter, stefan@freiheit.com
  */
 public class GnuPGPeer {
-    // note that this is a pointer to an address in the javagnupg shared lib
+    // note that this is a pointer to an address in the gnupg-for-java shared lib
     protected long _internalRepresentation;
 
     /**
      * DO NOT USE IT. This is only use from inside the library.
      */
     protected void setInternalRepresentation(long ptr) {
-        // note that this is a pointer to an address in the javagnupg shared lib
+        // note that this is a pointer to an address in the gnupg-for-java shared lib
         _internalRepresentation = ptr;
     }
 
@@ -37,7 +37,7 @@ public class GnuPGPeer {
      * DO NOT USE IT. This is only use from inside the library.
      */
     protected long getInternalRepresentation() {
-        // note that this is a pointer to an address in the javagnupg shared lib
+        // note that this is a pointer to an address in the gnupg-for-java shared lib
         return _internalRepresentation;
     }
 }

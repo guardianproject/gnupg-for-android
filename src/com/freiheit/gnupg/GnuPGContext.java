@@ -145,7 +145,8 @@ public class GnuPGContext extends GnuPGPeer {
     }
 
     private long[] getInternalRepresentationFromRecipients(GnuPGKey[] recipients) {
-        // note that these are pointers to addresses in the javagnupg shared lib
+        // note that these are pointers to addresses in the gnupg-for-java
+        // shared lib
         long recipientsInternals[] = new long[recipients.length];
         for (int i = 0; i < recipients.length; i++) {
             if (recipients[i] != null)
@@ -489,7 +490,8 @@ public class GnuPGContext extends GnuPGPeer {
         if (hasNoRecipients(recipients) || plain == null || cipher == null)
             throw new GnuPGException("Encryption arguments not complete.");
 
-        // note that these are pointers to addresses in the javagnupg shared lib
+        // note that these are pointers to addresses in the gnupg-for-java
+        // shared lib
         long context = this.getInternalRepresentation();
         if (gpgmeGetSignersLength(context) == 0)
             gpgmeOpEncrypt(context,
@@ -748,7 +750,8 @@ public class GnuPGContext extends GnuPGPeer {
      */
     public void setEngineInfo(int proto, String fileName, String homeDir) {
 
-        // note that this is a pointer to and address in the javagnupg shared
+        // note that this is a pointer to and address in the gnupg-for-java
+        // shared
         // lib
         long ctx = getInternalRepresentation();
         gpgmeCtxSetEngineInfo(ctx, proto, fileName, homeDir);
