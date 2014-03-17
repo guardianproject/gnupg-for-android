@@ -7,8 +7,6 @@
 #include <locale.h>
 #include <gpg-error.h>
 #include <gpgme.h>
-#include <context.h>
-
 
 #include "gpgmeutils.h"
 
@@ -492,7 +490,7 @@ Java_com_freiheit_gnupg_GnuPGContext_gpgmeGetSignersLength(JNIEnv* env,
         jobject self,
         jlong context)
 {
-    return (CONTEXT(context)->signers_len);
+    return (gpgme_signers_count(CONTEXT(context)));
 }
 
 void check_result(gpgme_import_result_t result, char* fpr, int secret)
