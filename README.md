@@ -122,14 +122,23 @@ future.
 
 ## Build Setup
 
-On **Debian/Ubuntu/Mint/etc.**:
+### Debian/Ubuntu/Mint/etc
 
-	sudo apt-get install autoconf automake libtool transfig wget patch \
-	texinfo ant gettext build-essential ia32-libs bison
+	sudo apt-get install build-essential autoconf automake-1.11 libtool \
+        transfig wget patch texinfo ant gettext bison
 
-On **Fedora 17 x64**:
+### Fedora 17 x64
 
-	sudo yum install ncurses-libs.i686 libstdc++.i686 libgcc.i686 zlib.i686 gcc.i686
+	sudo yum install autoconf automake libtool transfig wget patch texinfo \
+        ant gettext bison \
+        ncurses-libs.i686 libstdc++.i686 libgcc.i686 zlib.i686 gcc.i686
+
+You might need to apply some patches to get GnuPG subprojects building with
+newer versions of automake:
+
+* http://lists.gnupg.org/pipermail/gnupg-devel/2013-August/027857.html
+
+### Android SDK, NDK, appcompat
 
 Install the Android NDK v9b or newer for the command line version, and the
 Android SDK for the Android app version:
