@@ -10,6 +10,13 @@ export PKG_CONFIG_PATH=$(LOCAL)/lib/pkgconfig
 # workaround for cross-compiling bug in autoconf
 export ac_cv_func_malloc_0_nonnull=yes
 
+# GnuPG does not work with automake 1.14, it has proven reliable on 1.11, and
+# that's widely available, so we'll add it to the env here, and the
+# ./autogen.sh scripts will pick it up.
+# http://lists.gnupg.org/pipermail/gnupg-devel/2013-August/027857.html
+export AUTOMAKE=automake-1.11
+
+
 EXTERNAL_ROOT := $(shell pwd)
 # this gives use NDK_TOOLCHAIN_VERSION, APP_ABI, etc.
 include $(EXTERNAL_ROOT)/../jni/Application.mk
