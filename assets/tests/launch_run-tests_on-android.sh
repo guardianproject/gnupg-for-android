@@ -19,12 +19,12 @@ run_test_script() {
 }
 
 echoheader
-echo "looking for adb in SDK_BASE: $SDK_BASE"
+echo "looking for adb in ANDROID_HOME: $ANDROID_HOME"
 
-if [ -z $SDK_BASE ]; then
+if [ -z $ANDROID_HOME ]; then
     . ~/.android/bashrc
 else
-    export PATH="$PATH:$SDK_BASE/tools"
+    export PATH="$PATH:$ANDROID_HOME/tools"
 fi
 
 echoheader
