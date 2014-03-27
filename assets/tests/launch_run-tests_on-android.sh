@@ -24,7 +24,7 @@ echo "looking for adb in ANDROID_HOME: $ANDROID_HOME"
 if [ -z $ANDROID_HOME ]; then
     . ~/.android/bashrc
 else
-    export PATH="$PATH:$ANDROID_HOME/tools"
+    export PATH="$PATH:$ANDROID_HOME/platform-tools:$ANDROID_HOME/tools"
 fi
 
 echoheader
