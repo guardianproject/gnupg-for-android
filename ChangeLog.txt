@@ -1,3 +1,7 @@
+* add ability to delete keys
+* bug fixes (#3058, #3061, #1549)
+
+v0.3
 * improved Contacts integration, can handle very large keyrings
 * share files to GPG to encrypt, decrypt, sign, verify, import
 * keyserver integration for finding, getting, and sending keys
