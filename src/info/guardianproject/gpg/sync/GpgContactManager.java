@@ -92,7 +92,10 @@ public class GpgContactManager {
                 contentValues.put(Groups.GROUP_IS_READ_ONLY, true);
 
             final Uri newGroupUri = resolver.insert(Groups.CONTENT_URI, contentValues);
-            groupId = ContentUris.parseId(newGroupUri);
+            if (newGroupUri != null)
+                groupId = ContentUris.parseId(newGroupUri);
+            else
+                Log.e(TAG, context.getString(R.string.error_cm_privacy_guard));
         }
         return groupId;
     }
@@ -148,6 +151,8 @@ public class GpgContactManager {
                 .addComment(rawContact.comment);
         long groupId = GpgContactManager.ensureGroupExists(context, account,
                 context.getString(R.string.keyring_group_name));
+        if (groupId == 0)
+            return; // CyanogenMod Privacy Guard enabled, or something else went wrong
         contactOp.addGroupMembership(groupId);
         if (rawContact.hasSecretKey) {
             groupId = GpgContactManager.ensureGroupExists(context, account,
