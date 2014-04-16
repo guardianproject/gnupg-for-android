@@ -22,4 +22,5 @@ make -C external/ assets-tests
 ndk-build
 ./setup-ant.sh
 # run on all GnuPG projects (skip curl and openldap)
-cppcheck $WORKSPACE/jni $WORKSPACE/external/[^co]* --max-configs=50 --enable=all --xml 2> cppcheck-result.xml
+find $WORKSPACE/jni $WORKSPACE/external/[^co]* -name '*.[ch]' | sort | \
+    cppcheck --file-list=- --max-configs=50 --enable=all --xml 2> cppcheck-result.xml
