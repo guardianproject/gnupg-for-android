@@ -1,8 +1,7 @@
-<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<?xml version='1.0' encoding='UTF-8' standalone="no"?>
 <resources>
-
     <string name="app_name">GnuPrivacyGuard</string>
-    <string name="app_description">GnuPrivacyGuard (GPG) brings GnuPG, the most trusted name in encryption, to Android. Easily encrypt, decrypt, sign and verify files of any kind, just by sharing them to GPG. This app aims to provide a complete, integrated crypto toolkit integrated into the Android experience. GPG provides solid encryption for private files, and for verifying that files are from who you think they are. It includes optimizations to make it operate many times faster than other encryption packages. GPG provides an integrated experience, so clicking on OpenPGP files "just works". You can also share files to GPG to decrypt, encrypt, sign, or verify them. GPG will respond when you click on a OpenPGP fingerprint URL (one that starts with openpgp4fpr:). GPG also gives you complete command line access to the entire GnuPG suite of encryption software. We are working on Android integration for all of GnuPG\'s crypto services, including OpenPGP, symmetric encryption, and more.</string>
+    <string name="app_description">GnuPrivacyGuard (GPG) brings GnuPG, the most trusted name in encryption, to Android. Easily encrypt, decrypt, sign and verify files of any kind, just by sharing them to GPG. This app aims to provide a complete, integrated crypto toolkit integrated into the Android experience. GPG provides solid encryption for private files, and for verifying that files are from who you think they are. It includes optimizations to make it operate many times faster than other encryption packages. GPG provides an integrated experience, so clicking on OpenPGP files \"just works\". You can also share files to GPG to decrypt, encrypt, sign, or verify them. GPG will respond when you click on a OpenPGP fingerprint URL (one that starts with openpgp4fpr:). GPG also gives you complete command line access to the entire GnuPG suite of encryption software. We are working on Android integration for all of GnuPG\'s crypto services, including OpenPGP, symmetric encryption, and more.</string>
     <string name="label_debug_header">Debug log for tests</string>
     <string name="pinentry_service_label">Gnu Privacy Guard pinentry daemon</string>
     <string name="pinentry_service_started">Gnu Privacy Guard pinentry daemon running</string>
@@ -11,7 +10,7 @@
     <string name="title_activity_encrypt">Encrypt</string>
     <string name="title_activity_decrypt">Decrypt</string>
     <string name="dialog_installing_msg">Setting up Gnu Privacy Guard</string>
-    <string name="dialog_installing_title">Installing&#8230; (wait for it to finish!)</string>
+    <string name="dialog_installing_title">Installing… (wait for it to finish!)</string>
     <string name="pref_keyserver_title">Keyserver</string>
     <string name="pref_keyserver_summary">Which HKP keyserver to download from and publish keys to (default: ipv4.pool.sks-keyservers.net)</string>
     <string name="pref_start_boot_title">Start Daemons on Boot</string>
@@ -34,7 +33,7 @@
     <string name="verify_signature">Verify Signature</string>
     <string name="signature_verified">Signature Verified</string>
     <string name="verifying_file_format">Verifying \"%s\"</string>
-    <string name="decrypting_file_format">Decrypting \"%s\"&#8230;</string>
+    <string name="decrypting_file_format">Decrypting \"%s\"…</string>
     <string name="error_no_file_manager_installed">No compatible file manager app installed!</string>
     <string name="error_files_not_supported">File URIs are not supported via this Intent!</string>
     <string name="dialog_specify_decrypt_file">Choose the file to decrypt:</string>
@@ -50,12 +49,12 @@
     <string name="label_delete_after_import">Delete after import</string>
     <string name="label_export_secret_keys">Export secret keys only</string>
     <string name="renamed_existing_file_format">Renamed existing file to %s!</string>
-    <string name="dialog_encrypting_title">Encrypting&#8230;</string>
+    <string name="dialog_encrypting_title">Encrypting…</string>
     <string name="no_key_specified_using_this_key">No one was specified as the recipient, so using the default:</string>
     <string name="sign_file">Sign file?</string>
     <string name="ascii_signature">ASCII signature?</string>
-    <string name="sign">Sign&#8230;</string>
-    <string name="encrypt">Encrypt&#8230;</string>
+    <string name="sign">Sign…</string>
+    <string name="encrypt">Encrypt…</string>
     <string name="changing_passphrase_for_format">Changing passphrase for %s</string>
     <string name="search_hint">search by name, email, or key ID</string>
 
@@ -77,7 +76,7 @@
     <string name="send_to_keyserver">Send to keyserver</string>
     <string name="refresh_from_keyserver">Refresh from keyserver</string>
     <string name="delete_keys">Delete Keys</string>
-    <string name="encrypt_file_to">Encrypt file to&#8230;</string>
+    <string name="encrypt_file_to">Encrypt file to…</string>
     <string name="encrypt_file_to_detail">Choose a file to encrypt to this person.</string>
     <string name="contact_view_key">View key</string>
     <string name="title_create_key">Create Key</string>
@@ -98,11 +97,11 @@
     <string name="key_add_comment">Show optional comment field</string>
     <string name="key_upload">Upload To Keyservers</string>
     <string name="key_make_backup">Backup To SD Card</string>
-    <string name="dialog_generating_new_key_title">Generating new key&#8230;</string>
+    <string name="dialog_generating_new_key_title">Generating new key…</string>
     <string name="generating_new_key_message">This process can currently take up to 15 minutes.</string>
-    <string name="generating_revoke_cert">Generating revokation certificate&#8230;</string>
-    <string name="uploading_to_keyserver">Uploading to keyserver&#8230;</string>
-    <string name="backing_up_to_sdcard">Backing up new key to SD Card&#8230;</string>
+    <string name="generating_revoke_cert">Generating revokation certificate…</string>
+    <string name="uploading_to_keyserver">Uploading to keyserver…</string>
+    <string name="backing_up_to_sdcard">Backing up new key to SD Card…</string>
     <string name="dialog_share_encrypted_file_using">Share encrypted file using:</string>
     <string name="dialog_share_signature_file_using">Share signature file using:</string>
     <string name="dialog_share_debug_log_using">Share debug log using:</string>
@@ -111,9 +110,9 @@
     <string name="dialog_encrypt_or_sign_file_format">Encrypt and/or sign \"%s\"?</string>
 
     <!-- sending and receiving dialogs -->
-    <string name="receive_key">Receive key&#8230;</string>
+    <string name="receive_key">Receive key…</string>
     <string name="receive_key_message">Specify the key ID to receive from the keyserver:</string>
-    <string name="send_key">Send key&#8230;</string>
+    <string name="send_key">Send key…</string>
     <string name="send_key_message">Specify the key ID to send to the keyserver:</string>
 
     <!-- error messages -->
@@ -137,7 +136,7 @@
     <string name="error_query_failed">ERROR! Query failed, try again!</string>
     <string name="error_short_keyserver_query">Keyserver searches must be at least 3 characters long!</string>
     <string name="error_bad_or_corrupt_key_format">Bad or corrupt key (%s)!</string>
-    <string name="error_cm_privacy_guard">Gnu Privacy Guard does not work with CyanogenMod Privacy Guard enabled!"</string>
+    <string name="error_cm_privacy_guard">Gnu Privacy Guard does not work with CyanogenMod Privacy Guard enabled!</string>
 
     <!-- content descriptions for accessibility -->
     <string name="folder">folder</string>
@@ -164,10 +163,10 @@
     <string name="btn_clearFilter">Clear Filter</string>
     <string name="title_select_recipients">Select Recipients</string>
     <string name="progress_done">done.</string>
-    <string name="progress_initializing">Initializing&#8230;</string>
-    <string name="progress_saving">Saving&#8230;</string>
-    <string name="progress_importing">Importing&#8230;</string>
-    <string name="progress_exporting">Exporting&#8230;</string>
-    <string name="progress_querying">Querying&#8230;</string>
+    <string name="progress_initializing">Initializing…</string>
+    <string name="progress_saving">Saving…</string>
+    <string name="progress_importing">Importing…</string>
+    <string name="progress_exporting">Exporting…</string>
+    <string name="progress_querying">Querying…</string>
 
 </resources>
