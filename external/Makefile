@@ -656,7 +656,12 @@ assets-tests-libksba:
 	$(MAKE) -C libksba/tests
 	install -d $(ASSETS)/tests/libksba
 	install -p \
-		libksba/tests/.libs/* \
+		libksba/tests/cert-basic \
+		libksba/tests/t-cms-parser \
+		libksba/tests/t-crl-parser \
+		libksba/tests/t-dnparser \
+		libksba/tests/t-ocsp \
+		libksba/tests/t-oid \
 		libksba/tests/*.der \
 		$(ASSETS)/tests/libksba
 
