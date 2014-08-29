@@ -620,6 +620,9 @@ gpgme-clean:
 
 #------------------------------------------------------------------------------#
 # separate target for building and installing the tests into assets/
+# The $(shell find) scripts find all the ELF binaries, which are the only tests
+# that will run on Android.  The shell script tests will not since Android's
+# /system/bin/sh is ridiculously limited.
 
 assets-tests: assets-tests-libgpg-error assets-tests-libassuan assets-tests-libgcrypt assets-tests-npth assets-tests-libksba assets-tests-gpgme
 
@@ -627,41 +630,35 @@ assets-tests-libgpg-error:
 	$(MAKE) -C libgpg-error/tests
 	install -d $(ASSETS)/tests/libgpg-error
 	install -p \
-		libgpg-error/tests/.libs/* \
+		`find libgpg-error/tests/ -executable -type f -exec file {} \; | grep ELF | cut -d: -f 1` \
 		$(ASSETS)/tests/libgpg-error
 
 assets-tests-libassuan:
 	$(MAKE) -C libassuan/tests
 	install -d $(ASSETS)/tests/libassuan
 	install -p \
-		libassuan/tests/.libs/* \
+		`find libassuan/tests/ -executable -type f -exec file {} \; | grep ELF | cut -d: -f 1` \
 		$(ASSETS)/tests/libassuan
 
 assets-tests-libgcrypt:
 	$(MAKE) -C libgcrypt/tests
 	install -d $(ASSETS)/tests/libgcrypt
 	install -p \
-		libgcrypt/tests/* \
+		`find libgcrypt/tests/ -executable -type f -exec file {} \; | grep ELF | cut -d: -f 1` \
 		$(ASSETS)/tests/libgcrypt
-	rm -f $(ASSETS)/tests/libgcrypt.[cho]
 
 assets-tests-npth:
 	$(MAKE) -C npth/tests
 	install -d $(ASSETS)/tests/npth
 	install -p \
-		npth/tests/.libs/* \
+		`find npth/tests/ -executable -type f -exec file {} \; | grep ELF | cut -d: -f 1` \
 		$(ASSETS)/tests/npth
 
 assets-tests-libksba:
 	$(MAKE) -C libksba/tests
 	install -d $(ASSETS)/tests/libksba
 	install -p \
-		libksba/tests/cert-basic \
-		libksba/tests/t-cms-parser \
-		libksba/tests/t-crl-parser \
-		libksba/tests/t-dnparser \
-		libksba/tests/t-ocsp \
-		libksba/tests/t-oid \
+		`find libksba/tests/ -executable -type f -exec file {} \; | grep ELF | cut -d: -f 1` \
 		libksba/tests/*.der \
 		$(ASSETS)/tests/libksba
 
@@ -671,7 +668,7 @@ assets-tests-gpgme:
 	$(MAKE) -C gpgme/tests
 	install -d $(ASSETS)/tests/gpgme
 	install -p \
-		gpgme/tests/.libs/* \
+		`find gpgme/tests/ -executable -type f -exec file {} \; | grep ELF | cut -d: -f 1` \
 		gpgme/tests/*.txt \
 		gpgme/tests/gpg/*.asc \
 		$(ASSETS)/tests/gpgme
