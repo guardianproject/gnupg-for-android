@@ -22,9 +22,9 @@ findusername() {
 }
 
 runtest() {
-    echo "Running $1/$2 $3 $4 $5 $6 $7 $8 $9"
+    echo -n "Running $1/$2 $3 $4 $5 $6 $7 $8 $9"
     cd $app_opt/tests/$1
-    (./$2 $3 $4 $5 $6 $7 $8 $9 && echo DONE.) || export SUCCESS=FAILED
+    (./$2 $3 $4 $5 $6 $7 $8 $9 && echo DONE.) || (echo FAILED; export SUCCESS=FAILED)
 }
 
 export USER=`findusername`
