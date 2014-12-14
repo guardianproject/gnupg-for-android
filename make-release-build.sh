@@ -2,10 +2,22 @@
 
 set -e
 
-if [ -e ~/.android/bashrc ]; then
-    . ~/.android/bashrc
-else
-    echo "No ~/.android/bashrc found, 'android' and 'ndk-build' must be in PATH"
+if [ -z $ANDROID_HOME ]; then
+    if [ -e ~/.android/bashrc ]; then
+        . ~/.android/bashrc
+    else
+        echo "ANDROID_HOME must be set!"
+        exit
+    fi
+fi
+
+if [ -z $ANDROID_NDK ]; then
+    if which ndk-build 2>&1 /dev/null; then
+        ANDROID_NDK=`which ndk-build |  sed 's,/ndk-build,,'`
+    else
+        echo "ANDROID_NDK not set and 'ndk-build' not in PATH"
+        exit
+    fi
 fi
 
 projectroot=`pwd`
@@ -29,7 +41,7 @@ git submodule foreach --recursive git submodule sync
 git submodule update --init --recursive
 
 make -C external/
-ndk-build
+$ANDROID_NDK/ndk-build
 
 if [ -e ~/.android/ant.properties ]; then
     cp ~/.android/ant.properties $projectroot/
