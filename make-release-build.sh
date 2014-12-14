@@ -22,8 +22,12 @@ done
 cd $projectroot
 git reset --hard
 git clean -fdx
-
+git submodule foreach --recursive git reset --hard
+git submodule foreach --recursive git clean -fdx
+git submodule sync --recursive
+git submodule foreach --recursive git submodule sync
 git submodule update --init --recursive
+
 make -C external/
 ndk-build
 
