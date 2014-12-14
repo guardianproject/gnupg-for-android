@@ -9,7 +9,7 @@
   <string name="title_activity_encrypt">Criptografar</string>
   <string name="title_activity_decrypt">Decriptar</string>
   <string name="dialog_installing_msg">Configurando o Gnu Privacy Guard</string>
-  <string name="dialog_installing_title">Instalando... (Aguarde isso terminar!) </string>
+  <string name="dialog_installing_title">Instalando… (Aguarde isso terminar!) </string>
   <string name="pref_keyserver_title">Servidor de chaves</string>
   <string name="pref_keyserver_summary">Qual servidor de chave HKP para baixar e publicar as chaves (padrão: ipv4.pool.sks-keyservers.net)</string>
   <string name="pref_start_boot_title">Iniciar Serviços no Boot</string>
@@ -48,12 +48,12 @@
   <string name="label_delete_after_import">Remover após a importação</string>
   <string name="label_export_secret_keys">Exportar somente chaves secretas</string>
   <string name="renamed_existing_file_format">Renomear arquivo existente para \"%s\"!</string>
-  <string name="dialog_encrypting_title">Encriptando...</string>
+  <string name="dialog_encrypting_title">Encriptando…</string>
   <string name="no_key_specified_using_this_key">Ninguém foi especificado como destinatário, portanto, usando o destinatário padrão:</string>
   <string name="sign_file">Assinar arquivo?</string>
   <string name="ascii_signature">Assinatura ASCII?</string>
-  <string name="sign">Assinar...</string>
-  <string name="encrypt">Criptografar...</string>
+  <string name="sign">Assinar…</string>
+  <string name="encrypt">Criptografar…</string>
   <string name="changing_passphrase_for_format">Mudando frase secreta para %s</string>
   <string name="search_hint">procurar por nome, email, ou ID de chave</string>
   <!--first run wizard-->
@@ -70,7 +70,9 @@
   <string name="account_label">Gnu Privacy Guard</string>
   <string name="keyring_group_name">Chaveiro Gnu Privacy Guard</string>
   <string name="secret_key_group_name">Chaves Secretas OpenPGP</string>
-  <string name="encrypt_file_to">Criptografar arquivo para...</string>
+  <string name="send_to_keyserver">Enviar para o servidor de chave</string>
+  <string name="refresh_from_keyserver">Atualizar a partir do servidor de chave</string>
+  <string name="encrypt_file_to">Criptografar arquivo para…</string>
   <string name="encrypt_file_to_detail">Escolha um arquivo para criptografar para essa pessoa.</string>
   <string name="contact_view_key">Visualizar chave</string>
   <string name="title_create_key">Criar chave</string>
@@ -94,8 +96,8 @@
   <string name="dialog_generating_new_key_title">Gerando nova chave</string>
   <string name="generating_new_key_message">Este processo pode levar até 15 minutos.</string>
   <string name="generating_revoke_cert">Gerando certificado revogado</string>
-  <string name="uploading_to_keyserver">Enviando para o servidor de chaves...</string>
-  <string name="backing_up_to_sdcard">Armazenando a nova chave no Cartão SD...</string>
+  <string name="uploading_to_keyserver">Enviando para o servidor de chaves…</string>
+  <string name="backing_up_to_sdcard">Armazenando a nova chave no Cartão SD…</string>
   <string name="dialog_share_encrypted_file_using">Compartilhar arquivo criptografado usando:</string>
   <string name="dialog_share_signature_file_using">Compartilhar assinatura de arquivo usando:</string>
   <string name="dialog_share_debug_log_using">Compartilhe o log de debug usando:</string>
@@ -123,6 +125,7 @@
   <string name="error_fingerprint_too_short_format">O fingerprint %s é muito curto! Ele deverá ter mais de 16 dígitos.</string>
   <string name="error_no_secret_key">Não há chave secreta! Você precisa gerar ou importar uma.</string>
   <string name="error_short_keyserver_query">As pesquisas no servidor de chaves devem ter pelo menos 3 caracteres!</string>
+  <string name="error_bad_or_corrupt_key_format">Chave corrompida ou ruim (%s)!</string>
   <!--content descriptions for accessibility-->
   <string name="folder">diretório</string>
   <!--key status terms-->
@@ -144,9 +147,9 @@
   <string name="btn_clearFilter">Limpar Filtro</string>
   <string name="title_select_recipients">Selecione beneficiários</string>
   <string name="progress_done">feito.</string>
-  <string name="progress_initializing">Inicializando...</string>
-  <string name="progress_saving">Gravando...</string>
-  <string name="progress_importing">Importando...</string>
-  <string name="progress_exporting">Exportando...</string>
-  <string name="progress_querying">Consultando...</string>
+  <string name="progress_initializing">Inicializando…</string>
+  <string name="progress_saving">Gravando…</string>
+  <string name="progress_importing">Importando…</string>
+  <string name="progress_exporting">Exportando…</string>
+  <string name="progress_querying">Consultando…</string>
 </resources>

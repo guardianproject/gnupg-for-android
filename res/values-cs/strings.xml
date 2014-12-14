@@ -9,9 +9,8 @@
   <string name="title_activity_encrypt">Zašifrovat</string>
   <string name="title_activity_decrypt">Dešifrovat</string>
   <string name="dialog_installing_msg">Nastavuji Gnu Privacy Guard</string>
-  <string name="dialog_installing_title">Instaluji... (prosím počkejte na dokočení!)</string>
+  <string name="dialog_installing_title">Instaluji… (prosím počkejte na dokočení!)</string>
   <string name="pref_keyserver_title">Keyserver</string>
-  <string name="pref_keyserver_summary">Který keyserver použít pro stažení a zveřejnění klíčů (výchozí: hkp://keys.gnupg.net)</string>
   <string name="pref_start_boot_title">Spustit démony během bootu</string>
   <string name="pref_start_boot_summary">Spustí pinentry a dirmngr démony při bootu zařízení</string>
   <string name="title_decrypt_file">Dešifrovat soubor</string>
@@ -26,7 +25,7 @@
   <string name="verify_signature">Ověřit podpis</string>
   <string name="signature_verified">Podpis ověřen</string>
   <string name="verifying_file_format">Ověřuji \"%s\"</string>
-  <string name="decrypting_file_format">Dešifruji \"%s\"...</string>
+  <string name="decrypting_file_format">Dešifruji \"%s\"…</string>
   <string name="error_no_file_manager_installed">Nainstalován nekompatibilní správce souborů!</string>
   <string name="error_files_not_supported">URI souborů nejsou pro tento \"Intent\" podporovány!</string>
   <string name="dialog_specify_decrypt_file">Zvolte soubor pro dešifrování:</string>
@@ -41,7 +40,7 @@
   <string name="label_delete_after_import">Smazat po importu</string>
   <string name="label_export_secret_keys">Export jen tajných klíčů</string>
   <string name="renamed_existing_file_format">Existující soubor přejmenován na %s!</string>
-  <string name="dialog_encrypting_title">Šifruji...</string>
+  <string name="dialog_encrypting_title">Šifruji…</string>
   <string name="no_key_specified_using_this_key">Nebyl zadán nikdo jako příjemce, takže používám výchozího:</string>
   <string name="sign_file">Podepsat soubor?</string>
   <!--first run wizard-->
@@ -57,7 +56,6 @@
   <!--account, contacts, and contact syncing-->
   <string name="account_label">Gnu Privacy Guard</string>
   <string name="keyring_group_name">Gnu Privacy Guard Keyring</string>
-  <string name="encrypt_file_to">Zašifrovat soubor do</string>
   <string name="contact_view_key">Zobrazit klíč</string>
   <string name="title_create_key">Vytvořit klíč</string>
   <string name="key_name_label">Jméno:</string>
@@ -75,17 +73,16 @@
   <string name="key_revoke_gen">Vygeneruj revokační certifikát</string>
   <string name="key_upload">Nahrát na keyservery</string>
   <string name="key_make_backup">Zálohovat na SD kartu</string>
-  <string name="dialog_generating_new_key_title">Generuji nový klíč...</string>
+  <string name="dialog_generating_new_key_title">Generuji nový klíč…</string>
   <string name="generating_new_key_message">Tento proces může aktuálně zabrat až 15 minut.</string>
-  <string name="generating_revoke_cert">Generuji revokační certifikát...</string>
-  <string name="uploading_to_keyserver">Nahrávám na keyserver...</string>
-  <string name="backing_up_to_sdcard">Zálohuji nový klíč na SD kartu...</string>
-  <string name="dialog_share_file_using">Sdílet soubor pomocí:</string>
+  <string name="generating_revoke_cert">Generuji revokační certifikát…</string>
+  <string name="uploading_to_keyserver">Nahrávám na keyserver…</string>
+  <string name="backing_up_to_sdcard">Zálohuji nový klíč na SD kartu…</string>
   <string name="dialog_view_file_using">Zobrazit soubor pomocí:</string>
   <!--sending and receiving dialogs-->
-  <string name="receive_key">Přijímám klíč...</string>
+  <string name="receive_key">Přijímám klíč…</string>
   <string name="receive_key_message">Zadejte ID klíče pro získání z keyserveru:</string>
-  <string name="send_key">Zaslat klíč...</string>
+  <string name="send_key">Zaslat klíč…</string>
   <string name="send_key_message">Zadejte ID klíče pro zaslání na keyserver:</string>
   <!--error messages-->
   <string name="error_cannot_read_incoming_file_format">Nelze načíst příchozí soubor \"%s\"!</string>
@@ -122,9 +119,9 @@
   <string name="btn_clearFilter">Vymazat filtr</string>
   <string name="title_select_recipients">Zvolit příjemce</string>
   <string name="progress_done">hotovo.</string>
-  <string name="progress_initializing">Inicializuji...</string>
-  <string name="progress_saving">Ukládám...</string>
-  <string name="progress_importing">Importuji...</string>
-  <string name="progress_exporting">Exportuji...</string>
-  <string name="progress_querying">Dotazuji...</string>
+  <string name="progress_initializing">Inicializuji…</string>
+  <string name="progress_saving">Ukládám…</string>
+  <string name="progress_importing">Importuji…</string>
+  <string name="progress_exporting">Exportuji…</string>
+  <string name="progress_querying">Dotazuji…</string>
 </resources>

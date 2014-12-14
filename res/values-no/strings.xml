@@ -1,6 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
   <string name="app_name">GnuPrivacyGuard</string>
+  <string name="app_description">GnuPrivacyGuard (GPG) bringer GnuPG, det mest tiltrodde navnetrekket innen kryptering, til Android. Enkel kryptering, dekryptering, signering og verifisering av filer, ved å bare dele dem til GPG. Dette programmets mål er komplett, integrert krypteringsverktøysett integrert i Android-opplevelsen. GPG tilbyr solid kryptering for private filer, og for å verifisere at filer er det de opphavsmessig er ment å være. Det inneholder optimiseringer som gjør det mange ganger raskere enn andre krypteringspakker. GPG tilbyr en integrert opplevelse, så klikking på OpenPGP filer \"det bare virker\". Du kan også dele filer til GPG for å dekryptere, kryptere, signere eller verifisere dem. GPG er på pletten når du trykker på en GPG-fingeravtrykk-adresse (de starter med openpgp4pr:). GPG gir deg også fullstendig kommandolinjetilgang til hele GnuPG programpakken med krypteringsprogramvare. Vi jobber med Android-integrasjon av alle GnuPGs krypto-tjenester, inkludert OpenPGP, symmetrisk kryptering, med mer.</string>
   <string name="label_debug_header">Feilsøk test-loggen</string>
   <string name="pinentry_service_label">Gnu Privacy Guard pinentry</string>
   <string name="pinentry_service_started">Bakgrunnsprosessen Gnu Privacy Guard pinentry kjører</string>
@@ -9,7 +10,7 @@
   <string name="title_activity_encrypt">Krypter</string>
   <string name="title_activity_decrypt">Dekrypter</string>
   <string name="dialog_installing_msg">Konfigurerer Gnu Privacy Guard</string>
-  <string name="dialog_installing_title">Installerer... (vennligst vent)</string>
+  <string name="dialog_installing_title">Installerer… (vennligst vent)</string>
   <string name="pref_keyserver_title">Nøkkeltjener</string>
   <string name="pref_keyserver_summary">Hvilken HKP-nøkkeltjener vil du laste ned fra og publisere nøkler til? (standard: ipv4.pool.sks-keyservers.net)</string>
   <string name="pref_start_boot_title">Start bakgrunns-prosesser ved oppstart</string>
@@ -32,7 +33,7 @@
   <string name="verify_signature">Bekreft Signatur</string>
   <string name="signature_verified">Signatur Bekreftet</string>
   <string name="verifying_file_format">Bekrefter \"%s\"</string>
-  <string name="decrypting_file_format">Dekrypterer \"%s\"...</string>
+  <string name="decrypting_file_format">Dekrypterer \"%s\"…</string>
   <string name="error_no_file_manager_installed">Der er ikke installert noen kompatibel filbehandler!</string>
   <string name="error_files_not_supported">URI\'er for filer er ikke støttet av denne Intent!</string>
   <string name="dialog_specify_decrypt_file">Velg fil å dekryptere:</string>
@@ -48,12 +49,12 @@
   <string name="label_delete_after_import">Slett etter import</string>
   <string name="label_export_secret_keys">Eksporter kun hemmelige nøkler</string>
   <string name="renamed_existing_file_format">Endret navn på filen til \"%s\"!</string>
-  <string name="dialog_encrypting_title">Krypterer...</string>
+  <string name="dialog_encrypting_title">Krypterer…</string>
   <string name="no_key_specified_using_this_key">Ingen var spesifisert som mottakere, så standardvalget brukes:</string>
   <string name="sign_file">Signer fil?</string>
   <string name="ascii_signature">ASCII signatur?</string>
-  <string name="sign">Signer...</string>
-  <string name="encrypt">Krypter...</string>
+  <string name="sign">Signer…</string>
+  <string name="encrypt">Krypter…</string>
   <string name="changing_passphrase_for_format">Endrer passordfrase for %s</string>
   <string name="search_hint">søk med navn, e-post eller nøkkel-ID</string>
   <!--first run wizard-->
@@ -70,7 +71,10 @@
   <string name="account_label">Gnu Privacy Guard</string>
   <string name="keyring_group_name">Gnu Privacy Guard Nøkkelring</string>
   <string name="secret_key_group_name">OpenPGP Hemmelige Nøkler</string>
-  <string name="encrypt_file_to">Krypter fil til...</string>
+  <string name="send_to_keyserver">Send til nøkkeltjener</string>
+  <string name="refresh_from_keyserver">Oppfrisk fra nøkkeltjener</string>
+  <string name="delete_keys">Slett nøkler</string>
+  <string name="encrypt_file_to">Krypter fil til…</string>
   <string name="encrypt_file_to_detail">Velg en fil som krypteres til denne personen.</string>
   <string name="contact_view_key">Se Nøkkel</string>
   <string name="title_create_key">Lag Nøkkel</string>
@@ -91,11 +95,11 @@
   <string name="key_add_comment">Vis valgfritt kommentarfelt</string>
   <string name="key_upload">Last Opp Til Nøkkeltjener</string>
   <string name="key_make_backup">Sikkerhetskopier til SD-kort</string>
-  <string name="dialog_generating_new_key_title">Genererer ny nøkkel...</string>
+  <string name="dialog_generating_new_key_title">Genererer ny nøkkel…</string>
   <string name="generating_new_key_message">Denne prosessen kan ta opp til 15 minutter.</string>
-  <string name="generating_revoke_cert">Generere revokeringssertifikat...</string>
-  <string name="uploading_to_keyserver">Laster opp til nøkkeltjener...</string>
-  <string name="backing_up_to_sdcard">Sikkerhetskopierer ny nøkkel til SD kortet...</string>
+  <string name="generating_revoke_cert">Generere revokeringssertifikat…</string>
+  <string name="uploading_to_keyserver">Laster opp til nøkkeltjener…</string>
+  <string name="backing_up_to_sdcard">Sikkerhetskopierer ny nøkkel til SD kortet…</string>
   <string name="dialog_share_encrypted_file_using">Del kryptert fil via:</string>
   <string name="dialog_share_signature_file_using">Del signatur-fil via:</string>
   <string name="dialog_share_debug_log_using">Del feilsøkingsloggen via:</string>
@@ -105,7 +109,7 @@
   <!--sending and receiving dialogs-->
   <string name="receive_key">Motta nøkkel</string>
   <string name="receive_key_message">Spesifiser nøkkel-ID som skal mottas fra nøkkeltjeneren:</string>
-  <string name="send_key">Send Nøkkel...</string>
+  <string name="send_key">Send Nøkkel…</string>
   <string name="send_key_message">Spesifiser nøkkel-ID som skal sendes til nøkkeltjeneren:</string>
   <!--error messages-->
   <string name="error_cannot_read_incoming_file_format">Kan ikke lese innkommende fil \"%s\"!</string>
@@ -127,6 +131,8 @@
   <string name="error_too_many_responses">For mange resultat! Prøv å spesifisere søket ditt</string>
   <string name="error_query_failed">FEIL! Forespørsel feilet, prøv igjen!</string>
   <string name="error_short_keyserver_query">Søk i Nøkkeltjener må inneholde minst 3 tegn!</string>
+  <string name="error_bad_or_corrupt_key_format">Feil eller skadet nøkkel (%s)!</string>
+  <string name="error_cm_privacy_guard">Gnu Privacy Guard fungerer ikke når CyanogenMod Privacy Guard er påskrudd!</string>
   <!--content descriptions for accessibility-->
   <string name="folder">mappe</string>
   <!--key status terms-->
@@ -148,9 +154,9 @@
   <string name="btn_clearFilter">Fjern Filter</string>
   <string name="title_select_recipients">Velg Mottagere</string>
   <string name="progress_done">ferdig.</string>
-  <string name="progress_initializing">Initialiserer...</string>
-  <string name="progress_saving">Lagrer...</string>
-  <string name="progress_importing">Importerer...</string>
-  <string name="progress_exporting">Eksporterer...</string>
-  <string name="progress_querying">Utfører spørring...</string>
+  <string name="progress_initializing">Initialiserer…</string>
+  <string name="progress_saving">Lagrer…</string>
+  <string name="progress_importing">Importerer…</string>
+  <string name="progress_exporting">Eksporterer…</string>
+  <string name="progress_querying">Utfører spørring…</string>
 </resources>
