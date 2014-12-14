@@ -1,6 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
   <string name="app_name">GnuPrivacyGuard</string>
+  <string name="app_description">GnuPrivacyGuard (GPG) przynosi GnuPG, najbardziej zaufaną marką w szyfrowaniu na systemie Android. Łatwo szyfruj, odszyfrowywuj, podpisuj i weryfikuj pliki dowolnego rodzaju, poprzez dzielenie się nimi z GPG. Ta aplikacja ma na celu dostarczenie kompletnego, zintegrowanego krypto narzędzia zintegrowanego z systemem Android. GPG zapewnia solidne szyfrowanie plików, oraz weryfikacji czy osoba z którą chcesz się komunikować jest naprawdę tą osobą za którą się podaje. Zawiera optymalizacje, aby to działać wiele razy szybciej niż innych pakietów szyfrowania. GPG zapewnia zintegrowane doświadczenie, więc kliknięcie na pliki OpenPGP \"po prostu działa\". Można także udostępniać pliki do GPG aby je odszyfrować, zaszyfrować, podpisać, albo zweryfikować. GPG odpowie po kliknięciu na OpenPGP fingerprint URL (rozpoczyna się on od openpgp4fpr:). GPG daje także pełny dostęp do linii poleceń całego pakietu oprogramowania szyfrującego GnuPG. Pracujemy nad integracją Androida dla wszystkich usług kryptograficznych GnuPG, w tym OpenPGP, szyfrowania symetrycznego oraz wiele więcej.</string>
   <string name="label_debug_header">Log debug dla testów</string>
   <string name="pinentry_service_label">Usługa wprowadzania PIN dla Gnu Privacy Guard</string>
   <string name="pinentry_service_started">Usługa wprowadzania PIN dla Gnu Privacy Guard jest uruchomiona</string>
@@ -9,7 +10,7 @@
   <string name="title_activity_encrypt">Szyfruj</string>
   <string name="title_activity_decrypt">Odszyfrowanie</string>
   <string name="dialog_installing_msg">Konfigurowanie Gnu Privacy Guard</string>
-  <string name="dialog_installing_title">Instalowanie... (poczekaj na zakończenie!)</string>
+  <string name="dialog_installing_title">Instalowanie… (poczekaj na zakończenie!)</string>
   <string name="pref_keyserver_title">Serwer kluczy</string>
   <string name="pref_keyserver_summary">Z którego HKP kluczserwera pobrać i opublikować klucze do (domyślne: ipv4.pool.sks-keyservers.net)</string>
   <string name="pref_start_boot_title">Uruchom usługi przy starcie urządzenia</string>
@@ -32,7 +33,7 @@
   <string name="verify_signature">Weryfikuj Sygnaturę</string>
   <string name="signature_verified">Sygnatura została zweryfikowana</string>
   <string name="verifying_file_format">Weryfikowanie \"%s\"</string>
-  <string name="decrypting_file_format">Odszyfrowywanie \"%s\"...</string>
+  <string name="decrypting_file_format">Odszyfrowywanie \"%s\"…</string>
   <string name="error_no_file_manager_installed">Nie znaleziono kompatybilnego Menadżera Plików!</string>
   <string name="error_files_not_supported">Adresy URI nie są wspierane poprzez ten Program! </string>
   <string name="dialog_specify_decrypt_file">Wybierz plik do odszyfrowania:</string>
@@ -48,12 +49,12 @@
   <string name="label_delete_after_import">Usuń po imporcie</string>
   <string name="label_export_secret_keys">Eksportuj tylko klucze niejawne</string>
   <string name="renamed_existing_file_format">Nazwa istniejącego pliku %s została zmieniona!</string>
-  <string name="dialog_encrypting_title">Szyfrowanie...</string>
+  <string name="dialog_encrypting_title">Szyfrowanie…</string>
   <string name="no_key_specified_using_this_key">Odbiorca nie został podany, użyto domyślnego:</string>
   <string name="sign_file">Podpisać plik?</string>
   <string name="ascii_signature">Podpisanie ASCII?</string>
-  <string name="sign">Podpisz...</string>
-  <string name="encrypt">Szyfruj...</string>
+  <string name="sign">Podpisz…</string>
+  <string name="encrypt">Szyfruj…</string>
   <string name="changing_passphrase_for_format">Zmiana hasła dla %s</string>
   <string name="search_hint">szukaj po nazwie, emailu lub ID klucza</string>
   <!--first run wizard-->
@@ -70,7 +71,10 @@
   <string name="account_label">Gnu Privacy Guard</string>
   <string name="keyring_group_name">Brelok kluczy Gnu Privacy Guard</string>
   <string name="secret_key_group_name">Klucze Prywatne OpenPGP</string>
-  <string name="encrypt_file_to">Szyfruj plik do...</string>
+  <string name="send_to_keyserver">Wyślij na serwer kluczy</string>
+  <string name="refresh_from_keyserver">Odśwież z serwera kluczy</string>
+  <string name="delete_keys">Usuń klucze</string>
+  <string name="encrypt_file_to">Szyfruj plik do…</string>
   <string name="encrypt_file_to_detail">Wybierz plik do zaszyfrowania dla tej osoby.</string>
   <string name="contact_view_key">Podgląd klucza</string>
   <string name="title_create_key">Utwórz Klucz</string>
@@ -91,11 +95,11 @@
   <string name="key_add_comment">Pokaż opcjonalne pole komentarz</string>
   <string name="key_upload">Wyślij do Serwerów Kluczy</string>
   <string name="key_make_backup">Wykonaj kopię na karcie SD</string>
-  <string name="dialog_generating_new_key_title">Tworzenie nowego klucza...</string>
+  <string name="dialog_generating_new_key_title">Tworzenie nowego klucza…</string>
   <string name="generating_new_key_message">Ten proces może potrwać nawet do 15 minut.</string>
-  <string name="generating_revoke_cert">Tworzenie Certyfikatu Unieważniającego...</string>
-  <string name="uploading_to_keyserver">Przesyłanie do serwera kluczy...</string>
-  <string name="backing_up_to_sdcard">Tworzenie kopii zapasowej na karcie SD...</string>
+  <string name="generating_revoke_cert">Tworzenie Certyfikatu Unieważniającego…</string>
+  <string name="uploading_to_keyserver">Przesyłanie do serwera kluczy…</string>
+  <string name="backing_up_to_sdcard">Tworzenie kopii zapasowej na karcie SD…</string>
   <string name="dialog_share_encrypted_file_using">Udostępnij zaszyfrowany plik używając:</string>
   <string name="dialog_share_signature_file_using">Udostępnij plik podpisu używając:</string>
   <string name="dialog_share_debug_log_using">Udostępnij log dubugowania używając:</string>
@@ -103,9 +107,9 @@
   <string name="openpgp_operation">Operacja OpenPGP</string>
   <string name="dialog_encrypt_or_sign_file_format">Szyfruj i/albo podpisz \"%s\"?</string>
   <!--sending and receiving dialogs-->
-  <string name="receive_key">Odbieranie klucza...</string>
+  <string name="receive_key">Odbieranie klucza…</string>
   <string name="receive_key_message">Podaj identyfikator klucza do odebrania z serwera kluczy:</string>
-  <string name="send_key">Wyślij klucz...</string>
+  <string name="send_key">Wyślij klucz…</string>
   <string name="send_key_message">Podaj identyfikator klucza do wysłania na serwer kluczy:</string>
   <!--error messages-->
   <string name="error_cannot_read_incoming_file_format">Nie można odczytać przychodzącego pliku \"%s\"!</string>
@@ -127,6 +131,8 @@
   <string name="error_too_many_responses">Za dużo odpowiedzi! Spróbuj zawęzić swoje wyszukiwania</string>
   <string name="error_query_failed">BŁĄD! Zapytanie nie powiodło się, spróbuj ponownie!</string>
   <string name="error_short_keyserver_query">Szukanie Serwera Kluczy musi mieć conajmniej 3 znaki!</string>
+  <string name="error_bad_or_corrupt_key_format">Zły lub fałszywy klucz (%s)!</string>
+  <string name="error_cm_privacy_guard">Gnu Privacy Guard nie działa z włączonym CyanogenMod Privacy Guard!</string>
   <!--content descriptions for accessibility-->
   <string name="folder">folder</string>
   <!--key status terms-->
@@ -148,9 +154,9 @@
   <string name="btn_clearFilter">Wyczyść Filtr</string>
   <string name="title_select_recipients">Wybierz odbiorców</string>
   <string name="progress_done">gotowe.</string>
-  <string name="progress_initializing">Inicjalizacja...</string>
-  <string name="progress_saving">Zapisywanie...</string>
-  <string name="progress_importing">Importowanie...</string>
-  <string name="progress_exporting">Eksportowanie...</string>
-  <string name="progress_querying">Wykonywanie...</string>
+  <string name="progress_initializing">Inicjalizacja…</string>
+  <string name="progress_saving">Zapisywanie…</string>
+  <string name="progress_importing">Importowanie…</string>
+  <string name="progress_exporting">Eksportowanie…</string>
+  <string name="progress_querying">Wykonywanie…</string>
 </resources>

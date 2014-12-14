@@ -1,6 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
   <string name="app_name">GnuPrivacyGuard</string>
+  <string name="app_description">GnuPrivacyGuard (GPG) trae GnuPG, el nombre de mayor confianza en cifrado, a Android. Cifra, descifra, firma y verifica ficheros de cualquier tipo con facilidad, simplemente compartiéndolos con GPG. Esta aplicación tiene como objetivo proporcionar un juego de herramientas de criptografía completo e integrado dentro de la experiencia Android. GPG proporciona un cifrado sólido para ficheros privados, y para verificar que esos ficheros son de quien usted cree que son. Incluye optimizaciones para hacerlo funcionar muchas veces más rápido que otros paquetes de criptografía. GPG proporciona una experiencia integrada, así que hacer clic sobre los ficheros OpenPGP \"simplemente funciona\". También puede compartir ficheros con GPG para descifrarlos, cifrarlos, firmarlos, o verificarlos. GPG reaccionará cuando haga clic sobre una URL de huella de validación (fingerprint) de OpenPGP (una que comienza con openpgp4fpr:). GPG también le provee de acceso pleno mediante línea de comandos a la suite completa de software de criptografía GnuPG. Estamos trabajando en la integración con Android para todos los servicios de criptografía de GnuPG, incluyendo OpenPGP, cifrado simétrico, y otros más.</string>
   <string name="label_debug_header">Log de depuración</string>
   <string name="pinentry_service_label">Demonio de lectura de claves de Gnu Privacy Guard</string>
   <string name="pinentry_service_started">El demonio de lectura de claves de Gnu Privacy Guard se encuentra corriendo</string>
@@ -9,7 +10,7 @@
   <string name="title_activity_encrypt">Cifrar</string>
   <string name="title_activity_decrypt">Descifrar</string>
   <string name="dialog_installing_msg">Configurando Gnu Privacy Guard</string>
-  <string name="dialog_installing_title">Instalando... (¡espere a que termine!)</string>
+  <string name="dialog_installing_title">Instalando… (¡espere a que termine!)</string>
   <string name="pref_keyserver_title">Servidor de claves</string>
   <string name="pref_keyserver_summary">Que servidor de claves usar para descargar y públicar claves (por defecto: ipv4.pool.sks-keyservers.net)</string>
   <string name="pref_start_boot_title">Iniciar servicio durante el arranque</string>
@@ -48,12 +49,12 @@
   <string name="label_delete_after_import">Eliminar tras importar</string>
   <string name="label_export_secret_keys">Solo exportar claves secretas</string>
   <string name="renamed_existing_file_format">¡El archivo ha sido renombrado a %s!</string>
-  <string name="dialog_encrypting_title">Cifrando...</string>
+  <string name="dialog_encrypting_title">Cifrando…</string>
   <string name="no_key_specified_using_this_key">No ha especificado el destinatario, se usará uno por defecto:</string>
   <string name="sign_file">¿Firmar archivo?</string>
   <string name="ascii_signature">Firma ASCII?</string>
-  <string name="sign">Firmar...</string>
-  <string name="encrypt">Cifrar...</string>
+  <string name="sign">Firmar…</string>
+  <string name="encrypt">Cifrar…</string>
   <string name="changing_passphrase_for_format">Cambiando contraseña para %s</string>
   <string name="search_hint">Busqueda por nombre, dirección de correo o clave ID</string>
   <!--first run wizard-->
@@ -70,7 +71,10 @@
   <string name="account_label">Gnu Privacy Guard</string>
   <string name="keyring_group_name">Anillo de llaves de Gnu Privacy Guard</string>
   <string name="secret_key_group_name">Claves Privadas de OpenPGP</string>
-  <string name="encrypt_file_to">Cifrar archivo para...</string>
+  <string name="send_to_keyserver">Enviar al servidor de claves</string>
+  <string name="refresh_from_keyserver">Actualizar desde el servidor de claves</string>
+  <string name="delete_keys">Borrar claves</string>
+  <string name="encrypt_file_to">Cifrar archivo para…</string>
   <string name="encrypt_file_to_detail">Elegir un archivo a cifrar para esta persona</string>
   <string name="contact_view_key">Ver clave</string>
   <string name="title_create_key">Generar clave</string>
@@ -91,11 +95,11 @@
   <string name="key_add_comment">Añadir comentario opcional</string>
   <string name="key_upload">Subir a un servidor de claves</string>
   <string name="key_make_backup">Hacer una copia de seguridad en la tarjeta SD</string>
-  <string name="dialog_generating_new_key_title">Generando nueva clave...</string>
+  <string name="dialog_generating_new_key_title">Generando nueva clave…</string>
   <string name="generating_new_key_message">Este proceso puede tomar hasta 15 minutos.</string>
-  <string name="generating_revoke_cert">Generando certificado de revocación...</string>
-  <string name="uploading_to_keyserver">Subiendo al servidor de claves...</string>
-  <string name="backing_up_to_sdcard">Haciendo una copia de seguridad de la nueva clave en la tarjeta SD...</string>
+  <string name="generating_revoke_cert">Generando certificado de revocación…</string>
+  <string name="uploading_to_keyserver">Subiendo al servidor de claves…</string>
+  <string name="backing_up_to_sdcard">Haciendo una copia de seguridad de la nueva clave en la tarjeta SD…</string>
   <string name="dialog_share_encrypted_file_using">Compartir archivo cifrado usando:</string>
   <string name="dialog_share_signature_file_using">Compartir fichero de firma usando:</string>
   <string name="dialog_share_debug_log_using">Compartir registro de ejecución usando:</string>
@@ -103,9 +107,9 @@
   <string name="openpgp_operation">Manejo de OpenPGP</string>
   <string name="dialog_encrypt_or_sign_file_format">Cifrar y/o firmar \"%s\"?</string>
   <!--sending and receiving dialogs-->
-  <string name="receive_key">Recibir clave...</string>
+  <string name="receive_key">Recibir clave…</string>
   <string name="receive_key_message">Especificar el ID de clave para recibirla desde el servidor:</string>
-  <string name="send_key">Enviar clave...</string>
+  <string name="send_key">Enviar clave…</string>
   <string name="send_key_message">Especificar el ID de clave a mandar al servidor:</string>
   <!--error messages-->
   <string name="error_cannot_read_incoming_file_format">¡El archivo de entrada \"%s\" no puede leerse!</string>
@@ -127,6 +131,8 @@
   <string name="error_too_many_responses">¡Demasiadas respuetas! Intente acotar su búsqueda</string>
   <string name="error_query_failed">¡ERROR! Petición fallida. Por favor intentelo de nuevo.</string>
   <string name="error_short_keyserver_query">Las peticiónes al servidor de claves han de contar al menos con 3 carácteres</string>
+  <string name="error_bad_or_corrupt_key_format">Clave errónea o corrompida (%s)!</string>
+  <string name="error_cm_privacy_guard">¡Gnu Privacy Guard no funciona con CyanogenMod Privacy Guard habilitado!</string>
   <!--content descriptions for accessibility-->
   <string name="folder">Directorio</string>
   <!--key status terms-->
@@ -148,9 +154,9 @@
   <string name="btn_clearFilter">Borrar filtro</string>
   <string name="title_select_recipients">Seleccionar destinatarios</string>
   <string name="progress_done">terminado.</string>
-  <string name="progress_initializing">Inicializando...</string>
-  <string name="progress_saving">Guardando...</string>
-  <string name="progress_importing">Importando...</string>
-  <string name="progress_exporting">Exportando...</string>
-  <string name="progress_querying">Consultando...</string>
+  <string name="progress_initializing">Inicializando…</string>
+  <string name="progress_saving">Guardando…</string>
+  <string name="progress_importing">Importando…</string>
+  <string name="progress_exporting">Exportando…</string>
+  <string name="progress_querying">Consultando…</string>
 </resources>

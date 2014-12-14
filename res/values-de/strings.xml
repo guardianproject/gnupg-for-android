@@ -1,6 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
   <string name="app_name">GnuPrivacyGuard</string>
+  <string name="app_description">GnuPrivacyGuard (GPG) bringt GnuPG, die allgemein vertrauensvolle Verschlüsselungsanwendung, auf die Android Plattform. Ver- Entschlüsseln, signieren und verifizieren Sie alle möglichen Dateiformate, in dem Sie diese mit GPG verwalten. Diese APP zielt darauf ab eine komplette integrierte Kryptographieplattform in den Androidworkflow einzubinden. GPG bietet eine solide Verschlüsselung für Ihre privaten Dateien und um zu Verifizieren das Dateien von der erwarteten Person stammen. Es beinhaltet Optimierungen um die Ausführungszeit gegenüber anderen Verschlüsseliungsanwendungen zu verkürzen. GPG bietet eine einfache Bedienung, so das ein Klick auf OpenGPG Dateien \"einfach funktioniert\". Durch das teilen von Dateien mit GPG können Sie diese einfach entschlüsseln, verschlüsseln, signieren und verifizieren. GPG reagiert auf den Klick einer OpenPGP fingerprint URL ( eine die mit openpgp4fpr:) beginnt. GPG bittet Ihnen auch Zugriff auf die Kommandozeile um Ihnen den gesamten Umfang der GnuPG Suite zur Verfügung zu stellen. Wir arbeiten an der Integration von GnuPFs Krypto Diensten, OpenPGP, Symetrischer Verschlüsselung und weiteren Diensten, in Android</string>
   <string name="label_debug_header">Fehlerprotokoll für Tests </string>
   <string name="pinentry_service_label">Gnu Privacy Guard pinentry Dienst</string>
   <string name="pinentry_service_started">Gnu Privacy Guard pinentry Dienst läuft </string>
@@ -9,7 +10,7 @@
   <string name="title_activity_encrypt">Verschlüsseln</string>
   <string name="title_activity_decrypt">Entschlüsseln</string>
   <string name="dialog_installing_msg">Richte Gnu Privacy Guard ein</string>
-  <string name="dialog_installing_title">Installiere... (Warten Sie, bis der Vorgang abgeschlossen ist!)</string>
+  <string name="dialog_installing_title">Installierung läuft … (Bitte warten, bis der Vorgang abgeschlossen ist!)</string>
   <string name="pref_keyserver_title">Schlüsselserver</string>
   <string name="pref_keyserver_summary">Welcher HKP Schlüsselserver für das Herunterladen und Veröffentlichen von Schlüsseln (Standard: ipv4.pool.sks-keyservers.net)</string>
   <string name="pref_start_boot_title">Daemon (Hintergrundprozess) beim Hochfahren starten</string>
@@ -32,14 +33,14 @@
   <string name="verify_signature">Signatur prüfen </string>
   <string name="signature_verified">Signatur verifiziert</string>
   <string name="verifying_file_format">Überprüfe \"%s\"</string>
-  <string name="decrypting_file_format">Entschlüssele \"%s\"…</string>
+  <string name="decrypting_file_format">»%s« wird entschlüsselt …</string>
   <string name="error_no_file_manager_installed">Es ist kein kompatibles Dateiverwaltungsprogramm installiert!</string>
   <string name="error_files_not_supported">Datei-URIs werden von diesem Intent nicht unterstützt!</string>
-  <string name="dialog_specify_decrypt_file">Wählen Sie die zu entschlüsselnde Datei:</string>
-  <string name="dialog_specify_file_to_decrypt_to">Wählen Sie, wohin die entschlüsselten Daten gespeichert werden sollen:</string>
-  <string name="dialog_decrypt_succeeded_view_file_format">\"%s\" entschlüsselt und erfolgreich überprüft, Datei anzeigen? </string>
-  <string name="dialog_specify_encrypt_file">Wählen Sie die zu verschlüsselnde Datei:</string>
-  <string name="dialog_specify_sign_file">Wählen Sie die zu signierende Datei:</string>
+  <string name="dialog_specify_decrypt_file">Die zu entschlüsselnde Datei auswählen:</string>
+  <string name="dialog_specify_file_to_decrypt_to">Auswählen, wohin die entschlüsselten Daten gespeichert werden sollen:</string>
+  <string name="dialog_decrypt_succeeded_view_file_format">»%s« entschlüsselt und erfolgreich überprüft, Datei anzeigen? </string>
+  <string name="dialog_specify_encrypt_file">Die zu verschlüsselnde Datei auswählen:</string>
+  <string name="dialog_specify_sign_file">Die zu signierende Datei auswählen:</string>
   <string name="dialog_specify_import_file_msg">Wählen Sie die zu importierende Datei:</string>
   <string name="dialog_specify_export_file_msg">Alle Schlüssel werden in die unten ausgewählte Datei exportiert. WARNUNG! Datei wird überschrieben, falls sie bereits existiert. </string>
   <string name="dialog_verify_succeeded_view_file_format">\"%s\" erfolgreich überprüft, Datei anzeigen? </string>
@@ -48,12 +49,12 @@
   <string name="label_delete_after_import">Nach dem Importieren löschen</string>
   <string name="label_export_secret_keys">Nur geheime Schlüssel exportieren</string>
   <string name="renamed_existing_file_format">Bestehende Datei in %s umbenannt! </string>
-  <string name="dialog_encrypting_title">Verschlüssele...</string>
+  <string name="dialog_encrypting_title">Verschlüsselung wird durchgeführt …</string>
   <string name="no_key_specified_using_this_key">Kein Empfänger ausgewählt, verwende Vorgabe:</string>
   <string name="sign_file">Datei signieren?</string>
-  <string name="ascii_signature">ASCII Signatur?</string>
-  <string name="sign">Signieren...</string>
-  <string name="encrypt">Verschlüsseln...</string>
+  <string name="ascii_signature">ASCII-Signatur?</string>
+  <string name="sign">Signieren …</string>
+  <string name="encrypt">Verschlüsseln …</string>
   <string name="changing_passphrase_for_format">Passphrase für %s wird geändert</string>
   <string name="search_hint">nach Name, Email oder key ID suchen</string>
   <!--first run wizard-->
@@ -70,8 +71,11 @@
   <string name="account_label">Gnu Privacy Guard</string>
   <string name="keyring_group_name">Gnu Privacy Guard Schlüsselbund</string>
   <string name="secret_key_group_name">Geheime OpenPGP Schlüssel</string>
-  <string name="encrypt_file_to">Datei entschlüsseln nach</string>
-  <string name="encrypt_file_to_detail">Wählen Sie die zu verschlüsselnde Datei für diese Person.</string>
+  <string name="send_to_keyserver">Zum Schlüsselserver senden</string>
+  <string name="refresh_from_keyserver">Vom Schlüsselserver aktualisieren</string>
+  <string name="delete_keys">Schlüssel löschen</string>
+  <string name="encrypt_file_to">Datei wird verschlüsselt nach  …</string>
+  <string name="encrypt_file_to_detail">Die, für diese Person, zu verschlüsselnde Datei auswählen.</string>
   <string name="contact_view_key">Schlüssel ansehen</string>
   <string name="title_create_key">Schlüssel erstellen</string>
   <string name="list_keys">Schlüssel auflisten</string>
@@ -87,33 +91,33 @@
   <string name="key_expire_five_years">5 Jahre</string>
   <string name="key_expire_ten_years">10 Jahre</string>
   <string name="key_expire_never">Nie</string>
-  <string name="key_revoke_gen">Widerrufzertifikat generieren</string>
+  <string name="key_revoke_gen">Widerrufszertifikat generieren</string>
   <string name="key_add_comment">Optionales Kommentarfeld anzeigen</string>
-  <string name="key_upload">Zum Schlüsselserver Hochladen</string>
+  <string name="key_upload">Auf den Schlüsselserver hochladen</string>
   <string name="key_make_backup">Sicherungskopie auf SD-Karte speichern</string>
-  <string name="dialog_generating_new_key_title">Generiere neuen Schlüssel...</string>
-  <string name="generating_new_key_message">Dieser Prozess kann bis zu 15 Minuten in Anspruch nehmen.</string>
-  <string name="generating_revoke_cert">Generiere Widerrufzertifikat...</string>
-  <string name="uploading_to_keyserver">Lade zum Schlüsselserver hoch...</string>
-  <string name="backing_up_to_sdcard">Neuen Schlüssel auf SD-Karte sichern... </string>
-  <string name="dialog_share_encrypted_file_using">Verschlüsselte Datei teilen über:</string>
-  <string name="dialog_share_signature_file_using">Signaturdatei teilen über:</string>
-  <string name="dialog_share_debug_log_using">Fehlerprotokoll teilen über:</string>
+  <string name="dialog_generating_new_key_title">Neuer Schlüssel wird erstellt …</string>
+  <string name="generating_new_key_message">Dieser Vorgang kann bis zu 15 Minuten in Anspruch nehmen.</string>
+  <string name="generating_revoke_cert">Widerrufszertifikat wird erstellt …</string>
+  <string name="uploading_to_keyserver">Zum Schlüsselserver wird hochgeladen …</string>
+  <string name="backing_up_to_sdcard">Neuer Schlüssel wird auf SD-Karte gesichert …</string>
+  <string name="dialog_share_encrypted_file_using">Verschlüsselte Datei freigeben über:</string>
+  <string name="dialog_share_signature_file_using">Signaturdatei freigeben über:</string>
+  <string name="dialog_share_debug_log_using">Fehlerprotokoll freigeben über:</string>
   <string name="dialog_view_file_using">Datei anzeigen mit:</string>
-  <string name="openpgp_operation">OpenPGP Operation</string>
-  <string name="dialog_encrypt_or_sign_file_format">\"%s\" Verschlüsseln und/oder Signieren?</string>
+  <string name="openpgp_operation">OpenPGP-Vorgang</string>
+  <string name="dialog_encrypt_or_sign_file_format">»%s« verschlüsseln und/oder signieren?</string>
   <!--sending and receiving dialogs-->
-  <string name="receive_key">Schlüssel abrufen... </string>
+  <string name="receive_key">Schlüssel wird abgerufen …</string>
   <string name="receive_key_message">Geben Sie die Schlüssel-ID an, die Sie vom Schlüsselserver abrufen wollen:</string>
-  <string name="send_key">Schlüssel senden... </string>
+  <string name="send_key">Schlüssel wird gesendet …</string>
   <string name="send_key_message">Geben Sie die Schlüssel-ID an, die Sie an den Schlüsselserver senden wollen:</string>
   <!--error messages-->
   <string name="error_cannot_read_incoming_file_format">Kann eingehende Datei \"%s\" nicht lesen! </string>
   <string name="error_cannot_detect_file_type_format">Kann den Dateityp von \"%s\" nicht erkennen! </string>
-  <string name="error_output_file_exists_skipping_format">Ausgabedatei \"%s\" existiert, überspringe Entschlüsselung. </string>
-  <string name="error_decrypting_file_failed_format">Entschlüsseln von \"%s\" fehlgeschlagen! </string>
-  <string name="error_encrypting_file_failed_format">Verschlüsseln von \"%s\" fehlgeschlagen! </string>
-  <string name="error_signing_file_failed_format">\"%s\" Signieren schlug fehl!</string>
+  <string name="error_output_file_exists_skipping_format">Ausgabedatei »%s« existiert, Entschlüsselung überspringen. </string>
+  <string name="error_decrypting_file_failed_format">Entschlüsseln von »%s« fehlgeschlagen!</string>
+  <string name="error_encrypting_file_failed_format">Verschlüsseln von »%s« fehlgeschlagen! </string>
+  <string name="error_signing_file_failed_format">»%s« konnte nicht signiert werden!</string>
   <string name="error_decrypting_failed">Entschlüsseln fehlgeschlagen! </string>
   <string name="error_encrypting_failed">Verschlüsseln fehlgeschlagen! </string>
   <string name="error_gen_key_failed">Neuer Schlüssel konnte nicht erzeugt werden! </string>
@@ -121,14 +125,16 @@
   <string name="error_verify_failed">Überprüfen fehlgeschlagen! </string>
   <string name="error_file_verify_failed_format">\"%s\" konnte nicht verifiziert werden!</string>
   <string name="error_no_pgp_content_found_format">Kein PGP-Inhalt in \"%s\" gefunden! </string>
-  <string name="error_fingerprint_too_short_format">Der Fingerabdruck %s ist zu kurz! Er muss mind. 16 Zeichen lang sein. </string>
+  <string name="error_fingerprint_too_short_format">Der Fingerabdruck %s ist zu kurz! Er muss mindestens 16 Zeichen lang sein. </string>
   <string name="error_no_secret_key">Es gibt keinen geheimen Schlüssel! Sie müssen einen generieren oder importieren.</string>
   <string name="error_insufficient_query">FEHLER! Unzureichende Abfrage. Versuchen Sie, Ihre Suche einzuschränken</string>
   <string name="error_too_many_responses">Zu viele Ergebnisse! Versuchen Sie, Ihre Suche einzuschränken</string>
   <string name="error_query_failed">FEHLER! Abfrage fehlgeschlagen, versuchen Sie es noch einmal!</string>
   <string name="error_short_keyserver_query">Suchanfragen beim Schlüsselserver müssen mindestens 3 Zeichen lang sein!</string>
+  <string name="error_bad_or_corrupt_key_format">Schlechter oder korrupter Schlüssel (%s)!</string>
+  <string name="error_cm_privacy_guard">Gnu Privacy Guard funktioniert nicht mit aktiviertem CyanogenMod Privacy Guard!</string>
   <!--content descriptions for accessibility-->
-  <string name="folder">Verzeichnis</string>
+  <string name="folder">Ordner</string>
   <!--key status terms-->
   <string name="usable">nutzbar</string>
   <string name="disabled">deaktiviert</string>
@@ -138,7 +144,7 @@
   <string name="noKey">&lt;kein Schlüssel&gt;</string>
   <!--permission info-->
   <string name="perm_read_key_details_label">Lese Schlüsseldetails im APG-Stil</string>
-  <string name="perm_read_key_details_description">Lese die 16 Zeichen lange Schlüssel-ID und die zugehörige E-Mail-Adresse mithilfe eines ContentProvider wie APG.</string>
+  <string name="perm_read_key_details_description">Lese die 16 Zeichen lange Schlüssel-ID und die zugehörige E-Mail-Adresse mithilfe eines ContentProviders wie APG.</string>
   <!--APG-related messages-->
   <string name="error_activity_not_found">Keine geeignete Anwendung für diese Aktion gefunden.</string>
   <!--APG messages-->
@@ -148,9 +154,9 @@
   <string name="btn_clearFilter">Filter zurücksetzen </string>
   <string name="title_select_recipients">Empfänger auswählen</string>
   <string name="progress_done">abgeschlossen. </string>
-  <string name="progress_initializing">Initialisiere...</string>
-  <string name="progress_saving">Speichere...</string>
-  <string name="progress_importing">Importiere...</string>
-  <string name="progress_exporting">Exportiere...</string>
-  <string name="progress_querying">Abfrage läuft... </string>
+  <string name="progress_initializing">Initialisierung läuft …</string>
+  <string name="progress_saving">Speicherung läuft …</string>
+  <string name="progress_importing">Importierung läuft …</string>
+  <string name="progress_exporting">Exportierung läuft …</string>
+  <string name="progress_querying">Abfrage läuft …</string>
 </resources>

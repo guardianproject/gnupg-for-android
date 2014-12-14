@@ -1,6 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
   <string name="app_name">GnuPrivacyGuard</string>
+  <string name="app_description">GnuPrivacyGuard (GPG) porte GnuPG, le nom le plus utilisé pour le chiffrement, sur Android. Chiffrez, déchiffrez, signez et vérifiez facilement tout type de fichier en les partageant avec GPG. Cette application a pour objectif de fournir un ensemble d\'outils cryptographiques intégrés dans l\'expérience Android. GPG fournit un chiffrement robuste pour les fichiers privés et permet de vérifier que les fichiers proviennent bien de qui vous pensez. Il inclut des optimisations lui permettant d\'être plusieurs fois plus rapide que les autres suites de chiffrement.  GPG fournit une expérience intégrée, ainsi clicker sur les fichiers OpenPGP \"just work\". Vous pouvez aussi partager des fichiers avec GPG pour les déchiffrer, chiffrer, signer ou vérifier.GPG répondra quand vous clickerez sur l\'url d\'une empreinte OpenGPG (i.e. qui commence par openpgp4fpr:). GPG permet aussi un accès total par ligne de commande à tout les logiciels de chiffrement de la suite GnuPG. Nous travaillons sur l\'intégration Android pour tous les services crypto GnuPG, y compris OpenPGP et le chiffrement symétrique.</string>
   <string name="label_debug_header">Journal de débogage pour les tests</string>
   <string name="pinentry_service_label">Démon pinentry de Gnu Privacy Guard</string>
   <string name="pinentry_service_started">Le démon pinentry de Gnu Privacy Guard tourne</string>
@@ -24,7 +25,7 @@
   <string name="title_receive_keys">Réception des clés</string>
   <string name="title_public_keys">Clés publiques</string>
   <string name="title_secret_keys">Clés secrètes</string>
-  <string name="title_find_keys">Trouver des clés</string>
+  <string name="title_find_keys">Rechercher des clés</string>
   <string name="title_change_passphrase">Modifier la phrase de passe</string>
   <string name="title_error">Erreur</string>
   <string name="title_settings">Paramètres</string>
@@ -32,37 +33,37 @@
   <string name="verify_signature">Vérifier la signature</string>
   <string name="signature_verified">Signature vérifiée</string>
   <string name="verifying_file_format">Vérification de « %s »</string>
-  <string name="decrypting_file_format">Déchiffrement de « %s »...</string>
+  <string name="decrypting_file_format">Déchiffrement de « %s »…</string>
   <string name="error_no_file_manager_installed">Aucun gestionnaire de fichiers compatible n\'est installé !</string>
   <string name="error_files_not_supported">Cette Intention ne gère pas les URI de fichiers.</string>
   <string name="dialog_specify_decrypt_file">Choisir le fichier à déchiffrer :</string>
   <string name="dialog_specify_file_to_decrypt_to">Choisir le fichier où enregistrer les données déchiffrées :</string>
-  <string name="dialog_decrypt_succeeded_view_file_format">« %s » a été déchiffré et vérifié correctement, voulez-vous le voir ?</string>
+  <string name="dialog_decrypt_succeeded_view_file_format">« %s » a été déchiffré et vérifié correctement, voulez-vous l\'ouvrir ?</string>
   <string name="dialog_specify_encrypt_file">Choisir le fichier à chiffrer :</string>
   <string name="dialog_specify_sign_file">Choisir le fichier à signer :</string>
   <string name="dialog_specify_import_file_msg">Choisir le fichier à importer :</string>
-  <string name="dialog_specify_export_file_msg">Toutes les clés seront exportées vers le fichier que vous spécifiez plus bas. Avertissement ! Ce fichier sera ÉCRASÉ s\'il existe.</string>
-  <string name="dialog_verify_succeeded_view_file_format">« \"%s » a été vérifié correctement, voulez-vous le voir ?</string>
-  <string name="dialog_specific_keys_to_receive">Spécifiez les IDs ou les empreintes de clés que vous voulez recevoir depuis les serveurs de clés :</string>
+  <string name="dialog_specify_export_file_msg">Toutes les clés seront exportées vers le fichier spécifié ci-dessous. ATTENTION ! Ce fichier sera écrasé s\'il existe.</string>
+  <string name="dialog_verify_succeeded_view_file_format">« \"%s » a été vérifié correctement, voulez-vous l\'ouvrir ?</string>
+  <string name="dialog_specific_keys_to_receive">Spécifiez les IDs ou les empreintes de clés que vous voulez recevoir depuis le serveur de clés :</string>
   <string name="key_already_exists_format">la clé %s existe déjà dans votre trousseau de clés :</string>
   <string name="label_delete_after_import">Supprimer après l\'importation</string>
   <string name="label_export_secret_keys">Exporter les clés secrètes uniquement</string>
   <string name="renamed_existing_file_format">Le fichier existant a été renommé en %s !</string>
-  <string name="dialog_encrypting_title">Chiffrement...</string>
+  <string name="dialog_encrypting_title">Chiffrement…</string>
   <string name="no_key_specified_using_this_key">Aucun destinataire spécifié, donc le destinataire par défaut sera utilisé :</string>
   <string name="sign_file">Signer le fichier ?</string>
   <string name="ascii_signature">Signature ASCII ?</string>
-  <string name="sign">Signer...</string>
-  <string name="encrypt">Chiffrer...</string>
+  <string name="sign">Signer…</string>
+  <string name="encrypt">Chiffrer…</string>
   <string name="changing_passphrase_for_format">Modification de la phrase de passe pour %s</string>
-  <string name="search_hint">rechercher par nom, courriel ou ID de clef</string>
+  <string name="search_hint">Rechercher par nom, courriel ou ID de clé</string>
   <!--first run wizard-->
   <string name="wizard_welcome_title">Bienvenue dans Gnu Privacy Guard</string>
   <string name="wizard_welcome_subtitle">La version Bêta du GnuPG pour Android</string>
-  <string name="wizard_warning">AVERTISSEMENT ! Faire et conserver des sauvegardes de toutes vos clés. Cette application est encore en développement constant.</string>
-  <string name="wizard_button_backups">Je garderai des sauvegardes</string>
-  <string name="wizard_integration_msg">Gnu Privacy Guard peut synchroniser votre trousseau de clé avec vos contacts pour un intégration plus serrée. Ces changements ne sont pas permanents et peuvent être facilement inversés.</string>
-  <string name="wizard_integration_checkbox_label">Intégrer le trousseau de clés avec les contacts</string>
+  <string name="wizard_warning">AVERTISSEMENT ! Pensez à réaliser des sauvegardes de vos clés. Cette application est encore en phase de développement.</string>
+  <string name="wizard_button_backups">Je ferai des sauvegardes</string>
+  <string name="wizard_integration_msg">Gnu Privacy Guard peut synchroniser votre trousseau de clé avec vos contacts pour une meilleure intégration. Ces changements ne sont pas permanents et peuvent être annulés.</string>
+  <string name="wizard_integration_checkbox_label">Synchroniser le trousseau de clés avec les contacts</string>
   <string name="wizard_button_create_key">Créer une clé</string>
   <string name="wizard_button_import_keys">Importer des clés</string>
   <string name="wizard_button_skip">Suivant</string>
@@ -70,7 +71,10 @@
   <string name="account_label">Gnu Privacy Guard</string>
   <string name="keyring_group_name">Trousseau de clés Gnu Privacy Guard</string>
   <string name="secret_key_group_name">Cles secrètes OpenPGP</string>
-  <string name="encrypt_file_to">Chiffrer le fichier vers...</string>
+  <string name="send_to_keyserver">Envoyer au serveur de clés</string>
+  <string name="refresh_from_keyserver">Rafraîchir depuis le serveur de clés</string>
+  <string name="delete_keys">Supprimer clés</string>
+  <string name="encrypt_file_to">Chiffrer le fichier vers…</string>
   <string name="encrypt_file_to_detail">Choisir un fichier à chiffrer pour cette personne.</string>
   <string name="contact_view_key">Voir la clé</string>
   <string name="title_create_key">Créer une clé</string>
@@ -89,28 +93,28 @@
   <string name="key_expire_never">Jamais</string>
   <string name="key_revoke_gen">Générer un certificat de révocation</string>
   <string name="key_add_comment">Afficher un champ optionnel de commentaire</string>
-  <string name="key_upload">Téléverser vers les serveurs de clés</string>
+  <string name="key_upload">Envoyer au serveur de clés</string>
   <string name="key_make_backup">Sauvegarder sur la carte SD</string>
-  <string name="dialog_generating_new_key_title">Génération d\'une nouvelle clé...</string>
-  <string name="generating_new_key_message">Ce processus peut actuellement prendre jusqu\'à 15 minutes.</string>
-  <string name="generating_revoke_cert">Génération du certificat de révocation...</string>
-  <string name="uploading_to_keyserver">Téléversement vers le serveur de clés...</string>
-  <string name="backing_up_to_sdcard">Sauvegarde de la nouvelle clé sur la carte SD...</string>
+  <string name="dialog_generating_new_key_title">Génération d\'une nouvelle clé…</string>
+  <string name="generating_new_key_message">Ce processus peut prendre jusqu\'à 15 minutes.</string>
+  <string name="generating_revoke_cert">Génération du certificat de révocation…</string>
+  <string name="uploading_to_keyserver">Envoi au serveur de clés…</string>
+  <string name="backing_up_to_sdcard">Sauvegarde de la nouvelle clé sur la carte SD…</string>
   <string name="dialog_share_encrypted_file_using">Partager le fichier chiffré en utilisant :</string>
   <string name="dialog_share_signature_file_using">Partager le fichier de signature en utilisant :</string>
   <string name="dialog_share_debug_log_using">Partager le journal de débogage en utilisant :</string>
   <string name="dialog_view_file_using">Voir le fichier en utilisant :</string>
-  <string name="openpgp_operation">Opération d\'OpenPGP</string>
+  <string name="openpgp_operation">Utilisation d\'OpenPGP</string>
   <string name="dialog_encrypt_or_sign_file_format">Chiffrer et/ou signer « %s » ?</string>
   <!--sending and receiving dialogs-->
-  <string name="receive_key">Réception de la clé...</string>
-  <string name="receive_key_message">Spécifiez l\'ID de clé à recevoir du serveur de clés :</string>
-  <string name="send_key">Envoyer la clé...</string>
-  <string name="send_key_message">Spécifiez l\'ID de clé à envoyer au serveur de clés :</string>
+  <string name="receive_key">Réception de la clé…</string>
+  <string name="receive_key_message">Spécifiez l\'ID de la clé à télécharger depuis le serveur de clés :</string>
+  <string name="send_key">Envoi de la clé…</string>
+  <string name="send_key_message">Spécifiez l\'ID de la clé à envoyer au serveur de clés :</string>
   <!--error messages-->
   <string name="error_cannot_read_incoming_file_format">Impossible de lire le fichier « %s » !</string>
-  <string name="error_cannot_detect_file_type_format">Impossible de détecter quel genre de fichier « %s » est !</string>
-  <string name="error_output_file_exists_skipping_format">Le fichier de sortie  « %s » existe, passer le déchiffrement.</string>
+  <string name="error_cannot_detect_file_type_format">Impossible de détecter le type du fichier « %s » !</string>
+  <string name="error_output_file_exists_skipping_format">Le fichier de sortie  « %s » existe, le déchiffrement n\'est pas nécéssaire.</string>
   <string name="error_decrypting_file_failed_format">Le déchiffrement de « %s » a échoué.</string>
   <string name="error_encrypting_file_failed_format">Le chiffrement de « %s » a échoué.</string>
   <string name="error_signing_file_failed_format">La signature de « %s » a échouée !</string>
@@ -127,6 +131,8 @@
   <string name="error_too_many_responses">Trop de réponses ! Essayez de limiter votre recherche</string>
   <string name="error_query_failed">ERREUR ! La requête a échouée, réessayez !</string>
   <string name="error_short_keyserver_query">Les recherches sur le serveur de clés doivent comporter au moins 3 caractères !</string>
+  <string name="error_bad_or_corrupt_key_format">Clé erronée ou corrompue (%s)!</string>
+  <string name="error_cm_privacy_guard">Gnu Privacy Guard ne fonctionne pas lorsque CyanogenMod Privacy Guard est activé !</string>
   <!--content descriptions for accessibility-->
   <string name="folder">dossier</string>
   <!--key status terms-->
@@ -137,10 +143,10 @@
   <string name="revoked">révoquée</string>
   <string name="noKey">&lt;aucune clé&gt;</string>
   <!--permission info-->
-  <string name="perm_read_key_details_label">Lire les détails de clé dans le style APG</string>
-  <string name="perm_read_key_details_description">Lire l\'ID de clé à 16 caractères et l\'adresse courriel associée par un fournisseur de contenu dans le style APG.</string>
+  <string name="perm_read_key_details_label">Lire les détails de la clé dans le style APG</string>
+  <string name="perm_read_key_details_description">Lire les 16 caractères du numéro d\'identification de la clé et l\'adresse courriel associée avec un fournisseur de contenu dans le style APG.</string>
   <!--APG-related messages-->
-  <string name="error_activity_not_found">Aucune application appropriée de trouvée pour cette action.</string>
+  <string name="error_activity_not_found">Aucune application appropriée pour cette action n\'a été trouvée.</string>
   <!--APG messages-->
   <string name="unknownStatus"></string>
   <string name="hint_publicKeys">Rechercher des clés publiques</string>
@@ -148,9 +154,9 @@
   <string name="btn_clearFilter">Supprimer le filtre</string>
   <string name="title_select_recipients">Choisir les destinataires</string>
   <string name="progress_done">terminé.</string>
-  <string name="progress_initializing">Initialisation...</string>
-  <string name="progress_saving">Enregistrement...</string>
-  <string name="progress_importing">Importation...</string>
-  <string name="progress_exporting">Exportation...</string>
-  <string name="progress_querying">Interrogation...</string>
+  <string name="progress_initializing">Initialisation…</string>
+  <string name="progress_saving">Enregistrement…</string>
+  <string name="progress_importing">Importation…</string>
+  <string name="progress_exporting">Exportation…</string>
+  <string name="progress_querying">Interrogation…</string>
 </resources>
