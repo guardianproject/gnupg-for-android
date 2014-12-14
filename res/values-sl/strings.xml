@@ -1,0 +1,127 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources>
+  <string name="app_name">GnuPrivacyGuard</string>
+  <string name="label_debug_header">Razhroščevalni dnevnik testiranje</string>
+  <string name="pinentry_service_label">Gnu Privacy Guard pinetry proces </string>
+  <string name="pinentry_service_started">Gnu Privacy Guard pinetry proces teče v ozadju</string>
+  <string name="enter_pin">Vnesite svoj PIN</string>
+  <string name="title_activity_pinentry">Vnos PIN-a</string>
+  <string name="title_activity_encrypt">Šifriraj</string>
+  <string name="title_activity_decrypt">Dešifriraj</string>
+  <string name="dialog_installing_msg">Nastavljanje Gnu Privacy Guard</string>
+  <string name="dialog_installing_title">Nameščanje (počakajte do zaključka) …</string>
+  <string name="pref_keyserver_title">Strežnik ključev</string>
+  <string name="pref_start_boot_title">Zaženi program ob zagonu kot procese v ozadju</string>
+  <string name="pref_start_boot_summary">Zažene ob zagonu vaše naprave procesa pinetry in dirmngr v ozadju</string>
+  <string name="title_decrypt_file">Dešifriraj datoteko</string>
+  <string name="title_about">O programu</string>
+  <string name="title_debug_mode">Razhroščevalni način</string>
+  <string name="title_encrypt_file">Šifriraj datoteko</string>
+  <string name="title_import_keys">Uvozi ključe</string>
+  <string name="title_export_keys">Izvozi ključe</string>
+  <string name="title_receive_keys">Prejmi ključe</string>
+  <string name="title_error">Napaka</string>
+  <string name="title_settings">Nastavitve</string>
+  <string name="verify_signature">Preveri podpis</string>
+  <string name="signature_verified">Podpis preverjen</string>
+  <string name="verifying_file_format">Preverjanje \"%s\"</string>
+  <string name="decrypting_file_format">Dešifriranje \"%s\"…</string>
+  <string name="error_no_file_manager_installed">Ni nameščen združljiv upravitelj datotek!</string>
+  <string name="error_files_not_supported">Enolični identifikator vira datoteke ni podprt!</string>
+  <string name="dialog_specify_decrypt_file">Izberi datoteko za dešifriranje:</string>
+  <string name="dialog_specify_file_to_decrypt_to">Izberi datoteko, kamor naj se shranijo dešifrirani podatki:</string>
+  <string name="dialog_decrypt_succeeded_view_file_format">Datoteka \"%s\" dešifrirana in uspešno preverjena, jo želite pogledati?</string>
+  <string name="dialog_specify_encrypt_file">Izberi datoteko za šifriranje:</string>
+  <string name="dialog_specify_import_file_msg">Izberi datoteko za uvoz:</string>
+  <string name="dialog_specify_export_file_msg">Vsi ključi bodo izvoženi v datoteko, ki jo boste navedli. POZOR! Datoteka z istim imenom bo prepisana, če že obstaja. </string>
+  <string name="dialog_verify_succeeded_view_file_format">Datoteka \"%s\" uspešno preverjena, jo želite pogledati?</string>
+  <string name="dialog_specific_keys_to_receive">Določi ID ali prstne odtise ključev, ki jih želite prenesti s strežnika ključev:</string>
+  <string name="key_already_exists_format">Ključ %s že obstaja v vaši zbirki ključev:</string>
+  <string name="label_delete_after_import">Po uvozu izbriši</string>
+  <string name="label_export_secret_keys">Izvozi le skrivne ključe</string>
+  <string name="renamed_existing_file_format">Obstoječa datoteka preimenovana v %s!</string>
+  <string name="dialog_encrypting_title">Šifriranje …</string>
+  <string name="no_key_specified_using_this_key">Prejemnik ni bil določen, zato uporabljam privzeto:</string>
+  <string name="sign_file">Podpišem datoteko?</string>
+  <!--first run wizard-->
+  <string name="wizard_welcome_title">Dobrodošli v Gnu Privacy Guard</string>
+  <string name="wizard_welcome_subtitle">Beta različica programa GnuPG za Android</string>
+  <string name="wizard_warning">POZOR! Hranite varnostne kopije svojih ključev. Ta program je še vedno v razvoju.</string>
+  <string name="wizard_button_backups">Hranil bom varnostne kopije</string>
+  <string name="wizard_integration_msg">Gnu Privacy Guard lahko za boljšo integracijo sinhronizira vašo zbirko ključev s stiki. Te spremembe niso nepovratne in jih z lahko lahko razveljavite.</string>
+  <string name="wizard_integration_checkbox_label">Združite zbirko ključev s stiki</string>
+  <string name="wizard_button_create_key">Ustvari ključ</string>
+  <string name="wizard_button_import_keys">Uvozi ključe</string>
+  <string name="wizard_button_skip">Preskoči</string>
+  <!--account, contacts, and contact syncing-->
+  <string name="account_label">Gnu Privacy Guard</string>
+  <string name="keyring_group_name">Zbirka ključev Gnu Privacy Guard</string>
+  <string name="contact_view_key">Prikaži ključ</string>
+  <string name="title_create_key">Ustvari ključ</string>
+  <string name="key_name_label">Ime:</string>
+  <string name="key_email_label">E-pošta:</string>
+  <string name="key_comment_label">Opomba:</string>
+  <string name="key_type_label">Vrsta ključa:</string>
+  <string name="key_size_label">Bitov:</string>
+  <string name="key_expire_label">Preteče:</string>
+  <string name="key_expire_one_month">1 mesec</string>
+  <string name="key_expire_one_year">1 leto</string>
+  <string name="key_expire_two_years">2 leti</string>
+  <string name="key_expire_five_years">5 let</string>
+  <string name="key_expire_ten_years">10 let</string>
+  <string name="key_expire_never">Nikoli</string>
+  <string name="key_revoke_gen">Generiraj potrdilo za preklic</string>
+  <string name="key_upload">Objavi na strežnike ključev</string>
+  <string name="key_make_backup">Napravi varnostno kopiji na SD kartico</string>
+  <string name="dialog_generating_new_key_title">Ustvarjanje novega ključa …</string>
+  <string name="generating_new_key_message">Trenutni postopek lahko traja tudi do 15 minut.</string>
+  <string name="generating_revoke_cert">Ustvarjanje certifikatov za preklic …</string>
+  <string name="uploading_to_keyserver">Objavljanje na strežnik ključev …</string>
+  <string name="backing_up_to_sdcard">Varnostno kopiranje na SD kartico …</string>
+  <string name="dialog_view_file_using">Poglej datoteko z:</string>
+  <!--sending and receiving dialogs-->
+  <string name="receive_key">Prejmi ključ …</string>
+  <string name="receive_key_message">Določi ID ključa, ki naj se prenese s strežnika ključev:</string>
+  <string name="send_key">Pošlji ključ …</string>
+  <string name="send_key_message">Določi ID ključa, ki naj se objavi na strežniku ključev:</string>
+  <!--error messages-->
+  <string name="error_cannot_read_incoming_file_format">Ni mogoče prebrati prejete datoteke \"%s\"!</string>
+  <string name="error_cannot_detect_file_type_format">Ni mogoče zaznati kakšne vrste je datoteka \"%s\"!</string>
+  <string name="error_output_file_exists_skipping_format">Izhodna datoteka \"%s\" že obstaja, dešifriranje preskočeno.</string>
+  <string name="error_decrypting_file_failed_format">Dešifriranje \"%s\" ni uspelo!</string>
+  <string name="error_encrypting_file_failed_format">Šifriranje \"%s\" ni uspelo!</string>
+  <string name="error_decrypting_failed">Dešifriranje ni uspelo!</string>
+  <string name="error_encrypting_failed">Šifriranje ni uspelo!</string>
+  <string name="error_gen_key_failed">Ustvarjanje novega ključa ni uspelo!</string>
+  <string name="error_file_does_not_exist_format">\"%s\" ne obstaja!</string>
+  <string name="error_verify_failed">Preverba neuspešna!</string>
+  <string name="error_file_verify_failed_format">Preverba \"%s\" neuspešna!</string>
+  <string name="error_no_pgp_content_found_format">V \"%s\" ni zaznati PGP vsebine!</string>
+  <string name="error_fingerprint_too_short_format">Prstni odtis %s je prekratek! Vsebovati mora vsaj 16 števk.</string>
+  <!--content descriptions for accessibility-->
+  <string name="folder">mapa</string>
+  <!--key status terms-->
+  <string name="usable">uporaben</string>
+  <string name="disabled">onemogočeno</string>
+  <string name="expired">preteklo</string>
+  <string name="invalid">neveljavno</string>
+  <string name="revoked">preklicano</string>
+  <string name="noKey">&lt;brez ključa&gt;</string>
+  <!--permission info-->
+  <string name="perm_read_key_details_label">Preberi podrobnosti o ključu v APG slogu</string>
+  <string name="perm_read_key_details_description">Preberi 16 znakov dolg ID ključa in ga poveži z e-poštnim naslovom po prek ponudnika vsebin v APG slogu.</string>
+  <!--APG-related messages-->
+  <string name="error_activity_not_found">Nobena primerna aplikacija za to dejanje ni bila najdena.</string>
+  <!--APG messages-->
+  <string name="unknownStatus"></string>
+  <string name="hint_publicKeys">Išči javne ključe</string>
+  <string name="filterInfo_format">Filter: \"%s\"</string>
+  <string name="btn_clearFilter">Počisti filter</string>
+  <string name="title_select_recipients">Izberi prejemnike</string>
+  <string name="progress_done">končano.</string>
+  <string name="progress_initializing">Začenjanje …</string>
+  <string name="progress_saving">Shranjevanje …</string>
+  <string name="progress_importing">Uvažanje …</string>
+  <string name="progress_exporting">Izvažanje …</string>
+  <string name="progress_querying">Povpraševanje …</string>
+</resources>

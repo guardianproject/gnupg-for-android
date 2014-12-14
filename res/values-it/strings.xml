@@ -1,0 +1,131 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources>
+  <string name="app_name">GnuPrivacyGuard</string>
+  <string name="label_debug_header">Log di debug per test</string>
+  <string name="pinentry_service_label">Gnu Privacy Guard demone pinentry </string>
+  <string name="pinentry_service_started">Gnu Privacy Guard demone pinentry avviato</string>
+  <string name="enter_pin">Inserisci il tuo PIN</string>
+  <string name="title_activity_pinentry">PIN</string>
+  <string name="title_activity_encrypt">Cripta</string>
+  <string name="title_activity_decrypt">Decripta</string>
+  <string name="dialog_installing_msg">Impostando Gnu Privacy Guard</string>
+  <string name="dialog_installing_title">Installazione… (aspetta che finisca!)</string>
+  <string name="pref_keyserver_title">Keyserver</string>
+  <string name="pref_start_boot_title">Avvia demoni all\'avvio</string>
+  <string name="pref_start_boot_summary">Avvia i demoni pinentry e dirmngr all\'avvio del device</string>
+  <string name="title_decrypt_file">Decripta file</string>
+  <string name="title_about">Info su</string>
+  <string name="title_debug_mode">Modalità debug</string>
+  <string name="title_encrypt_file">Cripta file</string>
+  <string name="title_sign_file">Firma file</string>
+  <string name="title_import_keys">Importa chiavi</string>
+  <string name="title_export_keys">Esporta Chiavi</string>
+  <string name="title_receive_keys">Ricevi chiavi</string>
+  <string name="title_public_keys">Chiavi pubbliche</string>
+  <string name="title_secret_keys">Chiavi segrete</string>
+  <string name="title_find_keys">Trova chiavi</string>
+  <string name="title_change_passphrase">Cambia la frase di sicurezza</string>
+  <string name="title_error">Errore</string>
+  <string name="title_settings">Impostazioni</string>
+  <string name="title_select_keys">Seleziona chiave</string>
+  <string name="verify_signature">Verifica firma</string>
+  <string name="signature_verified">Firme verificate</string>
+  <string name="verifying_file_format">Verifica \"%s\"</string>
+  <string name="decrypting_file_format">Decifrare \"%s\"</string>
+  <string name="error_no_file_manager_installed">Nessun gestore di file compatibile installato!</string>
+  <string name="dialog_specify_decrypt_file">Seleziona il file da decriptare:</string>
+  <string name="dialog_specify_file_to_decrypt_to">Scegliere il file per salvare i dati decriptati:</string>
+  <string name="dialog_decrypt_succeeded_view_file_format">\"%s\" decifrato e verificato correttamente, visualizzare il file?</string>
+  <string name="dialog_specify_encrypt_file">Seleziona il file da criptare:</string>
+  <string name="dialog_specify_sign_file">Scegli il file da firmare:</string>
+  <string name="dialog_specify_import_file_msg">Seleziona il file da importare:</string>
+  <string name="dialog_specify_export_file_msg">Tutte le chiavi verranno esportate nel file specificato sotto. ATTENZIONE! Il file verrà sovrascritto se esiste.</string>
+  <string name="dialog_verify_succeeded_view_file_format">\"%s\" verificato correttamente, visualizzare il file?</string>
+  <string name="dialog_specific_keys_to_receive">Specificare gli ID chiave o le impronte digitali dei tasti che si desiderano di ricevere dai keyserver:</string>
+  <string name="key_already_exists_format">%s chiave esiste già nel tuo portachiavi:</string>
+  <string name="label_delete_after_import">Elimina dopo l\'importazione</string>
+  <string name="label_export_secret_keys">Esporta solo chiavi segrete</string>
+  <string name="renamed_existing_file_format">Rinominato il file esistente in %s!</string>
+  <string name="dialog_encrypting_title">Criptazione in corso…</string>
+  <string name="no_key_specified_using_this_key">Nessuno è stato specificato come destinatario, utilizzo l\'impostazione predefinita:</string>
+  <string name="sign_file">Firmare file?</string>
+  <string name="sign">Firma…</string>
+  <string name="encrypt">Crittografare…</string>
+  <string name="changing_passphrase_for_format">Modifica passphrase per %s</string>
+  <string name="search_hint">cerca per nome, email, o per ID chiave</string>
+  <!--first run wizard-->
+  <string name="wizard_welcome_title">Benvenuto in Gnu Privacy Guard</string>
+  <string name="wizard_welcome_subtitle">La versione beta di GnuPG per Android</string>
+  <string name="wizard_warning">ATTENZIONE! Fai e mantieni i backup di tutte le tue chiavi. Questa applicazione è ancora in sviluppo.</string>
+  <string name="wizard_button_backups">Manterrò i backup</string>
+  <string name="wizard_integration_checkbox_label">Integra il portachiavi con i contatti</string>
+  <string name="wizard_button_create_key">Crea chiave</string>
+  <string name="wizard_button_import_keys">Importa chiavi</string>
+  <string name="wizard_button_skip">Salta</string>
+  <!--account, contacts, and contact syncing-->
+  <string name="account_label">Gnu Privacy Guard</string>
+  <string name="keyring_group_name">Gnu Privacy Guard portachiave</string>
+  <string name="secret_key_group_name">OpenPGP chiavi segrete</string>
+  <string name="send_to_keyserver">Manda al keyserver</string>
+  <string name="refresh_from_keyserver">Aggiorna dal server delle chiavi</string>
+  <string name="delete_keys">Elimina chiavi</string>
+  <string name="encrypt_file_to">Crittografare file a:</string>
+  <string name="encrypt_file_to_detail">Scegli un file da crittografare per questa persona.</string>
+  <string name="contact_view_key">Mostra chiave</string>
+  <string name="title_create_key">Crea chiave</string>
+  <string name="list_keys">Elenco chiavi</string>
+  <string name="key_name_label">Nome:</string>
+  <string name="key_email_label">Email:</string>
+  <string name="key_comment_label">Commento:</string>
+  <string name="key_type_label">Chiave tipo:</string>
+  <string name="key_size_label">Bit:</string>
+  <string name="key_expire_label">Scadenza:</string>
+  <string name="key_expire_one_month">1 mese
+</string>
+  <string name="key_expire_one_year">1 anno</string>
+  <string name="key_expire_two_years">2 anni</string>
+  <string name="key_expire_five_years">5 anni</string>
+  <string name="key_expire_ten_years">10 anni</string>
+  <string name="key_expire_never">Mai</string>
+  <string name="key_revoke_gen">Genera certificato di revoca</string>
+  <string name="key_add_comment">Mostra campo commento opzionale</string>
+  <string name="key_upload">Carica su server chiavi</string>
+  <string name="key_make_backup">Backup su scheda SD</string>
+  <string name="dialog_generating_new_key_title">Generazione nuova chiave…</string>
+  <string name="generating_new_key_message">Questo processo può richiedere circa 15 minuti.</string>
+  <string name="generating_revoke_cert">Generazione certificato di revoca…</string>
+  <string name="uploading_to_keyserver">Caricamento su server chiavi…</string>
+  <string name="backing_up_to_sdcard">Backup nuova chiave su scheda SD…</string>
+  <string name="openpgp_operation">Operazione OpenPGP</string>
+  <!--sending and receiving dialogs-->
+  <string name="receive_key">Ricezione chiave…</string>
+  <string name="send_key">Invio chiave…</string>
+  <!--error messages-->
+  <string name="error_verify_failed">Verifica fallita!</string>
+  <string name="error_no_pgp_content_found_format">Nessun contenuto PGP trovato in \"%s\"!</string>
+  <string name="error_query_failed">ERRORE! Ricerca fallita, prova di nuovo!</string>
+  <!--content descriptions for accessibility-->
+  <string name="folder">cartella</string>
+  <!--key status terms-->
+  <string name="usable">usabile</string>
+  <string name="disabled">disabilitata</string>
+  <string name="expired">scaduta</string>
+  <string name="invalid">invalida</string>
+  <string name="revoked">revocata</string>
+  <string name="noKey">&lt;nessuna chiave&gt;</string>
+  <!--permission info-->
+  <string name="perm_read_key_details_label">Leggi i dettagli della chiave in stile APG</string>
+  <string name="perm_read_key_details_description">Leggi i 16 caratteri del key ID e l\'indirizzo email associato tramite ContentProvider nello stile di APG.</string>
+  <!--APG-related messages-->
+  <!--APG messages-->
+  <string name="unknownStatus"></string>
+  <string name="hint_publicKeys">Cerca chiavi pubbliche</string>
+  <string name="filterInfo_format">Filtro: \"%s\"</string>
+  <string name="btn_clearFilter">Pulisci filtri</string>
+  <string name="title_select_recipients">Seleziona destinatari</string>
+  <string name="progress_done">fatto.</string>
+  <string name="progress_initializing">Inizializzazione…</string>
+  <string name="progress_saving">Salvataggio…</string>
+  <string name="progress_importing">Importazione…</string>
+  <string name="progress_exporting">Esportazione…</string>
+</resources>

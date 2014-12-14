@@ -1,0 +1,132 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources>
+  <string name="app_name">GnuPrivacyGuard</string>
+  <string name="enter_pin">ਆਪਣਾ ਪਿੰਨ ਦਿਓ</string>
+  <string name="title_activity_pinentry">ਪਿੰਨ ਇੰਦਰਾਜ਼</string>
+  <string name="title_activity_encrypt">ਇੰਕ੍ਰਿਪਟ</string>
+  <string name="title_activity_decrypt">ਡਿਕ੍ਰਿਪਟ</string>
+  <string name="dialog_installing_msg">ਗਨੂ ਪਰਾਈਵੇਸੀ ਗਾਰਡ ਸੈੱਟਅੱਪ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ</string>
+  <string name="dialog_installing_title">…ਇੰਸਟਾਲ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ (ਇਸ ਦੇ ਪੂਰਾ ਹੋਣ ਤੱਕ ਉਡੀਕੋ!)</string>
+  <string name="pref_keyserver_title">ਕੁੰਜੀਸਰਵਰ</string>
+  <string name="pref_start_boot_title">ਬੂਟ ਸਮੇਂ ਡੈਮਨ ਸ਼ੁਰੂ</string>
+  <string name="title_decrypt_file">ਡਿਕ੍ਰਿਪਟ ਫਾਈਲ</string>
+  <string name="title_about">ਇਸ ਬਾਰੇ</string>
+  <string name="title_debug_mode">ਡੀਬੱਗ ਮੋਡ</string>
+  <string name="title_encrypt_file">ਇੰਕ੍ਰਿਪਟ ਫਾਈਲ</string>
+  <string name="title_sign_file">ਸਾਈਨ ਫਾਈਲ</string>
+  <string name="title_import_keys">ਕੁੰਜੀਆਂ ਇੰਪੋਰਟ ਕਰੋ</string>
+  <string name="title_export_keys">ਕੁੰਜੀਆਂ ਐਕਸਪੋਰਟ</string>
+  <string name="title_receive_keys">ਕੁੰਜੀਆਂ ਪ੍ਰਾਪਤ</string>
+  <string name="title_public_keys">ਪਬਲਿਕ ਕੁੰਜੀ</string>
+  <string name="title_secret_keys">ਗੁਪਤ ਕੁੰਜੀਆਂ</string>
+  <string name="title_find_keys">ਕੁੰਜੀਆਂ ਲੱਭੋ</string>
+  <string name="title_change_passphrase">ਵਾਕ ਬਦਲੋ</string>
+  <string name="title_error">ਗਲਤੀ</string>
+  <string name="title_settings">ਸੈਟਿੰਗ</string>
+  <string name="title_select_keys">ਕੁੰਜੀ ਚੁਣੋ</string>
+  <string name="verify_signature">ਦਸਤਖਤ ਜਾਂਚ</string>
+  <string name="signature_verified">ਦਸਤਖਤ ਜਾਂਚੇ</string>
+  <string name="verifying_file_format">\"%s\" ਜਾਂਚ ਕੀਤੀ ਜਾ ਰਹੀ ਹੈ</string>
+  <string name="decrypting_file_format">\"%s\" ਡਿ-ਕ੍ਰਿਪਟ ਕੀਤੀ ਜਾ ਰਹੀ ਹੈ…</string>
+  <string name="error_no_file_manager_installed">ਕੋਈ ਢੁੱਕਵਾਂ ਫਾਈਲ ਮੈਨੇਜਰ ਐਪ ਇੰਸਟਾਲ ਨਹੀਂ ਹੈ!</string>
+  <string name="dialog_specify_decrypt_file">ਡਿਕ੍ਰਿਪਟ ਕਰਨ ਲਈ ਫਾਈਲ ਚੁਣੋ:</string>
+  <string name="dialog_specify_file_to_decrypt_to">ਡਿਕ੍ਰਿਪਟ ਕੀਤਾ ਡਾਟਾ ਸੰਭਾਥਨ ਲਈ ਫਾਈਲ ਚੁਣੋ:</string>
+  <string name="dialog_decrypt_succeeded_view_file_format">\"%s\" ਨੂੰ ਠੀਕ ਤਰ੍ਹਾਂ ਡਿਕ੍ਰਿਪਟ ਕੀਤਾ ਤੇ ਜਾਂਚ ਕੀਤੀ, ਫਾਈਲ ਵੇਖਣੀ ਹੈ?</string>
+  <string name="dialog_specify_encrypt_file">ਇੰਕ੍ਰਿਪਟ ਕਰਨ ਲਈ ਫਾਈਲ ਚੁਣੋ:</string>
+  <string name="dialog_specify_sign_file">ਸਾਈਨ ਕਰਨ ਲਈ ਫਾਈਲ ਚੁਣੋ:</string>
+  <string name="dialog_specify_import_file_msg">ਇੰਪੋਰਟ ਕਰਨ ਲਈ ਫਾਈਲ ਚੁਣੋ:</string>
+  <string name="dialog_verify_succeeded_view_file_format">\"%s\" ਦੀ ਜਾਂਚ ਠੀਕ ਤਰ੍ਹਾਂ ਹੋਈ ਗਈ, ਫਾਈਲ ਵੇਖਣੀ ਹੈ?</string>
+  <string name="key_already_exists_format">\"%s\" ਕੁੰਜੀ ਤੁਹਾਡੇ ਛੱਲੇ ਵਿੱਚ ਪਹਿਲਾਂ ਹੀ ਮੌਜੂਦ ਹੈ:</string>
+  <string name="label_delete_after_import">ਇੰਪੋਰਟ ਕਰਨ ਦੇ ਬਾਅਦ ਹਟਾਓ</string>
+  <string name="label_export_secret_keys">ਕੇਵਲ ਗੁਪਤ ਕੁੰਜੀਆਂ ਹੀ ਬਰਾਮਦ ਕਰੋ</string>
+  <string name="renamed_existing_file_format">ਮੌਜੂਦਾ ਫਾਈਲ ਦਾ ਨਾਂ %s ਵਜੋਂ ਬਦਲਿਆ!</string>
+  <string name="dialog_encrypting_title">…ਇੰਕ੍ਰਿਪਟ ਕੀਤੀ ਜਾ ਰਹੀ ਹੈ</string>
+  <string name="sign_file">ਸਾਈਨ ਫਾਈਲ?</string>
+  <string name="ascii_signature">ASCII ਦਸਤਖਤ?</string>
+  <string name="sign">…ਸਾਈਨ</string>
+  <string name="encrypt">…ਇੰਕ੍ਰਿਪਟ</string>
+  <string name="changing_passphrase_for_format">%s ਲਈ ਵਾਕ ਬਦਲਿਆ ਜਾ ਰਿਹਾ ਹੈ</string>
+  <string name="search_hint">ਨਾਂ, ਈਮੇਲ ਜਾਂ ਕੁੰਜੀ ਆਈਡੀ ਨਾਲ ਖੋਜ</string>
+  <!--first run wizard-->
+  <string name="wizard_welcome_title">ਗਨੂ ਪਰਾਈਵੇਸੀ ਗਾਰਡ ਉੱਤੇ ਜੀ ਆਇਆਂ ਨੂੰ</string>
+  <string name="wizard_welcome_subtitle">ਐਂਡਰਾਇਡ ਲਈ ਗਨੂਪੀਜੀ ਦਾ ਬੀਟਾ ਵਰਜਨ</string>
+  <string name="wizard_button_backups">ਮੈਂ ਬੈਕਅੱਪ ਰੱਖਾਂਗਾ/ਰੱਖਾਂਗੀ</string>
+  <string name="wizard_button_create_key">ਕੁੰਜੀ ਬਣਾਓ</string>
+  <string name="wizard_button_import_keys">ਕੁੰਜੀਆਂ ਇੰਪੋਰਟ ਕਰੋ</string>
+  <string name="wizard_button_skip">ਛੱਡੋ</string>
+  <!--account, contacts, and contact syncing-->
+  <string name="account_label">ਗਨੂ ਪਰਾਈਵੇਸੀ ਗਾਰਡ</string>
+  <string name="keyring_group_name">ਗਨੂ ਪਰਾਈਵੇਸੀ ਗਾਰਡ ਛੱਲਾ</string>
+  <string name="secret_key_group_name">ਓਪਨਜੀਪੀਜੀ ਗੁਪਤ ਕੁੰਜੀਆਂ</string>
+  <string name="send_to_keyserver">ਕੁੰਜੀ-ਸਰਵਰ ਨੂੰ ਭੇਜੋ</string>
+  <string name="refresh_from_keyserver">ਕੁੰਜੀ-ਸਰਵਰ ਤੋਂ ਤਾਜ਼ਾ ਕਰੋ</string>
+  <string name="delete_keys">ਕੁੰਜੀਆਂ ਹਟਾਓ</string>
+  <string name="encrypt_file_to">…ਲਈ ਫਾਈਲ ਇੰਕ੍ਰਿਪਟ</string>
+  <string name="encrypt_file_to_detail">ਇਹ ਵਿਅਕਤੀ ਲਈ ਇੰਕ੍ਰਿਪਟ ਕਰਨ ਲਈ ਫਾਈਲ ਚੁਣੋ</string>
+  <string name="contact_view_key">ਕੁੰਜੀ ਵੇਖੋ</string>
+  <string name="title_create_key">ਕੁੰਜੀ ਬਣਾਓ</string>
+  <string name="list_keys">ਕੁੰਜੀਆਂ ਸੂਚੀ</string>
+  <string name="key_name_label">ਨਾਂ:</string>
+  <string name="key_email_label">ਈਮੇਲ:</string>
+  <string name="key_comment_label">ਟਿੱਪਣੀ:</string>
+  <string name="key_type_label">ਕੁੰਜੀ ਕਿਸਮ:</string>
+  <string name="key_size_label">ਬਿੱਟ:</string>
+  <string name="key_expire_label">ਮਿਆਦ:</string>
+  <string name="key_expire_one_month">1 ਮਹੀਨਾ</string>
+  <string name="key_expire_one_year">1 ਸਾਲ</string>
+  <string name="key_expire_two_years">2 ਸਾਲ</string>
+  <string name="key_expire_five_years">5 ਸਾਲ</string>
+  <string name="key_expire_ten_years">10 ਸਾਲ</string>
+  <string name="key_expire_never">ਕਦੇ ਨਹੀਂ</string>
+  <string name="key_revoke_gen">ਮਨਸੂਖ ਸਰਟੀਫਿਕੇਟ ਤਿਆਰ ਕਰੋ</string>
+  <string name="key_add_comment">ਚੋਣਵਾਂ ਟਿੱਪਣੀ ਖੇਤਰ ਵੇਖੋ</string>
+  <string name="key_upload">ਕੁੰਜੀ-ਸਰਵਰ ਉੱਤੇ ਅੱਪਲੋਡ</string>
+  <string name="key_make_backup">SD ਕਾਰਡ ਉੱਤੇ ਬੈਕਅੱਪ</string>
+  <string name="dialog_generating_new_key_title">…ਨਵੀਂ ਕੁੰਜੀ ਤਿਆਰ ਕੀਤੀ ਜਾ ਰਹੀ ਹੈ</string>
+  <string name="generating_new_key_message">ਇਹ ਕਾਰਵਾਈ ਲਈ 15 ਮਿੰਟ ਤੱਕ ਲੱਗ ਸਕਦੇ ਹਨ।</string>
+  <string name="generating_revoke_cert">…ਮਨਸੂਖ ਸਰਟੀਫਿਕੇਟ ਤਿਆਰ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ</string>
+  <string name="uploading_to_keyserver">…ਕੁੰਜੀ ਸਰਵਰ ਉੱਤੇ ਅੱਪਲੋਡ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ</string>
+  <string name="dialog_share_encrypted_file_using">ਇੰਕ੍ਰਿਪਟ ਕੀਤੀ ਫਾਈਲ ਸਾਂਝੀ ਕਰੋ:</string>
+  <string name="dialog_view_file_using">ਇਸ ਨਾਲ ਫਾਈਲ ਵੇਖੋ:</string>
+  <string name="openpgp_operation">ਓਪਨਜੀਪੀਜੀ ਕਾਰਵਾਈ</string>
+  <!--sending and receiving dialogs-->
+  <string name="receive_key">…ਕੁੰਜੀ ਪ੍ਰਾਪਤ</string>
+  <string name="send_key">…ਕੁੰਜੀ ਭੇਜੋ</string>
+  <!--error messages-->
+  <string name="error_output_file_exists_skipping_format">ਆਉਟਪੁੱਟ ਫਾਈਲ \"%s\" ਮੌਜੂਦ ਹੈ, ਡਿਕ੍ਰਿਪਟ ਕਰਨਾ ਛੱਡਿਆ।</string>
+  <string name="error_decrypting_file_failed_format">\"%s\" ਡਿ-ਕ੍ਰਿਪਟ ਕਰਨਾ ਫੇਲ੍ਹ!</string>
+  <string name="error_encrypting_file_failed_format">\"%s\" ਇੰਕ੍ਰਿਪਸ਼ਨ ਕਰਨਾ ਫੇਲ੍ਹ!</string>
+  <string name="error_signing_file_failed_format">\"%s\" ਸਾਈਨ ਕਰਨਾ ਫੇਲ੍ਹ!</string>
+  <string name="error_decrypting_failed">ਡਿਕ੍ਰਿਪਟ ਕਰਨਾ ਫੇਲ੍ਹ!</string>
+  <string name="error_encrypting_failed">ਇੰਕ੍ਰਿਪਟ ਕਰਨਾ ਫੇਲ੍ਹ!</string>
+  <string name="error_gen_key_failed">ਨਵੀਂ ਕੁੰਜੀ ਤਿਆਰ ਕਰਨ ਲਈ ਫੇਲ੍ਹ ਹੈ!</string>
+  <string name="error_file_does_not_exist_format">\"%s\" ਮੌਜੂਦ ਨਹੀਂ ਹੈ!</string>
+  <string name="error_verify_failed">ਜਾਂਚ ਫੇਲ੍ਹ ਹੋਈ!</string>
+  <string name="error_file_verify_failed_format">\"%s\" ਜਾਂਚ ਲਈ ਫੇਲ੍ਹ!</string>
+  <string name="error_query_failed">ਗਲਤੀ! ਕਿਊਰੀ ਫੇਲ੍ਹ ਹੈ, ਮੁੜ-ਕੋਸ਼ਿਸ਼ ਕਰੋ!</string>
+  <string name="error_bad_or_corrupt_key_format">ਖ਼ਰਾਬ ਜਾਂ ਨਿਕਾਰਾ ਕੁੰਜੀ (%s)!</string>
+  <!--content descriptions for accessibility-->
+  <string name="folder">ਫੋਲਡਰ</string>
+  <!--key status terms-->
+  <string name="usable">ਵਰਤਣ ਯੋਗ</string>
+  <string name="disabled">ਬੰਦ</string>
+  <string name="expired">ਮਿਆਦ ਪੁੱਗੀ</string>
+  <string name="invalid">ਅਵੈਧ</string>
+  <string name="revoked">ਮਨਸੂਖ ਕੀਤੀ</string>
+  <string name="noKey">&lt;ਕੁੰਜੀ ਨਹੀਂ&gt;</string>
+  <!--permission info-->
+  <!--APG-related messages-->
+  <string name="error_activity_not_found">ਇਹ ਕਾਰਵਾਈ ਲਈ ਕੋਈ ਕੁਝ ਢੁੱਕਵੀਂ ਐਪਲੀਕੇਸ਼ਨ ਨਹੀਂ।</string>
+  <!--APG messages-->
+  <string name="unknownStatus"></string>
+  <string name="hint_publicKeys">ਪਬਲਿਕ ਕੁੰਜੀਆਂ ਖੋਜ</string>
+  <string name="filterInfo_format">ਫਿਲਟਰ: \"%s\"</string>
+  <string name="btn_clearFilter">ਫਿਲਟਰ ਸਾਫ਼ ਕਰੋ</string>
+  <string name="title_select_recipients">ਪ੍ਰਾਪਤਕਰਤਾ ਚੁਣੋ</string>
+  <string name="progress_done">ਮੁਕੰਮਲ।</string>
+  <string name="progress_initializing">…ਸ਼ੁਰੂ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ</string>
+  <string name="progress_saving">…ਸੰਭਾਲਿਆ ਜਾ ਰਿਹਾ ਹੈ</string>
+  <string name="progress_importing">…ਇੰਪੋਰਟ ਕੀਤੀ ਜਾ ਰਹੀ ਹੈ</string>
+  <string name="progress_exporting">…ਐਕਸਪੋਰਟ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ</string>
+  <string name="progress_querying">….ਕਿਊਰੀ ਕੀਤੀ ਜਾ ਰਹੀ ਹੈ</string>
+</resources>
