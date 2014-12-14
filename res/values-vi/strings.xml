@@ -1,0 +1,103 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources>
+  <string name="label_debug_header">Nhật trình gỡ rối thuộc các cuộc thử nghiệm</string>
+  <string name="enter_pin">Điền vào mã PIN của bạn</string>
+  <string name="title_activity_pinentry">Khung dữ liệu mã PIN</string>
+  <string name="title_activity_encrypt">Mã hóa</string>
+  <string name="title_activity_decrypt">Giải Mã</string>
+  <string name="dialog_installing_title">Đang cài đặt…(vin vui lòng đợi giây lát!)</string>
+  <string name="pref_keyserver_title">Keyserver</string>
+  <string name="pref_start_boot_title">Khởi động Daemons khi boot</string>
+  <string name="title_decrypt_file">Giải mã tập tin</string>
+  <string name="title_about">Dịch Phan Anh</string>
+  <string name="title_debug_mode">Chế độ gỡ rối</string>
+  <string name="title_encrypt_file">Mã hóa tập tin</string>
+  <string name="title_import_keys">Nhập dữ liệu từ khóa</string>
+  <string name="title_export_keys">Xuất dữ liệu khóa</string>
+  <string name="title_settings">Thiết lập</string>
+  <string name="verify_signature">Xác nhận chữ ký</string>
+  <string name="signature_verified">Đã xác nhận chữ ký</string>
+  <string name="verifying_file_format">Đang xác nhận \"%s\"</string>
+  <string name="error_no_file_manager_installed">Không có trình quản lý tập tin tương thích được cài đặt!</string>
+  <string name="error_files_not_supported">URIs của tập tin không được hỗ trợ thông qua nội dung này!</string>
+  <string name="dialog_specify_decrypt_file">Chọn tập tin để giải mã:</string>
+  <string name="dialog_specify_encrypt_file">Chọn tập tin để mã hóa:</string>
+  <string name="dialog_specify_import_file_msg">Chọn tập tin để xuất dữ liệu:</string>
+  <string name="dialog_verify_succeeded_view_file_format">\"%s\" đã được xác nhận, xem tập tin này?</string>
+  <string name="label_delete_after_import">Xóa sau khi đã nhập dữ liệu xong</string>
+  <string name="label_export_secret_keys">Chỉ xuất các khóa bí mật</string>
+  <string name="renamed_existing_file_format">Đã đổi tên tập tin có trùng tên sang %s!</string>
+  <string name="dialog_encrypting_title">Đang mã hóa…</string>
+  <string name="sign_file">Ghi dữ liệu chữ ký vào tập tin này?</string>
+  <!--first run wizard-->
+  <string name="wizard_welcome_subtitle">Đây là phiên bản thử nghiệm của GnuPG dành cho Android được chuyển ngữ bởi Phan Anh</string>
+  <string name="wizard_button_backups">Tôi sẽ tiếp tục giữ phần sao lưu</string>
+  <string name="wizard_button_create_key">Tạo khóa</string>
+  <string name="wizard_button_import_keys">Nhập các dữ liệu từ khóa</string>
+  <string name="wizard_button_skip">Bỏ qua</string>
+  <!--account, contacts, and contact syncing-->
+  <string name="contact_view_key">Xem khóa</string>
+  <string name="title_create_key">Tạo khóa</string>
+  <string name="key_name_label">Tên:</string>
+  <string name="key_email_label">Email:</string>
+  <string name="key_comment_label">Bình luận:</string>
+  <string name="key_type_label">Loại khóa:</string>
+  <string name="key_size_label">Bit:</string>
+  <string name="key_expire_label">Thời hạn kết thúc:</string>
+  <string name="key_expire_one_month">1 tháng</string>
+  <string name="key_expire_one_year">1 năm</string>
+  <string name="key_expire_two_years">2 năm</string>
+  <string name="key_expire_five_years">5 năm</string>
+  <string name="key_expire_ten_years">10 năm</string>
+  <string name="key_expire_never">Không bao giờ</string>
+  <string name="key_revoke_gen">Tạo chứng chỉ hủy bỏ</string>
+  <string name="key_upload">Tải lên hệ thống Keyserver</string>
+  <string name="key_make_backup">Sao lưu vào thẻ nhớ</string>
+  <string name="dialog_generating_new_key_title">Đang tạo các khóa mới…</string>
+  <string name="generating_new_key_message">Tiến trình này có thể kéo dài trong vòng 15 phút.</string>
+  <string name="generating_revoke_cert">Đang tạo các chứng chỉ hủy bỏ…</string>
+  <string name="uploading_to_keyserver">Đang tải lên keyserver…</string>
+  <string name="backing_up_to_sdcard">Đang sao lưu khóa mới vào thẻ nhớ…</string>
+  <string name="dialog_view_file_using">Xem tập tin bằng:</string>
+  <!--sending and receiving dialogs-->
+  <string name="receive_key">Nhận khóa…</string>
+  <string name="receive_key_message">Xác định chỉ số khóa để nhận dữ liệu từ keyserver:</string>
+  <string name="send_key">Gửi khóa…</string>
+  <string name="send_key_message">Xác định chỉ số khóa để gửi đến keyserver:</string>
+  <!--error messages-->
+  <string name="error_output_file_exists_skipping_format">Tập tin xuất dữ liệu \"%s\" không tồn tải, sẽ bỏ qua quá trình giải mã.</string>
+  <string name="error_decrypting_file_failed_format">Xảy ra lỗi khi giải mã \"%s\"!</string>
+  <string name="error_encrypting_file_failed_format">Xảy ra lỗi khi mã hóa \"%s\"!</string>
+  <string name="error_decrypting_failed">Xảy ra lỗi khi giải mã!</string>
+  <string name="error_encrypting_failed">Xảy ra lỗi khi mã hóa!</string>
+  <string name="error_gen_key_failed">Xảy ra lỗi khi tạo một khóa dữ liệu mới!</string>
+  <string name="error_file_does_not_exist_format">\"%s\" không tồn tại!</string>
+  <string name="error_verify_failed">Xác nhận thất bại!</string>
+  <string name="error_file_verify_failed_format">Thất bại khi xác nhận \"%s\"!</string>
+  <!--content descriptions for accessibility-->
+  <string name="folder">thư mục</string>
+  <!--key status terms-->
+  <string name="usable">có thể sử dụng</string>
+  <string name="disabled">vô hiệu hóa</string>
+  <string name="expired">đã hết hạn thời gian</string>
+  <string name="invalid">không hợp lệ</string>
+  <string name="revoked">đã hủy bỏ</string>
+  <string name="noKey">&lt;không có khóa&gt;</string>
+  <!--permission info-->
+  <string name="perm_read_key_details_label">Đọc dữ liệu từ khóa theo kiểu APG</string>
+  <string name="perm_read_key_details_description">Đọc ký số của khóa có độ dài 16 ký tự và gắn ký số này với địa chỉ email thông qua NhàCungCấpDịchVụ theo kiểu APG.</string>
+  <!--APG-related messages-->
+  <string name="error_activity_not_found">Không tìm thấy ứng dụng thích hợp cho thao tác này</string>
+  <!--APG messages-->
+  <string name="unknownStatus"></string>
+  <string name="hint_publicKeys">Tìm kiếm khóa công cộng</string>
+  <string name="filterInfo_format">Bộ lọc: \"%s\"</string>
+  <string name="btn_clearFilter">Làm rỗng bộ lọc</string>
+  <string name="title_select_recipients">Chọn người nhận</string>
+  <string name="progress_done">hoàn tất</string>
+  <string name="progress_initializing">Đang thiết lập…</string>
+  <string name="progress_saving">Đang lưu…</string>
+  <string name="progress_importing">Đang nhập dữ liệu…</string>
+  <string name="progress_exporting">Đang xuất dữ liệu…</string>
+  <string name="progress_querying">Đang truy vấn…</string>
+</resources>

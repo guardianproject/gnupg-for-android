@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources>
+  <string name="label_debug_header">Atkļūdot žurnālu pārbaudēm</string>
+  <string name="title_activity_decrypt">Atšifrēt</string>
+  <string name="title_decrypt_file">Atšifrēt Datni</string>
+  <string name="title_about">Par</string>
+  <string name="title_encrypt_file">Šifrēt Datni</string>
+  <string name="title_import_keys">Importēt Atslēgas</string>
+  <string name="title_export_keys">Eksportēt atslēgas</string>
+  <string name="title_receive_keys">Saņemt Atslēgas</string>
+  <string name="title_error">Kļūda</string>
+  <string name="title_settings">Iestatījumi</string>
+  <string name="verify_signature">Pārbaudīt Parakstu</string>
+  <string name="signature_verified">Paraksts Pārbaudīts</string>
+  <string name="verifying_file_format">Pārbauda \"%s\"</string>
+  <string name="decrypting_file_format">Atšifrē \"%s\"…</string>
+  <string name="dialog_specify_decrypt_file">Izvēlēties datni jeb failu, ko atšifrēt:</string>
+  <string name="dialog_specify_encrypt_file">Izvēlēties datni jeb failu, ko šifrēt:</string>
+  <string name="dialog_specify_export_file_msg">Visas atslēgas tiks eksportētas datnē, kuru norādīsit zemāk. BRĪDINĀJUMS! Datne tiks pārrakstīta gadījumā, ja tā pastāv.</string>
+  <string name="label_export_secret_keys">Eksportēt vienīgi slepenās atslēgas</string>
+  <string name="dialog_encrypting_title">Šifrē…</string>
+  <string name="sign_file">Parakstīt datni?</string>
+  <!--first run wizard-->
+  <string name="wizard_welcome_title">Sveicināti Gnu Privacy Guard</string>
+  <string name="wizard_welcome_subtitle">GnuPG beta versija androīdiem </string>
+  <string name="wizard_warning">BRĪDINĀJUMS! Izveidojiet un glabājiet visu savu atslēgu rezerves kopijas. Šī lietotne joprojām atrodas agrīnā izveides procesā.</string>
+  <string name="wizard_button_backups">Es glabāšu rezerves kopijas</string>
+  <string name="wizard_button_create_key">Izveidot Atslēgu</string>
+  <string name="wizard_button_import_keys">Importēt Atslēgas</string>
+  <!--account, contacts, and contact syncing-->
+  <string name="title_create_key">Izveidot Atslēgu</string>
+  <string name="key_size_label">Biti:</string>
+  <string name="key_expire_label">Termiņa beigas:</string>
+  <string name="key_expire_one_month">1 Mēnesis</string>
+  <string name="key_expire_one_year">1 Gads</string>
+  <string name="key_expire_two_years">2 Gadi</string>
+  <string name="key_expire_five_years">5 Gadi</string>
+  <string name="key_expire_ten_years">10 Gadi</string>
+  <string name="key_expire_never">Nekad</string>
+  <!--sending and receiving dialogs-->
+  <string name="receive_key">Saņem atslēgu…</string>
+  <string name="send_key">Sūta atslēgu…</string>
+  <!--error messages-->
+  <!--content descriptions for accessibility-->
+  <string name="folder">mape</string>
+  <!--key status terms-->
+  <string name="usable">lietojami</string>
+  <string name="disabled">atspējoti</string>
+  <string name="expired">termiņš beidzies</string>
+  <string name="invalid">nederīgs</string>
+  <string name="revoked">atsaukts</string>
+  <string name="noKey">&lt;bez atslēgas&gt;</string>
+  <!--permission info-->
+  <string name="perm_read_key_details_label">Lasīt atslēgas detaļas APG veidā</string>
+  <string name="perm_read_key_details_description">Izmantojot ContentProvider, lasīt APG veidā 16 rakstzīmju atslēgas ID un piesaistītās e-pasta adreses.</string>
+  <!--APG-related messages-->
+  <string name="error_activity_not_found">Šai darbībai netika atrasta piemērota lietotne.</string>
+  <!--APG messages-->
+  <string name="unknownStatus"></string>
+  <string name="hint_publicKeys">Meklēt publiskās atslēgas</string>
+  <string name="btn_clearFilter">Notīrīt filtru</string>
+  <string name="progress_done">darīts.</string>
+  <string name="progress_initializing">Inicializē…</string>
+  <string name="progress_saving">Saglabā…</string>
+  <string name="progress_importing">Importē…</string>
+  <string name="progress_exporting">Eksportē…</string>
+  <string name="progress_querying">Vaicā…</string>
+</resources>
