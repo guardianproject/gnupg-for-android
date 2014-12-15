@@ -132,6 +132,7 @@ libgpg-error/Makefile: libgpg-error/config.sub libgpg-error/config.guess libgpg-
 			RANLIB=$(RANLIB) \
 			CFLAGS="$(CFLAGS)" \
 			LDFLAGS="$(LDFLAGS)" \
+			--disable-doc \
 			--disable-languages \
 			--enable-static \
 			--host=$(HOST) \
