@@ -52,7 +52,7 @@ fi
 ./setup-ant.sh
 ant release
 
-apk=$projectroot/bin/$projectname-release.apk
+apk=$projectroot/bin/$projectname*-release.apk
 if [ -e $apk ]; then
     gpg --detach-sign $apk
 else
