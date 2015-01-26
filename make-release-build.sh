@@ -1,6 +1,16 @@
 #!/bin/sh
 
 set -e
+set -x
+
+# make sure we're on a signed tag that matches the version name
+versionName=`sed -n 's,.*versionName="\([^"]*\)".*,\1,p' AndroidManifest.xml`
+describe=`git describe`
+if [ $versionName != $describe ]; then
+    echo "WARNING: checking out release tag $versionName"
+   git checkout $versionName
+fi
+git tag -v $versionName
 
 if [ -z $ANDROID_HOME ]; then
     if [ -e ~/.android/bashrc ]; then
