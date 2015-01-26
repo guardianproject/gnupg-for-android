@@ -1,4 +1,6 @@
-#!/bin/sh
+#!/bin/bash
+# bash is required because we need bash's printf to guarantee a cross-platform
+# timestamp format.
 
 set -e
 set -x
@@ -11,6 +13,7 @@ if [ $versionName != $describe ]; then
    git checkout $versionName
 fi
 git tag -v $versionName
+
 
 if [ -z $ANDROID_HOME ]; then
     if [ -e ~/.android/bashrc ]; then
@@ -31,17 +34,13 @@ if [ -z $ANDROID_NDK ]; then
 fi
 
 projectroot=`pwd`
-projectname=`sed -n 's,.*name="app_name">\(.*\)<.*,\1,p' res/values/strings.xml`
 
-for f in $projectroot/external/*/.git; do
-    dir=`echo $f | sed 's,\.git$,,'`
-    cd $dir
-    git reset --hard
-    git clean -fdx
-    cd $projectroot
-done
+# standardize timezone to reduce build differences
+export TZ=UTC
+# run the clock at 5% speed, ant requires a moving clock
+TIMESTAMP=`printf '@%(%Y-%m-%d %H:%M:%S)T x0.05' \
+    $(git log -n1 --format=format:%at)`
 
-cd $projectroot
 git reset --hard
 git clean -fdx
 git submodule foreach --recursive git reset --hard
@@ -60,11 +59,14 @@ else
 fi
 
 ./setup-ant.sh
-ant release
+faketime -f "$TIMESTAMP" ant release
 
-apk=$projectroot/bin/$projectname*-release.apk
-if [ -e $apk ]; then
-    gpg --detach-sign $apk
+if which gpg > /dev/null; then
+    if [ -z "`gpg --list-secret-keys`" ]; then
+        echo "No GPG secret keys found, not signing APK"
 else
-    echo $apk does not exist!
+        gpg --detach-sign bin/GnuPrivacyGuard-[0-9].*-release.apk
+    fi
+else
+    echo "gpg not found, not signing APK"
 fi
