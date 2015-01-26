@@ -1,15 +1,13 @@
-GnuPrivacyGuard (GPG) brings GnuPG, the most trusted name in encryption, to Android.  Easily encrypt, decrypt, sign and verify files of any kind, just by sharing them to GPG. This app aims to provide a complete, integrated cryptographic toolkit integrated into the Android experience. GPG provides solid encryption for private files, and for verifying that files are from who you think they are.  It includes optimizations to make it operate many times faster than other encryption packages on Android.
+GnuPrivacyGuard (GPG) brings GnuPG, the most trusted name in encryption, to Android.  Easily encrypt, decrypt, sign and verify files of any kind, just by sharing them to GPG. This app aims to provide a complete, integrated crypto toolkit integrated into the Android experience. GPG provides solid encryption for files private, and for verifying that files are who you think they are.  It includes optimizations to make it operate many times faster than other encryption packages.
 
-GPG provides an integrated experience, so clicking on OpenPGP files "just works".  You can also share files to GPG to decrypt, encrypt, sign, or verify them.  GPG will respond when you click on a OpenPGP fingerprint URL (one that starts with openpgp4fpr:).
-
-GPG also gives you complete command line access to the entire GnuPG suite of encryption software. It also serves as the test bed for complete Android integration for all of GnuPG's crypto services, including OpenPGP, symmetric encryption, and more.
-
+GPG provides an integrated experience, so clicking on OpenPGP files "just works".  You can also share files to GPG to decrypt, encrypt, sign, or verify them.  GPG will respond when you click on a OpenPGP fingerprint URL (one that starts with openpgp4fpr:). GPG also gives you complete command line access to the entire GnuPG suite of encryption software.
 
 ***Setup***
 Before using GPG, be sure to launch the app and let it finish its installation process.  Once it has completed, then you're ready to use it!
 
 If you want to use the command line, the easiest way to get started with GPG is to install Android Terminal Emulator. GPG will automatically configure Android Terminal Emulator as long as you have the "Allow PATH extensions" settings enabled. Get the Android Terminal Emulator at https://play.google.com/store/apps/details?id=jackpal.androidterm
 
+CyanogenMod Privacy Guard must be disabled for this app to work!
 
 ***Features***
 ★ TRUSTED SECURITY: GnuPG already seamlessly integrates into Mac OSX (GPGtools), Windows (gpg4win), GNU/Linux, Debian, Ubuntu, Fedora.
@@ -31,13 +29,12 @@ https://dev.guardianproject.info/projects/gpgandroid/issues
 ***Coming Soon***
 ★ SECURITY FOR APPS: We have an API in the works so that developers can easily embed this into any app to give it state of the art security features.
 ★ GUI: We’re developing a new Android experience for using encryption
-★ STAY UP TO DATE: Sign up for our low-traffic Guardian-Dev mailing list to be notified when the API and GUI are released: https://lists.mayfirst.org/mailman/listinfo/guardian-dev
 
 
 ***Learn More***
 ★ ABOUT US: Guardian Project is a group of developers that make secure mobile apps and open-source code for a better tomorrow.
 ★ OUR WEBSITE: https://GuardianProject.info
-★ CHAT WITH US: we want feedback! irc://irc.freenode.net/guardianproject or irc://irc.oftc.net/guardianproject
+★ CHAT WITH US: we want feedback! https://guardianproject.info/contact
 ★ ON TWITTER: https://twitter.com/guardianproject
 ★ OPEN-SOURCE: Our code is transparent. You can take a look or join the community to help make GnuPG for Android even better https://github.com/guardianproject/gnupg-for-android
 ★ FREE SOFTWARE: We operate under the GNU General Public License (GPLv3+) https://www.gnu.org/licenses/gpl-3.0.html
