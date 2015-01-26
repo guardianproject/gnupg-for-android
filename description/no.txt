@@ -1,0 +1,43 @@
+GnuPrivacyGuard (GPG) bringer GnuPG, det mest tiltrodde navnetrekket innen kryptering, til Android. Enkel kryptering, dekryptering, signering og verifisering av alle typer filer ved å dele dem til GPG. Dette programmets målsetting tar sikte på å være et komplett krypteringsverktøysett integrert i Android-opplevelsen. GPG tilbyr solid kryptering for private filer, og for å verifisere at filer er det de opphavsmessig er ment å være. Det inneholder optimaliseringer som gjør det mange ganger raskere enn andre krypteringspakker på Android-plattformen. 
+
+GPG tilbyr en integrert opplevelse, så det å klikke på OpenPGP-filer "bare funker". Du kan også dele filer til GPG for å dekryptere, kryptere, signere eller verifisere dem. GPG vil trå til når du klikker på en URL for OpenPGP-fingeravtrykk (hvilket er de som begynner med openpgp4fpr:).
+
+GPG gir også helhetlig kommandolinjetilgang for hele GnuPG-pakken av krypteringsprogramvare. Det er også en testplattform for komplett Android-integrasjon for alle GnuPG's krypteringstjenester, inkludert OpenPGP, symmetrisk kryptering og mere til.
+
+
+***Oppsett***
+Før du tar GPG i bruk, la programmet starte opp og fullføre installasjons-prosessen. Når så er gjort, er det klart til bruk!
+
+Hvis du vil bruke kommandolinjen er installasjon av Android Terminalemulator den enkleste måten å komme igang med GPG på. GPG setter opp Android Terminalemulator automatisk så lenge du har "Tillat PATH-filendelser" innstillingen påskrudd. Last ned Android Terminalemulator på https://play.google.com/store/apps/details?id=jackpal.androidterm
+
+
+***Trekkplaster***
+★ TILTRODD SIKKERHET: GnuPG har allerede sømløs integrasjon i Linux|GNU, Debian, Ubuntu og Fedora. Mac OSX (GPGtools), Windows (gpg4win)
+★ OVERHOLDER ÅPNE STANDARDER: Full OpenPGP-implementasjon som følger RFC2440 og RFC4880
+★ OFFENTLIG NØKKEL-KRYPTERING: Full interoperabel erstatning for den ufrie PGP - Pretty Good Privacy/(Ganske Godt Personvern) -standarden.
+★ VIDTFAVNENDE ALGORITMESTØTTE: 3DES, AES, Blowfish, CAST5, DSA, ElGamal, MD5, RSA, RIPDE-MD-160, SHA-1, TIGER, og Twofish.
+★ BETRODD SIKKERHET: Italiensk politi, FBI, og Britisk politi har ikke klart å knekke sikkerheten og har tydd til innkreving av private nøkler. Det har blitt sagt "det nærmeste du kommer militær grad av kryptering" av kryptograf Bruce Schneier.
+★ NØKKELVELV-STØTTE: Integrert støtte for HKP-nøkkelvelv (ipv4.pool.sks-keyservers.net).
+★ VI SNAKKER DITT SPRÅK: GPG er tilgjengelig for venner som snakker: Arabisk (العربية), Engelsk, Fransk (Français), Tysk (Deutsch), Norwegian (Norsk bokmål), Portugisisk (Português) og Spansk (Español).
+
+Mangler ditt språk? Ta del i arbeidet og hjelp oversettelsen av programmet: https://www.transifex.com/projects/p/gpg
+
+
+***Rapporter feil du måtte finne***
+Dette er et stort prosjekt, så det vil unektelig dukke opp feil. Hjelp oss å forbedre denne programvaren ved å sende inn feilrapporter om ethvert problem du måtte erfare. Funksjonalitetsønsker er også velkomne!
+https://dev.guardianproject.info/projects/gpgandroid/issues
+
+
+***Kommer snart***
+★ SIKKERHET FOR PROGRAMMER: Vi har et API på gang slik at utviklere enkelt kan bake dette inn i hvilken som helst app for å gi det topp-prestanda hva sikkerhetsfunksjonalitet angår.
+★ GUI: Vi utvikler en ny grafisk brukergrensesnitt-opplevelse for Android til bruk for kryptering
+★ HOLD DEG OPPDATERT: Meld deg på epostliste med lav trafikk og hold øye med API og GUI endringer: https://lists.mayfirst.org/mailman/listinfo/guardian-dev
+
+
+***Lær mer***
+★ OM OSS: Guardian-prosjektet er en gruppe utviklere som lager sikre mobil-løsninger og fri programvare for en bedre fremtid.
+★ VÅR NETTSIDE: https://GuardianProject.info
+★ PRAT MED OSS: tilbakemeldinger ønskes! irc://irc.freenode.net/guardianproject eller irc://irc.oftc.net/guardianproject
+★ Guardian-prosjektet var tidligere på identi.ca, og det jobbes med å sette opp en pump.io konto. I mellomtiden frarådes du å bruke twitter https://twitter.com/guardianproject.
+★ ÅPEN KILDEKODE: Vår kode er fritt tilgjengelig for alle. Du kan selv ta den i øyesyn og bli en av oss gjennom å forbedre Lil'Debi https://github.com/guardianproject/gnupg-for-android
+★ FRI PROGRAMVARE: Vi operer under GNU GPL (GPLv3+)-banneret. https://www.gnu.org/licenses/gpl-3.0.html

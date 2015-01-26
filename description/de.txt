@@ -1,0 +1,43 @@
+GnuPrivacyGuard (GPG) bringt GnuPG, die meistgeachtete Verschlüsselungsanwendung, auf die Android Plattform. Ver- und entschlüsseln, signieren und verifizieren Sie beliebige Dateien, indem Sie diese mit GPG verwalten. Die App hat das Ziel, eine komplette integrierte kryptografische Softwarelösung in Android einzubinden. GPG bietet verlässliche Verschlüsselung für Ihre privaten Dateien und ermöglicht Verifikation dass Dateien tatsächlich von der erwarteten Person stammen. Die App wurde auf Geschwindigkeit optimiert um die Laufzeit gegenüber anderen Verschlüsseliungsanwendungen drastisch zu verkürzen.
+
+GPG bietet nahtlose Bedienung - ein einziger Klick auf OpenPGP Dateien genügt. Weiterhin können Sie mit GPG Dateien entschlüsseln, verschlüsseln oder verifizieren. Außerdem wird GPG aktiviert sobald Sie auf eine OpenPGP-Fingerabdruck-URL klicken (welche mit openpgp4fpr: anfangen).
+
+GPG gibt Ihnen außerdem Zugriff auf die Kommandzeilen Kommandos der gesamten GnuPG Suite. 
+
+
+***Einrichtung***
+Bevor Sie GPG benutzen, rufen Sie die App auf und lassen Sie diese den Installationsprozess beenden. Nachdem dieser Prozess beendet ist, ist die App bereit zum Benutzen!
+
+Wenn Sie die Kommandozeile benutzen möchten, ist der einfachste Weg mit GPG zu beginnen, zuerst Android Terminal Emulator zu installieren. GPG wird Android Terminal Emulator automatisch konfigurieren, wenn die Einstellung "Allow PATH extensions" aktiviert ist. Erhalte den Android Terminal Emulator unter https://play.google.com/store/apps/details?id=jackpal.androidterm
+
+
+***Merkmale***
+BEWÄHRTE SICHERHEIT: GnuPG ist bereits nahtlos integriert in Mac OSX (GPGtools), Windows (gpg4win), GNU/Linux, Debian, Ubuntu, Fedora.
+★ OFFEN STANDARDKONFORM: Vollständige OpenPGP-Implementierung nach RFC2440 und RFC4880
+ASYMMETRISCHE VERSCHLÜSSELUNG: Voll kompatibler Ersatz des prorietären Pretty Good Privacy (PGP) Standards.
+★ VIELE ALGORITHMEN: 3DES, AES, Blowfish, CAST5, DSA, ElGamal, MD5, RSA, RIPDE-MD-160, SHA-1, TIGER und Twofish werden unterstützt.
+★ BESTÄTIGTE SICHERHEIT: Die italienische Polizei, das FBI und die britische Polizei können die Verschlüsselung nicht brechen, und bestehen nunmehr bloß auf der Herausgabe der privaten Schlüssel. Kryptograph Bruce Schneier bewertete es mit "für Sie wohl die beste Näherung an militärische Verschlüsselungsstandards".
+★ SCHLÜSSELSERVER-UNTERSTÜTZUNG: Integrierte Unterstützung für HKP-Schlüsselserver (ipv4.pool.sks-keyservers.net).
+★ WIR SPRECHEN IHRE SPRACHE: GPG ist für Freunde, die eine der folgenden Sprachen sprechen, verfügbar: Arabisch (العربية), Deutsch, Englisch (English), Französisch (Français), Norwegisch (Norsk), Portugiesisch (Português), Spanisch (Español).
+
+Sie sehen Ihre Sprache nicht? Treten Sie uns bei und helfen Sie uns bei der Übersetzung der app: https://www.transifex.com/projects/p/gpg
+
+
+***Bitte melden Sie Fehler***
+Da dies ein großes Projekt ist, sind darin auch zwangsläufig Bugs enthalten. Helfen Sie uns bitte dabei diese Software zu verbessern indem Sie Fehlerberichte über alle Fehler auf die Sie stoßen an uns übermitteln. Anfragen zu Funktionserweiterungen sind ebenfalls Willkommen!
+https://dev.guardianproject.info/projects/gpgandroid/issues
+
+
+***Demnächst***
+★ SICHERHEIT FÜR APPS: Wir haben eine Schnittstelle (API) in Arbeit, sodass Entwickler die Funktionen von GnuPG in beliebige Apps integrieren können um Sicherheitsfunktionen am Stand der Technik zu bieten.
+★ GUI: Wir entwickeln eine neue graphische Oberfläche für Android um Verschlüsselungsfunktionen zu nutzen.
+★ AUF AKTUELLEM STAND BLEIBEN: Tragen Sie sich für unsere low-traffic Guardian-Dev Mailingliste ein um benachrichtigt zu werden, wenn API und GUI veröffentlicht werden: https://lists.mayfirst.org/mailman/listinfo/guardian-dev
+
+
+***Erfahren Sie mehr***
+★ ÜBER UNS: Das Guardian Projekt ist eine Gruppe von Entwicklern die sichere Mobile apps und Open-Source Code erstellen für eine bessere Welt.
+★ UNSERE WEBSEITE: https://GuardianProject.info
+★ CHATTE MIT UNS: Wir wollen Rückmeldung! irc://irc.freenode.net/guardianproject oder irc://irc.oftc.net/guardianproject
+★ AUF TWITTER: https://twitter.com/guardianproject
+★ OPEN-SOURCE: Unser Quellcode ist transparent. Jeder kann ihn ansehen oder Teil der Gemeinschaft um GnuPG werden und mitzuhelfen GnuPG für Android noch weiter zu verbessern https://github.com/guardianproject/gnupg-for-android
+★ FREIE SOFTWARE: Wir arbeiten unter der GNU General Public License (GPLv3+) https://www.gnu.org/licenses/gpl-3.0.html

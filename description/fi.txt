@@ -1,0 +1,43 @@
+GnuPrivacyGuard (GPG) tuo GnuPG-ohjelman, salauksen luotetuimman nimen, Android-laitteille. Kaikentyyppisten tiedostojen salaamiseksi, salauksen purkamiseksi ja todentamiseksi jaa ne vain GPG-ohjelman kanssa. Tämän sovelluksen päämääränä on tarjota täydellinen, integroitu kryptaustyökalupakki, joka on integroitu Android-kokemukseen. GPG-tarjoaa vankan salauksen yksityisille tiedostoille, ja sen todentamiseen, että tiedostot ovat siltä henkilötä, jolta ajattelit ne vastaanottaneesi. Se sisältää optimointeja, jotka saavat sen toimimaan monta kertaa nopeammin kuin muut Android-salauspakkaukset.
+
+GPG-tarjoaa integroidun kokemuksen, joten OpenPGP-tiedostojen napsauttaminen ”vain toimii”. Voit myös jakaa tiedostoja GPG-ohjelmaan salauksen purkamiseksi, tiedostojen salaamiseksi, tiedostojen allekirjoittamiseksi, tai niiden todentamiseksi. GPG vastaa kun napsautat OpenPGP-sormenjälkiverkko-osoitetta (sellaista, joka käynnistää sovelluksen openpgp4fpr:).
+
+GPG tarjoaa myös täyden komentorivipääsyn GnuPG-salausohjelmistosarjaan. Työskentelemme kaikkien GnuPG:n kryptauspalvelujen Android-integroimiseksi, mukaan lukien OpenPGP, symmetrinen salaus, ja muuta.
+
+
+***Asetukset***
+Ennen GPG-ohjelman käyttöä käynnistä toki sovellus ja anna sen saattaa asennusprosessi loppuun. Olet valmis käyttämään sitä kun asennusprosessi on valmis!
+
+Jos haluat käyttää komentoriviä, helpoin tapa GPG:n kännistämiseksi on Android Terminal Emulator-asentaminen.  GPG tekee automaattisesti Android Terminal Emulator-ohjelman asetukset niin kauan kuin sinulla on "Allow PATH extensions"-asetus käytössä. Hae Android Terminal Emulator osoitteesta https://play.google.com/store/apps/details?id=jackpal.androidterm
+
+
+***Ominaisuudet***
+★ LUOTETTU TURVALLISUUS: GnuPG integroituu jo saumattomasti käyttöjärjestelmäympäristöihin Mac OSX (GPGtools), Windows (gpg4win), GNU/Linux, Debian, Ubuntu, Fedora.
+★ OPEN STANDARD-YHTEENSOPIVA: Täysi OpenPGP-toteutus, joka noudattaa RFC2440- ja RFC4880-suositusta
+★ JULKISEN AVAIMEN SALAUS: Toiminnaltaan täysin yhteensopiva yksityisomistuksellisen Pretty Good Privacy (PGP)-standardin kanssa.
+★ LAAJA ALGORITMIMAISEMA: Tukee algoritmeja 3DES, AES, Blowfish, CAST5, DSA, ElGamal, MD5, RSA, RIPDE-MD-160, SHA-1, TIGER, ja Twofish.
+★ VAHVISTETTU TURVALLISUUS: Italian poliisi, FBI, ja brittipoliisi eivät ole kyenneet murtamaan sen turvallisuutta ja ovat turvautuneet vaatimaan yksityisiä avaimia. Kryptausasiantuntija Bruce Schneier vertasi sitä: “tätä lähemmäs sotilastason salausta et pääse”.
+★ AVAINPALVELINTUKI: Integroitu tuki HKP-avainpalvelimille (ipv4.pool.sks-keyservers.net).
+★ PUHUMME KIELTÄSI: GPG on saatavissa ystäville, jotka puhuvat: arabiaa (العربية), englantia, ranskaa (Français), saksaa (Deutsch), norjaa (Norsk), portugalia (Português), espanjaa (Español).
+
+Etkö näe kieltäsi? Liity meihin ja auta sovelluksen kotoistamisessa: https://www.transifex.com/projects/p/gpg
+
+
+***Ilmoita vioista***
+Tämä on suuri hanke, joten siinä on väistämättä ohjelmointivirheitä. Auta meitä parantamaan tätä ohjelmistoa täyttämällä vikailmoituksia kaikista kohtaamistasi pulmista. Ominaisuustoivomukset ovat myös tervetulleita!
+https://dev.guardianproject.info/projects/gpgandroid/issues
+
+
+***Tulossa pian***
+★ TURVALLISUUS SOVELLUKSILLE: Kehitämme API-rajapintaa,  joten kehittäjät voivat helposti upottaa tämän kaikkiin sovelluksiin antaen niille huippuluokan turvaominaisuudet.
+★ GRAAFINEN KÄYTTÖLIITTYMÄ: Kehitämme uutta salausta käyttävää Android-kokemusta
+★ PYSY AJAN TASALLA: Rekisteröidy vähäliikenteiselle Guardian-Dev-sähköpostilistalle, jolloin sinulle ilmoitetaan API- ja GRAAFINEN KÄYTTÖLIITTYMÄ-julkaisuista: https://lists.mayfirst.org/mailman/listinfo/guardian-dev
+
+
+***Opi lisää***
+★ MEISTÄ: Guardian Project on kehittäjäryhmä, joka tekee turvallisia mobiilisovelluksia ja avointa lähdekoodia parempaa huomista varten.
+★ WEBBISIVUMME: https://GuardianProject.info
+★ JUTTELE KANSSAMME: haluamme palautetta! irc://irc.freenode.net/guardianproject tai irc://irc.oftc.net/guardianproject
+★ TWITTERISSÄ: https://twitter.com/guardianproject
+★ AVOIN LÄHDEKOODI: Koodimme on läpinäkyvää. Voit katsoa sitä tai liittyä yhteisöömme auttamaan GnuPG for Android-ohjelman tekemiseksi paremmaksi https://github.com/guardianproject/gnupg-for-android
+★ VAPAA OHJELMISTO: Toimimme GNU General Public License (GPLv3+)-lisenssin alaisena https://www.gnu.org/licenses/gpl-3.0.html

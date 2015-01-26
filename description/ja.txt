@@ -1,0 +1,43 @@
+GnuPrivacyGuard (GPG)、暗号化で最も信頼される名前、が Android にGnuPG をもたらします。どんな種類のファイルも、GPG に共有して、簡単に暗号化、復号化、署名、および検証します。このアプリは、Android のエクスペリエンスに統合された、完全な、統合暗号ツールキットを提供することを目的としています。 GPG はプライベートファイルの強固な暗号化、およびファイルがその人であると思う人からのものであることの検証を提供します。Android の他の暗号化パッケージよりも速く何度も動作させるために最適化されています。
+
+GPG は統合されたエクスペリエンスを提供しているので、OpenPGP ファイルをクリックする "だけで動作" します。また、復号化、暗号化、署名、または検証するために、GPG にファイルを共有することもできます。 (openpgp4fpr:で始まる) OpenPGP のフィンガープリント URL をクリックしたときに、GPG は応答します。
+
+GPG はまた、暗号化ソフトウェア全体 GnuPG スイートへの、完全なコマンドラインアクセスも提供します。私たちは、OpenPGP、対称暗号化、およびその他を含む、GnuPG の暗号サービスのすべての Android 統合に取り組んでいます。
+
+
+***セットアップ***
+GPG を使用する前に、アプリを起動して、インストールプロセスを終了させてください。それが完了すると、使用する準備が整います!
+
+コマンドラインを使用したい場合、GPG を始める最も簡単な方法は、Android の端末エミュレータをインストールすることです。 GPG は自動的に Android の端末エミュレータを設定して、"PATH拡張の許可" 設定を有効にします。 https://play.google.com/store/apps/details?id=jackpal.androidterm で Android の端末エミュレータを取得してください
+
+
+***特長***
+★ 信頼できるセキュリティ: GnuPG はすでにシームレスに Mac OSX (GPGtools)、Windows (gpg4win)、GNU/Linux、Debian、Ubuntu、Fedora に統合されています。
+★ オープンな標準に準拠: RFC2440 および RFC4880 に従った完全な OpenPGP の実装
+★ 公開鍵暗号化: プロプライエタリ Pretty Good Privacy (PGP) 標準の完全な相互運用可能な置き換え。
+★ 広範なアルゴリズムをカバー: 3DES, AES, Blowfish, CAST5, DSA, ElGamal, MD5, RSA, RIPDE-MD-160, SHA-1, TIGER, および Twofish をサポート。
+★ 確かなセキュリティ: イタリア警察、FBI、および英国警察が、このセキュリティをクラックすることができず、プライベート鍵の要求を依頼してきました。暗号研究ブルース シュナイアーによって “軍事グレードの暗号化を取得した可能性が高い” と例えられています。
+★ 鍵サーバーのサポート: HKP 鍵サーバーの統合サポート (ipv4.pool.sks-keyservers.net)。
+★ あなたの言語でお使いいただけます: GPG は次の言語で利用可能です: アラビア語 (العربية), 英語, フランス語 (Français), ドイツ語 (Deutsch), ノルウェー語 (Norsk), ポルトガル語 (Português), スペイン語 (Español).
+
+お使いの言語が見つかりませんか? 私たちに参加して、アプリの翻訳を手伝ってください: https://www.transifex.com/projects/p/gpg
+
+
+***バグを報告してください***
+これは大きなプロジェクトなので、必然的にバグがあるかもしれません。あなたが遭遇するあらゆる問題についてバグレポートを提出して、このソフトウェアの改善にご協力ください。機能のリクエストも歓迎です!
+https://dev.guardianproject.info/projects/gpgandroid/issues
+
+
+***近日登場***
+★ アプリのセキュリティ: どんなアプリでもセキュリティ機能を芸術の域にするために、私たちは作品の中に開発者が簡単に組み込める API を持っています。
+★ GUI: 暗号化を使用するための新しい Android エクスペリエンスを、私たちは開発しています
+★ 最新の状態を維持してください: 私たちの低トラフィックの Guardian-Dev メーリングリストにサインアップして、API と GUI がリリースされたときに通知されるようにしてください: https://lists.mayfirst.org/mailman/listinfo/guardian-dev
+
+
+***さらに詳細***
+★ 私たちについて: Guardian プロジェクトは、より良い明日のために安全なモバイルアプリやオープンソース コードを作成する開発者のグループです。
+★ 私たちの WEBサイト: https://GuardianProject.info
+★ 私たちとチャット: 私たちにフィードバックをください! irc://irc.freenode.net/guardianproject または irc://irc.oftc.net/guardianproject
+★ Twitter: https://twitter.com/guardianproject
+★ オープンソース: 私たちのコードは透明性があります。見てみたり、より良い GnuPG for Android を作ることを支援するためにコミュニティに参加することができますhttps://github.com/guardianproject/gnupg-for-android
+★ フリーソフトウェア: GNU General Public License (GPLv3+) https://www.gnu.org/licenses/gpl-3.0.html の下に活動しています

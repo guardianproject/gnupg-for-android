@@ -1,0 +1,43 @@
+GnuPrivacyGuard (GPG) trae GnuPG, el nombre de mayor confianza en cifrado, a Android. Cifra, descifra, firma, y verifica fácilmente ficheros de cualquier tipo, simplemente compartiéndolos con GPG. El objetivo de la aplicación es proporcionar un juego de herramientas de criptografía completo intregrado en la experiencia Android. GPG proporciona un cifrado sólido para ficheros privados, y herramientas para que verifique que los ficheros son de quien usted cree que son. Incluye optimizaciones para hacerlo funcionar muchas veces más rápido que otros paquetes de cifrado sobre Android.
+
+GPG proporciona una experiencia integrada, así que haciendo clic en ficheros OpenPGP "simplemente funciona". También puede compartir ficheros con GPG para descifrarlos, cifrarlos, firmarlos, o verificarlos. GPG reaccionará cuando haga clic en una URL de huella de validación (fingerprint) de OpenPGP (una que comienza con openpgp4fpr:).
+
+GPG también le provee de acceso pleno de línea de comandos a la suite completa de software de cifrado de GnuPG. También sirve como banco de pruebas para la integración completa en Android de todos los servicios de criptografía de GnuPG, incluyendo OpenPGP, cifrado simétrico, y otros más.
+
+
+***Instalación***
+Antes de usar GPG, asegúrese de ejecutar la aplicación y dejar que finalice su proceso de instalación. Una vez se haya completado, ¡entonces ya está listo para usarlo!
+
+Si quiere usar la línea de comandos, la forma más fácil de comenzar con GPG es instalar Android Terminal Emulator. GPG automáticamente configurará Android Terminal Emulator mientras tenga las configuraciones "Allow PATH extensions" (permitir extensiones de la ruta) habilitadas. Consiga el Android Terminal Emulator en https://play.google.com/store/apps/details?hl=es&id=jackpal.androidterm
+
+
+***Características***
+★ SEGURIDAD DE CONFIANZA: GnuPG ya se integra perfectamente en Mac OSX (GPGtools), Windows (gpg4win), GNU/Linux, Debian, Ubuntu, Fedora.
+★ CUMPLE CON ESTÁNDARES ABIERTOS: Cumple con la implementación OpenPGP completa siguiendo RFC2440 y RFC4880
+★ CIFRADO DE CLAVE PÚBLICA: Reemplazo interoperable completo del estandar propietario Pretty Good Privacy (PGP).
+★ AMPLIA GAMA DE ALGORITMOS: Soporta 3DES, AES, Blowfish, CAST5, DSA, ElGamal, MD5, RSA, RIPDE-MD-160, SHA-1, TIGER, y Twofish.
+★ SEGURIDAD CONFIRMADA: La Policía italiana, el FBI, y la Policía británica, no han sido capaces de crackear su seguridad, y han recurrido a exigir las claves privadas. Ha sido descrito como "lo más cerca que probablemente estará de conseguir un cifrado de grado-militar“ por el criptógrafo Bruce Schneier.
+★ SOPORTE PARA SERVIDOR DE CLAVES: Soporte integrado para servidores de claves HKP  (protocolo de servidores de claves http) (ipv4.pool.sks-keyservers.net).
+★ HABLAMOS SU IDIOMA: GPG está disponible para amigos que hablen: árabe (العربية), inglés (english), francés (français), alemán (deutsch), noruego (norsk), portugués (português), y español.
+
+¿No ve su idioma? Únase a nosotros y ayude a traducir la aplicación: https://www.transifex.com/projects/p/gpg
+
+
+***Por favor informe de los fallos***
+Este es un gran proyecto, así que inevitablemente habrá fallos. Ayúdenos a mejorar este software rellenando informes de fallos sobre algún problema que encuentre. ¡También son bienvenidas las peticiones de características!
+https://dev.guardianproject.info/projects/gpgandroid/issues
+
+
+***Próximamente***
+★ SEGURIDAD PARA APLICACIONES: Tenemos una API (interfaz de programación de aplicaciones) en desarrollo, así que los desarrolladores pueden integrar GPG fácilmente en cualquier otra aplicación para dotarla de características de seguridad de vanguardia.
+★ GUI (interfaz gráfica de usuario): Estamos desarrollando una nueva experiencia en Android para el uso de cifrado
+★ PERMANEZCA ACTUALIZADO: Regístrese en la lista de correo de tráfico bajo de Guardian-Dev para que se le notifique cuando las API y GUI sean publicadas: https://lists.mayfirst.org/mailman/listinfo/guardian-dev
+
+
+***Aprenda más***
+★ SOBRE NOSOTROS: Guardian Project es un grupo de desarrolladores que elaboran aplicaciones móviles/celulares seguras, y de código-abierto, para un mañana mejor.
+★ NUESTRO SITIO WEB: https://GuardianProject.info
+★ CHARLE CON NOSOTROS: ¡Queremos sus reacciones! irc://irc.freenode.net/guardianproject o irc://irc.oftc.net/guardianproject
+★ EN TWITTER: https://twitter.com/guardianproject
+★ CÓDIGO-ABIERTO: Nuestro código es transparente. Puede echar un vistazo o unirse a la comunidad para ayudar a hacer GnuPG para Android incluso mejor https://github.com/guardianproject/gnupg-for-android
+★ SOFTWARE LIBRE: Operamos bajo la GNU General Public License (GPLv3+) https://www.gnu.org/licenses/gpl-3.0.html

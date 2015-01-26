@@ -1,0 +1,43 @@
+GnuPrivacyGuard (GPG) brengt GnuPG, de meest vertrouwde naam in versleuteling, naar Android. Makkelijk versleutelen, ontcijferen, ondertekenen en verifiëren van welk bestand dan ook, door ze alleen met GPG te delen. Deze app heeft als doel een complete crypto-gereedschapskist in Android te integreren. GPG levert solide versleuteling voor private bestanden en zorgt ervoor dat je zeker kan zijn van de verzender van de bestanden. Daarbij inbegrepen zijn optimalizaties voor de snelheid, waardoor het vele malen sneller is dan andere crypto-apps.
+
+GPG levert een geïntegreerde ervaring, zodat klikken op OpenPGP bestanden "gewoon werkt". Je kan ook bestanden delen met GPG om ze te versleutelen, ontcijferen, ondertekenen of te verifiëren. GPG reageert ook als je op een OpenPGP vingerafdruk URL klikt (een URL die start met opengpg4fpr:).
+
+GPG geeft je ook complete opdrachtregel toegang zodat je toegang hebt tot het gehele GnuPG software pakket voor versleutelen. Het is ook een proefbank voor complete integratie van alle GnuPG's crypto diensten in Android te integreren, waaronder OpenPGP, symmetrische versleuteling en meer.
+
+
+***Setup***
+Voordat je GPG kan gebruiken, moet je eerst de app openen en het installeren laten voltooien. Als dat klaar is, ben je klaar om het te gebruiken!
+
+Als je de opdrachtregel wil gebruiken, is de makkelijkste manier om te beginnen een Android Terminal Emulator te installeren. GPG configureert de Android Terminal Emulator automatisch als je de "Allow PATH extensions" optie aan hebt staan. Je kan de Android Terminal Emulator hier vinden: https://play.google.com/store/apps/details?id=jackpal.androidterm
+
+
+***Functies***
+★ VERTROUWDE BEVEILIGING: GnuPG is al naadloos geïntegreerd in Mac OSX (GPGtools), Windows (gpg4win), GNU/Linux, Debian, Ubuntu, Fedora.
+★ OPEN STANDAARD COMPATIBEL: Volledige OpenPGP implementatie voor RFC2440 en RFC4880
+★ PUBLIEKE SLEUTEL VERSLEUTELING: Volledige vervanging van de Pretty Good Privacy (PGP) standaard.
+★ BREED ALGORITMISCH LANDSCHAP: Ondersteunt 3DES, AES, Blowfish, CAST5, DSA, ElGamal, MD5, RSA, RIPDE-MD-160, SHA-1, TIGER, en Twofish.
+★ GETESTE BEVEILIGING: De Italiaanse politie, de FBI en de Britse politie hebben allemaal, zonder succes, geprobeerd de beveiliging te breken en zijn weer teruggevallen op het opvragen van de private sluetels. Het is volgens de cryptograaf Bruce Schneier het dichtste bij militaire versleuteling waar je waarschijnlijk ooit zal komen.
+★ SLEUTELSERVER ONDERSTEUNING: Geïntegreerde ondersteuning voor HKP sleutelservers (ipv4.pool.sks-keyservers.net).
+★ WE SPREKEN JOUW TAAL: GPG is beschikbaar voor vrienden die een van de volgende talen spreken: Arabisch (العربية), Duits (Deutsch), Engels (English), Frans (Français), Nederlands, Noorweegs (Norsk), Portugees (Português) of Spaans (Español).
+
+Zie je jouw taal niet? Help ons met vertalen op: https://www.transifex.com/projects/p/gpg
+
+
+***Wij Verzoeken U Fouten Te Melden***
+Dit is een groot project, dus er zullen onvermijdelijk wel wat fouten in zitten. Help ons deze software te verbeteren door fouten te melden. Verzoeken voor nieuwe functies zijn ook welkom!
+https://dev.guardianproject.info/projects/gpgandroid/issues
+
+
+***Binnenkort Beschikbaar***
+★ BEVEILIGING VOOR APPS: We zijn bezig aan een API die ervoor zorgt dat dit makkelijk toe te passen is in elke app zodat die onze geavanceerde beveiliging kan gebruiken.
+★ GUI: We zijn aan het werken aan een nieuwe Android ervaring met betrekking tot versleuteling
+★ BLIJF OP DE HOOGTE: Meld je aan voor onze Guardian-Dev e-mail lijst om een bericht te krijgen als de API en GUI uitgebracht worden: https://lists.mayfirst.org/mailman/listinfo/guardian-dev
+
+
+***Meer leren***
+★ OVER ONS: Guardian Project is een groep van ontwikkelaars die veilige mobiele apps en open-source code maken voor een betere toekomst.
+★ ONZE WEBSITE: https://GuardianProject.info
+★ PRAAT MET ONS: We willen terugkoppeling! irc://irc.freenode.net/guardianproject of irc://irc.oftc.net/guardianproject
+★ OP TWITTER: https://twitter.com/guardianproject
+★ OPEN-SOURCE: Onze code is transparant. Je kan de code inzien of meedoen met onze gemeenschap om GnuPG voor Android nog beter te maken https://github.com/guardianproject/gnupg-for-android
+★ GRATIS SOFTWARE: We werken onder de GNU General Public License (GPLv3+) https://www.gnu.org/licenses/gpl-3.0.html

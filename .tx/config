@@ -7,3 +7,9 @@ file_filter = res/values-<lang>/strings.xml
 host = https://www.transifex.com
 source_file = res/values/strings.xml
 source_lang = en
+
+[gpg.descriptiontxt]
+file_filter = description/<lang>.txt
+host = https://www.transifex.com
+source_file = description/source.txt
+source_lang = en
