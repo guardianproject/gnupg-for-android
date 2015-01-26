@@ -18,7 +18,7 @@ If you want to use the command line, the easiest way to get started with GPG is 
 ★ BROAD ALGORITHM LANDSCAPE: Supports 3DES, AES, Blowfish, CAST5, DSA, ElGamal, MD5, RSA, RIPDE-MD-160, SHA-1, TIGER, and Twofish.
 ★ CONFIRMED SECURITY: Italian Police, the FBI, and British police have been unable to crack its security and have resorted to demanding private keys. It’s been likened as “the closest you’re likely to get to military-grade encryption” by cryptographer Bruce Schneier.
 ★ KEYSERVER SUPPORT: Integrated support for HKP keyservers (ipv4.pool.sks-keyservers.net).
-★ WE SPEAK YOUR LANGUAGE: GPG is available for friends who speak: Arabic (العربية), English, French (Français), German (Deutsch), Norwegian (Norsk), Portuguese (Português), Spanish (Español).
+★ WE SPEAK YOUR LANGUAGE: GPG is available for friends who speak: العربية, čeština, Deutsch, English, español, suomi, français, magyar, italiano, 日本語, latviešu valoda, Nederlands, Norsk, ਪੰਜਾਬੀ, polski, português, português do Brasil, Русский, slovenčina, slovenščina, svenska, Türkçe,Tiếng Việt, 中文(简体), 中文(台灣)
 
 Don’t see your language? Join us and help translate the app: https://www.transifex.com/projects/p/gpg
 
