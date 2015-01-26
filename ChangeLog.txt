@@ -1,3 +1,8 @@
+v0.3.2
+* update to latest official GnuPG releases
+* add new translations: fi hu it ja lv nl pa pt sk sl sv tr vi zh_CN zh_TW
+
+v0.3.1
 * add ability to delete keys
 * bug fixes (#3058, #3061, #1549)
 
