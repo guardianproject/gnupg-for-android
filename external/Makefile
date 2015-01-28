@@ -496,6 +496,8 @@ gnupg/Makefile: gnupg/configure gnupg/config.sub gnupg/config.guess
 				--without-libiconv-prefix \
 				--disable-doc \
 				--disable-g13 \
+				--disable-ntbtls \
+				--disable-gnutls \
 				--enable-dirmngr-auto-start \
 				--with-agent-pgm=$(prefix)/bin/gpg-agent \
 				--with-dirmngr-pgm=$(prefix)/bin/dirmngr \
