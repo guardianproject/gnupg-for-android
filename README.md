@@ -124,7 +124,7 @@ future.
 
 ### Debian/Ubuntu/Mint/etc
 
-	sudo apt-get install build-essential autoconf automake-1.11 libtool \
+	sudo apt-get install build-essential autoconf automake1.11 libtool \
         transfig wget patch texinfo ant gettext bison
 
 ### Fedora 17 x64
