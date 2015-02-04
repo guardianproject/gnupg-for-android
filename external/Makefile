@@ -93,7 +93,7 @@ endif
 	assets clean-assets \
 	showsetup
 
-all: gnupg-install gpgv2-static gpgme-install assets
+all: gnupg-install gpgme-install assets
 
 
 #------------------------------------------------------------------------------#
@@ -134,7 +134,6 @@ libgpg-error/Makefile: libgpg-error/config.sub libgpg-error/config.guess libgpg-
 			LDFLAGS="$(LDFLAGS)" \
 			--disable-doc \
 			--disable-languages \
-			--enable-static \
 			--host=$(HOST) \
 			--prefix=$(LOCAL)
 	ls -l libgpg-error/libtool
@@ -180,7 +179,6 @@ libgcrypt/Makefile: libgcrypt/config.sub libgcrypt/config.guess libgcrypt/config
 		CC="$(CC)" AR="$(AR)" RANLIB=$(RANLIB) CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS)" \
 			./configure \
 				--enable-maintainer-mode \
-				--enable-static \
 				--host=$(HOST) \
 				--with-gpg-error-prefix=$(LOCAL) \
 				--prefix=$(LOCAL)
@@ -220,7 +218,6 @@ libassuan/Makefile: libassuan/config.sub libassuan/config.guess libassuan/config
 		CC="$(CC)" AR="$(AR)" RANLIB=$(RANLIB) CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS)" \
 			./configure \
 				--enable-maintainer-mode \
-				--enable-static \
 				--host=$(HOST) \
 				--with-gpg-error-prefix=$(LOCAL) \
 				--prefix=$(LOCAL)
@@ -259,7 +256,6 @@ npth/Makefile: npth/config.sub npth/config.guess npth/configure
 		CC="$(CC)" AR="$(AR)" RANLIB=$(RANLIB) CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS)" \
 			./configure \
 				--enable-maintainer-mode \
-				--enable-static \
 				--host=$(HOST) \
 				--with-gnu-ld \
 				--prefix=$(LOCAL)
@@ -298,7 +294,6 @@ libksba/Makefile: $(LOCAL)/lib/libgpg-error.so libksba/config.sub libksba/config
 		CC="$(CC)" AR="$(AR)" RANLIB=$(RANLIB) CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS)" \
 			./configure \
 				--enable-maintainer-mode \
-				--enable-static \
 				--host=$(HOST) \
 				--with-gpg-error-prefix=$(LOCAL) \
 				--prefix=$(LOCAL)
@@ -330,7 +325,6 @@ openldap/Makefile: openldap/configure
 	cd openldap && \
 		CC="$(CC)" AR="$(AR)" RANLIB=$(RANLIB) CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS)" \
 			./configure \
-				--enable-static \
 				--host=$(HOST) \
 				--prefix=$(prefix) \
 				--without-tls \
@@ -385,7 +379,6 @@ curl/Makefile: curl/config.sub curl/config.guess curl/configure
 	cd curl && \
 		CC="$(CC)" AR="$(AR)" RANLIB=$(RANLIB) CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS)" \
 			./configure \
-				--enable-static \
 				--host=$(HOST) \
 				--prefix=$(prefix) \
 				--with-gnu-ld \
@@ -675,40 +668,6 @@ assets-tests-gpgme:
 		gpgme/tests/*.txt \
 		gpgme/tests/gpg/*.asc \
 		$(ASSETS)/tests/gpgme
-
-
-#------------------------------------------------------------------------------#
-# ugly static linking hacks
-
-# crazy ugly hack, only gpgv2 is currently used for anything (Lil' Debi)
-gnupg-static: gpg2-static gpg-agent-static gpgv2-static dirmngr-static
-
-gpg-agent-static:
-	-rm -f gnupg/agent/gpg-agent
-	cd gnupg/agent && $(CC) -DANDROID -I$(LOCAL)/include -Os -Wall -Wcast-align -Wshadow -Wstrict-prototypes -Wformat -Wno-format-y2k -Wformat-security -W -Wno-sign-compare -Wno-missing-field-initializers -Wdeclaration-after-statement -Wno-pointer-sign -Wpointer-arith  -L$(LOCAL)/lib -Wl,--rpath,$(prefix)/lib -o gpg-agent gpg_agent-gpg-agent.o gpg_agent-command.o gpg_agent-command-ssh.o gpg_agent-call-pinentry.o gpg_agent-cache.o gpg_agent-trans.o gpg_agent-findkey.o gpg_agent-pksign.o gpg_agent-pkdecrypt.o gpg_agent-genkey.o gpg_agent-protect.o gpg_agent-trustlist.o gpg_agent-divert-scd.o gpg_agent-cvt-openpgp.o gpg_agent-call-scd.o gpg_agent-learncard.o ../common/libcommonpth.a  ../..$(prefix)/lib/libgcrypt.a ../..$(prefix)/lib/libgpg-error.a ../..$(prefix)/lib/libassuan.a ../..$(prefix)/lib/libnpth.a -ldl
-	install gnupg/agent/gpg-agent $(LOCAL)/bin/gpg-agent-static
-	$(STRIP)  $(LOCAL)/bin/gpg-agent-static
-
-dirmngr-static:
-	-rm -f gnupg/dirmngr/dirmngr gnupg/dirmngr/dirmngr-client
-	cd gnupg/dirmngr && $(CC) -I$(LOCAL)/include -DANDROID -Os -Wall -Wcast-align -Wshadow -Wstrict-prototypes -Wformat -Wno-format-y2k -Wformat-security -W -Wno-sign-compare -Wno-missing-field-initializers -Wdeclaration-after-statement -Wno-pointer-sign -Wpointer-arith  -Wl,--rpath,$(prefix)/lib -o dirmngr dirmngr.o server.o crlcache.o crlfetch.o ldapserver.o certcache.o cdblib.o ldap.o misc.o ocsp.o validate.o  ks-action.o ks-engine-hkp.o ks-engine-http.o ks-engine-finger.o ks-engine-kdns.o ldap-wrapper.o  ../common/libcommonpth.a  ../..$(prefix)/lib/libassuan.a ../..$(prefix)/lib/libgpg-error.a ../..$(prefix)/lib/libgcrypt.a ../..$(prefix)/lib/libksba.a ../..$(prefix)/lib/libnpth.a -ldl
-	cd gnupg/dirmngr && $(CC) -I$(LOCAL)/include -DANDROID -O3 -Wall -Wcast-align -Wshadow -Wstrict-prototypes -Wformat -Wno-format-y2k -Wformat-security -W -Wno-sign-compare -Wno-missing-field-initializers -Wdeclaration-after-statement -Wno-pointer-sign -Wpointer-arith  -Wl,--rpath,$(prefix)/lib -o dirmngr-client dirmngr-client.o ../common/libcommon.a no-libgcrypt.o ../..$(prefix)/lib/libassuan.a ../..$(prefix)/lib/libgpg-error.a
-	install gnupg/dirmngr/dirmngr $(LOCAL)/bin/dirmngr-static
-	$(STRIP)  $(LOCAL)/bin/dirmngr-static
-	install gnupg/dirmngr/dirmngr-client $(LOCAL)/bin/dirmngr-client-static
-	$(STRIP)  $(LOCAL)/bin/dirmngr-client-static
-
-gpg2-static:
-	-rm -f gnupg/g10/gpg2
-	cd gnupg/g10 && $(CC) -DANDROID -I$(LOCAL)/include -Os -Wall -Wcast-align -Wshadow -Wstrict-prototypes -Wformat -Wno-format-y2k -Wformat-security -W -Wno-sign-compare -Wno-missing-field-initializers -Wdeclaration-after-statement -Wno-pointer-sign -Wpointer-arith  -Wl,--rpath,$(prefix)/lib -o gpg2 gpg.o server.o build-packet.o compress.o  free-packet.o getkey.o keydb.o keyring.o seskey.o kbnode.o mainproc.o armor.o mdfilter.o textfilter.o progress.o misc.o rmd160.o openfile.o keyid.o parse-packet.o cpr.o plaintext.o sig-check.o keylist.o pkglue.o ecdh.o pkclist.o skclist.o pubkey-enc.o passphrase.o decrypt.o decrypt-data.o cipher.o encrypt.o sign.o verify.o revoke.o keyedit.o dearmor.o import.o export.o trustdb.o tdbdump.o tdbio.o delkey.o keygen.o helptext.o keyserver.o call-dirmngr.o photoid.o call-agent.o card-util.o exec.o ../kbx/libkeybox.a ../common/libcommon.a ../common/libgpgrl.a  ../..$(prefix)/lib/libassuan.a  ../..$(prefix)/lib/libgpg-error.a  ../..$(prefix)/lib/libgcrypt.a  ../..$(prefix)/lib/libksba.a  ../..$(prefix)/lib/libldap.a  ../..$(prefix)/lib/liblber.a  -lz
-	install gnupg/g10/gpg2 $(LOCAL)/bin/gpg2-static
-	$(STRIP)  $(LOCAL)/bin/gpg2-static
-
-gpgv2-static:
-	-rm -f gnupg/g10/gpgv2
-	cd gnupg/g10 && $(CC) -DANDROID -I$(LOCAL)/include -Os -Wall -Wcast-align -Wshadow -Wstrict-prototypes -Wformat -Wno-format-y2k -Wformat-security -W -Wno-sign-compare -Wno-missing-field-initializers -Wdeclaration-after-statement -Wno-pointer-sign -Wpointer-arith  -L$(LOCAL)/lib -Wl,--rpath,$(prefix)/lib -o gpgv2 gpgv.o build-packet.o compress.o  free-packet.o getkey.o keydb.o keyring.o seskey.o kbnode.o mainproc.o armor.o mdfilter.o textfilter.o progress.o misc.o rmd160.o openfile.o keyid.o parse-packet.o cpr.o plaintext.o sig-check.o keylist.o pkglue.o ecdh.o verify.o ../kbx/libkeybox.a ../common/libcommon.a ../common/libgpgrl.a ../..$(prefix)/lib/libgcrypt.a ../..$(prefix)/lib/libksba.a ../..$(prefix)/lib/libgpg-error.a ../..$(prefix)/lib/libassuan.a -lz
-	install gnupg/g10/gpgv2 $(LOCAL)/bin/gpgv2-static
-	$(STRIP)  $(LOCAL)/bin/gpgv2-static
 
 
 #------------------------------------------------------------------------------#
