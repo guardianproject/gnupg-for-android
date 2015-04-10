@@ -32,11 +32,11 @@ if [ -z $ANDROID_HOME ]; then
     fi
 fi
 
-if [ -z $ANDROID_NDK ]; then
+if [ -z $ANDROID_NDK_HOME ]; then
     if which ndk-build 2>&1 /dev/null; then
-        ANDROID_NDK=`which ndk-build |  sed 's,/ndk-build,,'`
+        ANDROID_NDK_HOME=`which ndk-build |  sed 's,/ndk-build,,'`
     else
-        echo "ANDROID_NDK not set and 'ndk-build' not in PATH"
+        echo "ANDROID_NDK_HOME not set and 'ndk-build' not in PATH"
         exit
     fi
 fi
@@ -59,7 +59,7 @@ git submodule foreach --recursive git submodule sync
 git submodule update --init --recursive
 
 make -C external/
-$ANDROID_NDK/ndk-build
+$ANDROID_NDK_HOME/ndk-build
 
 if [ -e ~/.android/ant.properties ]; then
     cp ~/.android/ant.properties $projectroot/
