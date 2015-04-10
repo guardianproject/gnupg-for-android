@@ -32,10 +32,10 @@ else
 endif
 
 # Android NDK setup
-NDK_BASE ?= /opt/android-ndk
+ANDROID_NDK_HOME ?= /opt/android-ndk
 NDK_ABI=arm
 # NDK platform level, aka APP_PLATFORM, is equivalent to minSdkVersion
-NDK_SYSROOT=$(NDK_BASE)/platforms/$(APP_PLATFORM)/arch-$(NDK_ABI)
+NDK_SYSROOT=$(ANDROID_NDK_HOME)/platforms/$(APP_PLATFORM)/arch-$(NDK_ABI)
 NDK_UNAME := $(shell uname -s | tr '[A-Z]' '[a-z]')
 ifeq ($(NDK_ABI),x86)
  HOST = i686-linux-android
@@ -44,11 +44,11 @@ else
  HOST = $(NDK_ABI)-linux-androideabi
  NDK_TOOLCHAIN = $(HOST)-$(NDK_TOOLCHAIN_VERSION)
 endif
-NDK_TOOLCHAIN_BASE=$(NDK_BASE)/toolchains/$(NDK_TOOLCHAIN)/prebuilt/$(NDK_UNAME)-$(NDK_PROCESSOR)
+NDK_TOOLCHAIN_BASE=$(ANDROID_NDK_HOME)/toolchains/$(NDK_TOOLCHAIN)/prebuilt/$(NDK_UNAME)-$(NDK_PROCESSOR)
 
 # include Android's build flags
 TARGET_ARCH_ABI = $(APP_ABI)
-include $(NDK_BASE)/toolchains/$(NDK_TOOLCHAIN)/setup.mk
+include $(ANDROID_NDK_HOME)/toolchains/$(NDK_TOOLCHAIN)/setup.mk
 
 
 # install root for built files
