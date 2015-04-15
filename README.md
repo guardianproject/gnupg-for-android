@@ -109,7 +109,7 @@ https://dev.guardianproject.info/projects/gpgandroid/issues
 ## Target Platform
 
 We would like to target as many Android platforms as possible.  Currently
-there are two limiting APIs:
+there are three limiting APIs:
 
 * `regex` - provided in Android 2.2, SDK android-8 and above
 * `pthread_rwlock*` - provided in Android 2.3, SDK android-9 and above
@@ -122,7 +122,7 @@ future.
 
 ## Build Setup
 
-### Debian/Ubuntu/Mint/etc
+### Debian/wheezy (try others at your own peril)
 
 	sudo apt-get install build-essential autoconf automake1.11 libtool \
         transfig wget patch texinfo ant gettext bison
@@ -161,6 +161,15 @@ First the get all of the source code from git:
 
 
 ### How to build the whole app
+
+The easiest way to get started is to use the script we made to make our
+release builds.  It deletes all changes from this project, then runs all the
+steps needed to build the APK:
+
+    ./make-release-build
+
+Otherwise, you can break out the steps and run them individually while you are
+working on the code:
 
     make -C external/ distclean clean-assets
 	make -C external/
@@ -204,14 +213,6 @@ that you run them is important):
 
 The results will be in `external/data/data/info.guardianproject.gpg`
 
-
-### How to Build the Android Test App
-
-    make -C external/ clean-assets
-	make -C external/ android-assets
-	ndk-build
-	android update project --path . --name GnuPrivacyGuard
-	ant clean debug
 
 ## Hacking Notes
 
